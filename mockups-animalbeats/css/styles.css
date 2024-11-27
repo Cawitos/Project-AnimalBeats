@@ -347,44 +347,69 @@ body {
     margin-left: 5px;
     box-shadow: 0px 15px 50px #0071d4;
 }
-footer{
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; 
+}
+
+html, body {
+    height: 100%;
+}
+footer {
     background: #0076E0;
-    display: flex;
-    flex-direction: column;
-}
-footer div{
-    width: 100%;
-    margin-left: 14px;
-}
-footer div ul{
-    display: flex;
-    margin-left: 60px;
-    padding: 10px;
-    overflow: hidden;
-}
-footer div li{
     text-align: center;
-    list-style: none;
-    margin: 10px 70px;
+    padding: 20px 0;
+    position: relative;
+    overflow: hidden; 
+    height: 100px;
 }
-footer div li a{
-    text-decoration: none;
-    color: #FFF;
+footer .botones-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    height: 100%; 
+    animation: moveButtons 20s linear infinite; 
+}
+footer .botones-container button {
+    flex: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    margin: 0 10px;
     background: #E10C00;
+    color: #FFF;
     border: 3px solid #a30900;
     border-radius: 20px;
     text-align: center;
-    margin-left: 5px;
-    padding: 10px 60px 10px 50px;
-    font-size: 20px;
-}
-footer p{
-    color: #FFF;
-    text-align: center;
-    font-size: 20px;
-}
-footer div li a:hover{
-    background: linear-gradient(100deg, #a30900, #E10C00, #a30900);
-    letter-spacing: 1px;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
+/* Hover */
+footer .botones-container button:hover {
+    background-color: #B00A00;
+    transform: scale(1.1);
+}
+@keyframes moveButtons {
+    0% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-50%); 
+        opacity: 1;
+    }
+    50% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    75% {
+        transform: translateX(50%); 
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1; 
+    }
+}
