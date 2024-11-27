@@ -5,8 +5,9 @@
 }
 :root {
     --blanco: #FFFCE8;
-    --rojo: #DD403A;
+    --rojo: #E10C00;
     --negro: #3E363F;
+    --gris: #d3cfcfe5;
 }
 body {
     min-height: 100vh;
@@ -173,25 +174,27 @@ body {
     margin-left: 90px;
     flex-direction: column;
 }
-.servicios{
-    background: beige;
-    border: 3px solid #279aff;
-    border-radius: 25px 25px 0 0;;
-    box-shadow: 0 0 25px#6e7072;
+.servicios {
+    background: var(--blanco);
+    border: 3px solid var(--rojo); 
+    border-radius: 25px 25px 0 0;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
 }
-.servicios nav{
+
+.servicios nav {
     width: 40%;
-    border: 3px solid #a30900;
-    background: #E10C00;
+    border: 3px solid var(--rojo); 
+    background: var(--rojo); 
     padding: 10px 20px;
     color: #FFF;
-    border-radius: 0 25px 25px 0; 
+    border-radius: 0 25px 25px 0;
     margin-left: 60px;
     margin-top: 5px;
     text-transform: uppercase;
     font-size: 30px;
 }
-.servicios p{
+
+.servicios p {
     width: inherit;
     display: flex;
     text-align: left;
@@ -200,125 +203,136 @@ body {
     margin-bottom: 5px;
     margin-top: 10px;
     font-size: 20px;
+    color: #333;
 }
-.s1{
+
+.s1 {
     width: 1000px;
     margin-top: 25px;
     margin-left: 265px;
-    background: #4babff;
-    border: 3px solid #279aff;
-    border-radius: 25px 0px 0px 25px;
-    box-shadow: 0 0 25px#6e7072;
+    background: var(--blanco);
+    border: 3px solid var(--rojo);
+    border-radius: 25px 0 0 25px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
 }
-.s1 nav{
+
+.s1 nav {
     width: 50%;
     text-align: end;
-    border: 3px solid #a30900;
-    background: #E10C00;
+    border: 3px solid var(--rojo);
+    background: var(--rojo);
     padding: 10px 20px;
     color: #FFF;
-    border-radius: 20px 0 0 20px ;
+    border-radius: 20px 0 0 20px;
     margin-left: 440px;
     margin-right: 60px;
-    margin-top  : 5px;
+    margin-top: 5px;
     text-transform: uppercase;
     font-size: 30px;
-
 }
-.s1 p{
+
+.s1 p {
     text-align: right;
     margin-left: 5px;
     margin-right: 60px;
     margin-bottom: 5px;
     margin-top: 10px;
     font-size: 20px;
+    color: #333; 
 }
-.s2{
+
+.s2 {
     width: 1000px;
     margin-top: 25px;
     margin-left: 12px;
-    background: #4babff;
-    border: 3px solid #279aff;
+    background: var(--blanco); 
+    border: 3px solid var(--rojo); 
     border-radius: 0 25px 25px 0;
-    box-shadow: 0 0 25px#6e7072;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
 }
-.s2 nav{
+
+.s2 nav {
     width: 60%;
     text-align: initial;
-    border: 3px solid #a30900;
-    background: #E10C00;
+    border: 3px solid var(--rojo);
+    background: var(--rojo);
     padding: 10px 20px;
     color: #FFF;
-    border-radius: 0 25px 25px 0 ;
+    border-radius: 0 25px 25px 0;
     margin-left: 60px;
-    margin-top  : 5px;
+    margin-top: 5px;
     text-transform: uppercase;
     font-size: 30px;
-
 }
-.s2 p{
+
+.s2 p {
     text-align: left;
     margin-left: 60px;
     margin-right: 40px;
     margin-bottom: 5px;
     margin-top: 10px;
     font-size: 20px;
+    color: #333;
 }
 
-.s3{
+.s3 {
     width: 1000px;
     margin-top: 25px;
     margin-left: 265px;
-    background: #4babff;
-    border: 3px solid #279aff;
-    border-radius: 25px 0px 0px 25px;
-    box-shadow: 0 0 25px#6e7072;
+    background: var(--blanco);
+    border: 3px solid var(--rojo); 
+    border-radius: 25px 0 0 25px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
 }
-.s3 nav{
+
+.s3 nav {
     text-align: end;
     width: 50%;
-    border: 3px solid #a30900;
-    background: #E10C00;
+    border: 3px solid var(--rojo);
+    background: var(--rojo); 
     padding: 10px 20px;
     color: #FFF;
-    border-radius: 20px 0 0 20px ;
+    border-radius: 20px 0 0 20px;
     margin-left: 440px;
     margin-right: 60px;
-    margin-top  : 5px;
+    margin-top: 5px;
     text-transform: uppercase;
     font-size: 30px;
-
 }
-.s3 p{
+
+.s3 p {
     text-align: right;
     margin-left: 15px;
     margin-right: 60px;
     margin-bottom: 5px;
     margin-top: 10px;
     font-size: 20px;
+    color: #333;
 }
-.s4{
+
+.s4 {
     margin-top: 25px;
-    background: #4babff;
-    border: 3px solid #279aff;
-    border-radius: 0 0 25px 25px ;
-    box-shadow: 0 0 25px#6e7072;
+    background: var(--blanco) !important; 
+    border: 3px solid var(--rojo);
+    border-radius: 0 0 25px 25px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
 }
-.s4 nav{
+
+.s4 nav {
     text-align: initial;
     width: 50%;
-    border: 3px solid #a30900;
-    background: #E10C00;
+    border: 3px solid var(--rojo);
+    background: var(--rojo); 
     padding: 10px 20px;
     color: #FFF;
     border-radius: 0 25px 25px 0;
     margin-left: 60px;
-    margin-top  : 5px;
+    margin-top: 5px;
     text-transform: uppercase;
     font-size: 30px;
-
 }
-.s4 p{
+
+.s4 p {
     width: inherit;
     text-align: left;
     margin-left: 60px;
@@ -326,26 +340,16 @@ body {
     margin-bottom: 5px;
     margin-top: 10px;
     font-size: 20px;
+    color: #333;
 }
-.servicios:hover{
+
+.servicios:hover,
+.s1:hover,
+.s2:hover,
+.s3:hover,
+.s4:hover {
     margin-left: 5px;
-    box-shadow: 0px 15px 50px #0071d4;
-}
-.s1:hover{
-    margin-left: 260px;
-    box-shadow: 0px 15px 50px #0071d4;
-}
-.s2:hover{
-    margin-left: 105px;
-    box-shadow: 0px 15px 50px #0071d4;
-}
-.s3:hover{
-    margin-left: 260px;
-    box-shadow: 0px 15px 50px #0071d4;
-}
-.s4:hover{
-    margin-left: 5px;
-    box-shadow: 0px 15px 50px #0071d4;
+    box-shadow: 0px 15px 50px var(--rojo); 
 }
 body {
     margin: 0;
@@ -354,10 +358,10 @@ body {
 }
 
 html, body {
-    height: 100%;
+    height: 100blanco
 }
 footer {
-    background: #0076E0;
+    background: var(--gris);
     text-align: center;
     padding: 20px 0;
     position: relative;
@@ -411,5 +415,45 @@ footer .botones-container button:hover {
     100% {
         transform: translateX(0);
         opacity: 1; 
+    }
+}
+@media only screen and (min-device-width: 180px) and (max-width: 570px) {
+    body {
+        min-height: 100vh;
+        position: relative;
+        padding-bottom: 700px;    
+    }
+    .menu {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 180px;
+        gap: 30px;
+        margin-bottom: 15px;
+    }
+    .c2 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 12px;
+    }    
+    .c2 button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 150px;
+        max-width: 300px;
+        height: 27px;
+        gap: 30px;
+        border: none;
+        background-color: var(--rojo);
+        border-radius: 10px;
+        color: var(--blanco);
+        font-size: 17px;
+        letter-spacing: 1.5px;
+        font-weight: bold;
+        cursor: pointer;
     }
 }
