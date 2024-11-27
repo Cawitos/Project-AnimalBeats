@@ -20,8 +20,23 @@
             </div>
             <div class="c2">
                 <button onClick="location.href = '#menu'">INICIO</button>
-                <button onClick="location.href = '#contacto'">CONTACTENOS</button>
+                <button id="contact-btn">CONTACTENOS</button>
                 <button onClick="location.href = '#login' ">LOGIN</button>
+            </div>
+        </div>
+        <div id="contact-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Contáctanos</h2>
+                <form id="contact-form">
+                    <label for="name">Atencion al cliente de AnimalBeats</label>
+                    <label for="text">[Direccion]</label>        
+                    <label for="text">[Telefono]</label>        
+                    <label for="email">veterinariaanimalbeats@animalbeats.com</label>        
+                    <label for="message">Ingresa un mensaje sobre tu consulta:</label>
+                    <textarea id="message" placeholder="Escribe tu mensaje" required></textarea>
+                    <button type="submit" class="btn-submit">Enviar</button>
+                </form>
             </div>
         </div>
         <div id="login-modal" class="modal">
@@ -108,7 +123,8 @@
             <p>2024 [Nombre de la Veterinaria]. Todos los derechos reservados.</p>
         </footer>              
     </div>
-    <script src="js/modal.js"></script>
+    <script src="js/modalLogin.js"></script>
     <script src="js/validacion.js"></script>
+    <script src="js/modalContacto.js"></script>
 </body>
 </html>
