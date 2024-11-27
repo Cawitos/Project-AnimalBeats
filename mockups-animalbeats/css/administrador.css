@@ -1,0 +1,138 @@
+:root {
+    --blanco: #FFFCE8;
+    --rojo: #DD403A;
+    --negro: #3E363F;
+}
+
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: var(--blanco);
+    color: var(--negro);
+}
+
+.contenedor-dashboard {
+    display: flex;
+    min-height: 100vh;
+}
+
+.barra-lateral {
+    width: 250px;
+    background-color: var(--rojo);
+    color: var(--blanco);
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    text-align: center;
+    padding: 20px;
+    font-size: 20px;
+    font-weight: normal;
+    background-color: var(--rojo);
+    border-bottom: 1px solid rgba(138, 104, 104, 0.5); 
+    display: inline-block; 
+    padding-bottom: 5px; 
+    margin: 0; 
+}
+.logo .icono-grande {
+    fill: var(--blanco); 
+    width: 60px; 
+    height: 60px; 
+    margin-bottom: 5px; 
+}
+
+
+.logo h2 {
+    font-size: 24px; 
+    font-family: 'open sans', sans-serif;
+    font-weight: 300;
+    color: var(--blanco); 
+    margin-top: 0; 
+    margin-bottom: 0; 
+    line-height: 1.2; 
+}
+
+.menu {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu .opcion {
+    padding: 15px;
+    text-decoration: none;
+    color: var(--blanco);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.menu .opcion:hover {
+    background-color: var(--negro);
+}
+
+.menu .opcion svg {
+    margin-right: 10px;
+    fill: var(--blanco);
+}
+
+.contenido-principal {
+    flex: 1;
+    padding: 20px;
+}
+
+.contenido-principal h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.contenedor-tabla {
+    overflow-x: auto;
+    background-color: var(--blanco);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+thead {
+    background-color: var(--negro);
+    color: var(--blanco);
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+button {
+    background-color: var(--rojo);
+    color: var(--blanco);
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--negro);
+}

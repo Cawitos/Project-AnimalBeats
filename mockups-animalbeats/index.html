@@ -4,25 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/modal.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">    
     <link rel="icon" type="image/x-icon" href="img/logoico.png">
+    <script src="https://kit.fontawesome.com/a0994db117.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>AnimalBeats</title>
 </head>
 <body>
-    <div class="contenedor">
-        <header>
-            <div class="logo">
-                <img src="img/logo.png" alt="" >
+        <div class="menu">
+            <div class="c1">
+                <img src="img/Logo.png" alt="">
             </div>
-            <nav class="menu">
-            <ul>
-                <li><a href="#">Nosotros</a></li>
-                <li><a href="#">Servicios</a></li>
-                <li><a href="#">Inicio</a></li>
-                <li><a href="#">Registro</a></li>
-            </ul>
-            </nav>
-        </header>
-        <section class="publicidad">
+            <div class="c2">
+                <button onClick="location.href = '#menu'">INICIO</button>
+                <button onClick="location.href = '#contacto'">CONTACTENOS</button>
+                <button onClick="location.href = '#login' ">LOGIN</button>
+            </div>
+        </div>
+        <div id="login-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Iniciar Sesión</h2>
+                <form id="loginForm">
+                    <label for="email">Correo electrónico</label>
+                    <input type="email" id="email" placeholder="Ingresa tu correo" required>
+        
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" placeholder="Ingresa tu contraseña" required>
+        
+                    <button type="submit" class="btn-ingresar">Ingresar</button>
+                    <div class="options">
+                        <a href="#" class="forgot-password">¿Olvidó su contraseña?</a>
+                        <a href="registro.html" class="register">Registrarse</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="publicidad">
             <ul>
                 <li>
                     <img src="img/banner_perro.jpg" alt="">
@@ -87,5 +108,7 @@
             <p>2024 [Nombre de la Veterinaria]. Todos los derechos</p>  
         </footer>
     </div>
+    <script src="js/modal.js"></script>
+    <script src="js/validacion.js"></script>
 </body>
 </html>

@@ -3,68 +3,71 @@
     padding: 0;
     box-sizing: border-box; 
 }
-body{
-    background: #D3D3D3;
+:root {
+    --blanco: #FFFCE8;
+    --rojo: #DD403A;
+    --negro: #3E363F;
 }
-.contenedor{
-    width: 100%;
-    margin: auto;
-    padding: 0;
-    overflow: hidden;
-} 
-header{
-    background: #0076E0;
-    display: flex;
+body {
+    min-height: 100vh;
+    position: relative;
+    padding-bottom: 420px;
 }
-header .logo{
-    width: 120px;
-    margin-left: 300px;
-    padding: 0;
-}
-.logo img{
-    width: 250px;
-}
-.menu{
-    width: 100%;
-    margin-left: 120px;
-    margin-right: 100px;
-    padding: 50px;
-    font-size: 20px;
-    text-align: right;
-    font-family: Arial, Helvetica, sans-serif;
-}
-.menu ul{
-    margin: 10px 60px 10px 60px;
-    display: flex;
-    padding: 10px;
-    overflow: hidden;
-}
-.menu ul li{
-    overflow: hidden;
-    text-align: center;
-    list-style: none;
-    margin: 5px 50px;
-}
-.menu ul li a{
-    background: #E10C00;
-    border-radius: 50px;
-    color: #FFFFFF;
+
+.menu {
     display: flex;
     justify-content: center;
-    text-decoration: none;
-    border: 3px solid #a30900;
-    padding: 10px 50px;
+    align-items: center;
+    width: 100%;
+    height: 160px;
+    gap: 30px;
+    margin-bottom: 15px;
 }
-.menu ul li a:hover{
-    letter-spacing: 1px;
-    background: linear-gradient(100deg, #a30900, #E10C00,#a30900);
+
+.c1 img {
+    width: 180px;
+}
+
+.c2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 35px;
+}
+
+.c2 button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 250px;
+    max-width: 300px;
+    height: 40px;
+    gap: 30px;
+    border: none;
+    background-color: var(--rojo);
+    border-radius: 30px;
+    color: var(--blanco);
+    font-size: 18px;
+    letter-spacing: 1.2px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.c2 button:hover {
+    transform: scale(1.08);
+    background-color: var(--blanco);
+    color: var(--rojo);
+    border: 2px solid var(--rojo);
+    transition: transform 0.6s,
+        background-color 0.3s;
 }
 .publicidad{
     width: 100%;
     height: auto;
     padding: 8px;
     overflow: hidden;
-    margin-left: 10px;
+    margin-left: 0px;
     margin-right: 10px;
 }
 .publicidad ul{
@@ -167,11 +170,11 @@ header .logo{
     width: 75%;
     padding: 20px;
     display: flex;
-    margin-left: 270px;
+    margin-left: 90px;
     flex-direction: column;
 }
 .servicios{
-    background: #4babff;
+    background: beige;
     border: 3px solid #279aff;
     border-radius: 25px 25px 0 0;;
     box-shadow: 0 0 25px#6e7072;
@@ -233,7 +236,7 @@ header .logo{
 .s2{
     width: 1000px;
     margin-top: 25px;
-    margin-left: 100px;
+    margin-left: 12px;
     background: #4babff;
     border: 3px solid #279aff;
     border-radius: 0 25px 25px 0;
@@ -351,11 +354,11 @@ footer{
 }
 footer div{
     width: 100%;
-    margin-left: 240px;
+    margin-left: 14px;
 }
 footer div ul{
     display: flex;
-    margin-left: 80px;
+    margin-left: 60px;
     padding: 10px;
     overflow: hidden;
 }
@@ -371,7 +374,7 @@ footer div li a{
     border: 3px solid #a30900;
     border-radius: 20px;
     text-align: center;
-    margin-left: 10px;
+    margin-left: 5px;
     padding: 10px 60px 10px 50px;
     font-size: 20px;
 }
