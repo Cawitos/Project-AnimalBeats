@@ -1,7 +1,6 @@
 const modal = document.getElementById('login-modal'); 
 const buttons = document.querySelectorAll("button[onClick*='login']"); 
-const closeModal = document.querySelector('.modal .close'); 
-
+const closeModal = document.querySelector('#login-modal .close'); 
 
 buttons.forEach((button) => {
     button.addEventListener('click', () => {
@@ -9,11 +8,10 @@ buttons.forEach((button) => {
     });
 });
 
-
 closeModal.addEventListener('click', () => {
-    modal.style.display = 'none'; 
+    console.log('Cerrando modal');
+    modal.style.display = 'none';
 });
-
 
 window.addEventListener('click', (event) => {
     if (event.target === modal) { 
