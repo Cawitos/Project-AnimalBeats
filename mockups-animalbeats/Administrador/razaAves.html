@@ -26,11 +26,27 @@
             <input type="text" placeholder="Búsqueda">
         </div>
         <div class="actions">
-            <button>AÑADIR RAZA</button>
-            <button>ELIMINAR RAZA</button>
+            <button id="addRaza">AÑADIR RAZA</button>
+            <button id="elimRaza">ELIMINAR RAZA</button>
+            <button id="modRaza">MODIFICAR RAZA</button>
         </div>
     </div>
+    <div id="razaModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalTitle">Añadir Raza</h2>
+            
+            <form id="razaForm">
+                <label for="razaNombre">Nombre de la Raza:</label>
+                <input type="text" id="razaNombre" name="razaNombre" required>
 
+                <label for="razaInfo">Información:</label>
+                <textarea id="razaInfo" name="razaInfo" required></textarea>
+
+                <button type="submit" id="submitBtn">Añadir Raza</button>
+            </form>
+        </div>
+    </div>
     <div class="breed-buttons">
         <button onclick="openModal('loro')">LORO</button>
         <button onclick="openModal('gallo')">GALLO</button>
@@ -105,5 +121,7 @@
         </svg>
     </button>  
     <script src="../js/razas.js"></script>
+    <script src="../js/especies.js"></script>
+    <script src="../js/modalRaza.js"></script>
 </body>
 </html>
