@@ -1,7 +1,8 @@
 :root {
     --blanco: #FFFCE8;
-    --rojo: #DD403A;
+    --rojo: #E10C00;
     --negro: #3E363F;
+    --gris: #9b9b9b;
 }
 .modal {
     display: none;

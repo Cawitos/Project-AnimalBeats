@@ -1,7 +1,8 @@
 :root {
     --blanco: #FFFCE8;
-    --rojo: #DD403A;
+    --rojo: #E10C00;
     --negro: #3E363F;
+    --gris: #9b9b9b ;
 }
 
 body {
@@ -28,7 +29,7 @@ body {
     padding: 20px;
     font-size: 20px;
     font-weight: normal;
-    background-color: var(--rojo);
+    background-color: var(--gris);
     border-bottom: 1px solid rgba(138, 104, 104, 0.5); 
     display: inline-block; 
     padding-bottom: 5px; 
