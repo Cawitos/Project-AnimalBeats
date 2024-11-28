@@ -2,19 +2,20 @@
     --blanco: #FFFCE8;
     --rojo: #E10C00;
     --negro: #3E363F;
-    --gris: #9b9b9b;
+    --gris: #9b9b9b ;
 }
-
 body {
     margin: 0;
     font-family: 'Arial', sans-serif;
     background-color: var(--blanco);
     color: var(--negro);
 }
-
 .contenedor-dashboard {
-    display: flex;
+    flex-direction: row;
     min-height: 100vh;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .barra-lateral {
@@ -26,83 +27,78 @@ body {
 }
 
 .contenedor-consulta {
-    flex-grow: 1; 
+    flex: 1;
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start; 
+    overflow-y: auto;
+    gap: 20px;
 }
 
-.opciones-consulta button {
-    margin: 10px;
-    padding: 10px 20px;
-    background-color: var(--rojo);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-}
-
-.volver-boton {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background-color: #FF6347;
+.opciones-consulta {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .busqueda-container {
-    margin-bottom: 20px;
-}
-
-.busqueda-container input {
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 14px;
-    width: 250px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .botones-especies {
     display: flex;
+    justify-content: space-around;
     flex-wrap: wrap;
     gap: 10px;
-    justify-content: center;
 }
 
 .botones-especies button {
-    padding: 10px 15px;
-    background-color: var(--rojo);
+    background-color: #d50000;
     color: white;
     border: none;
+    padding: 10px 15px;
     border-radius: 5px;
     cursor: pointer;
+    flex: 1;
 }
 
 .botones-especies button:hover {
-    background-color: var(--negro);
+    background-color: #ff5252;
+}
+
+.recuadro-superior {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.recuadro-inferior {
+    margin-top: 200px; 
+    text-align: center;
 }
 
 .acciones-botones {
     display: flex;
-    flex-direction: row; 
     justify-content: center;
-    gap: 10px; 
-    margin-top: auto; 
-    padding-bottom: 20px; 
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 0px; 
 }
 
-
 .acciones-botones button {
-    padding: 10px 20px;
-    background-color: var(--gris);
+    background-color: #757575;
     color: white;
     border: none;
+    padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
+    min-width: 120px;
 }
 
 .acciones-botones button:hover {
-    background-color: var(--negro);
+    background-color: #d50000;
 }
+

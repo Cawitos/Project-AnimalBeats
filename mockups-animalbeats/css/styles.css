@@ -391,7 +391,6 @@ footer .botones-container button {
     transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
-/* Hover */
 footer .botones-container button:hover {
     background-color: #B00A00;
     transform: scale(1.1);
