@@ -12,7 +12,7 @@ document.querySelector('.btn-ingresar').addEventListener('click', function (even
         });
         return;
     }
-    if (email === 'admin@maskot.com' && password === '12345') {
+    if (email === 'admin@animalbeats.com' && password === '12345') {
         Swal.fire({
             icon: 'success',
             title: 'Inicio de sesión exitoso',
@@ -21,7 +21,7 @@ document.querySelector('.btn-ingresar').addEventListener('click', function (even
         }).then(() => {
             window.location.href = 'Administrador/administrador.html'; 
         });
-    } else if(email === 'veterinario@maskot.com' && password === '54321'){
+    } else if(email === 'veterinario@animalbeats.com' && password === '54321'){
         Swal.fire({
             icon: 'success',
             title: 'Inicio de sesión exitoso',
@@ -30,7 +30,7 @@ document.querySelector('.btn-ingresar').addEventListener('click', function (even
             }).then(() => {
                 window.location.href = 'Veterinario/veterinario.html';
         })
-        } else if(email === 'cliente@maskot.com' && password === '67890'){
+        } else if(email === 'cliente@animalbeats.com' && password === '67890'){
             Swal.fire({
                 icon: 'success',
                 title: 'Inicio de sesión exitoso',

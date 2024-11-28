@@ -9,6 +9,13 @@ body {
     background-color: #fff;
     margin: 0;
 }
+.logo{
+    background-color: var(--blanco);
+}
+.logo h2{
+    color: var(--negro);
+    font-weight: bold;
+}
 
 .header {
     display: flex;
