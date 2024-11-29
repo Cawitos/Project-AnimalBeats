@@ -1,0 +1,167 @@
+:root {
+    --blanco: #FFFCE8;
+    --rojo: #E10C00;
+    --negro: #3E363F;
+    --gris: #9b9b9b ;
+    --verde: #4CAF50;
+}
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: var(--blanco);
+    color: var(--negro);
+}
+.contenedor-dashboard {
+    flex-direction: row;
+    min-height: 100vh;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.barra-lateral {
+    width: 250px;
+    background-color: var(--rojo);
+    color: var(--blanco);
+    display: flex;
+    flex-direction: column;
+}
+
+.contenedor-consulta {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; 
+    overflow-y: auto;
+    gap: 20px;
+}
+
+.opciones-consulta {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.busqueda-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.botones-enfermedades {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.botones-enfermedades button {
+    background-color: #d50000;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    flex: 1;
+}
+
+.botones-enfermedades button:hover {
+    background-color: #ff5252;
+}
+
+.recuadro-superior {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.recuadro-inferior {
+    margin-top: 200px; 
+    text-align: center;
+}
+
+.acciones-botones {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 0px; 
+}
+
+.acciones-botones button {
+    background-color: #757575;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    min-width: 120px;
+}
+
+.acciones-botones button:hover {
+    background-color: #d50000;
+}
+/* Estilos del modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin: 10px 0 5px;
+}
+
+input, textarea {
+    padding: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+button {
+    padding: 10px;
+    background-color: var(--verde);
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: var(--negro);
+}
+

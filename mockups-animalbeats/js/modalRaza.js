@@ -1,6 +1,6 @@
 const modal = document.getElementById("razaModal");
 const closeModal = document.getElementsByClassName("close")[0];
-const addRazaBtn = document.getElementById("addRaza");
+const addRazaBtn = document.getElementById("añadirRaza");
 const elimRazaBtn = document.getElementById("elimRaza");
 const modRazaBtn = document.getElementById("modRaza");
 const form = document.getElementById("razaForm");
@@ -10,15 +10,9 @@ const submitBtn = document.getElementById("submitBtn");
 const modalTitle = document.getElementById("modalTitle");
 
 let currentMode = "add";
+
 function openModal(mode) {
-    const modal = document.getElementById("razaModal");
-    const modalTitle = document.getElementById("modalTitle");
-    const submitBtn = document.getElementById("submitBtn");
-    const razaNombreInput = document.getElementById("razaNombre");
-    const razaInfoInput = document.getElementById("razaInfo");
-
     modal.style.display = "block";
-
     if (mode === "add") {
         modalTitle.textContent = "Añadir Raza";
         submitBtn.textContent = "Añadir Raza";
@@ -41,12 +35,9 @@ function openModal(mode) {
     }
 }
 
-
 function closeModalWindow() {
-    const modal = document.getElementById("razaModal");
     modal.style.display = "none";
 }
-
 
 form.addEventListener("submit", function(event) {
     event.preventDefault();

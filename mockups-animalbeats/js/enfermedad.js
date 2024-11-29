@@ -1,11 +1,11 @@
-const modal = document.getElementById("speciesModal");
+const modal = document.getElementById("enfermedadModal");
 const closeModal = document.getElementsByClassName("close")[0];
-const addSpeciesBtn = document.getElementById("addSpeciesBtn");
-const editSpeciesBtn = document.getElementById("editSpeciesBtn");
-const deleteSpeciesBtn = document.getElementById("deleteSpeciesBtn");
-const form = document.getElementById("speciesForm");
-const speciesNameInput = document.getElementById("speciesName");
-const speciesInfoInput = document.getElementById("speciesInfo");
+const addSpeciesBtn = document.getElementById("añadirEnfermedadBtn");
+const editSpeciesBtn = document.getElementById("editEnfermedadBtn");
+const deleteSpeciesBtn = document.getElementById("elimEnfermedadBtn");
+const form = document.getElementById("enfermedadForm");
+const speciesNameInput = document.getElementById("nombreEnfermedad");
+const speciesInfoInput = document.getElementById("infoEnfermedad");
 const submitBtn = document.getElementById("submitBtn");
 const modalTitle = document.getElementById("modalTitle");
 
@@ -15,16 +15,16 @@ function openModal(mode) {
     currentMode = mode;
     modal.style.display = "block";
     if (mode === "add") {
-        modalTitle.textContent = "Añadir Especie";
-        submitBtn.textContent = "Añadir Especie";
+        modalTitle.textContent = "Añadir Enfermedad";
+        submitBtn.textContent = "Añadir Enfermedad";
         speciesNameInput.value = "";
         speciesInfoInput.value = "";
     } else if (mode === "edit") {
-        modalTitle.textContent = "Modificar Especie";
-        submitBtn.textContent = "Modificar Especie";
+        modalTitle.textContent = "Modificar Enfermedad";
+        submitBtn.textContent = "Modificar Enfermedad";
     } else if (mode === "delete") {
-        modalTitle.textContent = "Eliminar Especie";
-        submitBtn.textContent = "Eliminar Especie";
+        modalTitle.textContent = "Eliminar Enfermedad";
+        submitBtn.textContent = "Eliminar Enfermedad";
         speciesNameInput.value = "";
         speciesInfoInput.value = "";
         speciesNameInput.disabled = true;
@@ -41,22 +41,22 @@ form.addEventListener("submit", function(event) {
     if (currentMode === "add") {
         Swal.fire({
             icon: 'success',
-            title: 'Especie añadida',
-            text: `La especie ${speciesNameInput.value} ha sido añadida exitosamente.`,
+            title: 'Enfermedad añadida',
+            text: `La enfermedad ${speciesNameInput.value} ha sido añadida exitosamente.`,
             confirmButtonText: 'Aceptar',
         });
     } else if (currentMode === "edit") {
         Swal.fire({
             icon: 'success',
-            title: 'Especie modificada',
-            text: `La especie ${speciesNameInput.value} ha sido modificada exitosamente.`,
+            title: 'Enfermedad modificada',
+            text: `La enfermedad ${speciesNameInput.value} ha sido modificada exitosamente.`,
             confirmButtonText: 'Aceptar',
         });
     } else if (currentMode === "delete") {
         Swal.fire({
             icon: 'success',
-            title: 'Especie eliminada',
-            text: `La especie ${speciesNameInput.value} ha sido eliminada exitosamente.`,
+            title: 'Enfermedad eliminada',
+            text: `La enfermedad ${speciesNameInput.value} ha sido eliminada exitosamente.`,
             confirmButtonText: 'Aceptar',
         });
     }
