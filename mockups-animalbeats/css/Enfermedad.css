@@ -49,14 +49,14 @@ body {
     gap: 10px;
 }
 
-.botones-especies {
+.botones-enfermedades {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
     gap: 10px;
 }
 
-.botones-especies button {
+.botones-enfermedades button {
     background-color: #d50000;
     color: white;
     border: none;
@@ -66,7 +66,7 @@ body {
     flex: 1;
 }
 
-.botones-especies button:hover {
+.botones-enfermedades button:hover {
     background-color: #ff5252;
 }
 

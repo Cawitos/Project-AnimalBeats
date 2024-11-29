@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="../css/administrador.css">
     <link rel="stylesheet" href="../css/GestionConsultas.css">
     <link rel="stylesheet" href="../css/Especies.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">    
+    <script src="https://kit.fontawesome.com/a0994db117.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="contenedor-dashboard">
@@ -150,9 +155,25 @@
             </div>
             <div class="recuadro-inferior">
                 <div class="acciones-botones">
-                    <button class="añadir-especie">AÑADIR ESPECIE</button>
-                    <button class="eliminar-especie">ELIMINAR ESPECIE</button>
-                    <button class="modificar-especie">MODIFICAR ESPECIE</button>
+                    <button id="addSpeciesBtn">AÑADIR ESPECIE</button>
+                    <button id="editSpeciesBtn">MODIFICAR ESPECIE</button>
+                    <button id="deleteSpeciesBtn">ELIMINAR ESPECIE</button>
+                </div>
+            </div>
+            <div id="speciesModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2 id="modalTitle">Añadir Especie</h2>
+                    
+                    <form id="speciesForm">
+                        <label for="speciesName">Nombre de la Especie:</label>
+                        <input type="text" id="speciesName" name="speciesName" required>
+        
+                        <label for="speciesInfo">Información:</label>
+                        <textarea id="speciesInfo" name="speciesInfo" required></textarea>
+        
+                        <button type="submit" id="submitBtn">Añadir Especie</button>
+                    </form>
                 </div>
             </div>
             <button onclick="location.href='../Administrador/GestionConsultas.html'" class="volver-boton">Volver
@@ -162,7 +183,7 @@
             </button>   
         </main>
     </div>
-
+    <script src="../js/especies.js"></script>
     <script>
         function redirigir(pagina) {
             window.location.href = pagina;

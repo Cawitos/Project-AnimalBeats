@@ -1,8 +1,8 @@
-function openModal(race) {
+function openRaceModal(race) {
     document.getElementById(race).style.display = "block";
 }
 
-function closeModal(race) {
+function closeRaceModal(race) {
     document.getElementById(race).style.display = "none";
 }
 

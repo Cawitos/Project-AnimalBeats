@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="../css/GestionConsultas.css">
     <link rel="stylesheet" href="../css/Especies.css">
     <link rel="stylesheet" href="../css/razas.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">    
+    <script src="https://kit.fontawesome.com/a0994db117.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 
@@ -26,20 +31,34 @@
             <input type="text" placeholder="Búsqueda">
         </div>
         <div class="actions">
-            <button>AÑADIR RAZA</button>
-            <button>ELIMINAR RAZA</button>
+            <button id="añadirRaza">AÑADIR RAZA</button>
+            <button id="elimRaza">ELIMINAR RAZA</button>
+            <button id="modRaza">MODIFICAR RAZA</button>
         </div>
     </div>
 
+    <div id="razaModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalTitle">Añadir Raza</h2>
+            <form id="razaForm">
+                <label for="razaNombre">Nombre de la Raza:</label>
+                <input type="text" id="razaNombre" name="razaNombre" required>
+                <label for="razaInfo">Información:</label>
+                <textarea id="razaInfo" name="razaInfo" required></textarea>
+                <button type="submit" id="submitBtn">Añadir Raza</button>
+            </form>
+        </div>
+    </div>
     <div class="breed-buttons">
-        <button onclick="openModal('bullterrier')">BULLTERRIER</button>
-        <button onclick="openModal('bulldog')">BULLDOG</button>
-        <button onclick="openModal('poodle')">PODDLE</button>
-        <button onclick="openModal('dalmata')">DALMATA</button>
-        <button onclick="openModal('pastoraleman')">PASTOR ALEMAN</button>
-        <button onclick="openModal('chihuahua')">CHIHUAHUA</button>
-        <button onclick="openModal('beagle')">BEAGLE</button>
-        <button onclick="openModal('husky')">HUSKY</button>
+        <button onclick="openRaceModal('bullterrier')">BULLTERRIER</button>
+        <button onclick="openRaceModal('bulldog')">BULLDOG</button>
+        <button onclick="openRaceModal('poodle')">PODDLE</button>
+        <button onclick="openRaceModal('dalmata')">DALMATA</button>
+        <button onclick="openRaceModal('pastoraleman')">PASTOR ALEMAN</button>
+        <button onclick="openRaceModal('chihuahua')">CHIHUAHUA</button>
+        <button onclick="openRaceModal('beagle')">BEAGLE</button>
+        <button onclick="openRaceModal('husky')">HUSKY</button>
     </div>
 
     <div id="bullterrier" class="modal">
@@ -104,5 +123,6 @@
         </svg>
     </button>  
     <script src="../js/razas.js"></script>
+    <script src="../js/modalRaza.js"></script>
 </body>
 </html>
