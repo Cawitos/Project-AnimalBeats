@@ -16,7 +16,7 @@ function guardarCambios(event) {
         title: '¡Cambios guardados!',
         text: 'Los datos se han guardado correctamente.',
         icon: 'success',
-        confirmButtonText: 'Aceptar'
+        confirmButtonText: 'Aceptar',
     }).then((result) => {
         if (result.isConfirmed) {
             window.location.href = "GestionDeUsuarios.html"; 
