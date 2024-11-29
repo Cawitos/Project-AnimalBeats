@@ -2,11 +2,8 @@
     --blanco: #FFFCE8;
     --rojo: #E10C00;
     --negro: #3E363F;
-    --gris: #9b9b9b;
-    --verde: #4CAF50;
-
+    --gris: #9b9b9b ;
 }
-
 body {
     margin: 0;
     font-family: 'Arial', sans-serif;
@@ -77,90 +74,60 @@ body {
     margin-right: 10px;
     fill: var(--blanco);
 }
-.filtro{
-    position: absolute;
-    margin-left: 875px;
-}
 
-.contenido-principal {
-    flex: 1;
-    padding: 20px;
-}
 
-.contenido-principal h1 {
-    font-size: 28px;
-    margin-bottom: 20px;
-}
-.contenedor-tabla {
-    overflow-x: auto;
+.Contenedor-Eliminar {
     background-color: var(--blanco);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-thead {
-    background-color: var(--negro);
-    color: var(--blanco);
-    
-}
-th, td {
-    padding: 10px;
-    text-align: center;
-    border: 1px solid #ddd;
-}
-tbody tr:hover {
-    background-color: #f1f1f1;
-}
-.perfil{
-    margin-left: 350px;
-    margin-top: 150px;
-}
-.contenedor-perfil {
-    margin: 50px auto;
-    font-family: 'Arial', sans-serif;
-    width: 400px;
-    padding: 20px;
     border: 2px solid var(--gris);
-    border-radius: 10px;
-    background-color: var(--blanco);
+    padding: 40px;
+    border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-.contenedor-perfil h1{
+    max-width: 500px;
+    width: 100%;
     text-align: center;
-}
-.contenedor-perfil svg{
-    margin-left: 10px;
-}
-label {
-    display: block;
-    margin: 10px 0 5px;
-    font-size: 16px;
-    color: var(--negro);
+    margin-left: 320px;
+    margin-top: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
 }
 
 
+p {
+    color: var(--gris);
+    font-size: 18px;
+    margin-bottom: 30px;
+}
 
+/* Botones */
 button {
     background-color: var(--rojo);
-    color: var(--blanco);
+    color: white;
     border: none;
-    padding: 8px 12px;
-    border-radius: 5px;
+    padding: 12px 30px;
+    font-size: 18px;
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin: 10px;
 }
+
 button:hover {
-    background-color: var(--negro);
+    background-color: darkred;
+    transform: scale(1.05);
 }
-.volver-boton {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background-color: var(--rojo); 
+
+/* Botón de cancelar con diferente color */
+a button {
+    background-color: #333;
+}
+
+a button:hover {
+    background-color: var(--gris);
+}
+
+a {
+    text-decoration: none;
 }
