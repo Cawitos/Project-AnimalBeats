@@ -4,6 +4,12 @@
     --negro: #3E363F;
     --gris: #9b9b9b ;
 }
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: var(--blanco);
+    color: var(--negro);
+}
 .contenedor-dashboard {
     display: flex;
     min-height: 100vh;
