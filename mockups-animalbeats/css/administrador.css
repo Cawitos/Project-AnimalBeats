@@ -118,7 +118,7 @@ tbody tr:hover {
 }
 .perfil{
     margin-left: 350px;
-    margin-top: 150px;
+    margin-top: 75px;
 }
 .contenedor-perfil {
     margin: 50px auto;
@@ -142,7 +142,12 @@ label {
     font-size: 16px;
     color: var(--negro);
 }
-
+.ConsultarUsuario{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
 
 
 button {
