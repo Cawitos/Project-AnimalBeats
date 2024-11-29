@@ -98,6 +98,12 @@ body {
 .actions button:hover {
     background-color: var(--negro);
 }
+.volver-boton {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: var(--rojo); 
+}
 /* Estilo para los modales */
 .modal {
     display: none;
@@ -120,7 +126,6 @@ body {
     border: 1px solid #888;
     width: 80%; 
 }
-
 .close {
     color: #aaa;
     float: right;

@@ -164,4 +164,69 @@ button {
 button:hover {
     background-color: var(--negro);
 }
+.volver-boton {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: var(--rojo); 
+}
+body {
+    font-family: 'Lato', sans-serif;
+}
+
+.botones-enfermedades {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.botones-enfermedades button {
+    padding: 10px 20px;
+    background-color: var(--rojo);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.botones-enfermedades button:hover {
+    background-color: var(--negro);
+}
+
+/* Estilo de los modales */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: var(--blanco);
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 5px;
+    width: 60%;
+    text-align: center;
+}
+
+.close {
+    color: black;
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: red;
+}
 

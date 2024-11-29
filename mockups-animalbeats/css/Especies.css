@@ -164,4 +164,9 @@ button {
 button:hover {
     background-color: var(--negro);
 }
-
+.volver-boton {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: var(--rojo); 
+}
