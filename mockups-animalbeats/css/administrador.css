@@ -91,12 +91,9 @@ body {
     font-size: 28px;
     margin-bottom: 20px;
 }
-
 .contenedor-tabla {
     overflow-x: auto;
     background-color: var(--blanco);
-    padding: 20px;
-    border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -109,22 +106,42 @@ table {
 thead {
     background-color: var(--negro);
     color: var(--blanco);
+    
 }
-
 th, td {
     padding: 10px;
     text-align: center;
     border: 1px solid #ddd;
 }
-
-tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
 tbody tr:hover {
     background-color: #f1f1f1;
 }
-
+.perfil{
+    margin-left: 350px;
+    margin-top: 150px;
+}
+.contenedor-perfil {
+    margin: 50px auto;
+    font-family: 'Arial', sans-serif;
+    width: 400px;
+    padding: 20px;
+    border: 2px solid var(--gris);
+    border-radius: 10px;
+    background-color: var(--blanco);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.contenedor-perfil h1{
+    text-align: center;
+}
+.contenedor-perfil svg{
+    margin-left: 10px;
+}
+label {
+    display: block;
+    margin: 10px 0 5px;
+    font-size: 16px;
+    color: var(--negro);
+}
 
 
 
