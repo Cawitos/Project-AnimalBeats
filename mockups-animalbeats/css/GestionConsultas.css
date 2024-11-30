@@ -69,6 +69,9 @@ body {
     display: inline-flex;
     align-items: center;
 }
+.opciones-consulta button:hover{
+    background-color: var(--negro);
+}
 .opciones-consulta button svg {
     margin-left: 10px;
 }

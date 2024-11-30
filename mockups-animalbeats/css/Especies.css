@@ -67,7 +67,7 @@ body {
 }
 
 .botones-especies button:hover {
-    background-color: #ff5252;
+    background-color: var(--negro);
 }
 
 .recuadro-superior {
