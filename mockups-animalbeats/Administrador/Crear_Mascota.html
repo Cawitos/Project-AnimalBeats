@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/CrearMascota.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.17/dist/sweetalert2.all.min.js"></script>
-    <title>Crear Usuario</title>
+    <title>Crear Mascota</title>
 </head>
 <body>
     <div class="contenedor-dashboard">
@@ -40,7 +40,7 @@
         <div class="contenido-principal">
             <h1>Crear Mascota</h1>
             <div class="contenedor-formulario">
-                <form class="formulario-tabla" action="#" method="POST">
+                <form class="formulario-tabla" id="formulario" onsubmit="crearMascota(event)">
                     <table>
                         <th></th>
                         <tbody>
@@ -80,13 +80,10 @@
                         </tbody>
                     </table>
                     <div style="text-align: center; margin-top: 20px;">
-                        <a href="../Administrador/ConsultarMascota.html">
-                            <button type="submit">Crear Mascota</button>
-                    </a>
+                            <button type="submit"><a href="ConsultarMascota.html">Crear Mascota</a></button>
                     </div>
                 </form>
             </div>
         </div>
-    
 </body>
 </html>

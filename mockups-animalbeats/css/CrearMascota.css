@@ -122,7 +122,10 @@ button {
     margin-top: 50px;
     margin-right: 10px ;
 }
-
+button a{
+    color: var(--blanco);
+    text-decoration: none;
+}
 button:hover {
     background-color: var(--negro);
 }
