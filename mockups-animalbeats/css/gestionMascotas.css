@@ -1,0 +1,138 @@
+:root {
+    --blanco: #FFFCE8;
+    --rojo: #E10C00;
+    --negro: #3E363F;
+    --gris: #9b9b9b;
+    --verde: #4CAF50;
+
+}
+
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: var(--blanco);
+    color: var(--negro);
+}
+.contenedor-dashboard {
+    display: flex;
+    min-height: 100vh;
+}
+
+.barra-lateral {
+    width: 250px;
+    background-color: var(--rojo);
+    color: var(--blanco);
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    text-align: center;
+    padding: 20px;
+    font-size: 20px;
+    font-weight: normal;
+    background-color: var(--gris);
+    border-bottom: 1px solid rgba(138, 104, 104, 0.5); 
+    display: inline-block; 
+    padding-bottom: 5px; 
+    margin: 0; 
+}
+.logo .icono-grande {
+    fill: var(--blanco); 
+    width: 60px; 
+    height: 60px; 
+    margin-bottom: 5px; 
+}
+.logo h2 {
+    font-size: 24px; 
+    font-family: 'open sans', sans-serif;
+    font-weight: 300;
+    color: var(--blanco); 
+    margin-top: 0; 
+    margin-bottom: 0; 
+    line-height: 1.2; 
+}
+.menu {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu .opcion {
+    padding: 15px;
+    text-decoration: none;
+    color: var(--blanco);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.menu .opcion:hover {
+    background-color: var(--negro);
+}
+
+.menu .opcion svg {
+    margin-right: 10px;
+    fill: var(--blanco);
+}
+.contenedor-principal{
+    width: 1000px;
+    margin-left: 200px;
+}
+.contenedor-principal h1{
+    margin-left: 300px;
+}
+.titulo{
+    display: flex;
+    justify-content: center;
+    margin-top: 280px;
+    margin-left: 600px;
+    margin-bottom: 30px;
+    padding: 5px 20px;
+    font-size: 22px;
+}
+.botones{
+    display: flex;
+    justify-content: center;
+    margin-left: 600px;
+    padding: 5px 20px;
+}
+button{
+    display: flex;
+    background-color: var(--rojo);
+    color: var(--blanco);
+    margin-left: 15px;
+    margin-right: 15px;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+button p{
+    display: flex;
+    margin-right: 5px;
+}
+button .icon{
+    margin-left: 10px;
+    width: 50px;
+    height: 50px;
+}
+button .icono{
+    margin-left: 10px;
+    width: 40px;
+    height: 40px;
+}
+.volver-boton {
+    position: absolute;
+    height: 55px;
+    top: 20px;
+    right: 20px;
+    background-color: var(--rojo); 
+}
+button:hover {
+    background-color: var(--negro);
+}
