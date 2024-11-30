@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Especies</title>
+    <link rel="stylesheet" href="../css/administrador.css">
+    <link rel="stylesheet" href="../css/GestionConsultas.css">
+    <link rel="stylesheet" href="../css/Especies.css">
+    <link rel="stylesheet" href="../css/razas.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">    
+    <script src="https://kit.fontawesome.com/a0994db117.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+
+    <div class="header">
+            <div class="logo">
+                <img src="../img/logo.png" alt="Logo" width="180px">
+                <h2>Veterinario</h2>
+            </div>
+        <h1>RAZAS<svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24">
+            <path d="m24,7.5V0l-3.287,2.465c-.677-.299-1.426-.465-2.213-.465s-1.535.166-2.213.465l-3.287-2.465v7.5c0,.487.064.959.183,1.408-6.609,1.986-8.798,7.414-9.143,11.111-.616-.527-1.04-1.227-1.04-1.996,0-1.848.478-2.817.983-3.845.477-.969,1.017-2.066,1.017-3.679,0-2.649-2.056-4.5-5-4.5v3c.469,0,2,.108,2,1.5,0,.915-.297,1.518-.708,2.354-.575,1.169-1.292,2.624-1.292,5.17,0,3.522,3.456,5.977,6.558,5.977h17.442v-3h-2v-9.26c1.221-1.01,2-2.535,2-4.24Zm-5.5-2.5c1.378,0,2.5,1.122,2.5,2.5s-1.122,2.5-2.5,2.5-2.5-1.122-2.5-2.5,1.122-2.5,2.5-2.5Zm.5,16h-2c0-3.309-2.691-6-6-6v3c1.654,0,3,1.346,3,3h-7.002c.051-1.686.731-7.75,7.813-9.424.976.884,2.271,1.424,3.689,1.424.169,0,.335-.008.5-.023v8.023Z"/>
+          </svg></h1>
+        <div class="search-container">
+            <input type="text" placeholder="Búsqueda">
+        </div>
+        <div class="actions">
+            <button id="añadirRaza">AÑADIR RAZA</button>
+            <button id="elimRaza">ELIMINAR RAZA</button>
+            <button id="modRaza">MODIFICAR RAZA</button>
+        </div>
+    </div>
+
+    <div id="razaModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalTitle">Añadir Raza</h2>
+            <form id="razaForm">
+                <label for="razaNombre">Nombre de la Raza:</label>
+                <input type="text" id="razaNombre" name="razaNombre" required>
+                <label for="razaInfo">Información:</label>
+                <textarea id="razaInfo" name="razaInfo" required></textarea>
+                <button type="submit" id="submitBtn">Añadir Raza</button>
+            </form>
+        </div>
+    </div>
+    <div class="breed-buttons">
+        <button onclick="openRaceModal('siames')">SIÁMES</button>
+        <button onclick="openRaceModal('ragdoll')">RAGDOLL</button>
+        <button onclick="openRaceModal('abisinio')">ABISINIO</button>
+        <button onclick="openRaceModal('esfinge')">ESFINGE</button>
+        <button onclick="openRaceModal('persa')">PERSA</button>
+        <button onclick="openRaceModal('burnes')">BÚRNES</button>
+        <button onclick="openRaceModal('siberiano')">SIBERIANO</button>
+        <button onclick="openRaceModal('himalayo')">HIMALAYO</button>
+    </div>
+
+    <div id="siames" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('siames')">&times;</span>
+            <h2>Siámes</h2>
+            <img src="../img/siames.avif" alt="" width="400" height="300">
+            <p>Descripción y detalles sobre la raza Siámes...</p>
+        </div>
+    </div>
+    <div id="ragdoll" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('ragdoll')">&times;</span>
+            <h2>Ragdoll</h2>
+            <img src="../img/ragdoll.avif" alt="" width="400" height="300">
+            <p>Descripción y detalles sobre la raza Ragdoll...</p>
+        </div>
+    </div>
+    <div id="abisinio" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('abisinio')">&times;</span>
+            <h2>Abisinio</h2>
+            <img src="../img/abisinio.avif" alt="" width="400" height="300">
+            <p>Descripción y detalles sobre la raza Abisinio...</p>
+        </div>
+    </div>
+    <div id="esfinge" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('esfinge')">&times;</span>
+            <h2>Esfinge</h2>
+            <img src="../img/esfinge.avif" alt="" width="400" height="300">
+            <p>Descripción y detalles sobre la raza Esfinge...</p>
+        </div>
+    </div>
+    <div id="persa" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('persa')">&times;</span>
+            <h2>Persa</h2>
+            <img src="../img/persa.avif" alt="" width="400" height="300">
+            <p>Descripción y detalles sobre la raza Persa...</p>
+        </div>
+    </div>
+    <div id="burnes" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('burnes')">&times;</span>
+            <h2>Búrnes</h2>
+            <img src="../img/burnes.jpg" alt="" width="400" height="300">
+            <p>Descripción y detalles sobre la raza Búrnes...</p>
+        </div>
+    </div>
+    <div id="siberiano" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('siberiano')">&times;</span>
+            <h2>Siberiano</h2>
+            <img src="../img/siberiano.jpg" alt="" width="400" height="300">
+            <p>Descripción y detalles sobre la raza Siberiano...</p>
+        </div>
+    </div>
+    <div id="himalayo" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('himalayo')">&times;</span>
+            <h2>Himalayo</h2>
+            <img src="../img/himalayo.jpg" alt="" width="400" height="300">
+            <p>Descripción y detalles sobre la raza Himalayo...</p>
+        </div>
+    </div>
+
+    <button onclick="location.href='../Veterinario/Especies.html'" class="volver-boton">Volver
+        <svg xmlns="http://www.w3.org/2000/svg" id="Bold" viewBox="0 0 24 24" width="36" height="36">
+            <path d="M4.943,5.606,1.024,9.525a3.585,3.585,0,0,0,0,4.95l3.919,3.919a1.5,1.5,0,1,0,2.121-2.121L4.285,13.492l18.25-.023a1.5,1.5,0,0,0,1.5-1.5v0a1.5,1.5,0,0,0-1.5-1.5L4.3,10.492,7.064,7.727A1.5,1.5,0,0,0,4.943,5.606Z"/>
+        </svg>
+    </button>  
+    <script src="../js/razas.js"></script>
+    <script src="../js/modalRaza.js"></script>
+</body>
+</html>
