@@ -77,10 +77,7 @@ body {
     margin-right: 10px;
     fill: var(--blanco);
 }
-.filtro{
-    position: absolute;
-    margin-left: 875px;
-}
+
 
 .contenido-principal {
     flex: 1;
