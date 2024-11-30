@@ -5,17 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="../css/administrador.css">
+    <link rel="stylesheet" href="../mockups-animalbeats/css/CrearUsuario.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">    
     <script src="https://kit.fontawesome.com/a0994db117.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 <body>
     <div class="contenedor-dashboard">
         <aside class="barra-lateral">
                 <div class="logo">
                     <img src="../img/logo.png" alt="Logo" width="180px">
+                    <h2>Veterinario
+                      </h2>
                 </div>
             
             <nav class="menu">
@@ -45,19 +49,56 @@
                 </a>
             </nav>
         </aside>
-        <main class="perfil">
-            <div class="contenedor-perfil">
-                <h1>PERFIL DE USUARIO</h1>
-                <h2>Veterinario</h2>
-                </svg>
-                </svg>
-                  </h2>
-                    <label for=""><b>Código:</b> 001</label>
-                    <label for=""><b>Nombre:</b> Alejandro</label>
-                    <label for=""><b>Correo:</b> veterinario@animalbeats.com</label>
-                    <label for=""><b>Contacto:</b> 322786342</label>
-                    <label for=""><b>Dirección:</b> Calle 30</label>
-                    <label for=""><b>Mascotas:</b> 3</label>
+        <main class="contenido-principal">
+            <h1>Gestión de usuarios</h1>
+            <div class="filtro">
+                <input type="text" placeholder="Buscar por nombre o código">
+                <button type="submit">Buscar</button>
+            </div>  
+            <div class="contenedor-tabla">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Dirección</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>001</td>
+                            <td>Juan</td>
+                            <td>Pérez</td>
+                            <td>Calle 123</td>
+                        </tr>
+                        <tr>
+                            <td>001</td>
+                            <td>Juan</td>
+                            <td>Pérez</td>
+                            <td>Calle 123</td>
+                        </tr>
+                        <tr>
+                            <td>001</td>
+                            <td>Juan</td>
+                            <td>Pérez</td>
+                            <td>Calle 123</td>
+                        </tr>
+                        <tr>
+                            <td>001</td>
+                            <td>Juan</td>
+                            <td>Pérez</td>
+                            <td>Calle 123</td>
+                        
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="ConsultarUsuario">
+                <a href="ConsultarUsuario.html">
+                    <button style="padding: 17px 17px; font-size: 18px; border-radius: 10px;">Consultar Usuario</button>
+                </a>
             </div>
         </main>
     </div>
