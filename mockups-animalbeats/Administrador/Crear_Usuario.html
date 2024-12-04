@@ -4,20 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/CrearUsuario.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.17/dist/sweetalert2.all.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a0994db117.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Crear Usuario</title>
 </head>
 <body>
     <div class="contenedor-dashboard">
         <aside class="barra-lateral">
-                <div class="logo">
-                    <img src="../img/logo.png" alt="Logo" width="180px">
-                    <h2>Administrador<svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24" width="30px" height="30px">
-                        <path d="m19,24H5c-.29,0-.565-.126-.755-.345s-.275-.51-.234-.797c.559-3.91,3.994-6.858,7.99-6.858s7.431,2.948,7.99,6.858c.041.287-.044.578-.234.797s-.465.345-.755.345ZM15,3L12.703.32c-.37-.431-1.037-.431-1.406,0l-2.297,2.68L7.397.341c-.418-.628-1.397-.331-1.397.423v5.236h12V.764c0-.754-.978-1.051-1.397-.423l-1.603,2.659Zm-9,5c0,3.309,2.691,6,6,6s6-2.691,6-6H6Z"/>
-                      </svg>
-                      </h2>
-                </div>
-            
+            <div class="logo">
+                <img src="../img/logo.png" alt="Logo" width="180px">
+                <h2>Administrador</h2>
+            </div>
             <nav class="menu">
                 <a href="../Administrador/GestionDeUsuarios.html" class="opcion">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
@@ -32,53 +32,38 @@
                     Salir
                 </a>
             </nav>
-        </aside>    
-        <div class="contenido-principal">
-            <h1>Crear Usuario</h1>
-            <div class="contenedor-formulario">
-                <form class="formulario-tabla" action="#" method="POST">
-                    <table>
-                        <th></th>
-                        <tbody>
-                            <tr>
-                                <td><label for="nombre">Nombre de Usuario:</label></td>
-                                <td><input type="text" id="nombre" name="nombre" required></td>
-                            </tr>
-                            <tr>
-                                <td><label for="tipo-documento">Tipo de Documento:</label></td>
-                                <td>
-                                    <select id="tipo-documento" name="tipo-documento" required>
-                                        <option value="cc">C.C</option>
-                                        <option value="ce">C.E</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><label for="numero-documento">Número de Documento:</label></td>
-                                <td><input type="text" id="numero-documento" name="numero-documento" required></td>
-                            </tr>
-                            <tr>
-                                <td><label for="contacto">Contacto de Usuario:</label></td>
-                                <td><input type="text" id="contacto" name="contacto" required></td>
-                            </tr>
-                            <tr>
-                                <td><label for="correo">Correo Electrónico:</label></td>
-                                <td><input type="email" id="correo" name="correo" required></td>
-                            </tr>
-                            <tr>
-                                <td><label for="contrasena">Contraseña:</label></td>
-                                <td><input type="password" id="contrasena" name="contrasena" required></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div style="text-align: center; margin-top: 20px;">
-                        <a href="../Administrador/GestionDeUsuarios.html">
-                            <button type="submit">Crear Usuario</button>
-                    </a>
-                    </div>
-                </form>
-            </div>
+        </aside>
+        <div class="contenedor-formulario">
+            <h2>Crear Usuario</h2>
+            <form id="form-crear" onsubmit="crearUsuario(event)">
+                <label for="nombre">Nombre de Usuario:</label>
+                <input type="text" id="nombre" name="nombre" required>
+
+                <label for="tipo-documento">Tipo de Documento:</label>
+                <select id="tipo-documento" name="tipo-documento" required>
+                    <option value="cc">C.C</option>
+                    <option value="ce">C.E</option>
+                </select>
+
+                <label for="numero-documento">Número de Documento:</label>
+                <input type="text" id="numero-documento" name="numero-documento" required>
+
+                <label for="contacto">Contacto de Usuario:</label>
+                <input type="text" id="contacto" name="contacto" required>
+
+                <label for="correo">Correo Electrónico:</label>
+                <input type="email" id="correo" name="correo" required>
+
+                <label for="contrasena">Contraseña:</label>
+                <input type="password" id="contrasena" name="contrasena" required>
+
+                <div class="botones">
+                    <button type="submit">Crear Usuario</button>
+                    <a href="GestionDeUsuarios.html"><button type="button">Cancelar</button></a>
+                </div>
+            </form>
         </div>
-    
+    </div>
 </body>
+<script src="../js/CrearUsuario.js"></script>
 </html>

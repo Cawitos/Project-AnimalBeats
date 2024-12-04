@@ -10,7 +10,7 @@ confirmarBtn.addEventListener("click", function() {
     }).then((result) => {
 
         if (result.isConfirmed) {
-            window.location.href = "../Administrador/GestionDeUsuarios.html";
+            window.location.href = "GestionDeUsuarios.html";
         }
     });
 });
