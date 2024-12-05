@@ -27,7 +27,7 @@ h2 {
     display: flex;
     min-height: 100vh;
 }
-nav{
+.barra-desplegable{
     position: absolute;
     top: 0;
     bottom: 0;
@@ -39,7 +39,7 @@ nav{
     height: 100%;
     background-color: var(--rojo);
 }
-nav ul{
+.barra-desplegable ul{
     list-style: none;    
 }
 .fondo-logo{
@@ -110,7 +110,7 @@ nav ul{
 .salir:hover{
     background-color: var(--negro);
 }
-nav:hover{
+.barra-desplegable:hover{
     width: 290px;
     transition: all 0.5s ease;
 }
