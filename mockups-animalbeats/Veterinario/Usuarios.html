@@ -13,27 +13,50 @@
 </head>
 <body>
     <div class="contenedor-dashboard">
-        <aside class="barra-lateral">
-                <div class="logo">
-                    <img src="../img/logo.png" alt="Logo" width="180px">
-                    <h2>Veterinario<svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24" width="30" height="30"><path d="m12.021,12c-3.309,0-6-2.691-6-6S8.713,0,12.021,0s6,2.691,6,6-2.691,6-6,6Zm1.979,6.184v-4.184h-5.021v4.277c.595.346,1,.984,1,1.723,0,1.105-.895,2-2,2s-2-.895-2-2c0-.738.405-1.376,1-1.723v-4.275c-2.747.012-4.979,2.248-4.979,4.998v5h10v-3c0-1.302.839-2.402,2-2.816Zm3-4.184h-1v4.184c1.161.414,2,1.514,2,2.816v3h4v-5c0-2.757-2.243-5-5-5Zm-2,6c-.552,0-1,.448-1,1v3h2v-3c0-.552-.448-1-1-1Z"/></svg></h2>
-                </div>
-            
-            <nav class="menu">
-                <a href="../Veterinario/GestionDeUsuarios.html" class="opcion">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path>
-                    </svg>
-                    Usuarios
-                </a>
-                <a href="../index.html" class="opcion">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                        <path d="M10 17l5-5-5-5v10zM4 4h2v16H4V4zm16 0h-6v2h6v12h-6v2h6c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"></path>
-                    </svg>
-                    Salir
-                </a>
-            </nav>
-        </aside>
+        <nav class="barra-desplegable">
+            <ul>
+                <li class="fondo-logo">
+                    <a href="../Veterinario/veterinario.html" class="animalbeats">
+                        <img src="../img/logo-corto.png" alt="">
+                        <span class="nav-logo">AnimalBeats</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../Veterinario/ConsultarUsuario.html" class="opcion">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 24 24" fill="#FFFCE8">
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path>
+                        </svg>
+                    <span class="item-nav">Usuarios</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../Veterinario/GestionMascotas.html" class="opcion">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 -960 960 960" width="24px" fill="#FFFCE8"><path d="M180-475q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29Zm180-160q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29Zm240 0q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29Zm180 160q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29ZM266-75q-45 0-75.5-34.5T160-191q0-52 35.5-91t70.5-77q29-31 50-67.5t50-68.5q22-26 51-43t63-17q34 0 63 16t51 42q28 32 49.5 69t50.5 69q35 38 70.5 77t35.5 91q0 47-30.5 81.5T694-75q-54 0-107-9t-107-9q-54 0-107 9t-107 9Z"/></svg>
+                        <span class="item-nav">Mascotas</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../Veterinario/GestionConsultas.html" class="opcion">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 -960 960 960" width="24px" fill="#FFFCE8"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>
+                        <span class="item-nav">Consultas</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../Veterinario/GestionReportes.html" class="opcion">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 -960 960 960" width="24px" fill="#FFFCE8"><path d="M200-120v-680h360l16 80h224v400H520l-16-80H280v280h-80Zm300-440Zm86 160h134v-240H510l-16-80H280v240h290l16 80Z"/></svg>
+                        <span class="item-nav">Reportes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../index.html" class="salir">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 24 24" fill="#FFFCE8">
+                            <path d="M10 17l5-5-5-5v10zM4 4h2v16H4V4zm16 0h-6v2h6v12h-6v2h6c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"></path>
+                        </svg>
+                    <span class="item-nav">Salir</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
         <main class="perfil">
             <div class="contenedor-perfil">
                 <h1>USUARIO PEREZ</h1>
