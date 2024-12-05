@@ -1,8 +1,9 @@
 :root {
-    --blanco: #FFFCE8;
-    --rojo: #E10C00;
-    --negro: #3E363F;
-    --gris: #9b9b9b;
+    --blanco: #FDF7FA;
+    --rojo: #DF2935;
+    --negro: #07090F;
+    --gris: #E6E8E6;
+    --verde: #4CAF50;
 }
 *{
     margin: 0;
