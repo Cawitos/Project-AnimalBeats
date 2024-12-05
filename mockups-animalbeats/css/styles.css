@@ -157,6 +157,24 @@ body {
     margin-top: 80px;
     color: #000;
 }
+.m2{
+    width: 70%;
+}
+
+.m2 h2{
+    float: right;
+    margin-bottom: 8px;
+    color: var(--rojo);
+    font-size: 40px;
+    margin-right: 50px;
+}
+
+.m2 iframe{
+    width: 450px;
+    height: 400px;
+    border: none;
+    border-radius: 30px;
+}
 
 @keyframes slide{
     5% {margin-left: 0;}
@@ -456,4 +474,29 @@ footer .botones-container button:hover {
         font-weight: bold;
         cursor: pointer;
     }
-}
+        .publicidad .texto1, 
+        .publicidad .texto2, 
+        .publicidad .texto3 {
+            display: none;
+        }
+    
+        .informacion {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+    
+        .informacion > div {
+            width: 100%;
+            margin: 0 auto; 
+        }
+    
+        .servicios, 
+        .s1, 
+        .s2, 
+        .s3, 
+        .s4 {
+            text-align: center;
+        }
+    }
+    
