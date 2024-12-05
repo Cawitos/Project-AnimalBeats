@@ -17,6 +17,13 @@ body {
     min-height: 100vh;
     margin-left: 170px;
 }
+.barra-lateral {
+    width: 250px;
+    background-color: var(--rojo);
+    color: var(--blanco);
+    display: flex;
+    flex-direction: column;
+}
 .contenedor-consulta {
     flex-grow: 1;
     display: flex;

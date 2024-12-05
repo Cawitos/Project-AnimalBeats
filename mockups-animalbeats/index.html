@@ -30,9 +30,9 @@
                 <h2>Contáctanos</h2>
                 <form id="contact-form">
                     <label for="name">Atencion al cliente de AnimalBeats</label>
-                    <label for="text">[Direccion]</label>        
-                    <label for="text">[Telefono]</label>        
-                    <label for="email">veterinariaanimalbeats@animalbeats.com</label>        
+                    <label for="text">Calle 152B 114 - 17 Bogotá, Bogotá, Cundinamarca</label>        
+                    <label for="text">3118372191</label>        
+                    <label for="email">veterinariaVetPoly@animalbeats.com</label>        
                     <label for="message">Ingresa un mensaje sobre tu consulta:</label>
                     <textarea id="message" placeholder="Escribe tu mensaje" required></textarea>
                     <button type="submit" class="btn-submit">Enviar</button>
@@ -115,16 +115,61 @@
         <footer>
             <div class="atencion">
                 <div class="botones-container">
-                    <button onClick="location.href='#horarios'">¿Dónde nos ubicamos?</button>
-                    <button onClick="location.href='#horarios'">Horarios de atención</button>
-                    <button onClick="location.href='#horarios'">¿Qué necesitas?</button>
+                    <button id="ubicacion-btn">¿Dónde nos ubicamos?</button>
+                    <button id="horarios-btn">Horarios de atención</button>
+                    <button id="necesitas-btn">¿Qué podemos ayudarte?</button>
                 </div>
             </div>
-            <p>2024 [Nombre de la Veterinaria]. Todos los derechos reservados.</p>
-        </footer>              
+            <p>2024 VetPoly Todos los derechos reservados.</p>
+        </footer>
+        
+        <div id="ubicacion-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>¿Dónde nos ubicamos?</h2>
+                <div class="mapa">
+                    <div class="ubicacion">
+                        <div class="m2">
+                            <h2>Veterinaria VetPoly Suba</h2>
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15904.316557121381!2d-74.0990538!3d4.7562667!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f845d48b9fd41%3A0x109fccc1ecd013dd!2sClinica%20Veterinaria%20Vetpoly!5e0!3m2!1ses-419!2sco!4v1733365569970!5m2!1ses-419!2sco" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            <p>En esta dirección puedes encontrarnos de manera sencilla.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="horarios-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Horarios de atención</h2>
+                <p>                
+                    Lunes: Abierto 24 horas. <br>
+                    Martes: Abierto 24 horas. <br>
+                    Miércoles: Abierto 24 horas. <br>
+                    Jueves: Abierto 24 horas. <br>
+                    Viernes: Abierto 24 horas. <br>
+                    Sábado: Abierto 24 horas. <br>
+                    Domingo: Abierto 24 horas. <br>
+                    Nuestros horarios de atención siempre estan a la orden de nuestros clientes.
+                </p>
+            </div>
+        </div>
+        
+        <div id="necesitas-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>¿Qué podemos ayudarte?</h2>
+                <img src="img/medicos-cuidadosos-alto-angulo-que-ayudan-al-perro-enfermo_23-2148302253.avif" alt="" width="400px">
+                <p>En nuestra veterinaria puedes encontrar servicios como: <br>
+                    <b>Consulta General, Urgencias, Baños, Peluquerías, Vacunaciones, Cardiología y Nutricionista</b>. <br> 
+                    También afiliamiento de usuarios en nuestra base de datos como de tus mascotas.</p>
+            </div>
+        </div>             
     </div>
     <script src="js/modalLogin.js"></script>
     <script src="js/validacion.js"></script>
     <script src="js/modalContacto.js"></script>
+    <script src="js/modalFooter.js"></script>
 </body>
 </html>
