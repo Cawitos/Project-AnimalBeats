@@ -141,7 +141,6 @@ body {
     line-height: 1.2; 
 }
 .contenedor-principal{
-    width: 1300px;
     margin-left: 100px;
 }
 .contenedor-principal h1{
@@ -151,15 +150,15 @@ body {
     display: flex;
     justify-content: center;
     margin-top: 280px;
-    margin-left: 700px;
-    margin-bottom: 30px;
+    margin-left: 500px;
     padding: 5px 20px;
     font-size: 22px;
 }
 .botones{
     display: flex;
     justify-content: center;
-    margin-left: 700px;
+    margin-left: 500px;
+    margin-top: 50px;
     padding: 5px 20px;
 }
 button{
