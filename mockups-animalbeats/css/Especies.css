@@ -11,22 +11,6 @@ body {
     background-color: var(--blanco);
     color: var(--negro);
 }
-.contenedor-dashboard {
-    flex-direction: row;
-    min-height: 100vh;
-    display: flex;
-    height: 100vh;
-    overflow: hidden;
-}
-
-.barra-lateral {
-    width: 250px;
-    background-color: var(--rojo);
-    color: var(--blanco);
-    display: flex;
-    flex-direction: column;
-}
-
 .contenedor-consulta {
     flex: 1;
     padding: 20px;
