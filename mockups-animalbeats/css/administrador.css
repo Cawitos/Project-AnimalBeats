@@ -170,8 +170,18 @@ nav:hover{
 
 
 .contenido-principal {
+<<<<<<< HEAD
+<<<<<<< HEAD
+    margin-left: 500px;
+=======
+    width: 1300px;
+>>>>>>> 2966b6f2fdfa888f811dae8c8c8fc6eb5a5b0e4e
+=======
+    width: 1300px;
+>>>>>>> 2966b6f2fdfa888f811dae8c8c8fc6eb5a5b0e4e
     flex: 1;
     padding: 20px;
+    margin-left: 300px;
 }
 
 .contenido-principal h1 {
@@ -208,7 +218,8 @@ tbody tr:hover {
     margin-top: 75px;
 }
 .contenedor-perfil {
-    margin: 50px auto;
+    margin-left: 210px;
+    margin-top: 95px;
     font-family: 'Arial', sans-serif;
     width: 400px;
     padding: 20px;

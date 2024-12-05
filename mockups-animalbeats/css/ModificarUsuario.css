@@ -149,31 +149,6 @@ nav:hover{
     margin-bottom: 0; 
     line-height: 1.2; 
 }
-.menu {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.menu .opcion {
-    padding: 15px;
-    text-decoration: none;
-    color: var(--blanco);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    display: flex;
-    align-items: center;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
-
-.menu .opcion:hover {
-    background-color: var(--negro);
-}
-
-.menu .opcion svg {
-    margin-right: 10px;
-    fill: var(--blanco);
-}
 h1{
     display: flex;
     justify-content: center;
@@ -184,7 +159,17 @@ h1{
 }
 
 .contenedor-formulario {
-    margin: 50px auto;
+<<<<<<< HEAD
+<<<<<<< HEAD
+    margin-left: 550px;
+    margin-bottom: 240px;
+    margin-top: 105px;
+=======
+    margin: 50px 350px auto;
+>>>>>>> 2966b6f2fdfa888f811dae8c8c8fc6eb5a5b0e4e
+=======
+    margin: 50px 350px auto;
+>>>>>>> 2966b6f2fdfa888f811dae8c8c8fc6eb5a5b0e4e
     font-family: 'Arial', sans-serif;
     width: 400px;
     padding: 20px;

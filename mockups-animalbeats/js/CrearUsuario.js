@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 function crearUsuario(event) {
     event.preventDefault(); // Evitar que el formulario recargue la página
 
@@ -35,9 +36,23 @@ function crearUsuario(event) {
         text: 'El nuevo usuario ha sido registrado correctamente.',
         icon: 'success',
         confirmButtonText: 'Aceptar',
+=======
+document.getElementById('form-usuario').addEventListener('submit', function(event) {
+    event.preventDefault();  
+
+    Swal.fire({
+        title: '¡Usuario creado!',
+        text: 'El usuario ha sido creado correctamente.',
+        icon: 'success',
+        confirmButtonText: 'Aceptar'
+>>>>>>> Stashed changes
     }).then((result) => {
         if (result.isConfirmed) {
             window.location.href = "GestionDeUsuarios.html";
         }
     });
+<<<<<<< Updated upstream
 }
+=======
+});
+>>>>>>> Stashed changes
