@@ -150,14 +150,16 @@ body {
     display: flex;
     justify-content: center;
     margin-top: 280px;
-    margin-left: 500px;
+    margin-left: 700px;
+    margin-right: 300px;
     padding: 5px 20px;
     font-size: 22px;
 }
 .botones{
     display: flex;
     justify-content: center;
-    margin-left: 500px;
+    margin-left: 700px;
+    margin-right: 300px;
     margin-top: 50px;
     padding: 5px 20px;
 }
