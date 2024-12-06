@@ -148,19 +148,18 @@ body {
 }
 .gestion{
     margin-left: 500px;
+    justify-content: center;
 }
 .titulo{
     display: flex;
     justify-content: center;
     margin-top: 280px;
-    margin-left: 200px;
     padding: 5px 20px;
     font-size: 22px;
 }
 .botones{
     display: flex;
     justify-content: center;
-    margin-left: 200px;
     margin-top: 50px;
     padding: 5px 20px;
 }
