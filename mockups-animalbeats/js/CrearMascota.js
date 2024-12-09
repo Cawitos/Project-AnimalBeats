@@ -2,8 +2,8 @@ function crearMascota(event) {
     event.preventDefault();
 
     const nombreMascota = document.getElementById("nombre-de-mascota").value.trim();
-    const especie = document.getElementById("especie").value.trim();
-    const raza = document.getElementById("raza").value.trim();
+    const especie = document.getElementById("tipo-especie").value.trim();
+    const raza = document.getElementById("tipo-raza").value.trim();
     const edad = document.getElementById("edad").value.trim();
     const colorPelaje = document.getElementById("color-de-pelaje").value.trim();
     const alergias = document.getElementById("alergias").value.trim();
