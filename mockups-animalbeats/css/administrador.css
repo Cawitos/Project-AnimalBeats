@@ -308,3 +308,46 @@ button:hover {
     height: 50px;
     font-size: 20px;
 }
+.modal-contenido h2{
+    text-align: center;
+}
+.modal-contenido form{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap: wrap ;
+}
+.modificar{
+    margin-left: 210px;
+    display: flex;
+    flex-direction: row;
+}
+.modificar label{
+    width: 150px;
+    margin-left: 20px;
+    margin-top: 15px;
+}
+.modificar input{
+    margin-top: 10px;
+    border-radius: 5px;
+    margin-left: 60px;
+    width: 200px;
+    height: 35px;
+}
+.boton-modal{
+    margin-top: 10px;
+    margin-left: 365px;
+}
+.eliminar h1{
+    text-align: center;
+}
+.eliminar p{
+    margin-left: 280px;
+}
+.eliminar-botones{
+    margin-left: 320px;
+}
+.eliminar-botones button{
+    margin-left: 20px;
+}
