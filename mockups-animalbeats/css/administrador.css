@@ -182,6 +182,7 @@ body {
 .contenedor-tabla {
     margin-right: 300px;
     width: 1350px;
+    height: 800px;
     overflow-x: auto;
     background-color: var(--blanco);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -302,10 +303,10 @@ button:hover {
     background-color: var(--rojo); 
 }
 .usuarios-boton button{
-    margin-top: 15px;
+    margin-top: 12px;
     margin-left: 550px;
     width: 160px;
-    height: 50px;
+    height: 45px;
     font-size: 20px;
 }
 .modal-contenido h2{
@@ -350,4 +351,13 @@ button:hover {
 }
 .eliminar-botones button{
     margin-left: 20px;
+}
+.CrearUsuario{
+    margin-top: 15px;
+    margin-left: 600px;
+}
+.CrearUsuario button{
+    width: 150px;
+    height: 50px;
+    font-size: 20px;
 }

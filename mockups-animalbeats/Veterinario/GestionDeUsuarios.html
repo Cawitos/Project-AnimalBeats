@@ -26,7 +26,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="../Veterinario/ConsultarUsuario.html" class="opcion">
+                    <a href="../Veterinario/GestionDeUsuarios.html" class="opcion">
                         <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 24 24" fill="#FFFCE8">
                             <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path>
                         </svg>
@@ -63,19 +63,14 @@
         </nav>
         <main class="contenido-principal">
             <h1>Gestión de usuarios</h1>
-            <div class="filtro">
-                <input type="text" placeholder="Buscar por nombre o código">
-                <button type="submit">Buscar</button>
-            </div>  
             <div class="contenedor-tabla">
-                <table>
+                <table id="tabla-usuarios">
                     <thead>
                         <tr>
                             <th>Código</th>
                             <th>Nombre</th>
                             <th>Apellido</th>
                             <th>Dirección</th>
-
                         </tr>
                     </thead>
                     <tbody>
@@ -83,26 +78,127 @@
                             <td>001</td>
                             <td>Juan</td>
                             <td>Pérez</td>
-                            <td>Calle 123</td>
+                            <td>Calle 101</td>
                         </tr>
                         <tr>
-                            <td>001</td>
-                            <td>Juan</td>
-                            <td>Pérez</td>
-                            <td>Calle 123</td>
+                            <td>002</td>
+                            <td>María</td>
+                            <td>González</td>
+                            <td>Calle 90</td>
                         </tr>
                         <tr>
-                            <td>001</td>
-                            <td>Juan</td>
-                            <td>Pérez</td>
-                            <td>Calle 123</td>
+                            <td>003</td>
+                            <td>Pedro</td>
+                            <td>Martínez</td>
+                            <td>Calle 80</td>
                         </tr>
                         <tr>
-                            <td>001</td>
-                            <td>Juan</td>
-                            <td>Pérez</td>
-                            <td>Calle 123</td>
-                        
+                            <td>004</td>
+                            <td>Lucía</td>
+                            <td>Hernández</td>
+                            <td>Calle 68</td>
+                        </tr>
+                        <tr>
+                            <td>005</td>
+                            <td>Andrés</td>
+                            <td>López</td>
+                            <td>Calle 100</td>
+                        </tr>
+                        <tr>
+                            <td>006</td>
+                            <td>Elena</td>
+                            <td>Sánchez</td>
+                            <td>Calle 45</td>
+                        </tr>
+                        <tr>
+                            <td>007</td>
+                            <td>Fernanda</td>
+                            <td>Camacho</td>
+                            <td>Calle 102</td>
+                        </tr>
+                        <tr>
+                            <td>008</td>
+                            <td>Sofía</td>
+                            <td>Torres</td>
+                            <td>Calle 30</td>
+                        </tr>
+                        <tr>
+                            <td>009</td>
+                            <td>Diego</td>
+                            <td>Morales</td>
+                            <td>Calle 76</td>
+                        </tr>
+                        <tr>
+                            <td>010</td>
+                            <td>Carla</td>
+                            <td>Vargas</td>
+                            <td>Calle 192</td>
+                        </tr>
+                        <tr>
+                            <td>011</td>
+                            <td>Miguel</td>
+                            <td>Rivera</td>
+                            <td>Calle 66</td>
+                        </tr>
+                        <tr>
+                            <td>012</td>
+                            <td>Valeria</td>
+                            <td>Fernández</td>
+                            <td>Calle 12</td>
+                        </tr>
+                        <tr>
+                            <td>013</td>
+                            <td>Oscar</td>
+                            <td>Mendoza</td>
+                            <td>Calle 11</td>
+                        </tr>
+                        <tr>
+                            <td>014</td>
+                            <td>Daniela</td>
+                            <td>Rojas</td>
+                            <td>Calle 153</td>
+                        </tr>
+                        <tr>
+                            <td>015</td>
+                            <td>Raúl</td>
+                            <td>Cruz</td>
+                            <td>Calle 115</td>
+                        </tr>
+                        <tr>
+                            <td>016</td>
+                            <td>Clara</td>
+                            <td>Ortiz</td>
+                            <td>Calle 150</td>
+                        </tr>
+                        <tr>
+                            <td>017</td>
+                            <td>Felipe</td>
+                            <td>Flores</td>
+                            <td>Calle 90</td>
+                        </tr>
+                        <tr>
+                            <td>018</td>
+                            <td>Angela</td>
+                            <td>Castillo</td>
+                            <td>Calle 22</td>
+                        </tr>
+                        <tr>
+                            <td>019</td>
+                            <td>Roberto</td>
+                            <td>Ibáñez</td>
+                            <td>Calle 130</td>
+                        </tr>
+                        <tr>
+                            <td>020</td>
+                            <td>Isabel</td>
+                            <td>Ramos</td>
+                            <td>Calle 132</td>
+                        </tr>
+                        <tr>
+                            <td>021</td>
+                            <td>Esteban</td>
+                            <td>Delgado</td>
+                            <td>Calle 200</td>
                         </tr>
                     </tbody>
                 </table>
@@ -113,6 +209,23 @@
                 </a>
             </div>
         </main>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+        
+        <script>
+            $(document).ready(function() {
+              $('#tabla-usuarios').DataTable({
+                paging: true, // Activa la paginación
+                ordering: true, // Activa el ordenamiento
+                searching: true, // Activa la barra de búsqueda
+                language: {
+                  url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json" 
+                }
+              });
+            });
+          </script>
     </div>
 </body>
 </html>
