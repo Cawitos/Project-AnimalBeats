@@ -1172,9 +1172,89 @@
                     </table>
                 </div>
                 <div class="usuarios-boton">
-                    <a href="#">
-                    <button>Crear Mascota</button>
-                    </a>
+                        <button id="myBtn">Crear Mascota</button>
+                </div>
+                <div id="modal-crear-mascota" class="modal">
+                    <div class="modal-content">
+                        <span class="close-btn" onclick="closeModal()">&times;</span>
+                        <div class="contenido-principal">
+                            <h1>Crear Mascota</h1>
+                            <div class="contenedor-formulario">
+                                <form id="form-mascota" onsubmit="crearMascota(event)">
+                                    <table>
+                                        <th></th>
+                                        <tbody>
+                                            <tr>
+                                                <td><label for="nombre-de-mascota">Nombre de Mascota:</label></td>
+                                                <td><input type="text" id="nombre-de-mascota" name="nombreM" required></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label for="especieM">Especie:</label></td>
+                                                <td><select id="tipo-especie" name="tipo-especie" required>
+                                                    <option value="perro">Perro</option>
+                                                    <option value="gato">Gato</option>
+                                                    <option value="ave">Ave</option>
+                                                    <option value="conejo">Conejo</option>
+                                                    <option value="hamster">Hamster</option>
+                                                </select></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label for="razaM">Raza:</label></td>
+                                                <td><select id="tipo-raza" name="tipo-raza" required>
+                                                    <option value="bullterrier">Bullterrier</option>
+                                                    <option value="bulldog">Bulldog</option>
+                                                    <option value="poddle">Poddle</option>
+                                                    <option value="dalmata">Dálmata</option>
+                                                    <option value="chihuahua">Chihuahua</option>
+                                                    <option value="beagle">Beagle</option>
+                                                    <option value="husky">Husky</option>
+                                                    <option value="siámes">Siámes</option>
+                                                    <option value="ragdoll">Ragdoll</option>
+                                                    <option value="abisinio">Abisinio</option>
+                                                    <option value="esfinge">Esfinge</option>
+                                                    <option value="persa">Persa</option>
+                                                    <option value="búrnes">Búrnes</option>
+                                                    <option value="siberiano">Siberiano</option>
+                                                    <option value="himalayo">Himalayo</option>
+                                                    <option value="loro">Loro</option>
+                                                    <option value="gallo">Gallo</option>
+                                                    <option value="pavo">Pavo</option>
+                                                    <option value="perico">Perico</option>
+                                                    <option value="ganso">Ganso</option>
+                                                    <option value="pato">Pato</option>
+                                                    <option value="paloma">Paloma</option>
+                                                    <option value="canario">Canario</option>
+                                                </select></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label for="edad">Edad:</label></td>
+                                                <td><input type="number" id="edad" name="edadM" required></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label for="color-de-pelaje">Color de Pelaje:</label></td>
+                                                <td><input type="text" id="color-de-pelaje" name="color_Pelaje" required></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label for="alergias">Alergias:</label></td>
+                                                <td><input type="text" id="alergias" name="alergiasM"></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label for="enfermedad">Enfermedad:</label></td>
+                                                <td><input type="text" id="enfermedad" name="enfermedadM"></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label for="dueño-a-asignar">Dueño a Asignar:</label></td>
+                                                <td><input type="text" id="dueño-a-asignar" name="UsuarioM" required></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div style="text-align: center; margin-top: 20px;">
+                                        <button type="submit">Crear Mascota</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- Modal Modificar -->
 <div id="modal-modificar" class="modal">
@@ -1255,4 +1335,5 @@
     </div>
 </body>
 <script src="../js/modalMascotas.js"></script>
+<script src="../js/modalCrearMascota.js"></script>
 </html>
