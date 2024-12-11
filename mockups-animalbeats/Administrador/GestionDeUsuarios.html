@@ -8,7 +8,8 @@
   <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="../css/administrador.css">
-    <link rel="stylesheet" href="../mockups-animalbeats/css/CrearUsuario.css">
+    <link rel="stylesheet" href="../css/CrearUsuario.css">
+    <link rel="stylesheet" href="../css/modalUsuarios.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">    
@@ -72,7 +73,6 @@
                             <th>Nombre</th>
                             <th>Apellido</th>
                             <th>Dirección</th>
-                            <th>Consultar</th>
                             <th>Modificar</th>
                             <th>Eliminar</th>
                         </tr>
@@ -83,193 +83,214 @@
                             <td>Juan</td>
                             <td>Pérez</td>
                             <td>Calle 101</td>
-                            <td><a href="Usuarios.html">🔍</a></td>
-                            <td><a href="ModificarUsuario.html"><button>Modificar</button></a></td>
-                            <td><a href="EliminarUsuario.html"><button>Eliminar</button></a></td>
+                            <td><button class="btn-modificar">Modificar</button></td>
+                            <td><button class="btn-eliminar">Eliminar</button></td>
                         </tr>
                         <tr>
                             <td>002</td>
                             <td>María</td>
                             <td>González</td>
                             <td>Calle 90</td>
-                            <td><a href="Usuarios.html">🔍</a></td>
-                            <td><a href="ModificarUsuario.html"><button>Modificar</button></a></td>
-                            <td><a href="EliminarUsuario.html"><button>Eliminar</button></a></td>
+                            <td><button class="btn-modificar">Modificar</button></td>
+                            <td><button class="btn-eliminar">Eliminar</button></td>
                         </tr>
                         <tr>
                             <td>003</td>
                             <td>Pedro</td>
                             <td>Martínez</td>
                             <td>Calle 80</td>
-                            <td><a href="Usuarios.html">🔍</a></td>
-                            <td><a href="ModificarUsuario.html"><button>Modificar</button></a></td>
-                            <td><a href="EliminarUsuario.html"><button>Eliminar</button></a></td>
+                            <td><button class="btn-modificar">Modificar</button></td>
+                            <td><button class="btn-eliminar">Eliminar</button></td>
                         </tr>
                         <tr>
                             <td>004</td>
                             <td>Lucía</td>
                             <td>Hernández</td>
                             <td>Calle 68</td>
-                            <td><a href="Usuarios.html">🔍</a></td>
-                            <td><a href="ModificarUsuario.html"><button>Modificar</button></a></td>
-                            <td><a href="EliminarUsuario.html"><button>Eliminar</button></a></td>
+                            <td><button class="btn-modificar">Modificar</button></td>
+                            <td><button class="btn-eliminar">Eliminar</button></td>
                         </tr>
                         <tr>
                             <td>005</td>
                             <td>Andrés</td>
                             <td>López</td>
                             <td>Calle 100</td>
-                            <td><a href="Usuarios.html">🔍</a></td>
-                            <td><a href="ModificarUsuario.html"><button>Modificar</button></a></td>
-                            <td><a href="EliminarUsuario.html"><button>Eliminar</button></a></td>
+                            <td><button class="btn-modificar">Modificar</button></td>
+                            <td><button class="btn-eliminar">Eliminar</button></td>
                         </tr>
                         <tr>
                             <td>006</td>
                             <td>Elena</td>
                             <td>Sánchez</td>
                             <td>Calle 45</td>
-                            <td><a href="Usuarios.html">🔍</a></td>
-                            <td><a href="ModificarUsuario.html"><button>Modificar</button></a></td>
-                            <td><a href="EliminarUsuario.html"><button>Eliminar</button></a></td>
+                            <td><button class="btn-modificar">Modificar</button></td>
+                            <td><button class="btn-eliminar">Eliminar</button></td>
                         </tr>
                         <tr>
                             <td>007</td>
                             <td>Fernanda</td>
                             <td>Camacho</td>
                             <td>Calle 102</td>
-                            <td><a href="Usuarios.html">🔍</a></td>
-                            <td><a href="ModificarUsuario.html"><button>Modificar</button></a></td>
-                            <td><a href="EliminarUsuario.html"><button>Eliminar</button></a></td>
+                            <td><button class="btn-modificar">Modificar</button></td>
+                            <td><button class="btn-eliminar">Eliminar</button></td>
                         </tr>
                         <tr>
                             <td>008</td>
                             <td>Sofía</td>
                             <td>Torres</td>
                             <td>Calle 30</td>
-                            <td><a href="Usuarios.html">🔍</a></td>
-                            <td><a href="ModificarUsuario.html"><button>Modificar</button></a></td>
-                            <td><a href="EliminarUsuario.html"><button>Eliminar</button></a></td>
+                            <td><button class="btn-modificar">Modificar</button></td>
+                            <td><button class="btn-eliminar">Eliminar</button></td>
                         </tr>
                         <tr>
                             <td>009</td>
                             <td>Diego</td>
                             <td>Morales</td>
                             <td>Calle 76</td>
-                            <td><a href="Usuarios.html">🔍</a></td>
-                            <td><a href="ModificarUsuario.html"><button>Modificar</button></a></td>
-                            <td><a href="EliminarUsuario.html"><button>Eliminar</button></a></td>
+                            <td><button class="btn-modificar">Modificar</button></td>
+                            <td><button class="btn-eliminar">Eliminar</button></td>
                         </tr>
                         <tr>
                             <td>010</td>
                             <td>Carla</td>
                             <td>Vargas</td>
                             <td>Calle 192</td>
-                            <td><a href="Usuarios.html">🔍</a></td>
-                            <td><a href="ModificarUsuario.html"><button>Modificar</button></a></td>
-                            <td><a href="EliminarUsuario.html"><button>Eliminar</button></a></td>
+                            <td><button class="btn-modificar">Modificar</button></td>
+                            <td><button class="btn-eliminar">Eliminar</button></td>
                         </tr>
                         <tr>
                             <td>011</td>
                             <td>Miguel</td>
                             <td>Rivera</td>
                             <td>Calle 66</td>
-                            <td><a href="Usuarios.html">🔍</a></td>
-                            <td><a href="ModificarUsuario.html"><button>Modificar</button></a></td>
-                            <td><a href="EliminarUsuario.html"><button>Eliminar</button></a></td>
+                            <td><button class="btn-modificar">Modificar</button></td>
+                            <td><button class="btn-eliminar">Eliminar</button></td>
                         </tr>
                         <tr>
                             <td>012</td>
                             <td>Valeria</td>
                             <td>Fernández</td>
                             <td>Calle 12</td>
-                            <td><a href="Usuarios.html">🔍</a></td>
-                            <td><a href="ModificarUsuario.html"><button>Modificar</button></a></td>
-                            <td><a href="EliminarUsuario.html"><button>Eliminar</button></a></td>
+                            <td><button class="btn-modificar">Modificar</button></td>
+                            <td><button class="btn-eliminar">Eliminar</button></td>
                         </tr>
                         <tr>
                             <td>013</td>
                             <td>Oscar</td>
                             <td>Mendoza</td>
                             <td>Calle 11</td>
-                            <td><a href="Usuarios.html">🔍</a></td>
-                            <td><a href="ModificarUsuario.html"><button>Modificar</button></a></td>
-                            <td><a href="EliminarUsuario.html"><button>Eliminar</button></a></td>
+                            <td><button class="btn-modificar">Modificar</button></td>
+                            <td><button class="btn-eliminar">Eliminar</button></td>
                         </tr>
                         <tr>
                             <td>014</td>
                             <td>Daniela</td>
                             <td>Rojas</td>
                             <td>Calle 153</td>
-                            <td><a href="Usuarios.html">🔍</a></td>
-                            <td><a href="ModificarUsuario.html"><button>Modificar</button></a></td>
-                            <td><a href="EliminarUsuario.html"><button>Eliminar</button></a></td>
+                            <td><button class="btn-modificar">Modificar</button></td>
+                            <td><button class="btn-eliminar">Eliminar</button></td>
                         </tr>
                         <tr>
                             <td>015</td>
                             <td>Raúl</td>
                             <td>Cruz</td>
                             <td>Calle 115</td>
-                            <td><a href="Usuarios.html">🔍</a></td>
-                            <td><a href="ModificarUsuario.html"><button>Modificar</button></a></td>
-                            <td><a href="EliminarUsuario.html"><button>Eliminar</button></a></td>
+                            <td><button class="btn-modificar">Modificar</button></td>
+                            <td><button class="btn-eliminar">Eliminar</button></td>
                         </tr>
                         <tr>
                             <td>016</td>
                             <td>Clara</td>
                             <td>Ortiz</td>
                             <td>Calle 150</td>
-                            <td><a href="Usuarios.html">🔍</a></td>
-                            <td><a href="ModificarUsuario.html"><button>Modificar</button></a></td>
-                            <td><a href="EliminarUsuario.html"><button>Eliminar</button></a></td>
+                            <td><button class="btn-modificar">Modificar</button></td>
+                            <td><button class="btn-eliminar">Eliminar</button></td>
                         </tr>
                         <tr>
                             <td>017</td>
                             <td>Felipe</td>
                             <td>Flores</td>
                             <td>Calle 90</td>
-                            <td><a href="Usuarios.html">🔍</a></td>
-                            <td><a href="ModificarUsuario.html"><button>Modificar</button></a></td>
-                            <td><a href="EliminarUsuario.html"><button>Eliminar</button></a></td>
+                            <td><button class="btn-modificar">Modificar</button></td>
+                            <td><button class="btn-eliminar">Eliminar</button></td>
                         </tr>
                         <tr>
                             <td>018</td>
                             <td>Angela</td>
                             <td>Castillo</td>
                             <td>Calle 22</td>
-                            <td><a href="Usuarios.html">🔍</a></td>
-                            <td><a href="ModificarUsuario.html"><button>Modificar</button></a></td>
-                            <td><a href="EliminarUsuario.html"><button>Eliminar</button></a></td>
+                            <td><button class="btn-modificar">Modificar</button></td>
+                            <td><button class="btn-eliminar">Eliminar</button></td>
                         </tr>
                         <tr>
                             <td>019</td>
                             <td>Roberto</td>
                             <td>Ibáñez</td>
                             <td>Calle 130</td>
-                            <td><a href="Usuarios.html">🔍</a></td>
-                            <td><a href="ModificarUsuario.html"><button>Modificar</button></a></td>
-                            <td><a href="EliminarUsuario.html"><button>Eliminar</button></a></td>
+                            <td><button class="btn-modificar">Modificar</button></td>
+                            <td><button class="btn-eliminar">Eliminar</button></td>
                         </tr>
                         <tr>
                             <td>020</td>
                             <td>Isabel</td>
                             <td>Ramos</td>
                             <td>Calle 132</td>
-                            <td><a href="Usuarios.html">🔍</a></td>
-                            <td><a href="ModificarUsuario.html"><button>Modificar</button></a></td>
-                            <td><a href="EliminarUsuario.html"><button>Eliminar</button></a></td>
+                            <td><button class="btn-modificar">Modificar</button></td>
+                            <td><button class="btn-eliminar">Eliminar</button></td>
                         </tr>
                         <tr>
                             <td>021</td>
                             <td>Esteban</td>
                             <td>Delgado</td>
                             <td>Calle 200</td>
-                            <td><a href="Usuarios.html">🔍</a></td>
-                            <td><a href="ModificarUsuario.html"><button>Modificar</button></a></td>
-                            <td><a href="EliminarUsuario.html"><button>Eliminar</button></a></td>
+                            <td><button class="btn-modificar">Modificar</button></td>
+                            <td><button class="btn-eliminar">Eliminar</button></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+            <!-- Modal Modificar -->
+<div id="modal-modificar" class="modal">
+    <div class="modal-contenido">
+        <span class="cerrar-modal cerrar-modificar">&times;</span>
+        <h2>Modificar Usuario</h2>
+        <form id="form-modificar" onsubmit="guardarCambios(event)">
+            <label for="codigo">Código:</label>
+            <input type="text" id="codigo" name="codigo" readonly>
+
+            <label for="Rol">Seleccion de Rol</label>
+            <select id="tipo-rol" name="tipo-rol" required>
+                <option value="Veterinario">Veterinario</option>
+                <option value="Cliente">Cliente</option>
+            </select>
+
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" name="apellido" required>
+
+            <label for="direccion">Dirección:</label>
+            <input type="text" id="direccion" name="direccion" required>
+
+            <div class="botones">
+                <button type="submit">Guardar Cambios</button>
+                <button type="button" onclick="cerrarModal('modificar')">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Eliminar -->
+<div id="modal-eliminar" class="modal">
+    <div class="modal-contenido">
+        <span class="cerrar-modal cerrar-eliminar">&times;</span>
+        <h1>Eliminar Usuario</h1>
+        <p>¿Está seguro de eliminar al usuario con código <span id="codigo-eliminar"></span>?</p>
+        <button id="confirmar-eliminar">Confirmar</button>
+        <button onclick="cerrarModal('eliminar')">Cancelar</button>
+    </div>
+</div>
             <div class="CrearUsuario">
             <div style="text-align: center; margin-top: 60px;">
                 <a href="Crear_Usuario.html">
@@ -285,12 +306,9 @@
             </div>
         </main>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
   <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-
         <script>
             $(document).ready(function() {
               $('#tabla-usuarios').DataTable({
@@ -305,5 +323,6 @@
           </script>
         
     </div>
+    <script src="../js/modalUsuarios.js"></script>
 </body>
 </html>
