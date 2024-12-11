@@ -171,6 +171,7 @@ body {
     padding: 20px;
 }
 .perfil{
+    width: 1300px;
     display: flex;
     flex-wrap: wrap;
     margin-left: 350px;
@@ -178,6 +179,7 @@ body {
 }
 .contenedor-perfil {
     margin: 40px 15px;
+    margin-left: 100px;
     font-family: 'Arial', sans-serif;
     flex-wrap: 2;
     width: 400px;
@@ -209,7 +211,7 @@ label {
 }
 
 table {
-    width: 920px;
+    width: 1200px;
     border-collapse: collapse;
     margin-top: 20px;
 }
