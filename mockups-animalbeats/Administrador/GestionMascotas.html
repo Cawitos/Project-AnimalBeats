@@ -1182,33 +1182,41 @@
         <span class="cerrar-modal cerrar-modificar">&times;</span>
         <h2>Modificar Mascota</h2>
         <form id="form-modificar" onsubmit="guardarCambios(event)">
-            <label for="nombreM">Nombre de Mascota:</label>
-            <input type="text" id="nombreM" name="nombreM" value="">
-
-            <label for="especieM">Especie:</label>
-            <input type="text" id="especieM" name="especieM" value="">
-
-            <label for="razaM">Raza:</label>
-            <input type="text" id="razaM" name="razaM" value="">
-
-            <label for="edadM">Edad:</label>
-            <input type="text" id="edadM" name="edadM" value="">
-
-            <label for="color_Pelaje">Color de Pelaje:</label>
-            <input type="text" id="color_Pelaje" name="color_Pelaje" value="">
-
-            <label for="alergiaM">Alergia:</label>
-            <input type="text" id="alergiaM" name="alergiaM" value="">
-
-            <label for="enfermedadM">Enfermedad:</label>
-            <input type="text" id="enfermedadM" name="enfermedadM" value="">
-
-            <label for="codigoM">Código Dueño:</label>
-            <input type="text" id="codigoM" name="codigoM" value="" readonly>
-
-            <div class="botones">
-                <button type="submit">Guardar Cambios</button>
+            <div class="modificar">
+                <label for="nombreM">Nombre de Mascota:</label>
+                <input type="text" id="nombreM" name="nombreM" value="">
+            </div>   
+            <div class="modificar"> 
+                <label for="especieM">Especie:</label>
+                <input type="text" id="especieM" name="especieM" value="">
             </div>
+            <div class="modificar">
+                <label for="razaM">Raza:</label>
+                <input type="text" id="razaM" name="razaM" value="">
+            </div>
+            <div class="modificar">
+                <label for="edadM">Edad:</label>
+                <input type="text" id="edadM" name="edadM" value="">
+            </div>
+            <div class="modificar">
+                <label for="color_Pelaje">Color de Pelaje:</label>
+                <input type="text" id="color_Pelaje" name="color_Pelaje" value="">
+                </div>
+            <div class="modificar">
+                <label for="alergiaM">Alergia:</label>
+                <input type="text" id="alergiaM" name="alergiaM" value="">
+            </div>
+            <div class="modificar">
+                <label for="enfermedadM">Enfermedad:</label>
+                <input type="text" id="enfermedadM" name="enfermedadM" value="">
+            </div>
+            <div class="modificar">
+                <label for="codigoM">Código Dueño:</label>
+                <input type="text" id="codigoM" name="codigoM" value="" readonly>
+            </div>
+                <div class="boton-modal">
+                    <button type="submit">Guardar Cambios</button>
+                </div>
         </form>
     </div>
 </div>
@@ -1217,10 +1225,14 @@
 <div id="modal-eliminar" class="modal">
     <div class="modal-contenido">
         <span class="cerrar-modal cerrar-eliminar">&times;</span>
-        <h1>Eliminar Mascota</h1>
-        <p>¿Está seguro de eliminar esta mascota?</p>
-        <button id="confirmar-eliminar">Confirmar</button>
-        <button id="cancelar-eliminar">Cancelar</button>
+        <div class="eliminar">
+            <h1>Eliminar Mascota</h1>
+            <p>¿Está seguro de eliminar esta mascota?</p>
+            <div class="eliminar-botones">
+                <button id="confirmar-eliminar">Confirmar</button>
+                <button id="cancelar-eliminar">Cancelar</button>
+            </div>
+        </div>
     </div>
 </div>
 
