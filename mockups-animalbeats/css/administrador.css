@@ -300,10 +300,10 @@ button:hover {
     right: 20px;
     background-color: var(--rojo); 
 }
-.ConsultarUsuario { 
-    margin-right: 300px;
-    margin-top: 10px; 
-}
-.CrearUsuario{
-    margin-right: 300px;
+.usuarios-boton button{
+    margin-top: 15px;
+    margin-left: 500px;
+    width: 160px;
+    height: 50px;
+    font-size: 20px;
 }
