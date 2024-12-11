@@ -52,6 +52,7 @@ button .submit{
     background-color: var(--verde);
 }
 .subir {
+    display: flex;
     background-color: var(--verde);
     color: white;
     border: none;
