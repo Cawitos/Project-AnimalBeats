@@ -12,6 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
             <label for="fecha">Fecha de la cita:</label>
             <input type="date" id="fecha" name="fecha" required>
             
+            <label for="idUsuario">Asignar por código de usuario</label>
+            <input type="text" id="idUsuario" name="idUsuario" required>
+
             <label for="descripcion">Descripción:</label>
             <textarea id="descripcion" name="descripcion" rows="4" required></textarea>
             
@@ -26,6 +29,9 @@ document.addEventListener('DOMContentLoaded', () => {
             
             <label for="fecha">Fecha de la urgencia:</label>
             <input type="datetime-local" id="fecha" name="fecha" required>
+
+            <label for="idUsuario">Asignar por código de usuario</label>
+            <input type="text" id="idUsuario" name="idUsuario" required>
             
             <button type="submit" class="subir">Registrar Urgencia</button>
         `,
@@ -41,6 +47,9 @@ document.addEventListener('DOMContentLoaded', () => {
             
             <label for="fecha">Fecha del servicio:</label>
             <input type="date" id="fecha" name="fecha" required>
+                        
+            <label for="idUsuario">Asignar por código de usuario</label>
+            <input type="text" id="idUsuario" name="idUsuario" required>
             
             <button type="submit" class="subir">Agendar Servicio</button>
         `,
@@ -53,6 +62,9 @@ document.addEventListener('DOMContentLoaded', () => {
             
             <label for="fecha">Fecha de la cita:</label>
             <input type="date" id="fecha" name="fecha" required>
+                        
+            <label for="idUsuario">Asignar por código de usuario</label>
+            <input type="text" id="idUsuario" name="idUsuario" required>
             
             <button type="submit" class="subir">Programar Vacunación</button>
         `,
@@ -65,6 +77,9 @@ document.addEventListener('DOMContentLoaded', () => {
             
             <label for="fecha">Fecha de la cita:</label>
             <input type="date" id="fecha" name="fecha" required>
+                        
+            <label for="idUsuario">Asignar por código de usuario</label>
+            <input type="text" id="idUsuario" name="idUsuario" required>
             
             <button type="submit" class="subir">Agendar Cita</button>
         `,
@@ -77,6 +92,9 @@ document.addEventListener('DOMContentLoaded', () => {
             
             <label for="fecha">Fecha de la consulta:</label>
             <input type="date" id="fecha" name="fecha" required>
+                        
+            <label for="idUsuario">Asignar por código de usuario</label>
+            <input type="text" id="idUsuario" name="idUsuario" required>
             
             <button type="submit" class="subir">Programar Consulta</button>
         `
