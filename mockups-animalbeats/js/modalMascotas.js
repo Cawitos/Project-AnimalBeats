@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function guardarCambios(event) {
     event.preventDefault();
     Swal.fire({
-        title: 'Mascota eliminada',
+        title: 'Mascota modificada',
         icon: 'success',
         confirmButtonText: 'Aceptar',})
     document.getElementById("modal-modificar").style.display = "none";
