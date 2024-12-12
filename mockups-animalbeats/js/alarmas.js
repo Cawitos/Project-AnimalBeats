@@ -5,10 +5,10 @@ const formAlarma = document.getElementById('form-alarma');
 const cancelarBtn = document.getElementById('cancelar');
 
 let alarmas = [
-    { cliente: 'xxxxx', tipo: 'RECORDATORIO', activa: true },
-    { cliente: 'xxxxx', tipo: 'PAGO', activa: true },
-    { cliente: 'xxxx', tipo: 'MEDICAMENTOS', activa: true },
-    { cliente: 'xxxxx', tipo: 'CUIDADO', activa: true },
+    { tipo: 'RECORDATORIO', activa: true },
+    { tipo: 'PAGO', activa: true },
+    { tipo: 'MEDICAMENTOS', activa: true },
+    { tipo: 'CUIDADO', activa: true },
 ];
 
 function renderizarAlarmas() {
@@ -17,7 +17,6 @@ function renderizarAlarmas() {
     alarmas.forEach((alarma, index) => {
         const fila = document.createElement('tr');
         fila.innerHTML = `
-            <td>${alarma.cliente}</td>
             <td>${alarma.tipo}</td>
             <td>
                 <input type="checkbox" ${alarma.activa ? 'checked' : ''} 
