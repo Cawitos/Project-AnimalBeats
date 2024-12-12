@@ -15,8 +15,10 @@
 body {
     min-height: 100vh;
     position: relative;
-    padding-bottom: 420px;
+    padding-bottom: 0; /* Cambiado de 420px a 0 */
     overflow-x: hidden; 
+    display: flex;
+    flex-direction: column;
 }
 
 .menu {
@@ -113,7 +115,6 @@ body {
 .texto3 h2 {
     font-size: 60px; 
     color: var(--negro);
-
 }
 
 .texto1 p, .texto2 p {
@@ -191,6 +192,7 @@ footer {
     padding: 20px 0;
     position: relative;
     height: 100px;
+    margin-top: auto; /* Asegura que el footer se mantenga en la parte inferior */
 }
 
 footer .botones-container {
@@ -230,10 +232,9 @@ footer .botones-container button:hover {
     100% { transform: translateX(0); opacity: 1; }
 }
 
-
 @media only screen and (max-width: 768px) {
     body {
-        padding-bottom: 700px;    
+        padding-bottom: 0; /* Asegurado que el padding sea 0 para móviles */
     }
 
     .menu {
