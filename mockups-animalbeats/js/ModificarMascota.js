@@ -19,7 +19,7 @@ function guardarCambiosM(event) {
     console.log("Enfermedad:", enfermedadM);
     console.log("Código de dueño:", codigo);
 
-
+    // Mostrar alerta de éxito
     Swal.fire({
         title: '¡Cambios guardados!',
         text: 'Los datos se han guardado correctamente.',
@@ -27,7 +27,7 @@ function guardarCambiosM(event) {
         confirmButtonText: 'Aceptar',
     }).then((result) => {
         if (result.isConfirmed) {
-            window.location.href = "../Veterinario/ConsultarMascota.html"; 
+            window.location.href = "GestionMascotas.html";
         }
     });
 }
