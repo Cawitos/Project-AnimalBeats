@@ -121,6 +121,11 @@ body {
     border: 1px solid #888;
     width: 80%; 
 }
+
+.modal-content p{
+    font-size: 20px;
+    background-color: var(--gris);
+}
 .close {
     color: #aaa;
     float: right;
