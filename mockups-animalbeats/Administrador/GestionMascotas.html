@@ -1201,23 +1201,16 @@
                 </div>
                 <div id="modal-crear-mascota" class="modal" style="display: none;">
                     <div class="modal-content">
-                        <span class="close-btn" onclick="closeModal()">&times;</span>
-                        <div class="contenido-principal">
+                        <div class="contenido-principal-1">
+                            <span class="close-btn" onclick="closeModal()">&times;</span>
                             <h1>Crear Mascota</h1>
-                            <div class="contenedor-formulario">
+                            <div class="contenedor-formulario-1">
                                 <form id="form-mascota" onsubmit="crearMascota(event)">
-                                    <table>
-                                        <thead>
-                                            <tr><th></th></tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
+                                            <div class="crear">
                                                 <td><label for="nombre-de-mascota">Nombre de Mascota:</label></td>
                                                 <td><input type="text" id="nombre-de-mascota" name="nombreM" required></td>
-                                            </tr>
-                                            <td><input type="text" id="nombre-de-mascota" name="nombreM" required></td>
-                                        </tr>
-                                        <tr>
+                                            </div>
+                                        <div class="crear">
                                             <td><label for="especieM">Especie:</label></td>
                                             <td><select id="tipo-especie" name="tipo-especie" required>
                                                 <option value="perro">Perro</option>
@@ -1226,8 +1219,8 @@
                                                 <option value="conejo">Conejo</option>
                                                 <option value="hamster">Hamster</option>
                                             </select></td>
-                                        </tr>
-                                        <tr>
+                                        </div>
+                                        <div class="crear">
                                             <td><label for="razaM">Raza:</label></td>
                                             <td><select id="tipo-raza" name="tipo-raza" required>
                                                 <option value="bullterrier">Bullterrier</option>
@@ -1254,30 +1247,28 @@
                                                 <option value="paloma">Paloma</option>
                                                 <option value="canario">Canario</option>
                                             </select></td>
-                                        </tr>
-                                        <tr>
+                                        </div>
+                                        <div class="crear">
                                             <td><label for="edad">Edad:</label></td>
                                             <td><input type="number" id="edad" name="edadM" required></td>
-                                        </tr>
-                                        <tr>
+                                        </div>
+                                        <div class="crear">
                                             <td><label for="color-de-pelaje">Color de Pelaje:</label></td>
                                             <td><input type="text" id="color-de-pelaje" name="color_Pelaje" required></td>
-                                        </tr>
-                                        <tr>
+                                        </div>
+                                        <div class="crear">
                                             <td><label for="alergias">Alergias:</label></td>
                                             <td><input type="text" id="alergias" name="alergiasM"></td>
-                                        </tr>
-                                        <tr>
+                                        </div>
+                                        <div class="crear">
                                             <td><label for="enfermedad">Enfermedad:</label></td>
                                             <td><input type="text" id="enfermedad" name="enfermedadM"></td>
-                                        </tr>
-                                        <tr>
+                                        </div>
+                                        <div class="crear">
                                             <td><label for="dueño-a-asignar">Dueño a Asignar:</label></td>
                                             <td><input type="text" id="dueño-a-asignar" name="UsuarioM" required></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <div style="text-align: center; margin-top: 20px;">
+                                        </div>
+                                <div class="crearM">
                                     <button type="submit">Crear Mascota</button>
                                 </div>
                             </form>
@@ -1334,7 +1325,7 @@
 
 <!-- Modal Eliminar -->
 <div id="modal-eliminar" class="modal">
-    <div class="modal-contenido">
+    <div class="modal-contenido-1">
         <span class="cerrar-modal cerrar-eliminar">&times;</span>
         <div class="eliminar">
             <h1>Eliminar Mascota</h1>
