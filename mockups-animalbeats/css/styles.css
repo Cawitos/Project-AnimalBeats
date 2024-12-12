@@ -99,21 +99,30 @@ body {
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    padding: 0 20px; /* Ajustar el padding para móviles */
-    top: 50%; /* Centrar verticalmente */
-    transform: translateY(-50%); /* Centrar verticalmente */
-    left: 50%; /* Centrar horizontalmente */
-    transform: translate(-50%, -50%); /* Centrar ambos ejes */
+    padding: 0 20px; 
+    top: 50%; 
+    transform: translateY(-50%); 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
 }
 
-.texto1 h2, .texto2 h2, .texto3 h2 {
-    font-size: 50px; /* Ajustar tamaño del texto */
+.texto1 h2, .texto2 h2{
+    font-size: 50px; 
     color: #FFFFFF;
 }
+.texto3 h2 {
+    font-size: 60px; 
+    color: var(--negro);
 
-.texto1 p, .texto2 p, .texto3 p {
-    font-size: 20px; /* Ajustar tamaño del texto */
+}
+
+.texto1 p, .texto2 p {
+    font-size: 20px; 
     color: #FFFFFF;
+}
+.texto3 p{
+    font-size: 20px; 
+    color: var(--negro);
 }
 
 .m2 {
@@ -128,7 +137,7 @@ body {
 }
 
 .m2 iframe {
-    width: 100%; /* Hacer que el iframe sea responsivo */
+    width: 100%; 
     height: 400px;
     border: none;
     border-radius: 30px;
@@ -147,7 +156,7 @@ body {
     width: 75%;
     padding: 20px;
     display: flex;
-    margin: 0 auto; /* Centrar el contenedor */
+    margin: 0 auto;
     flex-direction: column;
 }
 
@@ -155,8 +164,8 @@ body {
     background: var(--blanco);
     border-radius: 25px;
     box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
-    margin: 10px 0; /* Espaciado entre secciones */
-    padding: 20px; /* Añadir padding */
+    margin: 10px 0; 
+    padding: 20px; 
 }
 
 .servicios nav, .s1 nav, .s2 nav, .s3 nav, .s4 nav {
@@ -167,7 +176,7 @@ body {
     border-radius: 25px;
     text-transform: uppercase;
     font-size: 30px;
-    text-align: center; /* Centrar texto */
+    text-align: center; 
 }
 
 .servicios p, .s1 p, .s2 p, .s3 p, .s4 p {
@@ -221,42 +230,42 @@ footer .botones-container button:hover {
     100% { transform: translateX(0); opacity: 1; }
 }
 
-/* Media Queries para Responsividad */
+
 @media only screen and (max-width: 768px) {
     body {
         padding-bottom: 700px;    
     }
 
     .menu {
-        flex-direction: column; /* Cambiar a columna en pantallas pequeñas */
-        height: auto; /* Ajustar altura */
+        flex-direction: column; 
+        height: auto; 
     }
 
     .c2 {
-        flex-direction: column; /* Cambiar a columna en pantallas pequeñas */
+        flex-direction: column; 
         gap: 12px;
     }    
 
     .c2 button {
-        width: 150px; /* Ajustar ancho de botones */
-        height: 27px; /* Ajustar altura de botones */
-        font-size: 17px; /* Ajustar tamaño de fuente */
+        width: 150px; 
+        height: 27px; 
+        font-size: 17px; 
     }
 
     .publicidad .texto1, 
     .publicidad .texto2, 
     .publicidad .texto3 {
-        display: none; /* Ocultar texto en pantallas pequeñas */
+        display: none; 
     }
     
     .informacion {
         display: flex;
         flex-direction: column;
-        gap: 20px; /* Espaciado entre secciones */
+        gap: 20px;
     }
     
     .informacion > div {
-        width: 100%; /* Ajustar el ancho a 100% */
+        width: 100%; 
         margin: 0 auto; 
     }
     
@@ -265,11 +274,11 @@ footer .botones-container button:hover {
     .s2, 
     .s3, 
     .s4 {
-        text-align: center; /* Centrar texto en secciones */
+        text-align: center; 
     }
 
     .m2 iframe {
-        width: 100%; /* Hacer que el iframe sea responsivo */
-        height: auto; /* Ajustar altura automáticamente */
+        width: 100%; 
+        height: auto; 
     }
 }
