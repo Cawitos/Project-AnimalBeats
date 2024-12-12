@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let usuarioActual = {};
 
+    // Abrir modal de modificar
     btnsModificar.forEach((btn) => {
         btn.addEventListener("click", (e) => {
             const row = e.target.closest("tr");
@@ -26,6 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // Abrir modal de eliminar
     btnsEliminar.forEach((btn) => {
         btn.addEventListener("click", (e) => {
             const row = e.target.closest("tr");
@@ -36,9 +38,11 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // Cerrar modales
     cerrarModificar.addEventListener("click", () => cerrarModal("modificar"));
     cerrarEliminar.addEventListener("click", () => cerrarModal("eliminar"));
 
+    // Confirmar eliminación
     document.getElementById("confirmar-eliminar").addEventListener("click", () => {
         const filas = document.querySelectorAll("#tabla-usuarios tbody tr");
         filas.forEach((fila) => {
@@ -47,8 +51,10 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
         cerrarModal("eliminar");
+        Swal.fire('¡Usuario eliminado!', '', 'success'); // Alerta de éxito
     });
 
+    // Cerrar modales al hacer clic fuera de ellos
     window.addEventListener("click", (e) => {
         if (e.target === modalModificar) cerrarModal("modificar");
         if (e.target === modalEliminar) cerrarModal("eliminar");
