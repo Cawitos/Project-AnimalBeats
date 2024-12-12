@@ -120,10 +120,24 @@ body {
     margin: 5% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; 
+    width: 1000px; 
+}
+.modal-content h2{
+    font-size: 30px;
+    text-align: center;
+    margin-left: 430px;
+    display: flex;
+}
+.raza-modal{
+    display: flex;
+    flex-direction: row;
 }
 
 .modal-content p{
+    width: 480px;
+    height: 250px;
+    margin-top: 60px;
+    margin-left: 20px;
     font-size: 20px;
     background-color: var(--gris);
 }
