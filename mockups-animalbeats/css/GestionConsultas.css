@@ -124,26 +124,60 @@ body {
     height: 100vh;
 }
 .opciones-consulta{
-    margin-left: 0px;
+    margin-top: -100px;
 }
-.opciones-consulta button {
-    margin: 10px;
-    padding: 10px 20px;
-    background-color: var(--rojo);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
+.opciones-consulta ul{
+    list-style: none;
 }
-.opciones-consulta button:hover{
-    background-color: var(--negro);
+.opciones-consulta ul li{
+    width: 1250px;
+    height: 200px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    background: var(--blanco);
+    border: 2px solid var(--gris);
+    border-radius: 10px;
+    margin-top: 15px;
+    display: flex;
 }
-.opciones-consulta button svg {
-    margin-left: 10px;
+.opciones-consulta ul li a{
+    text-decoration: none;
+    color: var(--negro);
+    display: flex;
 }
-
+.imagen{
+    margin-left: 35px;
+    margin-top: 45px;
+}
+.info{
+    margin-top: 5px;
+    padding-right: 50px;
+    padding-left: 20px;
+}
+.info h1{
+    color: var(--rojo);
+}
+.info p{
+    font-size: 20px;
+    margin-top: 10px;
+    text-align: center;
+}
+.info1{
+    margin-top: 5px;
+    padding-right: 50px;
+    padding-left: 20px;
+}
+.info1 h1{
+    text-align: center;
+    color: var(--rojo);
+}
+.info1 p{
+    font-size: 20px;
+    margin-top: 10px;
+    text-align: center;
+}
+.opciones-consulta ul li:hover{
+    transform: scale(1.02);
+}
 .volver-boton {
     position: absolute;
     top: 20px;
