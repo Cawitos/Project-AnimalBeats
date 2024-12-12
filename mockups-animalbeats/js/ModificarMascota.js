@@ -27,7 +27,7 @@ function guardarCambiosM(event) {
         confirmButtonText: 'Aceptar',
     }).then((result) => {
         if (result.isConfirmed) {
-            window.location.href = "ConsultarMascota.html"; 
+            window.location.href = "../Veterinario/ConsultarMascota.html"; 
         }
     });
 }
