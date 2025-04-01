@@ -21,6 +21,7 @@
         .btn-custom-red {
             background-color: #dc3545;
             border-color: #dc3545;
+            color: white;
         }
         .btn-custom-red:hover {
             background-color: #bb2d3b;
@@ -33,6 +34,7 @@
         <div class="custom-form bg-white">
             <h2 class="form-title">Formulario de Registro</h2>
             <form action="#" method="POST">
+             
                 <div class="mb-3">
                     <label for="username" class="form-label">Nombre de Usuario</label>
                     <input type="text" class="form-control" id="username" name="username" required 
@@ -47,6 +49,24 @@
                     <div class="form-text">Al menos 8 caracteres</div>
                 </div>
 
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="doc_type" class="form-label">Tipo de Documento</label>
+                        <select class="form-select" id="doc_type" name="doc_type" required>
+                            <option value="" selected disabled>Seleccione...</option>
+                            <option value="dni">DNI</option>
+                            <option value="passport">Pasaporte</option>
+                            <option value="ce">Carné de Extranjería</option>
+                            <option value="ruc">RUC</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="doc_number" class="form-label">Número de Documento</label>
+                        <input type="text" class="form-control" id="doc_number" name="doc_number" required
+                               placeholder="Ej: 12345678">
+                    </div>
+                </div>
+
                 <div class="mb-4">
                     <label for="contact" class="form-label">Contacto</label>
                     <input type="text" class="form-control" id="contact" name="contact" required
@@ -54,8 +74,8 @@
                 </div>
 
                 <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-custom-red text-white">Registrarse</button>
-                    <button type="button" class="btn btn-outline-secondary">¿Ya tienes cuenta? Inicia sesión</button>
+                    <button type="submit" class="btn btn-custom-red">Registrarse</button>
+                    <button type="button" class="btn btn-outline-danger">¿Ya tienes cuenta? Inicia sesión</button>
                 </div>
             </form>
         </div>
