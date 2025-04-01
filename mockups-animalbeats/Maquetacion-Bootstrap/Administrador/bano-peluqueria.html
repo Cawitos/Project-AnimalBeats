@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="../img/logoico.png">
+    <title>Citas Pendientes</title>
+    <link rel="stylesheet" href="../css/citasPendientes.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <button onclick="location.href='../Administrador/Citas.html'" class="volver-boton"><svg xmlns="http://www.w3.org/2000/svg" id="Bold" viewBox="0 0 24 24" width="36" height="36">
+                <path d="M4.943,5.606,1.024,9.525a3.585,3.585,0,0,0,0,4.95l3.919,3.919a1.5,1.5,0,1,0,2.121-2.121L4.285,13.492l18.25-.023a1.5,1.5,0,0,0,1.5-1.5v0a1.5,1.5,0,0,0-1.5-1.5L4.3,10.492,7.064,7.727A1.5,1.5,0,0,0,4.943,5.606Z"/>
+            </svg>
+        </button>  <h1>Citas Pendientes</h1>
+        
+    </header>
+    <div class="logo">
+        <img src="../img/logo.png" alt="Logo" width="180px">
+    </div>
+    <main>
+        <section class="botones-categorias">
+            <button onclick="location.href='../Administrador/CitasPendientes.html'">Consulta General</button>
+            <button onclick="location.href='../Administrador/urgencias.html'">Urgencias</button>
+            <button onclick="location.href='../Administrador/bano-peluqueria.html'">Baño y Peluquería</button>
+            <button onclick="location.href='../Administrador/vacunaciones.html'">Vacunaciones</button>
+            <button onclick="location.href='../Administrador/cardiologia.html'">Cardiología</button>
+            <button onclick="location.href='../Administrador/nutricional.html'">Nutricional</button>
+        </section>
+
+        <section class="lista-citas">
+            <h2>Citas Pendientes: Baño y Peluquería</h2>
+            
+            <div class="cita" id="cita1">
+                <div class="hora">
+                    <p><strong>Miércoles</strong><br>30/10/24<br><span>11:40 AM</span></p>
+                </div>
+                <div class="detalle">
+                    <h3>Insuasty Benavides Angela María</h3>
+                    <p>Peluquería</p>
+                    <p><strong>[Nombre Veterinaria]</strong></p>
+                    <p><i class="icon-location"></i> Cll 145 </p>
+                    <p><i class="icon-clock"></i> Duración de la cita: 20 minutos</p>
+                </div>
+                <div class="botones-cita">
+                    <button onclick="modificarCita('cita1')">Modificar Cita</button>
+                    <button onclick="eliminarCita('cita1')">Eliminar Cita</button>
+                </div>
+            </div>
+
+            <div class="cita" id="cita2">
+                <div class="hora">
+                    <p><strong>Viernes</strong><br>01/11/24<br><span>09:30 AM</span></p>
+                </div>
+                <div class="detalle">
+                    <h3>Martínez López Juan Carlos</h3>
+                    <p>Baño</p>
+                    <p><strong>[Nombre Veterinaria]</strong></p>
+                    <p><i class="icon-location"></i> Cra 25 </p>
+                    <p><i class="icon-clock"></i> Duración de la cita: 15 minutos</p>
+                </div>
+                <div class="botones-cita">
+                    <button onclick="modificarCita('cita2')">Modificar Cita</button>
+                    <button onclick="eliminarCita('cita2')">Eliminar Cita</button>
+                </div>
+            </div>
+            
+            <div class="cita" id="cita3">
+                <div class="hora">
+                    <p><strong>Lunes</strong><br>04/11/24<br><span>03:00 PM</span></p>
+                </div>
+                <div class="detalle">
+                    <h3>Ramírez Torres Camila</h3>
+                    <p>Baño y Peluquería</p>
+                    <p><strong>[Nombre Veterinaria]</strong></p>
+                    <p><i class="icon-location"></i> Av. Principal # 90</p>
+                    <p><i class="icon-clock"></i> Duración de la cita: 30 minutos</p>
+                </div>
+                <div class="botones-cita">
+                    <button onclick="modificarCita('cita3')">Modificar Cita</button>
+                    <button onclick="eliminarCita('cita3')">Eliminar Cita</button>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="../js/citasPendientes.js"></script>
+</body>
+</html>

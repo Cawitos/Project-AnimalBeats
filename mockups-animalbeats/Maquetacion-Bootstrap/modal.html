@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/modal.css">
+    <title>AnimalBeats</title>
+</head>
+<body>
+    <div class="menu">
+        <div class="c1">
+            <img src="img/Logo.png" alt="">
+        </div>
+        <div class="c2">
+            <button onClick="location.href = '#inicio'">INICIO</button>
+            <button onClick="location.href = '#productos'">PRODUCTOS</button>
+            <button onClick="location.href = '#contacto'">CONTACTENOS</button>
+            <button id="login-btn">LOGIN</button>
+        </div>
+    </div>
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Iniciar Sesión</h2>
+            <form>
+                <label for="email">Correo electrónico</label>
+                <input type="email" id="email" placeholder="Ingresa tu correo" required>
+
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" placeholder="Ingresa tu contraseña" required>
+
+                <button type="submit" class="btn-ingresar">Ingresar</button>
+                <div class="options">
+                    <a href="#" class="forgot-password">¿Olvidó su contraseña?</a>
+                    <a href="#" class="register">Registrarse</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/modal.js"></script>
+    <script src="js/modalContacto.js"></script>
+</body>
+</html>
