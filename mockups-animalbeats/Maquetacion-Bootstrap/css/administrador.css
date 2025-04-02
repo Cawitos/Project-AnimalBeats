@@ -1,0 +1,449 @@
+:root {
+    --blanco: #FDF7FA;
+    --rojo: #DF2935;
+    --negro: #07090F;
+    --gris: #E6E8E6;
+    --verde: #4CAF50;
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: var(--blanco);
+    color: var(--negro);
+}
+.contenedor-dashboard {
+    display: flex;
+    min-height: 100vh;
+}
+
+.barra-desplegable{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin-left: -32px;
+    width: 120px;
+    overflow: hidden;
+    transition: width 0.2s linear;
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    background-color: var(--rojo);
+}
+.barra-desplegable ul{
+    list-style: none;    
+}
+.fondo-logo{
+    background-color: var(--gris);
+}
+.animalbeats{
+    text-align: center;
+    display: flex;
+    transition: all 0.5s ease;
+    text-decoration: none;
+}
+.animalbeats img{
+    width: 80px;
+    height: 80px;
+    margin-left: 5px;
+}
+.animalbeats span{
+    font-weight: bold;
+    padding: 15px;
+    font-size: 25px;
+    text-transform: uppercase;
+}
+.opcion{
+    position: relative;
+    color: var(--negro);
+    font-size: 18px;
+    display: table;
+    width: 300px;
+    padding: 10px;
+    text-decoration: none;
+}
+.opcion svg{
+    position: relative;
+    color: var(--negro);
+    text-align: center;
+    margin-left: 15px;
+}
+.nav-logo{
+    margin-top: 15px;
+    color: #000;
+    text-decoration: none;
+}
+.item-nav{
+    position: absolute;
+    margin-left: 25px;
+    margin-top: 12px;
+    color: var(--blanco);
+}
+.salir{
+    position: absolute;
+    bottom: 0;
+    color: var(--negro);
+    font-size: 18px;
+    display: table;
+    width: 300px;
+    padding: 10px;
+    text-decoration: none;
+}
+.salir svg{
+    position: relative;
+    color: var(--negro);
+    text-align: center;
+    margin-left: 15px;
+}
+.opcion:hover{
+    background-color: var(--negro);
+}
+.salir:hover{
+    background-color: var(--negro);
+}
+.barra-desplegable:hover{
+    width: 320px;
+    transition: all 0.5s ease;
+}
+.barra-lateral {
+    width: 250px;
+    background-color: var(--rojo);
+    color: var(--blanco);
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    text-align: center;
+    padding: 20px;
+    font-size: 20px;
+    font-weight: normal;
+    background-color: var(--gris);
+    border-bottom: 1px solid rgba(138, 104, 104, 0.5); 
+    display: inline-block; 
+    padding-bottom: 5px; 
+    margin: 0; 
+}
+.logo .icono-grande {
+    fill: var(--blanco); 
+    width: 60px; 
+    height: 60px; 
+    margin-bottom: 5px; 
+}
+.logo h2 {
+    font-size: 24px; 
+    font-family: 'open sans', sans-serif;
+    font-weight: 300;
+    color: var(--blanco); 
+    margin-top: 0; 
+    margin-bottom: 0; 
+    line-height: 1.2; 
+}
+.menu {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu .opcion {
+    padding: 15px;
+    text-decoration: none;
+    color: var(--blanco);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.menu .opcion:hover {
+    background-color: var(--negro);
+}
+
+.menu .opcion svg {
+    margin-right: 10px;
+    fill: var(--blanco);
+}
+
+
+.contenido-principal {
+    width: 1300px;
+    flex: 1;
+    padding: 20px;
+    margin-left: 300px;
+}
+
+.contenido-principal h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+.contenedor-tabla {
+    margin-right: 300px;
+    width: 1350px;
+    height: 800px;
+    overflow-x: auto;
+    background-color: var(--blanco);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+thead {
+    background-color: var(--negro);
+    color: var(--blanco);
+    
+}
+th, td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+.perfil{
+    margin-left: -90px;
+    display: flex;
+}
+.contenedor-perfil {
+    margin-left: 210px;
+    margin-top: 95px;
+    font-family: 'Arial', sans-serif;
+    width: 400px;
+    height: 240px;
+    padding: 20px;
+    border: 2px solid var(--gris);
+    border-radius: 10px;
+    background-color: var(--blanco);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.contenedor-perfil h1{
+    text-align: center;
+}
+.contenedor-perfil svg{
+    margin-left: 10px;
+}
+label {
+    display: block;
+    margin: 10px 0 5px;
+    font-size: 16px;
+    color: var(--negro);
+}
+.estadisticas{
+    margin-left: 10px;
+    margin-top: 95px;
+    font-family: 'Arial', sans-serif;
+    width: 1210px;
+    height: 240px;
+    padding: 20px;
+    border: 2px solid var(--gris);
+    border-radius: 10px;
+    background-color: var(--blanco);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.estadisticas ul{
+    list-style: none;
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.estadisticas ul li{
+    padding: 0 10px;
+    display: flex;
+}
+.stats{
+    background-color: var(--rojo);
+    width: 50px;
+    height: 50px;
+    border-radius: 15px;
+}
+.stats svg{
+    margin-left: 5px;
+    margin-top: 5px;
+}
+.info{
+    margin-left: 10px;
+    text-align: center;
+}
+.info p{
+    font-size: 20px;
+}
+.ConsultarUsuario{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+
+button {
+    background-color: var(--rojo);
+    color: var(--blanco);
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+button:hover {
+    background-color: var(--negro);
+}
+.volver-boton {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: var(--rojo); 
+}
+.usuarios-boton button{
+    margin-top: 12px;
+    margin-left: 550px;
+    width: 160px;
+    height: 45px;
+    font-size: 20px;
+}
+.modal-contenido h2{
+    text-align: center;
+}
+.modal-contenido form{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap: wrap ;
+}
+.modificar{
+    margin-left: 210px;
+    display: flex;
+    flex-direction: row;
+}
+.modificar label{
+    width: 150px;
+    margin-left: 20px;
+    margin-top: 15px;
+}
+.modificar input{
+    margin-top: 10px;
+    border-radius: 5px;
+    margin-left: 60px;
+    width: 200px;
+    height: 35px;
+}
+.boton-modal{
+    margin-top: 10px;
+    margin-left: 365px;
+}
+.eliminar h1{
+    text-align: center;
+}
+.eliminar p{
+    margin-left: 280px;
+}
+.eliminar-botones{
+    margin-left: 320px;
+}
+.eliminar-botones button{
+    margin-left: 20px;
+}
+.CrearUsuario{
+    margin-top: 15px;
+    margin-left: 600px;
+}
+.CrearUsuario button{
+    width: 150px;
+    height: 50px;
+    font-size: 20px;
+}
+.barra-desplegable-1{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 90px;
+    overflow: hidden;
+    transition: width 0.2s linear;
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    background-color: var(--rojo);
+}
+.barra-desplegable-1 ul{
+    list-style: none;    
+}
+.fondo-logo{
+    background-color: var(--gris);
+}
+.animalbeats{
+    text-align: center;
+    display: flex;
+    transition: all 0.5s ease;
+    text-decoration: none;
+}
+.animalbeats img{
+    width: 80px;
+    height: 80px;
+    margin-left: 5px;
+}
+.animalbeats span{
+    font-weight: bold;
+    padding: 15px;
+    font-size: 25px;
+    text-transform: uppercase;
+}
+.opcion{
+    position: relative;
+    color: var(--negro);
+    font-size: 18px;
+    display: table;
+    width: 300px;
+    padding: 10px;
+    text-decoration: none;
+}
+.opcion svg{
+    position: relative;
+    color: var(--negro);
+    text-align: center;
+    margin-left: 15px;
+}
+.nav-logo{
+    margin-top: 15px;
+    color: #000;
+    text-decoration: none;
+}
+.item-nav{
+    position: absolute;
+    margin-left: 25px;
+    margin-top: 12px;
+    color: var(--blanco);
+}
+.salir{
+    position: absolute;
+    bottom: 0;
+    color: var(--negro);
+    font-size: 18px;
+    display: table;
+    width: 300px;
+    padding: 10px;
+    text-decoration: none;
+}
+.salir svg{
+    position: relative;
+    color: var(--negro);
+    text-align: center;
+    margin-left: 15px;
+}
+.opcion:hover{
+    background-color: var(--negro);
+}
+.salir:hover{
+    background-color: var(--negro);
+}
+.barra-desplegable-1:hover{
+    width: 300px;
+    transition: all 0.5s ease;
+}
