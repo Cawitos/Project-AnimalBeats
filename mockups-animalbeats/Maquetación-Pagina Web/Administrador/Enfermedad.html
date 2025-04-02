@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="../img/logoico.png">
     <title>Gestión de Especies</title>
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/administrador.css">
     <link rel="stylesheet" href="../css/GestionConsultas.css">
     <link rel="stylesheet" href="../css/Enfermedad.css">
@@ -62,90 +61,24 @@
                 </ul>
             </nav>  
         <main class="contenedor-consulta">
-            <nav class="navbar bg-body-tertiary">
-                <div class="container-fluid">
-                  <a class="navbar-brand">Busqueda</a>
-                  <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Buscar enfermedad" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Buscar</button>
-                  </form>
+            <div class="recuadro-superior">
+                <div>
+                    <nav>Enfermedades en el sistema<svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24" width="30" height="30"><path d="m24,10v-2h-2.075c-.081-.581-.226-1.146-.447-1.682l1.772-1.051-1.021-1.72-1.773,1.052c-.156-.193-.32-.379-.498-.557h0c-.237-.238-.491-.446-.752-.642l.993-1.814-1.754-.961-.995,1.817c-.472-.174-.958-.295-1.451-.363V0h-2v2.088c-.569.084-1.129.234-1.667.459l-1.092-1.794-1.708,1.04,1.085,1.782c-.178.146-.351.301-.518.467l-.779.779-1.422-1.422-1.414,1.414,1.422,1.422-1.672,1.672-1.422-1.422-1.414,1.414,1.422,1.422-.779.779c-.166.166-.321.339-.467.517l-1.782-1.085-1.04,1.708,1.794,1.092c-.225.538-.375,1.098-.459,1.667H0v2h2.079c.069.493.189.979.363,1.451l-1.817.995.961,1.754,1.814-.993c.196.261.405.515.642.752.178.178.365.344.557.499l-1.052,1.772,1.72,1.021,1.053-1.775c.542.222,1.107.367,1.68.446v2.078h2v-2.087c.576-.085,1.143-.239,1.686-.468l1.134,1.862,1.708-1.04-1.13-1.856c.173-.142.341-.293.502-.454l.779-.779,1.488,1.488,1.414-1.414-1.488-1.488,1.672-1.672,1.488,1.488,1.414-1.414-1.488-1.488.779-.779c.161-.161.312-.329.455-.502l1.855,1.129,1.04-1.708-1.858-1.131c.228-.538.381-1.105.467-1.689h2.083Zm-16.5,6c-.828,0-1.5-.672-1.5-1.5s.672-1.5,1.5-1.5,1.5.672,1.5,1.5-.672,1.5-1.5,1.5Zm6-1c-.828,0-1.5-.672-1.5-1.5s.672-1.5,1.5-1.5,1.5.672,1.5,1.5-.672,1.5-1.5,1.5Zm1-6c-.828,0-1.5-.672-1.5-1.5s.672-1.5,1.5-1.5,1.5.672,1.5,1.5-.672,1.5-1.5,1.5Z"/></svg></nav>
+                    <div class="busqueda-container">
+                        <label for="buscar">Búsqueda: </label>
+                        <input type="text" id="buscar" placeholder="Buscar enfermedad...">
+                    </div>
                 </div>
-            </nav>
-                <div class="row">
-                    <div class="col-sm-6 mb-3 mb-sm-0">
-                      <div class="card">
-                        <div class="card-body">
-                          <h5 class="card-title">Rabia</h5>
-                          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                          <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-sm-6">
-                      <div class="card">
-                        <div class="card-body">
-                          <h5 class="card-title">Tuberculosis</h5>
-                          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                          <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-sm-6 mb-3 mb-sm-0">
-                      <div class="card">
-                        <div class="card-body">
-                          <h5 class="card-title">Moquillo</h5>
-                          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                          <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-sm-6">
-                      <div class="card">
-                        <div class="card-body">
-                          <h5 class="card-title">Hongos</h5>
-                          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                          <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-sm-6 mb-3 mb-sm-0">
-                      <div class="card">
-                        <div class="card-body">
-                          <h5 class="card-title">Muermo</h5>
-                          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                          <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-sm-6">
-                      <div class="card">
-                        <div class="card-body">
-                          <h5 class="card-title">Virosis</h5>
-                          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                          <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-sm-6">
-                      <div class="card">
-                        <div class="card-body">
-                          <h5 class="card-title">Hepatitis</h5>
-                          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                          <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-sm-6">
-                      <div class="card">
-                        <div class="card-body">
-                          <h5 class="card-title">Sarna</h5>
-                          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                          <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
+                <div class="botones-enfermedades">
+                                <button onclick="abrirModal('rabia')">RABIA</button>
+                                <button onclick="abrirModal('tuberculosis')">TUBERCULOSIS</button>
+                                <button onclick="abrirModal('moquillo')">MOQUILLO</button>
+                                <button onclick="abrirModal('hongos')">HONGOS</button>
+                                <button onclick="abrirModal('muermo')">MUERMO</button>
+                                <button onclick="abrirModal('virosis')">VIROSIS</button>
+                                <button onclick="abrirModal('hepatitis')">HEPATITIS</button>
+                                <button onclick="abrirModal('sarna')">SARNA</button>
+                </div>
                     <div id="rabia" class="modal">
                         <div class="modal-content">
                             <span class="close" onclick="cerrarModal('rabia')">&times;</span>
@@ -253,6 +186,5 @@
             window.location.href = pagina;
         }
     </script>
-    <script src="../js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
