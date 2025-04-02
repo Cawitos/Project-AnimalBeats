@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="../img/logoico.png">
+    <title>Gestión de Especies</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/Enfermedad.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">    
+    <script src="https://kit.fontawesome.com/a0994db117.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+  <div class="menu">
+  <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFF"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg>  MENU</button>
+  </div>
+  <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel"><a href="administrador.html" class="animalbeats">
+      <img src="../img/logo-corto.png" alt="">
+      <span class="nav-logo">AnimalBeats</span>
+  </a></h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+  <li>
+      <a href="../Administrador/GestionDeUsuarios.html" class="opcion">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 24 24" fill="#000">
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path>
+          </svg>
+      <span class="item-nav">Usuarios</span>
+      </a>
+  </li>
+  <li>
+      <a href="../Administrador/GestionMascotas.html" class="opcion">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 -960 960 960" width="24px" fill="#000"><path d="M180-475q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29Zm180-160q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29Zm240 0q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29Zm180 160q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29ZM266-75q-45 0-75.5-34.5T160-191q0-52 35.5-91t70.5-77q29-31 50-67.5t50-68.5q22-26 51-43t63-17q34 0 63 16t51 42q28 32 49.5 69t50.5 69q35 38 70.5 77t35.5 91q0 47-30.5 81.5T694-75q-54 0-107-9t-107-9q-54 0-107 9t-107 9Z"/></svg>
+          <span class="item-nav">Mascotas</span>
+      </a>
+  </li>
+  <li>
+      <a href="../Administrador/GestionConsultas.html" class="opcion">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 -960 960 960" width="24px" fill="#000"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>
+          <span class="item-nav">Consultas</span>
+      </a>
+  </li>
+  <li>
+      <a href="../Administrador/GestionReportes.html" class="opcion">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 -960 960 960" width="24px" fill="#000"><path d="M200-120v-680h360l16 80h224v400H520l-16-80H280v280h-80Zm300-440Zm86 160h134v-240H510l-16-80H280v240h290l16 80Z"/></svg>
+          <span class="item-nav">Reportes</span>
+      </a>
+  </li>
+  <li>
+      <a href="../index.html" class="salir">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 24 24" fill="#000">
+              <path d="M10 17l5-5-5-5v10zM4 4h2v16H4V4zm16 0h-6v2h6v12h-6v2h6c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"></path>
+          </svg>
+      <span class="item-nav">Salir</span>
+      </a>
+  </li>
+  </div>
+</div>
+        <div class="contenedor-dashboard">
+        <main class="contenedor-consulta">
+            <nav class="navbar bg-body-tertiary">
+                <div class="container-fluid">
+                  <a class="navbar-brand">Busqueda</a>
+                  <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Buscar enfermedad" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Buscar</button>
+                  </form>
+                </div>
+            </nav>
+                <div class="row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <div class="card">
+                        <div class="card-body">
+                          <h5 class="card-title">Rabia</h5>
+                          <p class="card-text"> Enfermedad viral que afecta al sistema nervioso central, transmitida por mordeduras de animales infectados.</p>
+                          <a href="#" class="btn btn-primary">Más info</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="card">
+                        <div class="card-body">
+                          <h5 class="card-title">Tuberculosis</h5>
+                          <p class="card-text">Infección bacteriana que afecta principalmente a los pulmones y puede ser transmitida entre especies.</p>
+                          <a href="#" class="btn btn-primary">Más info</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <div class="card">
+                        <div class="card-body">
+                          <h5 class="card-title">Moquillo</h5>
+                          <p class="card-text">Enfermedad viral altamente contagiosa en perros, causando diarrea y vómitos.</p>
+                          <a href="#" class="btn btn-primary">Más info</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="card">
+                        <div class="card-body">
+                          <h5 class="card-title">Hongos</h5>
+                          <p class="card-text">Infecciones fúngicas que pueden afectar la piel o sistemas internos de animales y humanos.</p>
+                          <a href="#" class="btn btn-primary">Más info</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <div class="card">
+                        <div class="card-body">
+                          <h5 class="card-title">Muermo</h5>
+                          <p class="card-text">Enfermedad bacteriana que afecta a los caballos, causando inflamación respiratoria.</p>
+                          <a href="#" class="btn btn-primary">Más info</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="card">
+                        <div class="card-body">
+                          <h5 class="card-title">Virosis</h5>
+                          <p class="card-text">Enfermedades causadas por virus, que pueden afectar a múltiples sistemas corporales.</p>
+                          <a href="#" class="btn btn-primary">Más info</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="card">
+                        <div class="card-body">
+                          <h5 class="card-title">Hepatitis</h5>
+                          <p class="card-text"> Inflamación del hígado causada por virus, toxinas o factores autoinmunes.</p>
+                          <a href="#" class="btn btn-primary">Más info</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="card">
+                        <div class="card-body">
+                          <h5 class="card-title">Sarna</h5>
+                          <p class="card-text">Infección cutánea causada por ácaros, transmitida por contacto directo.</p>
+                          <a href="#" class="btn btn-primary">Más info</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="recuadro-inferior">
+                      <div class="acciones-botones">
+                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Añadir">Añadir</button>
+                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</button>
+                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</button>
+                      </div>
+                  </div>
+
+                  <div class="modal fade" id="Añadir" tabindex="-1">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Añadir enfermedad</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="mb-3">
+                            <label for="añadir-enfermedad" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="nombre" placeholder="Nombre de la enfermedad">
+                          </div>
+                          <div class="mb-3">
+                            <label for="añadir-descripcion" class="form-label">Descripcion</label>
+                            <textarea class="form-control" id="crear-descripcion" rows="3"></textarea>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                          <button type="button" class="btn btn-primary">Guardar cambios</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal fade" id="modificar" tabindex="-1">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Modificar</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="mb-3">
+                            <label for="exampleFormControlInput1" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                          </div>
+                          <div class="mb-3">
+                            <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                          <button type="button" class="btn btn-primary">Guardar cambios</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal fade" id="eliminar" tabindex="-1">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Eliminar</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="mb-3">
+                            <label for="exampleFormControlInput1" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                          </div>
+                          <div class="mb-3">
+                            <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                          <button type="button" class="btn btn-primary">Guardar cambios</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="modal fade" id="rabia" tabindex="-1">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">RABIA</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <p>Enfermedad viral mortal que afecta el sistema nervioso central de mamíferos, incluidos humanos. Es causada por un virus de la familia Rhabdoviridae. <br>
+                                <b>Transmisión:</b> Por mordeduras o contacto con saliva de un animal infectado. <br>
+                                <b>Síntomas:</b> Cambios de comportamiento, agresividad, hipersalivación, dificultad para tragar, parálisis y, en etapas finales, muerte.</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal fade" id="tuberculosis" tabindex="-1">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">TUBERCULOSIS</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <p>Enfermedad bacteriana crónica causada por Mycobacterium bovis en animales, similar a la tuberculosis humana (Mycobacterium tuberculosis). Afecta principalmente los pulmones, pero puede extenderse a otros órganos. <br>
+                            <b>Transmisión:</b> Por inhalación de gotas respiratorias o ingestión de leche no pasteurizada de animales infectados. <br>
+                            <b>Síntomas:</b> Tos crónica, pérdida de peso, dificultad para respirar, fiebre intermitente y linfadenopatía (ganglios inflamados).</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal fade" id="moquillo" tabindex="-1">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">MOQUILLO</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <p>Enfermedad viral altamente contagiosa que afecta a perros y otros carnívoros. Es causada por el virus del moquillo canino (CDV, por sus siglas en inglés), de la familia Paramyxoviridae. <br>
+                            <b>Transmisión:</b> Por contacto directo con secreciones de animales infectados (orina, heces, saliva) o a través del aire. <br>
+                            <b>Síntomas:</b> Fiebre, secreción nasal y ocular, vómitos, diarrea, tos, pérdida de peso, convulsiones y problemas neurológicos.</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal fade" id="hongos" tabindex="-1">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">HONGOS</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <p>Las infecciones por hongos en animales, conocidas como micosis, afectan comúnmente la piel, uñas o pelaje. Pueden causar lesiones circulares, descamación y pérdida de pelo. <br>
+                            <b>Transmisión:</b> Por contacto directo con esporas de hongos presentes en el suelo, superficies contaminadas o animales infectados.<br>
+                            <b>Síntomas:</b> Pérdida de pelo, enrojecimiento, picazón y lesiones escamosas.</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal fade" id="muermo" tabindex="-1">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">MUERMO</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <p>Enfermedad bacteriana causada por Burkholderia mallei, afecta principalmente a caballos, pero puede contagiarse a humanos y otros animales. Es altamente infecciosa y mortal.<br>
+                            <b>Transmisión:</b> Por contacto con secreciones de animales infectados, alimentos o agua contaminados.<br>
+                            <b>Síntomas:</b> Fiebre, úlceras en la piel o mucosas, dificultad para respirar y nódulos linfáticos inflamados.</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal fade" id="virosis" tabindex="-1">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">VIROSIS</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <p>Término general para enfermedades virales que afectan a los animales. Estas pueden variar desde enfermedades respiratorias hasta digestivas, dependiendo del tipo de virus.<br>
+                            <b>Transmisión:</b> Por contacto directo con animales infectados, secreciones o superficies contaminadas. <br>
+                            <b>Síntomas:</b> Fiebre, letargo, vómitos, diarrea, problemas respiratorios o neurológicos.</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal fade" id="hepatitis" tabindex="-1">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">HEPATITIS</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <p>Inflamación del hígado causada por infecciones virales, toxinas o enfermedades autoinmunes. En perros, la Hepatitis Infecciosa Canina (HIC) es la más común, causada por el adenovirus tipo 1.<br>
+                            <b>Transmisión:</b> Por contacto con orina, heces o saliva de animales infectados.<br>
+                            <b>Síntomas:</b> Pérdida de apetito, fiebre, vómitos, ictericia (color amarillento de piel y ojos) y dolor abdominal.</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal fade" id="sarna" tabindex="-1">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">SARNA</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <p>Enfermedad cutánea causada por ácaros que infestan la piel de los animales. Puede ser sarna sarcóptica (causada por Sarcoptes scabiei) o demodécica (por Demodex).<br>
+                            <b>Transmisión:</b> Contacto directo con animales infectados o superficies contaminadas.<br>
+                            <b>Síntomas:</b> Picazón intensa, pérdida de pelo, enrojecimiento, costras y engrosamiento de la piel.</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            <button onclick="location.href='../Administrador/GestionConsultas.html'" class="volver-boton"><svg xmlns="http://www.w3.org/2000/svg" id="Bold" viewBox="0 0 24 24" width="36" height="36">
+                    <path d="M4.943,5.606,1.024,9.525a3.585,3.585,0,0,0,0,4.95l3.919,3.919a1.5,1.5,0,1,0,2.121-2.121L4.285,13.492l18.25-.023a1.5,1.5,0,0,0,1.5-1.5v0a1.5,1.5,0,0,0-1.5-1.5L4.3,10.492,7.064,7.727A1.5,1.5,0,0,0,4.943,5.606Z"/>
+                </svg>
+            </button>   
+        </main>
+    </div>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

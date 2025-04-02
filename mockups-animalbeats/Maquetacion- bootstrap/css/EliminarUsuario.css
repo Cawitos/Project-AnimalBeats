@@ -1,0 +1,224 @@
+:root {
+    --blanco: #FDF7FA;
+    --rojo: #DF2935;
+    --negro: #07090F;
+    --gris: #E6E8E6;
+    --verde: #4CAF50;
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: var(--blanco);
+    color: var(--negro);
+}
+.contenedor-dashboard {
+    display: flex;
+    min-height: 100vh;
+}
+.barra-desplegable{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 90px;
+    overflow: hidden;
+    transition: width 0.2s linear;
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    background-color: var(--rojo);
+}
+.barra-desplegable ul{
+    list-style: none;    
+}
+.fondo-logo{
+    background-color: var(--gris);
+}
+.animalbeats{
+    text-align: center;
+    display: flex;
+    transition: all 0.5s ease;
+    text-decoration: none;
+}
+.animalbeats img{
+    width: 80px;
+    height: 80px;
+    margin-left: 5px;
+}
+.animalbeats span{
+    font-weight: bold;
+    padding: 15px;
+    font-size: 25px;
+    text-transform: uppercase;
+}
+.opcion{
+    position: relative;
+    color: var(--negro);
+    font-size: 18px;
+    display: table;
+    width: 300px;
+    padding: 10px;
+    text-decoration: none;
+}
+.opcion svg{
+    position: relative;
+    color: var(--negro);
+    text-align: center;
+    margin-left: 15px;
+}
+.nav-logo{
+    margin-top: 15px;
+    color: #000;
+    text-decoration: none;
+}
+.item-nav{
+    position: absolute;
+    margin-left: 25px;
+    margin-top: 12px;
+    color: var(--blanco);
+}
+.salir{
+    position: absolute;
+    bottom: 0;
+    color: var(--negro);
+    font-size: 18px;
+    display: table;
+    width: 300px;
+    padding: 10px;
+    text-decoration: none;
+}
+.salir svg{
+    position: relative;
+    color: var(--negro);
+    text-align: center;
+    margin-left: 15px;
+}
+.opcion:hover{
+    background-color: var(--negro);
+}
+.salir:hover{
+    background-color: var(--negro);
+}
+.barra-desplegable:hover{
+    width: 290px;
+    transition: all 0.5s ease;
+}
+.barra-lateral {
+    width: 250px;
+    background-color: var(--rojo);
+    color: var(--blanco);
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    text-align: center;
+    padding: 20px;
+    font-size: 20px;
+    font-weight: normal;
+    background-color: var(--gris);
+    border-bottom: 1px solid rgba(138, 104, 104, 0.5); 
+    display: inline-block; 
+    padding-bottom: 5px; 
+    margin: 0; 
+}
+.logo .icono-grande {
+    fill: var(--blanco); 
+    width: 60px; 
+    height: 60px; 
+    margin-bottom: 5px; 
+}
+.logo h2 {
+    font-size: 24px; 
+    font-family: 'open sans', sans-serif;
+    font-weight: 300;
+    color: var(--blanco); 
+    margin-top: 0; 
+    margin-bottom: 0; 
+    line-height: 1.2; 
+}
+.menu {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu .opcion {
+    padding: 15px;
+    text-decoration: none;
+    color: var(--blanco);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.menu .opcion:hover {
+    background-color: var(--negro);
+}
+
+.menu .opcion svg {
+    margin-right: 10px;
+    fill: var(--blanco);
+}
+
+
+.Contenedor-Eliminar {
+    background-color: var(--blanco);
+    border: 2px solid var(--gris);
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    margin-left: 600px;
+    margin-top: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+}
+
+
+p {
+    color: var(--gris);
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+/* Botones */
+button {
+    background-color: var(--rojo);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin: 10px;
+}
+
+button:hover {
+    background-color: darkred;
+    transform: scale(1.05);
+}
+
+/* Botón de cancelar con diferente color */
+a button {
+    background-color: #333;
+}
+
+a button:hover {
+    background-color: var(--gris);
+}
+
+a {
+    text-decoration: none;
+}
