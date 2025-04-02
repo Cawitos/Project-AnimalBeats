@@ -79,7 +79,7 @@
                         <div class="card-body">
                           <h5 class="card-title">Rabia</h5>
                           <p class="card-text"> Enfermedad viral que afecta al sistema nervioso central, transmitida por mordeduras de animales infectados.</p>
-                          <a href="#" class="btn btn-primary">Más info</a>
+                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#rabia">Más info</a>
                         </div>
                       </div>
                     </div>
@@ -88,7 +88,7 @@
                         <div class="card-body">
                           <h5 class="card-title">Tuberculosis</h5>
                           <p class="card-text">Infección bacteriana que afecta principalmente a los pulmones y puede ser transmitida entre especies.</p>
-                          <a href="#" class="btn btn-primary">Más info</a>
+                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tuberculosis">Más info</a>
                         </div>
                       </div>
                     </div>
@@ -97,7 +97,7 @@
                         <div class="card-body">
                           <h5 class="card-title">Moquillo</h5>
                           <p class="card-text">Enfermedad viral altamente contagiosa en perros, causando diarrea y vómitos.</p>
-                          <a href="#" class="btn btn-primary">Más info</a>
+                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#moquillo">Más info</a>
                         </div>
                       </div>
                     </div>
@@ -106,7 +106,7 @@
                         <div class="card-body">
                           <h5 class="card-title">Hongos</h5>
                           <p class="card-text">Infecciones fúngicas que pueden afectar la piel o sistemas internos de animales y humanos.</p>
-                          <a href="#" class="btn btn-primary">Más info</a>
+                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#hongos">Más info</a>
                         </div>
                       </div>
                     </div>
@@ -115,7 +115,7 @@
                         <div class="card-body">
                           <h5 class="card-title">Muermo</h5>
                           <p class="card-text">Enfermedad bacteriana que afecta a los caballos, causando inflamación respiratoria.</p>
-                          <a href="#" class="btn btn-primary">Más info</a>
+                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#muermo">Más info</a>
                         </div>
                       </div>
                     </div>
@@ -124,7 +124,7 @@
                         <div class="card-body">
                           <h5 class="card-title">Virosis</h5>
                           <p class="card-text">Enfermedades causadas por virus, que pueden afectar a múltiples sistemas corporales.</p>
-                          <a href="#" class="btn btn-primary">Más info</a>
+                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#virosis">Más info</a>
                         </div>
                       </div>
                     </div>
@@ -133,7 +133,7 @@
                         <div class="card-body">
                           <h5 class="card-title">Hepatitis</h5>
                           <p class="card-text"> Inflamación del hígado causada por virus, toxinas o factores autoinmunes.</p>
-                          <a href="#" class="btn btn-primary">Más info</a>
+                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#hepatitis">Más info</a>
                         </div>
                       </div>
                     </div>
@@ -142,7 +142,7 @@
                         <div class="card-body">
                           <h5 class="card-title">Sarna</h5>
                           <p class="card-text">Infección cutánea causada por ácaros, transmitida por contacto directo.</p>
-                          <a href="#" class="btn btn-primary">Más info</a>
+                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sarn">Más info</a>
                         </div>
                       </div>
                     </div>
@@ -165,11 +165,11 @@
                         </div>
                         <div class="modal-body">
                           <div class="mb-3">
-                            <label for="añadir-enfermedad" class="form-label">Nombre</label>
+                            <label for="enfermedades" class="form-label">Nombre</label>
                             <input type="text" class="form-control" id="nombre" placeholder="Nombre de la enfermedad">
                           </div>
                           <div class="mb-3">
-                            <label for="añadir-descripcion" class="form-label">Descripcion</label>
+                            <label for="enfermedades" class="form-label">Descripcion</label>
                             <textarea class="form-control" id="crear-descripcion" rows="3"></textarea>
                           </div>
                         </div>
@@ -189,12 +189,21 @@
                         </div>
                         <div class="modal-body">
                           <div class="mb-3">
-                            <label for="exampleFormControlInput1" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                            <label for="enfermedades" class="form-label">Enfermedad</label>
+                            <select name="enfermedad" id="enfermedad">
+                              <option value="rabia">Rabia</option>
+                              <option value="tuberculosis">Tuberculosis</option>
+                              <option value="moquillo">Moquillo</option>
+                              <option value="hongos">Hongos</option>
+                              <option value="muermo">Muermo</option>
+                              <option value="virosis">Virosis</option>
+                              <option value="hepatitis">Hepatitis</option>
+                              <option value="sarna">Sarna</option>
+                            </select>
                           </div>
                           <div class="mb-3">
-                            <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                            <label for="enfermedades" class="form-label">Descripcion</label>
+                            <textarea class="form-control" id="crear-descripcion" rows="3"></textarea>
                           </div>
                         </div>
                         <div class="modal-footer">
@@ -213,17 +222,22 @@
                         </div>
                         <div class="modal-body">
                           <div class="mb-3">
-                            <label for="exampleFormControlInput1" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-                          </div>
-                          <div class="mb-3">
-                            <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                            <label for="enfermedades" class="form-label">Enfermedad</label>
+                            <select name="enfermedad" id="enfermedad">
+                              <option value="rabia">Rabia</option>
+                              <option value="tuberculosis">Tuberculosis</option>
+                              <option value="moquillo">Moquillo</option>
+                              <option value="hongos">Hongos</option>
+                              <option value="muermo">Muermo</option>
+                              <option value="virosis">Virosis</option>
+                              <option value="hepatitis">Hepatitis</option>
+                              <option value="sarna">Sarna</option>
+                            </select>
                           </div>
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                          <button type="button" class="btn btn-primary">Guardar cambios</button>
+                          <button type="button" class="btn btn-primary">Eliminar</button>
                         </div>
                       </div>
                     </div>

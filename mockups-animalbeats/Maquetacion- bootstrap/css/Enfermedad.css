@@ -13,9 +13,8 @@ body {
 }
 .contenedor-dashboard {
     flex-direction: row;
-    min-height: 100vh;
+    min-height: 90vh;
     display: flex;
-    height: 100vh;
     overflow: hidden;
 }
 .animalbeats{
@@ -96,6 +95,7 @@ body {
 }
 
 .recuadro-inferior {
+    margin-top: 20px;
     text-align: center;
 }
 
@@ -127,7 +127,7 @@ label {
     margin: 10px 0 5px;
 }
 
-input, textarea {
+input, textarea, select {
     padding: 10px;
     margin-bottom: 20px;
     width: 100%;
