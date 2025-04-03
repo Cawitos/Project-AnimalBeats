@@ -19,7 +19,6 @@ function guardarCambiosM(event) {
     console.log("Enfermedad:", enfermedadM);
     console.log("Código de dueño:", codigo);
 
-    // Mostrar alerta de éxito
     Swal.fire({
         title: '¡Cambios guardados!',
         text: 'Los datos se han guardado correctamente.',
