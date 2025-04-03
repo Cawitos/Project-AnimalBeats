@@ -1,0 +1,198 @@
+:root {
+    --blanco: #FDF7FA;
+    --rojo: #DF2935;
+    --negro: #07090F;
+    --gris: #E6E8E6;
+    --verde: #4CAF50;
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: var(--blanco);
+    color: var(--negro);
+}
+.contenedor-dashboard {
+    display: flex;
+    min-height: 100vh;
+}
+.barra-desplegable{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 90px;
+    overflow: hidden;
+    transition: width 0.2s linear;
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    background-color: var(--rojo);
+}
+.barra-desplegable ul{
+    list-style: none;    
+}
+.fondo-logo{
+    background-color: var(--gris);
+}
+.animalbeats{
+    text-align: center;
+    display: flex;
+    transition: all 0.5s ease;
+    text-decoration: none;
+}
+.animalbeats img{
+    width: 80px;
+    height: 80px;
+    margin-left: 5px;
+}
+.animalbeats span{
+    font-weight: bold;
+    padding: 15px;
+    font-size: 25px;
+    text-transform: uppercase;
+}
+.opcion{
+    position: relative;
+    color: var(--negro);
+    font-size: 18px;
+    display: table;
+    width: 300px;
+    padding: 10px;
+    text-decoration: none;
+}
+.opcion svg{
+    position: relative;
+    color: var(--negro);
+    text-align: center;
+    margin-left: 15px;
+}
+.nav-logo{
+    margin-top: 15px;
+    color: #000;
+    text-decoration: none;
+}
+.item-nav{
+    position: absolute;
+    margin-left: 25px;
+    margin-top: 12px;
+    color: var(--blanco);
+}
+.salir{
+    position: absolute;
+    bottom: 0;
+    color: var(--negro);
+    font-size: 18px;
+    display: table;
+    width: 300px;
+    padding: 10px;
+    text-decoration: none;
+}
+.salir svg{
+    position: relative;
+    color: var(--negro);
+    text-align: center;
+    margin-left: 15px;
+}
+.opcion:hover{
+    background-color: var(--negro);
+}
+.salir:hover{
+    background-color: var(--negro);
+}
+.barra-desplegable:hover{
+    width: 290px;
+    transition: all 0.5s ease;
+}
+.barra-lateral {
+    width: 250px;
+    background-color: var(--rojo);
+    color: var(--blanco);
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    text-align: center;
+    padding: 20px;
+    font-size: 20px;
+    font-weight: normal;
+    background-color: var(--gris);
+    border-bottom: 1px solid rgba(138, 104, 104, 0.5); 
+    display: inline-block; 
+    padding-bottom: 5px; 
+    margin: 0; 
+}
+.logo .icono-grande {
+    fill: var(--blanco); 
+    width: 60px; 
+    height: 60px; 
+    margin-bottom: 5px; 
+}
+.logo h2 {
+    font-size: 24px; 
+    font-family: 'open sans', sans-serif;
+    font-weight: 300;
+    color: var(--blanco); 
+    margin-top: 0; 
+    margin-bottom: 0; 
+    line-height: 1.2; 
+}
+.contenedor-principal{
+    margin-left: 100px;
+}
+.contenedor-principal h1{
+    margin-left: 300px;
+}
+.gestion{
+    margin-left: 500px;
+    justify-content: center;
+}
+.titulo{
+    display: flex;
+    justify-content: center;
+    margin-top: 280px;
+    padding: 5px 20px;
+    font-size: 22px;
+}
+.botones{
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    padding: 5px 20px;
+}
+button{
+    display: flex;
+    background-color: var(--rojo);
+    color: var(--blanco);
+    margin-left: 15px;
+    margin-right: 15px;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+button p{
+    display: flex;
+    margin-top: 10px;
+}
+button .icon{
+    margin-left: 10px;
+}
+button .icono{
+    margin-left: 10px;
+}
+.volver-boton {
+    position: absolute;
+    height: 55px;
+    top: 20px;
+    right: 20px;
+    background-color: var(--rojo); 
+}
+button:hover {
+    background-color: var(--negro);
+}
