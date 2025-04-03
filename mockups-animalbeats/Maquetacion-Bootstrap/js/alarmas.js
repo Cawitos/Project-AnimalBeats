@@ -12,7 +12,7 @@ let alarmas = [
 ];
 
 function renderizarAlarmas() {
-    tablaAlarmas.innerHTML = ''; 
+    tablaAlarmas.innerHTML = '';
 
     alarmas.forEach((alarma, index) => {
         const fila = document.createElement('tr');
