@@ -88,81 +88,21 @@ body {
     flex: 1;
     padding: 20px;
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start; 
+    flex-direction: row;
+    justify-content: center;
+    align-items: center; 
     overflow-y: auto;
     gap: 20px;
 }
-
-.recuadro-inferior {
-    margin-top: 20px;
-    text-align: center;
-}
-
-.acciones-botones {
+.card{
     display: flex;
+    height: 400px;
+    align-items: center;
+}
+.card svg{
     justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap;
-    margin-top: 0px; 
-}
-
-.acciones-botones button {
-    background-color: #757575;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    min-width: 120px;
-}
-
-.acciones-botones button:hover {
-    background-color: #d50000;
-}
-/* Estilos del modal */
-
-
-label {
-    margin: 10px 0 5px;
-}
-
-input, textarea, select {
     padding: 10px;
-    margin-bottom: 20px;
-    width: 100%;
 }
-
-button {
-    padding: 10px;
-    background-color: var(--verde);
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: var(--negro);
-}
-.volver-boton {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background-color: var(--rojo); 
-}
-
-.close {
-    color: black;
-    float: right;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.close:hover {
-    color: red;
-}
-
 .container-fluid{
     border: 1px solid #888;
     border-radius: 10px;
