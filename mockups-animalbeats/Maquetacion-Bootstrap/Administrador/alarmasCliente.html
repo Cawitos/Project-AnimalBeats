@@ -93,45 +93,46 @@
             <button onclick="location.href='../Administrador/alarmasCliente.html'" class="alarmas-botones">Alarmas
                 Cliente</button>
             <h1>Alarmas Cliente</h1>
-            <div class="container mt-5">
-                <h2>Alarmas</h2> 
-                <!--cambiar a tablas-->
-                <ul class="list-group">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            <strong>Alarma 1</strong><br>
-                            Motivo: Reunión importante<br>
-                            <small class="text-muted">Fecha: 2025-04-01 08:00 AM</small>
-                        </div>
-                        <button class="btn btn-danger btn-sm">Cancelar</button>
-                    </li>
-
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            <strong>Alarma 2</strong><br>
-                            Motivo: Pago pendiente<br>
-                            <small class="text-muted">Fecha: 2025-04-01 02:00 PM</small>
-                        </div>
-                        <button class="btn btn-danger btn-sm">Cancelar</button>
-                    </li>
-
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            <strong>Alarma 3</strong><br>
-                            Motivo: Llamada importante<br>
-                            <small class="text-muted">Fecha: 2025-04-02 09:30 AM</small>
-                        </div>
-                        <button class="btn btn-danger btn-sm">Cancelar</button>
-                    </li>
-                </ul>
-            </div>
-
-            <button id="añadir-alarma">Añadir Alarma<svg xmlns="http://www.w3.org/2000/svg" id="Layer_1"
-                    data-name="Layer 1" viewBox="0 0 24 24" width="20" height="20">
-                    <path
-                        d="M21,19h3v2h-3v3h-2v-3h-3v-2h3v-3h2v3Zm-4.57-3.82c1.73-1.28,3.97-1.5,5.89-.69l-1.39-7.2c-.34-1.91-2-3.3-3.94-3.3h-.17c.11-.31,.18-.65,.18-1,0-1.65-1.35-3-3-3h-4c-1.65,0-3,1.35-3,3,0,.35,.07,.69,.18,1h-.17c-1.94,0-3.6,1.39-3.94,3.3L.81,19H14.1c.25-1.47,1.04-2.86,2.33-3.82ZM9,3c0-.55,.45-1,1-1h4c.55,0,1,.45,1,1s-.45,1-1,1h-4c-.55,0-1-.45-1-1Zm3,21c1.08,0,2.04-.44,2.75-1.13-.33-.59-.54-1.23-.65-1.87h-5.96c.45,1.72,2,3,3.86,3Z" />
-                </svg>
-            </button>
+            <table class="table table-striped-columns">
+                <thead>
+                    <tr>
+                        <th>Cliente</th>
+                        <th>Tipo de alarma</th>
+                        <th>Activa</th>
+                        <th>Hora</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-alarmas">
+                    <tr>
+                        <td>xxxx</td>
+                        <td>Recordatorio</td>
+                        <td><input type="checkbox" checked="" onchange="cambiarEstado(0)"></td>
+                        <td>08:00 AM</td>
+                    </tr>
+                    <tr>
+                        <td>xxxx</td>
+                        <td>Pago Pendiente</td>
+                        <td><input type="checkbox" checked="" onchange="cambiarEstado(0)"></td>
+                        <td>10:30 AM</td>
+                    </tr>
+                    <tr>
+                        <td>xxxx</td>
+                        <td>Medicamentos</td>
+                        <td><input type="checkbox" checked="" onchange="cambiarEstado(0)"></td>
+                        <td>02:00 PM</td>
+                    </tr>
+                    <tr>
+                        <td>xxxx</td>
+                        <td>Cuidados</td>
+                        <td><input type="checkbox" checked="" onchange="cambiarEstado(0)"></td>
+                        <td>06:00 PM</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <button id="añadir-alarma">Añadir Alarma</button>
+            <!-- Modal -->
             <div id="modal" class="modal oculto">
                 <div class="modal-contenido">
                     <h2>Añadir Nueva Alarma</h2>
@@ -140,24 +141,28 @@
                         <input type="text" id="cliente" name="cliente" required>
 
                         <label for="tipo">Tipo de alarma:</label>
-                        <input type="text" id="tipo" name="tipo" required>
+                        <select id="tipo" name="tipo" required>
+                            <option value="Recordatorio">Recordatorio</option>
+                            <option value="Pago Pendiente">Pago Pendiente</option>
+                            <option value="Medicamentos">Medicamentos</option>
+                            <option value="Cuidados">Cuidados</option>
+                        </select>
+
+                        <label for="hora">Hora:</label>
+                        <input type="time" id="hora" name="hora" required>
+
+                        <label for="activa">Activar alarma:</label>
+                        <input type="checkbox" id="activa" name="activa">
 
                         <div class="modal-botones">
-                            <button type="button" id="cancelar">Cancelar</button>
-                            <button type="submit">Guardar</button>
+                        <button type="button" id="cancelar">Cancelar</button>
+                        <button type="submit">Guardar</button>
                         </div>
                     </form>
                 </div>
             </div>
-            <button onclick="location.href='../Administrador/administrador.html'" class="volver-boton"><svg
-                    xmlns="http://www.w3.org/2000/svg" id="Bold" viewBox="0 0 24 24" width="36" height="36">
-                    <path
-                        d="M4.943,5.606,1.024,9.525a3.585,3.585,0,0,0,0,4.95l3.919,3.919a1.5,1.5,0,1,0,2.121-2.121L4.285,13.492l18.25-.023a1.5,1.5,0,0,0,1.5-1.5v0a1.5,1.5,0,0,0-1.5-1.5L4.3,10.492,7.064,7.727A1.5,1.5,0,0,0,4.943,5.606Z" />
-                </svg>
-            </button>
         </main>
     </div>
-    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/alarmas.js"></script>
 </body>
-
 </html>
