@@ -1,0 +1,199 @@
+:root {
+    --blanco: #FDF7FA;
+    --rojo: #DF2935;
+    --negro: #07090F;
+    --gris: #E6E8E6;
+    --verde: #4CAF50;
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: var(--blanco);
+    color: var(--negro);
+}
+.barra-desplegable-1{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin-left: -170px;
+    width: 90px;
+    overflow: hidden;
+    transition: width 0.2s linear;
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    background-color: var(--rojo);
+}
+.barra-desplegable-1 ul{
+    list-style: none;    
+}
+.fondo-logo{
+    background-color: var(--gris);
+}
+.animalbeats{
+    text-align: center;
+    display: flex;
+    transition: all 0.5s ease;
+    text-decoration: none;
+}
+.animalbeats img{
+    width: 80px;
+    height: 80px;
+    margin-left: 5px;
+}
+.animalbeats span{
+    font-weight: bold;
+    padding: 15px;
+    font-size: 25px;
+    text-transform: uppercase;
+}
+.opcion{
+    position: relative;
+    color: var(--negro);
+    font-size: 18px;
+    display: table;
+    width: 300px;
+    padding: 10px;
+    text-decoration: none;
+}
+.opcion svg{
+    position: relative;
+    color: var(--negro);
+    text-align: center;
+    margin-left: 15px;
+}
+.nav-logo{
+    margin-top: 15px;
+    color: #000;
+    text-decoration: none;
+}
+.item-nav{
+    position: absolute;
+    margin-left: 25px;
+    margin-top: 12px;
+    color: var(--blanco);
+}
+.salir{
+    position: absolute;
+    bottom: 0;
+    color: var(--negro);
+    font-size: 18px;
+    display: table;
+    width: 300px;
+    padding: 10px;
+    text-decoration: none;
+}
+.salir svg{
+    position: relative;
+    color: var(--negro);
+    text-align: center;
+    margin-left: 15px;
+}
+.opcion:hover{
+    background-color: var(--negro);
+}
+.salir:hover{
+    background-color: var(--negro);
+}
+.barra-desplegable-1:hover{
+    width: 300px;
+    transition: all 0.5s ease;
+}
+.contenedor-dashboard {
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+    margin-left: 170px;
+}
+.barra-lateral {
+    width: 250px;
+    background-color: var(--rojo);
+    color: var(--blanco);
+    display: flex;
+    flex-direction: column;
+}
+.contenedor-consulta {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+.opciones-consulta{
+    margin-top: -100px;
+}
+.opciones-consulta ul{
+    list-style: none;
+}
+.opciones-consulta ul li{
+    width: 1250px;
+    height: 200px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    background: var(--blanco);
+    border: 2px solid var(--gris);
+    border-radius: 10px;
+    margin-top: 15px;
+    display: flex;
+}
+.opciones-consulta ul li a{
+    text-decoration: none;
+    color: var(--negro);
+    display: flex;
+}
+.imagen{
+    margin-left: 35px;
+    margin-top: 45px;
+}
+.info{
+    margin-top: 5px;
+    padding-right: 50px;
+    padding-left: 20px;
+}
+.info h1{
+    color: var(--rojo);
+}
+.info p{
+    font-size: 20px;
+    margin-top: 10px;
+    text-align: center;
+}
+.info1{
+    margin-top: 5px;
+    padding-right: 50px;
+    padding-left: 20px;
+}
+.info1 h1{
+    text-align: center;
+    color: var(--rojo);
+}
+.info1 p{
+    font-size: 20px;
+    margin-top: 10px;
+    text-align: center;
+}
+.opciones-consulta ul li:hover{
+    transform: scale(1.02);
+}
+.volver-boton {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: var(--rojo); 
+}
+.citas .opciones{
+    margin-left: 280px;
+    margin-top: 300px;
+}
+.citas .opciones svg {
+    width: 70px; 
+    height: 70px; 
+    flex-direction: column;
+    display: flex;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+}

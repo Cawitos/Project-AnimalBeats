@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/modal.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">    
+    <link rel="icon" type="image/x-icon" href="img/logoico.png">
+    <script src="https://kit.fontawesome.com/a0994db117.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>AnimalBeats</title>
+</head>
+<body>
+        <div class="menu">
+            <div class="c1">
+                <img src="img/Logo.png" alt="">
+            </div>
+            <div class="c2">
+                <button onClick="location.href = '#menu'">INICIO</button>
+                <button id="contact-btn">CONTACTENOS</button>
+                <button onClick="location.href = '#login' ">LOGIN</button>
+            </div>
+        </div>
+        <div id="contact-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Contáctanos</h2>
+                <form id="contact-form">
+                    <label for="name">Atencion al cliente de AnimalBeats</label>
+                    <label for="text">Calle 152B 114 - 17 Bogotá, Bogotá, Cundinamarca</label>        
+                    <label for="text">3118372191</label>        
+                    <label for="email">AnimalBeats@animalbeats.com</label>        
+                    <label for="message">Ingresa un mensaje sobre tu consulta:</label>
+                    <textarea id="message" placeholder="Escribe tu mensaje" required></textarea>
+                    <button type="submit" class="btn-submit">Enviar</button>
+                </form>
+            </div>
+        </div>
+        <div id="login-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Iniciar Sesión</h2>
+                <form id="loginForm">
+                    <label for="email">Correo electrónico</label>
+                    <input type="email" id="email" placeholder="Ingresa tu correo" required>
+        
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" placeholder="Ingresa tu contraseña" required>
+        
+                    <button type="submit" class="btn-ingresar">Ingresar</button>
+                    <div class="options">
+                        <a href="#" class="forgot-password">¿Olvidó su contraseña?</a>
+                        <a href="registro.html" class="register">Registrarse</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="publicidad">
+            <ul>
+                <li>
+                    <img src="img/banner_perro.jpg" alt="">
+                    <div class="texto1">
+                        <h2>Cuidando de tus mascotas, nuestra pasión sin límites.</h2>
+                        <p>
+                            En nuestra veterinaria, tu mascota es parte de nuestra familia. Nos dedicamos a brindar el mejor cuidado posible, desde chequeos hasta tratamientos especializados, siempre con amor y profesionalismo.
+                        </p>
+                    </div>
+                </li>
+                <li>
+                    <img src="img/banner_perrogato.png" alt="">
+                    <div class="texto2">
+                        <h2>Salud y felicidad, juntos en cada latido.</h2>
+                        <p>
+                            Creemos que cada latido cuenta. Ofrecemos servicios para asegurar la salud física y emocional de tu mascota, trabajando juntos para que viva una vida larga y feliz.
+                        </p>
+                    </div>
+                </li>
+                <li>
+                    <img src="img/banner_gato.jpg" alt="">
+                    <div class="texto3">
+                        <h2>Juntos por la salud y alegría de tus compañeros peludos.</h2>
+                        <p>
+                            La salud de tus mascotas es una responsabilidad compartida. Estamos aquí para apoyarte en cada etapa de su vida, educándote y brindando atención integral para asegurar su bienestar y felicidad.
+                        </p>
+                    </div>
+                </li>
+            </ul>
+        </section>
+        <section class="informacion">
+            <div class="servicios">
+                <nav>
+                    <h1>¿Qué ofrecemos?</h1></nav>
+                <p>En AnimalBeats, nos dedicamos a brindar el mejor cuidado para tus mascotas. Nuestro equipo de profesionales está comprometido con la salud y el bienestar de tus compañeros peludos.</p>
+            </div>
+            <div class="s1">
+                <nav><h1>Medicina Preventiva</h1></nav>
+                <p>La prevención es clave para mantener a tu mascota saludable. Ofrecemos vacunaciones, desparasitaciones y chequeos regulares para detectar problemas antes de que se conviertan en serios.</p>
+            </div>
+            <div class="s2">
+                <nav><h1>Consulta y Diagnóstico</h1></nav>
+                <p>Realizamos evaluaciones clínicas exhaustivas para identificar cualquier problema de salud. Contamos con análisis de laboratorio y diagnóstico por imagen, como radiografías y ecografías.</p>
+            </div>
+            <div class="s3">
+                <nav><h1>Peluquería y Estética</h1></nav>
+                <p>Mantenemos a tus mascotas limpias y bien cuidadas con nuestros servicios de grooming. Desde cortes hasta baños, cuidamos cada detalle.</p>
+            </div>
+            <div class="s4">
+                <nav><h1>Transporte y Guardería</h1></nav>
+                <p>Ofrecemos servicios seguros de transporte para tus mascotas y opciones de guardería cuando necesites salir de casa.</p>
+            </div>
+        </section>
+        <footer>
+            <div class="atencion">
+                <div class="botones-container">
+                    <button id="ubicacion-btn">¿Dónde nos ubicamos?</button>
+                    <button id="horarios-btn">Horarios de atención</button>
+                    <button id="necesitas-btn">¿Qué podemos ayudarte?</button>
+                </div>
+            </div>
+            <p>2024 AnimalBeats Todos los derechos reservados.</p>
+        </footer>
+        
+        <div id="ubicacion-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>¿Dónde nos ubicamos?</h2>
+                <div class="mapa">
+                    <div class="ubicacion">
+                        <div class="m2">
+                            <h2>Veterinaria AnimalBeats Suba</h2>
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15904.316557121381!2d-74.0990538!3d4.7562667!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f845d48b9fd41%3A0x109fccc1ecd013dd!2sClinica%20Veterinaria%20Vetpoly!5e0!3m2!1ses-419!2sco!4v1733365569970!5m2!1ses-419!2sco" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            <p>En esta dirección puedes encontrarnos de manera sencilla.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="horarios-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Horarios de atención</h2>
+                <p>                
+                    Lunes: Abierto 24 horas. <br>
+                    Martes: Abierto 24 horas. <br>
+                    Miércoles: Abierto 24 horas. <br>
+                    Jueves: Abierto 24 horas. <br>
+                    Viernes: Abierto 24 horas. <br>
+                    Sábado: Abierto 24 horas. <br>
+                    Domingo: Abierto 24 horas. <br>
+                    Nuestros horarios de atención siempre estan a la orden de nuestros clientes.
+                </p>
+            </div>
+        </div>
+        
+        <div id="necesitas-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>¿Qué podemos ayudarte?</h2>
+                <img src="img/medicos-cuidadosos-alto-angulo-que-ayudan-al-perro-enfermo_23-2148302253.avif" alt="" width="400px">
+                <p>En nuestra veterinaria puedes encontrar servicios como: <br>
+                    <b>Consulta General, Urgencias, Baños, Peluquerías, Vacunaciones, Cardiología y Nutricionista</b>. <br> 
+                    También afiliamiento de usuarios en nuestra base de datos como de tus mascotas.</p>
+            </div>
+        </div>             
+    </div>
+    <script src="js/modalLogin.js"></script>
+    <script src="js/validacion.js"></script>
+    <script src="js/modalContacto.js"></script>
+    <script src="js/modalFooter.js"></script>
+</body>
+</html>

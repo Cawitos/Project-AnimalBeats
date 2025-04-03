@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="../img/logoico.png">
+    <title>Gestión de Especies</title>
+    <link rel="stylesheet" href="../css/administrador.css">
+    <link rel="stylesheet" href="../css/GestionConsultas.css">
+    <link rel="stylesheet" href="../css/Enfermedad.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">    
+    <script src="https://kit.fontawesome.com/a0994db117.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div class="contenedor-dashboard">
+        <nav class="barra-desplegable">
+            <ul>
+                <li class="fondo-logo">
+                    <a href="cliente.html" class="animalbeats">
+                        <img src="../img/logo-corto.png" alt="">
+                        <span class="nav-logo">AnimalBeats</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../Cliente/GestionMascotas.html" class="opcion">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 -960 960 960" width="24px" fill="#FFFCE8"><path d="M180-475q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29Zm180-160q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29Zm240 0q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29Zm180 160q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29ZM266-75q-45 0-75.5-34.5T160-191q0-52 35.5-91t70.5-77q29-31 50-67.5t50-68.5q22-26 51-43t63-17q34 0 63 16t51 42q28 32 49.5 69t50.5 69q35 38 70.5 77t35.5 91q0 47-30.5 81.5T694-75q-54 0-107-9t-107-9q-54 0-107 9t-107 9Z"/></svg>
+                        <span class="item-nav">Mascotas</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../Cliente/GestionConsultas.html" class="opcion">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 -960 960 960" width="24px" fill="#FFFCE8"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>
+                        <span class="item-nav">Consultas</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../Cliente/GestionReportes.html" class="opcion">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 -960 960 960" width="24px" fill="#FFFCE8"><path d="M200-120v-680h360l16 80h224v400H520l-16-80H280v280h-80Zm300-440Zm86 160h134v-240H510l-16-80H280v240h290l16 80Z"/></svg>
+                        <span class="item-nav">Reportes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../index.html" class="salir">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 24 24" fill="#FFFCE8">
+                            <path d="M10 17l5-5-5-5v10zM4 4h2v16H4V4zm16 0h-6v2h6v12h-6v2h6c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"></path>
+                        </svg>
+                    <span class="item-nav">Salir</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <main class="contenedor-consulta">
+            <div class="recuadro-superior">
+                <div>
+                    <nav>Enfermedades en el sistema<svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24" width="30" height="30"><path d="m24,10v-2h-2.075c-.081-.581-.226-1.146-.447-1.682l1.772-1.051-1.021-1.72-1.773,1.052c-.156-.193-.32-.379-.498-.557h0c-.237-.238-.491-.446-.752-.642l.993-1.814-1.754-.961-.995,1.817c-.472-.174-.958-.295-1.451-.363V0h-2v2.088c-.569.084-1.129.234-1.667.459l-1.092-1.794-1.708,1.04,1.085,1.782c-.178.146-.351.301-.518.467l-.779.779-1.422-1.422-1.414,1.414,1.422,1.422-1.672,1.672-1.422-1.422-1.414,1.414,1.422,1.422-.779.779c-.166.166-.321.339-.467.517l-1.782-1.085-1.04,1.708,1.794,1.092c-.225.538-.375,1.098-.459,1.667H0v2h2.079c.069.493.189.979.363,1.451l-1.817.995.961,1.754,1.814-.993c.196.261.405.515.642.752.178.178.365.344.557.499l-1.052,1.772,1.72,1.021,1.053-1.775c.542.222,1.107.367,1.68.446v2.078h2v-2.087c.576-.085,1.143-.239,1.686-.468l1.134,1.862,1.708-1.04-1.13-1.856c.173-.142.341-.293.502-.454l.779-.779,1.488,1.488,1.414-1.414-1.488-1.488,1.672-1.672,1.488,1.488,1.414-1.414-1.488-1.488.779-.779c.161-.161.312-.329.455-.502l1.855,1.129,1.04-1.708-1.858-1.131c.228-.538.381-1.105.467-1.689h2.083Zm-16.5,6c-.828,0-1.5-.672-1.5-1.5s.672-1.5,1.5-1.5,1.5.672,1.5,1.5-.672,1.5-1.5,1.5Zm6-1c-.828,0-1.5-.672-1.5-1.5s.672-1.5,1.5-1.5,1.5.672,1.5,1.5-.672,1.5-1.5,1.5Zm1-6c-.828,0-1.5-.672-1.5-1.5s.672-1.5,1.5-1.5,1.5.672,1.5,1.5-.672,1.5-1.5,1.5Z"/></svg></nav>
+                    <div class="busqueda-container">
+                        <label for="buscar">Búsqueda: </label>
+                        <input type="text" id="buscar" placeholder="Buscar enfermedad...">
+                    </div>
+                </div>
+                <div class="botones-enfermedades">
+                                <button onclick="abrirModal('rabia')">RABIA</button>
+                                <button onclick="abrirModal('tuberculosis')">TUBERCULOSIS</button>
+                                <button onclick="abrirModal('moquillo')">MOQUILLO</button>
+                                <button onclick="abrirModal('hongos')">HONGOS</button>
+                                <button onclick="abrirModal('muermo')">MUERMO</button>
+                                <button onclick="abrirModal('virosis')">VIROSIS</button>
+                                <button onclick="abrirModal('hepatitis')">HEPATITIS</button>
+                                <button onclick="abrirModal('sarna')">SARNA</button>
+                </div>
+                    <div id="rabia" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="cerrarModal('rabia')">&times;</span>
+                            <h2>Rabia</h2>
+                            <p><b>Descripción:</b> Enfermedad viral mortal que afecta el sistema nervioso central de mamíferos, incluidos humanos. Es causada por un virus de la familia Rhabdoviridae. <br>
+                                <b>Transmisión:</b> Por mordeduras o contacto con saliva de un animal infectado. <br>
+                                <b>Síntomas:</b> Cambios de comportamiento, agresividad, hipersalivación, dificultad para tragar, parálisis y, en etapas finales, muerte.</p>
+                        </div>
+                    </div>
+            
+                    <div id="tuberculosis" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="cerrarModal('tuberculosis')">&times;</span>
+                            <h2>Tuberculosis</h2>
+                            <p><b>Descripción:</b> Enfermedad bacteriana crónica causada por Mycobacterium bovis en animales, similar a la tuberculosis humana (Mycobacterium tuberculosis). Afecta principalmente los pulmones, pero puede extenderse a otros órganos. <br>
+                                <b>Transmisión:</b> Por inhalación de gotas respiratorias o ingestión de leche no pasteurizada de animales infectados. <br>
+                                <b>Síntomas:</b> Tos crónica, pérdida de peso, dificultad para respirar, fiebre intermitente y linfadenopatía (ganglios inflamados).</p>
+                        </div>
+                    </div>
+                    <div id="moquillo" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="cerrarModal('moquillo')">&times;</span>
+                            <h2>Moquillo</h2>
+                            <p><b>Descripción:</b> Enfermedad viral altamente contagiosa que afecta a perros y otros carnívoros. Es causada por el virus del moquillo canino (CDV, por sus siglas en inglés), de la familia Paramyxoviridae. <br>
+                                <b>Transmisión:</b> Por contacto directo con secreciones de animales infectados (orina, heces, saliva) o a través del aire. <br>
+                                <b>Síntomas:</b> Fiebre, secreción nasal y ocular, vómitos, diarrea, tos, pérdida de peso, convulsiones y problemas neurológicos.</p>
+                        </div>
+                    </div>
+                    <div id="hongos" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="cerrarModal('hongos')">&times;</span>
+                            <h2>Hongos</h2>
+                            <p><b>Descripción:</b> Las infecciones por hongos en animales, conocidas como micosis, afectan comúnmente la piel, uñas o pelaje. Pueden causar lesiones circulares, descamación y pérdida de pelo. <br>
+                            <b>Transmisión:</b> Por contacto directo con esporas de hongos presentes en el suelo, superficies contaminadas o animales infectados.<br>
+                            <b>Síntomas:</b> Pérdida de pelo, enrojecimiento, picazón y lesiones escamosas.</p>
+                        </div>
+                    </div>
+                    <div id="muermo"class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="cerrarModal('muermo')">&times;</span>
+                            <h2>Muermo</h2>
+                            <p><b>Descripción:</b> Enfermedad bacteriana causada por Burkholderia mallei, afecta principalmente a caballos, pero puede contagiarse a humanos y otros animales. Es altamente infecciosa y mortal.<br>
+                                <b>Transmisión:</b> Por contacto con secreciones de animales infectados, alimentos o agua contaminados.<br>
+                                <b>Síntomas:</b> Fiebre, úlceras en la piel o mucosas, dificultad para respirar y nódulos linfáticos inflamados.</p>
+                        </div>
+                    </div>
+                    <div id="virosis" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="cerrarModal('virosis')">&times;</span>
+                            <h2> Virosis</h2>
+                            <p><b>Descripción:</b> Término general para enfermedades virales que afectan a los animales. Estas pueden variar desde enfermedades respiratorias hasta digestivas, dependiendo del tipo de virus.<br>
+                                <b>Transmisión:</b> Por contacto directo con animales infectados, secreciones o superficies contaminadas. <br>
+                                <b>Síntomas:</b> Fiebre, letargo, vómitos, diarrea, problemas respiratorios o neurológicos.
+                                </p>
+                        </div>
+                    </div>
+                    <div id="hepatitis" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="cerrarModal('hepatitis')">&times;</span>
+                            <h2> HEPATITIS</h2>
+                            <p><b>Descripción:</b> Inflamación del hígado causada por infecciones virales, toxinas o enfermedades autoinmunes. En perros, la Hepatitis Infecciosa Canina (HIC) es la más común, causada por el adenovirus tipo 1.<br>
+                                <b>Transmisión:</b> Por contacto con orina, heces o saliva de animales infectados.<br>
+                                <b>Síntomas:</b> Pérdida de apetito, fiebre, vómitos, ictericia (color amarillento de piel y ojos) y dolor abdominal.</p>
+                        </div>
+                    </div>
+                    <div id="sarna" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="cerrarModal('sarna')">&times</span>
+                            <h2>Sarna</h2>
+                            <p><b>Descripción:</b> Enfermedad cutánea causada por ácaros que infestan la piel de los animales. Puede ser sarna sarcóptica (causada por Sarcoptes scabiei) o demodécica (por Demodex).<br>
+                                <b>Transmisión:</b> Contacto directo con animales infectados o superficies contaminadas.<br>
+                                <b>Síntomas:</b> Picazón intensa, pérdida de pelo, enrojecimiento, costras y engrosamiento de la piel.</p>
+                        </div>
+                    </div>
+
+            <button onclick="location.href='../Cliente/GestionConsultas.html'" class="volver-boton"><svg xmlns="http://www.w3.org/2000/svg" id="Bold" viewBox="0 0 24 24" width="36" height="36">
+                    <path d="M4.943,5.606,1.024,9.525a3.585,3.585,0,0,0,0,4.95l3.919,3.919a1.5,1.5,0,1,0,2.121-2.121L4.285,13.492l18.25-.023a1.5,1.5,0,0,0,1.5-1.5v0a1.5,1.5,0,0,0-1.5-1.5L4.3,10.492,7.064,7.727A1.5,1.5,0,0,0,4.943,5.606Z"/>
+                </svg>
+            </button>   
+        </main>
+    </div>
+    <script src="../js/enfermedad.js"></script>
+    <script src="../js/modalEnfermedades.js"></script>
+    <script>
+        function redirigir(pagina) {
+            window.location.href = pagina;
+        }
+    </script>
+</body>
+</html>
