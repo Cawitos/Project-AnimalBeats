@@ -65,28 +65,803 @@
       </div>
         <div class="contenedor-dashboard">  
             <main class="contenedor-consulta">
-                <ul class="nav nav-tabs">
+                <ul class="nav nav-tabs tamaño">
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                          <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Consulta General</button>
+                        <li class="nav-item custom-style" role="presentation">
+                          <button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Consulta General</button>
                         </li>
-                        <li class="nav-item" role="presentation">
-                          <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Profile</button>
+                        <li class="nav-item custom-style" role="presentation">
+                          <button class="nav-link" id="urgencias-tab" data-bs-toggle="tab" data-bs-target="#urgencias-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Urgencias</button>
                         </li>
-                        <li class="nav-item" role="presentation">
-                          <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Contact</button>
+                        <li class="nav-item custom-style" role="presentation">
+                          <button class="nav-link" id="bape-tab" data-bs-toggle="tab" data-bs-target="#bape-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Baño y peluqueria</button>
                         </li>
-                        <li class="nav-item" role="presentation">
-                          <button class="nav-link" id="disabled-tab" data-bs-toggle="tab" data-bs-target="#disabled-tab-pane" type="button" role="tab" aria-controls="disabled-tab-pane" aria-selected="false" disabled>Disabled</button>
+                        <li class="nav-item custom-style" role="presentation">
+                          <button class="nav-link" id="vacunacion-tab" data-bs-toggle="tab" data-bs-target="#vacunacion-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Vacunaciones</button>
+                        </li>
+                        <li class="nav-item custom-style" role="presentation">
+                          <button class="nav-link" id="cardiologia-tab" data-bs-toggle="tab" data-bs-target="#cardiologia-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Cardiología</button>
+                        </li>
+                        <li class="nav-item custom-style" role="presentation">
+                          <button class="nav-link" id="nutricional-tab" data-bs-toggle="tab" data-bs-target="#nutricional-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Nutricional</button>
                         </li>
                       </ul>
                       <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">...</div>
-                        <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">...</div>
-                        <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">...</div>
-                        <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab" tabindex="0">...</div>
+                        <div class="tab-pane fade show active" id="general-pane" role="tabpanel" aria-labelledby="general-tab" tabindex="0">
+                            <div class="cartas">
+                            <div class="card mb-3" style="max-width: 540px;">
+                                <div class="row g-0">
+                                  <div class="col-md-4 hora">
+                                    <p><strong>Miércoles</strong><br>30/10/24<br><span>11:40 AM</span></p>
+                                  </div>
+                                  <div class="col-md-8">
+                                    <div class="card-body">
+                                      <h5 class="card-title">Insuasty Benavides Angela María</h5>
+                                      <p class="card-text">Medicina General</p>
+                                      <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                      <p class="card-text"><i class="icon-location"></i> Cll 145 </p>
+                                      <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 20 minutos</p>
+                                      <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                      <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="card mb-3" style="max-width: 540px;">
+                                <div class="row g-0">
+                                  <div class="col-md-4 hora">
+                                    <p><strong>Viernes</strong><br>01/11/24<br><span>09:30 AM</span></p>
+                                  </div>
+                                  <div class="col-md-8">
+                                    <div class="card-body">
+                                      <h5 class="card-title">Martínez López Juan Carlos</h5>
+                                      <p class="card-text">Medicina General</p>
+                                      <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                      <p class="card-text"><i class="icon-location"></i> Cra 25  </p>
+                                      <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 15 minutos</p>
+                                      <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                      <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="card mb-3" style="max-width: 540px;">
+                                <div class="row g-0">
+                                  <div class="col-md-4 hora">
+                                    <p><strong>Lunes</strong><br>04/11/24<br><span>03:00 PM</span></p>
+                                  </div>
+                                  <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Ramírez Torres Camila</h5>
+                                        <p class="card-text">Medicina General</p>
+                                        <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                        <p class="card-text"><i class="icon-location"></i> Av. Principal # 90  </p>
+                                        <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 30 minutos</p>
+                                        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            <div class="card mb-3" style="max-width: 540px;">
+                                <div class="row g-0">
+                                  <div class="col-md-4 hora">
+                                    <p><strong>Miércoles</strong><br>30/10/24<br><span>11:40 AM</span></p>
+                                  </div>
+                                  <div class="col-md-8">
+                                    <div class="card-body">
+                                      <h5 class="card-title">Insuasty Benavides Angela María</h5>
+                                      <p class="card-text">Medicina General</p>
+                                      <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                      <p class="card-text"><i class="icon-location"></i> Cll 145 </p>
+                                      <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 20 minutos</p>
+                                      <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                      <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="card mb-3" style="max-width: 540px;">
+                                <div class="row g-0">
+                                  <div class="col-md-4 hora">
+                                    <p><strong>Viernes</strong><br>01/11/24<br><span>09:30 AM</span></p>
+                                  </div>
+                                  <div class="col-md-8">
+                                    <div class="card-body">
+                                      <h5 class="card-title">Martínez López Juan Carlos</h5>
+                                      <p class="card-text">Medicina General</p>
+                                      <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                      <p class="card-text"><i class="icon-location"></i> Cra 25  </p>
+                                      <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 15 minutos</p>
+                                      <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                      <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="card mb-3" style="max-width: 540px;">
+                                <div class="row g-0">
+                                  <div class="col-md-4 hora">
+                                    <p><strong>Lunes</strong><br>04/11/24<br><span>03:00 PM</span></p>
+                                  </div>
+                                  <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Ramírez Torres Camila</h5>
+                                        <p class="card-text">Medicina General</p>
+                                        <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                        <p class="card-text"><i class="icon-location"></i> Av. Principal # 90  </p>
+                                        <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 30 minutos</p>
+                                        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                        
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="urgencias-pane" role="tabpanel" aria-labelledby="urgencias-tab" tabindex="0">
+                            <div class="cartas">
+                                <div class="card mb-3" style="max-width: 540px;">
+                                    <div class="row g-0">
+                                      <div class="col-md-4 hora">
+                                        <p><strong>Miércoles</strong><br>30/10/24<br><span>11:40 AM</span></p>
+                                      </div>
+                                      <div class="col-md-8">
+                                        <div class="card-body">
+                                          <h5 class="card-title">Insuasty Benavides Angela María</h5>
+                                          <p class="card-text">Urgencias</p>
+                                          <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                          <p class="card-text"><i class="icon-location"></i> Cll 145 </p>
+                                          <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 20 minutos</p>
+                                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="card mb-3" style="max-width: 540px;">
+                                    <div class="row g-0">
+                                      <div class="col-md-4 hora">
+                                        <p><strong>Viernes</strong><br>01/11/24<br><span>09:30 AM</span></p>
+                                      </div>
+                                      <div class="col-md-8">
+                                        <div class="card-body">
+                                          <h5 class="card-title">Martínez López Juan Carlos</h5>
+                                          <p class="card-text">Urgencia</p>
+                                          <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                          <p class="card-text"><i class="icon-location"></i> Cra 25  </p>
+                                          <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 15 minutos</p>
+                                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="card mb-3" style="max-width: 540px;">
+                                    <div class="row g-0">
+                                      <div class="col-md-4 hora">
+                                        <p><strong>Lunes</strong><br>04/11/24<br><span>03:00 PM</span></p>
+                                      </div>
+                                      <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Ramírez Torres Camila</h5>
+                                            <p class="card-text">Urgencias</p>
+                                            <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                            <p class="card-text"><i class="icon-location"></i> Av. Principal # 90  </p>
+                                            <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 30 minutos</p>
+                                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                <div class="card mb-3" style="max-width: 540px;">
+                                    <div class="row g-0">
+                                      <div class="col-md-4 hora">
+                                        <p><strong>Miércoles</strong><br>30/10/24<br><span>11:40 AM</span></p>
+                                      </div>
+                                      <div class="col-md-8">
+                                        <div class="card-body">
+                                          <h5 class="card-title">Insuasty Benavides Angela María</h5>
+                                          <p class="card-text">Urgencias</p>
+                                          <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                          <p class="card-text"><i class="icon-location"></i> Cll 145 </p>
+                                          <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 20 minutos</p>
+                                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="card mb-3" style="max-width: 540px;">
+                                    <div class="row g-0">
+                                      <div class="col-md-4 hora">
+                                        <p><strong>Viernes</strong><br>01/11/24<br><span>09:30 AM</span></p>
+                                      </div>
+                                      <div class="col-md-8">
+                                        <div class="card-body">
+                                          <h5 class="card-title">Martínez López Juan Carlos</h5>
+                                          <p class="card-text">Urgencias</p>
+                                          <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                          <p class="card-text"><i class="icon-location"></i> Cra 25  </p>
+                                          <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 15 minutos</p>
+                                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="card mb-3" style="max-width: 540px;">
+                                    <div class="row g-0">
+                                      <div class="col-md-4 hora">
+                                        <p><strong>Lunes</strong><br>04/11/24<br><span>03:00 PM</span></p>
+                                      </div>
+                                      <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Ramírez Torres Camila</h5>
+                                            <p class="card-text">Urgencias</p>
+                                            <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                            <p class="card-text"><i class="icon-location"></i> Av. Principal # 90  </p>
+                                            <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 30 minutos</p>
+                                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                            
+                                </div>
+
+                        </div>
+                        <div class="tab-pane fade" id="bape-pane" role="tabpanel" aria-labelledby="bape-tab" tabindex="0">
+                            <div class="cartas">
+                                <div class="card mb-3" style="max-width: 540px;">
+                                    <div class="row g-0">
+                                      <div class="col-md-4 hora">
+                                        <p><strong>Miércoles</strong><br>30/10/24<br><span>11:40 AM</span></p>
+                                      </div>
+                                      <div class="col-md-8">
+                                        <div class="card-body">
+                                          <h5 class="card-title">Insuasty Benavides Angela María</h5>
+                                          <p class="card-text">Baño y peluqueria</p>
+                                          <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                          <p class="card-text"><i class="icon-location"></i> Cll 145 </p>
+                                          <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 20 minutos</p>
+                                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="card mb-3" style="max-width: 540px;">
+                                    <div class="row g-0">
+                                      <div class="col-md-4 hora">
+                                        <p><strong>Viernes</strong><br>01/11/24<br><span>09:30 AM</span></p>
+                                      </div>
+                                      <div class="col-md-8">
+                                        <div class="card-body">
+                                          <h5 class="card-title">Martínez López Juan Carlos</h5>
+                                          <p class="card-text">Baño y peluqueria</p>
+                                          <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                          <p class="card-text"><i class="icon-location"></i> Cra 25  </p>
+                                          <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 15 minutos</p>
+                                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="card mb-3" style="max-width: 540px;">
+                                    <div class="row g-0">
+                                      <div class="col-md-4 hora">
+                                        <p><strong>Lunes</strong><br>04/11/24<br><span>03:00 PM</span></p>
+                                      </div>
+                                      <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Ramírez Torres Camila</h5>
+                                            <p class="card-text">Baño y peluqueria</p>
+                                            <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                            <p class="card-text"><i class="icon-location"></i> Av. Principal # 90  </p>
+                                            <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 30 minutos</p>
+                                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                <div class="card mb-3" style="max-width: 540px;">
+                                    <div class="row g-0">
+                                      <div class="col-md-4 hora">
+                                        <p><strong>Miércoles</strong><br>30/10/24<br><span>11:40 AM</span></p>
+                                      </div>
+                                      <div class="col-md-8">
+                                        <div class="card-body">
+                                          <h5 class="card-title">Insuasty Benavides Angela María</h5>
+                                          <p class="card-text">Baño y peluqueria</p>
+                                          <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                          <p class="card-text"><i class="icon-location"></i> Cll 145 </p>
+                                          <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 20 minutos</p>
+                                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="card mb-3" style="max-width: 540px;">
+                                    <div class="row g-0">
+                                      <div class="col-md-4 hora">
+                                        <p><strong>Viernes</strong><br>01/11/24<br><span>09:30 AM</span></p>
+                                      </div>
+                                      <div class="col-md-8">
+                                        <div class="card-body">
+                                          <h5 class="card-title">Martínez López Juan Carlos</h5>
+                                          <p class="card-text">Baño y peluqueria</p>
+                                          <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                          <p class="card-text"><i class="icon-location"></i> Cra 25  </p>
+                                          <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 15 minutos</p>
+                                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="card mb-3" style="max-width: 540px;">
+                                    <div class="row g-0">
+                                      <div class="col-md-4 hora">
+                                        <p><strong>Lunes</strong><br>04/11/24<br><span>03:00 PM</span></p>
+                                      </div>
+                                      <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Ramírez Torres Camila</h5>
+                                            <p class="card-text">Baño y peluqueria</p>
+                                            <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                            <p class="card-text"><i class="icon-location"></i> Av. Principal # 90  </p>
+                                            <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 30 minutos</p>
+                                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                            
+                                </div>
+
+                        </div>
+                        <div class="tab-pane fade" id="vacunacion-pane" role="tabpanel" aria-labelledby="vacunacion-tab" tabindex="0">
+                            <div class="cartas">
+                                <div class="card mb-3" style="max-width: 540px;">
+                                    <div class="row g-0">
+                                      <div class="col-md-4 hora">
+                                        <p><strong>Miércoles</strong><br>30/10/24<br><span>11:40 AM</span></p>
+                                      </div>
+                                      <div class="col-md-8">
+                                        <div class="card-body">
+                                          <h5 class="card-title">Insuasty Benavides Angela María</h5>
+                                          <p class="card-text">Vacunación</p>
+                                          <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                          <p class="card-text"><i class="icon-location"></i> Cll 145 </p>
+                                          <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 20 minutos</p>
+                                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="card mb-3" style="max-width: 540px;">
+                                    <div class="row g-0">
+                                      <div class="col-md-4 hora">
+                                        <p><strong>Viernes</strong><br>01/11/24<br><span>09:30 AM</span></p>
+                                      </div>
+                                      <div class="col-md-8">
+                                        <div class="card-body">
+                                          <h5 class="card-title">Martínez López Juan Carlos</h5>
+                                          <p class="card-text">Vacunación</p>
+                                          <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                          <p class="card-text"><i class="icon-location"></i> Cra 25  </p>
+                                          <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 15 minutos</p>
+                                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="card mb-3" style="max-width: 540px;">
+                                    <div class="row g-0">
+                                      <div class="col-md-4 hora">
+                                        <p><strong>Lunes</strong><br>04/11/24<br><span>03:00 PM</span></p>
+                                      </div>
+                                      <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Ramírez Torres Camila</h5>
+                                            <p class="card-text">Vacunación</p>
+                                            <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                            <p class="card-text"><i class="icon-location"></i> Av. Principal # 90  </p>
+                                            <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 30 minutos</p>
+                                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                <div class="card mb-3" style="max-width: 540px;">
+                                    <div class="row g-0">
+                                      <div class="col-md-4 hora">
+                                        <p><strong>Miércoles</strong><br>30/10/24<br><span>11:40 AM</span></p>
+                                      </div>
+                                      <div class="col-md-8">
+                                        <div class="card-body">
+                                          <h5 class="card-title">Insuasty Benavides Angela María</h5>
+                                          <p class="card-text">Vacunación</p>
+                                          <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                          <p class="card-text"><i class="icon-location"></i> Cll 145 </p>
+                                          <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 20 minutos</p>
+                                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="card mb-3" style="max-width: 540px;">
+                                    <div class="row g-0">
+                                      <div class="col-md-4 hora">
+                                        <p><strong>Viernes</strong><br>01/11/24<br><span>09:30 AM</span></p>
+                                      </div>
+                                      <div class="col-md-8">
+                                        <div class="card-body">
+                                          <h5 class="card-title">Martínez López Juan Carlos</h5>
+                                          <p class="card-text">Vacunación</p>
+                                          <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                          <p class="card-text"><i class="icon-location"></i> Cra 25  </p>
+                                          <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 15 minutos</p>
+                                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="card mb-3" style="max-width: 540px;">
+                                    <div class="row g-0">
+                                      <div class="col-md-4 hora">
+                                        <p><strong>Lunes</strong><br>04/11/24<br><span>03:00 PM</span></p>
+                                      </div>
+                                      <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Ramírez Torres Camila</h5>
+                                            <p class="card-text">Vacunación</p>
+                                            <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                            <p class="card-text"><i class="icon-location"></i> Av. Principal # 90  </p>
+                                            <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 30 minutos</p>
+                                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                            
+                                </div>
+                                
+                            </div>
+                        <div class="tab-pane fade" id="cardiologia-pane" role="tabpanel" aria-labelledby="cardiologia-tab" tabindex="0">
+                                <div class="cartas">
+                                    <div class="card mb-3" style="max-width: 540px;">
+                                        <div class="row g-0">
+                                          <div class="col-md-4 hora">
+                                            <p><strong>Miércoles</strong><br>30/10/24<br><span>11:40 AM</span></p>
+                                          </div>
+                                          <div class="col-md-8">
+                                            <div class="card-body">
+                                              <h5 class="card-title">Insuasty Benavides Angela María</h5>
+                                              <p class="card-text">Cardiologia</p>
+                                              <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                              <p class="card-text"><i class="icon-location"></i> Cll 145 </p>
+                                              <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 20 minutos</p>
+                                              <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                              <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="card mb-3" style="max-width: 540px;">
+                                        <div class="row g-0">
+                                          <div class="col-md-4 hora">
+                                            <p><strong>Viernes</strong><br>01/11/24<br><span>09:30 AM</span></p>
+                                          </div>
+                                          <div class="col-md-8">
+                                            <div class="card-body">
+                                              <h5 class="card-title">Martínez López Juan Carlos</h5>
+                                              <p class="card-text">Cardiologia</p>
+                                              <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                              <p class="card-text"><i class="icon-location"></i> Cra 25  </p>
+                                              <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 15 minutos</p>
+                                              <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                              <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="card mb-3" style="max-width: 540px;">
+                                        <div class="row g-0">
+                                          <div class="col-md-4 hora">
+                                            <p><strong>Lunes</strong><br>04/11/24<br><span>03:00 PM</span></p>
+                                          </div>
+                                          <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Ramírez Torres Camila</h5>
+                                                <p class="card-text">Cardiologia</p>
+                                                <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                                <p class="card-text"><i class="icon-location"></i> Av. Principal # 90  </p>
+                                                <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 30 minutos</p>
+                                                <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                                <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    <div class="card mb-3" style="max-width: 540px;">
+                                        <div class="row g-0">
+                                          <div class="col-md-4 hora">
+                                            <p><strong>Miércoles</strong><br>30/10/24<br><span>11:40 AM</span></p>
+                                          </div>
+                                          <div class="col-md-8">
+                                            <div class="card-body">
+                                              <h5 class="card-title">Insuasty Benavides Angela María</h5>
+                                              <p class="card-text">Cardiologia</p>
+                                              <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                              <p class="card-text"><i class="icon-location"></i> Cll 145 </p>
+                                              <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 20 minutos</p>
+                                              <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                              <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="card mb-3" style="max-width: 540px;">
+                                        <div class="row g-0">
+                                          <div class="col-md-4 hora">
+                                            <p><strong>Viernes</strong><br>01/11/24<br><span>09:30 AM</span></p>
+                                          </div>
+                                          <div class="col-md-8">
+                                            <div class="card-body">
+                                              <h5 class="card-title">Martínez López Juan Carlos</h5>
+                                              <p class="card-text">Cardiologia</p>
+                                              <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                              <p class="card-text"><i class="icon-location"></i> Cra 25  </p>
+                                              <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 15 minutos</p>
+                                              <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                              <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="card mb-3" style="max-width: 540px;">
+                                        <div class="row g-0">
+                                          <div class="col-md-4 hora">
+                                            <p><strong>Lunes</strong><br>04/11/24<br><span>03:00 PM</span></p>
+                                          </div>
+                                          <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Ramírez Torres Camila</h5>
+                                                <p class="card-text">Cardiologia</p>
+                                                <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                                <p class="card-text"><i class="icon-location"></i> Av. Principal # 90  </p>
+                                                <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 30 minutos</p>
+                                                <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                                <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                
+                                    </div>
+        
+                            </div>
+                        <div class="tab-pane fade" id="nutricional-pane" role="tabpanel" aria-labelledby="nutricional-tab" tabindex="0">
+                                <div class="cartas">
+                                    <div class="card mb-3" style="max-width: 540px;">
+                                        <div class="row g-0">
+                                          <div class="col-md-4 hora">
+                                            <p><strong>Miércoles</strong><br>30/10/24<br><span>11:40 AM</span></p>
+                                          </div>
+                                          <div class="col-md-8">
+                                            <div class="card-body">
+                                              <h5 class="card-title">Insuasty Benavides Angela María</h5>
+                                              <p class="card-text">Nutricional</p>
+                                              <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                              <p class="card-text"><i class="icon-location"></i> Cll 145 </p>
+                                              <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 20 minutos</p>
+                                              <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                              <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="card mb-3" style="max-width: 540px;">
+                                        <div class="row g-0">
+                                          <div class="col-md-4 hora">
+                                            <p><strong>Viernes</strong><br>01/11/24<br><span>09:30 AM</span></p>
+                                          </div>
+                                          <div class="col-md-8">
+                                            <div class="card-body">
+                                              <h5 class="card-title">Martínez López Juan Carlos</h5>
+                                              <p class="card-text">Nutricional</p>
+                                              <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                              <p class="card-text"><i class="icon-location"></i> Cra 25  </p>
+                                              <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 15 minutos</p>
+                                              <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                              <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="card mb-3" style="max-width: 540px;">
+                                        <div class="row g-0">
+                                          <div class="col-md-4 hora">
+                                            <p><strong>Lunes</strong><br>04/11/24<br><span>03:00 PM</span></p>
+                                          </div>
+                                          <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Ramírez Torres Camila</h5>
+                                                <p class="card-text">Nutricional</p>
+                                                <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                                <p class="card-text"><i class="icon-location"></i> Av. Principal # 90  </p>
+                                                <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 30 minutos</p>
+                                                <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                                <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    <div class="card mb-3" style="max-width: 540px;">
+                                        <div class="row g-0">
+                                          <div class="col-md-4 hora">
+                                            <p><strong>Miércoles</strong><br>30/10/24<br><span>11:40 AM</span></p>
+                                          </div>
+                                          <div class="col-md-8">
+                                            <div class="card-body">
+                                              <h5 class="card-title">Insuasty Benavides Angela María</h5>
+                                              <p class="card-text">Nutricional</p>
+                                              <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                              <p class="card-text"><i class="icon-location"></i> Cll 145 </p>
+                                              <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 20 minutos</p>
+                                              <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                              <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="card mb-3" style="max-width: 540px;">
+                                        <div class="row g-0">
+                                          <div class="col-md-4 hora">
+                                            <p><strong>Viernes</strong><br>01/11/24<br><span>09:30 AM</span></p>
+                                          </div>
+                                          <div class="col-md-8">
+                                            <div class="card-body">
+                                              <h5 class="card-title">Martínez López Juan Carlos</h5>
+                                              <p class="card-text">Nutricional</p>
+                                              <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                              <p class="card-text"><i class="icon-location"></i> Cra 25  </p>
+                                              <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 15 minutos</p>
+                                              <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                              <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="card mb-3" style="max-width: 540px;">
+                                        <div class="row g-0">
+                                          <div class="col-md-4 hora">
+                                            <p><strong>Lunes</strong><br>04/11/24<br><span>03:00 PM</span></p>
+                                          </div>
+                                          <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Ramírez Torres Camila</h5>
+                                                <p class="card-text">Nutricional</p>
+                                                <p class="card-text"><strong>[Nombre Veterinaria]</strong></p>
+                                                <p class="card-text"><i class="icon-location"></i> Av. Principal # 90  </p>
+                                                <p class="card-text"><i class="icon-clock"></i> Duración de la cita: 30 minutos</p>
+                                                <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</a>
+                                                <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                
+                                    </div>
+        
+                            </div>
                       </div>
-                
+                    <div class="recuadro-inferior">
+                        <div class="acciones-botones">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#crear-cita">Crear cita</button>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="crear-cita" tabindex="-1">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">Crear cita</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <div class="mb-3">
+                                <label for="citas" class="form-label">Servicios</label>
+                                <select name="tipos" id="servicios">
+                                    <option value="general">Consulta General</option>
+                                    <option value="urgencias">Urgencias</option>
+                                    <option value="baño-peluqueria">Baño y peluqeria</option>
+                                    <option value="vacunacion">Vacunacion</option>
+                                    <option value="cardiologia">Cardiologia</option>
+                                    <option value="nutricional">Nutricional</option>
+                                  </select>
+                              </div>
+                              <div class="mb-3">
+                                <label for="citas" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="nombre" placeholder="Nombre de la mascota" required>
+                              </div>
+                              <div class="mb-3">
+                                <label for="citas" class="form-label">Fecha</label>
+                                <input type="date" class="form-control" id="fecha" required>
+                              </div>
+                              <div class="mb-3">
+                                <label for="citas" class="form-label">Usuario a asignar</label>
+                                <input type="text" class="form-control" id="id-usuario" placeholder="Id del usuario" required>
+                              </div>
+                              <div class="mb-3">
+                                <label for="citas" class="form-label">Descripcion</label>
+                                <textarea class="form-control" id="crear-descripcion" rows="3"></textarea>
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                              <button type="button" class="btn btn-primary">Programar cita</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal fade" id="modificar" tabindex="-1">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">Modificar</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="citas" class="form-label">Nueva fecha</label>
+                                    <input type="date" class="form-control" id="fecha" required>
+                                  </div>
+                                  <div class="mb-3">
+                                    <label for="citas" class="form-label">Descripcion</label>
+                                    <textarea class="form-control" id="crear-descripcion" rows="3"></textarea>
+                                  </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                              <button type="button" class="btn btn-primary">Guardar cambios</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      </div>
+                      <div class="modal fade" id="eliminar" tabindex="-1">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">Eliminar</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <div class="mb-3">
+                                <h3>¿Esta seguro de eliminar esta cita?</h3>
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                              <button type="button" class="btn btn-primary">Eliminar</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                 
                 <!-- <div class="opciones-consulta">
                     <ul>

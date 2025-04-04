@@ -89,36 +89,10 @@ body {
     padding: 20px;
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    align-items: center; 
+    justify-content: flex-start;
+    align-items: flex-start; 
     overflow-y: auto;
     gap: 20px;
-}
-.card{
-    display: flex;
-    height: 400px;
-    align-items: center;
-}
-.card svg{
-    justify-content: center;
-    padding: 10px;
-}
-.container-fluid{
-    border: 1px solid #888;
-    border-radius: 10px;
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);                    
-    margin-top: 10px;
-    width: 600px;
-}
-.d-flex{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-.me-2{
-    align-items: center;
-    margin-top: 18px;
-    width: 300px;
 }
 .btn-outline-success{
     border-color: var(--rojo);
@@ -129,9 +103,90 @@ body {
     border-color: var(--negro);
     background-color: var(--negro);
 }
-
+.tamaño{
+    width: 100%;
+}
+.tab-content{
+    width: 100%;
+}
+.cartas{
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    flex-flow: row wrap;
+}
 .card{
-    margin-bottom: 10px;
+    margin: 0px 10px;
+    width: 100%;
+}
+.hora{
+    background-color: var(--negro);
+    color: var(--blanco);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.recuadro-inferior {
+    width: 100%;
+    display: flex;
+    margin: 20px 0;
+    justify-content: center;
+    text-align: center;
+}
+
+.acciones-botones {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 0px; 
+}
+
+.acciones-botones button {
+    background-color: #757575;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    min-width: 120px;
+}
+
+.acciones-botones button:hover {
+    background-color: #d50000;
+}
+/* Estilos del modal */
+
+
+label {
+    margin: 10px 0 5px;
+}
+
+input, textarea, select {
+    padding: 10px;
+    width: 100%;
+}
+
+button {
+    padding: 10px;
+    background-color: var(--verde);
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: var(--negro);
+}
+.nav-link{
+    color: var(--negro) ;
+}
+.custom-style .nav-link.active{
+    background-color: var(--rojo);
+    color: var(--blanco);
+}
+.nav-link:hover{
+    color: var(--rojo);
 }
 .btn-primary{
     background-color: var(--rojo);
