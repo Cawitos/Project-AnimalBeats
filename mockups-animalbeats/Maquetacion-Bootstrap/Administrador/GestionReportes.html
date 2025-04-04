@@ -68,10 +68,10 @@
                 <ul class="nav nav-tabs tamaño">
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item custom-style" role="presentation">
-                          <button class="nav-link active" id="veterinario-tab" data-bs-toggle="tab" data-bs-target="#veterinario-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Consulta General</button>
+                          <button class="nav-link active" id="veterinario-tab" data-bs-toggle="tab" data-bs-target="#veterinario-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Alarmas Veterinaria</button>
                         </li>
                         <li class="nav-item custom-style" role="presentation">
-                          <button class="nav-link" id="cliente-tab" data-bs-toggle="tab" data-bs-target="#cliente-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Urgencias</button>
+                          <button class="nav-link" id="cliente-tab" data-bs-toggle="tab" data-bs-target="#cliente-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Alarmas Cliente</button>
                         </li>
                       </ul>
                       <div class="tab-content" id="myTabContent">
@@ -92,24 +92,40 @@
                                     <td>Recordatorio</td>
                                     <td><input type="checkbox" checked="" onchange="cambiarEstado(0)"></td>
                                     <td>08:00 AM</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-warning" onclick="modificarAlarma(0)">Modificar</button>
+                                        <button class="btn btn-sm btn-danger" onclick="eliminarAlarma(0)">Eliminar</button>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>xxxx</td>
                                     <td>Pago Pendiente</td>
                                     <td><input type="checkbox" checked="" onchange="cambiarEstado(0)"></td>
                                     <td>10:30 AM</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-warning" onclick="modificarAlarma(0)">Modificar</button>
+                                        <button class="btn btn-sm btn-danger" onclick="eliminarAlarma(0)">Eliminar</button>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>xxxx</td>
                                     <td>Medicamentos</td>
                                     <td><input type="checkbox" checked="" onchange="cambiarEstado(0)"></td>
                                     <td>02:00 PM</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-warning" onclick="modificarAlarma(0)">Modificar</button>
+                                        <button class="btn btn-sm btn-danger" onclick="eliminarAlarma(0)">Eliminar</button>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>xxxx</td>
                                     <td>Cuidados</td>
                                     <td><input type="checkbox" checked="" onchange="cambiarEstado(0)"></td>
                                     <td>06:00 PM</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-warning" onclick="modificarAlarma(0)">Modificar</button>
+                                        <button class="btn btn-sm btn-danger" onclick="eliminarAlarma(0)">Eliminar</button>
+                                    </td>
                                 </tr>
                             </tbody>
                             </table>
@@ -131,24 +147,40 @@
                                     <td>Recordatorio</td>
                                     <td><input type="checkbox" checked="" onchange="cambiarEstado(0)"></td>
                                     <td>08:00 AM</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-warning" onclick="modificarAlarma(0)">Modificar</button>
+                                        <button class="btn btn-sm btn-danger" onclick="eliminarAlarma(0)">Eliminar</button>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>xxxx</td>
                                     <td>Pago Pendiente</td>
                                     <td><input type="checkbox" checked="" onchange="cambiarEstado(0)"></td>
                                     <td>10:30 AM</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-warning" onclick="modificarAlarma(0)">Modificar</button>
+                                        <button class="btn btn-sm btn-danger" onclick="eliminarAlarma(0)">Eliminar</button>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>xxxx</td>
                                     <td>Medicamentos</td>
                                     <td><input type="checkbox" checked="" onchange="cambiarEstado(0)"></td>
                                     <td>02:00 PM</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-warning" onclick="modificarAlarma(0)">Modificar</button>
+                                        <button class="btn btn-sm btn-danger" onclick="eliminarAlarma(0)">Eliminar</button>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>xxxx</td>
                                     <td>Cuidados</td>
                                     <td><input type="checkbox" checked="" onchange="cambiarEstado(0)"></td>
                                     <td>06:00 PM</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-warning" onclick="modificarAlarma(0)">Modificar</button>
+                                        <button class="btn btn-sm btn-danger" onclick="eliminarAlarma(0)">Eliminar</button>
+                                    </td>
                                 </tr>
                             </tbody>
                             </table>
@@ -189,13 +221,46 @@
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-primary">Programar alarma</button>
+                            <button type="submit" class="btn btn-primary">Programar alarma</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Modal Editar Alarma -->
+                    <div class="modal fade" id="modalEditarAlarma" tabindex="-1" aria-labelledby="modalEditarAlarmaLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header bg-warning text-white">
+                            <h5 class="modal-title" id="modalEditarAlarmaLabel">Editar Alarma</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                          </div>
+                          <div class="modal-body">
+                            <form id="formEditarAlarma">
+                              <div class="mb-3">
+                                <label for="nombreMascota" class="form-label">Nombre Mascota</label>
+                                <input type="text" class="form-control" id="nombreMascota" required>
+                              </div>
+                              <div class="mb-3">
+                                <label for="motivo" class="form-label">Motivo</label>
+                                <input type="text" class="form-control" id="motivo" required>
+                              </div>
+                              <div class="mb-3">
+                                <label for="fecha" class="form-label">Fecha</label>
+                                <input type="date" class="form-control" id="fecha" required>
+                              </div>
+                              <div class="mb-3">
+                                <label for="hora" class="form-label">Hora</label>
+                                <input type="time" class="form-control" id="hora" required>
+                              </div>
+                              <button type="submit" class="btn btn-warning w-100">Guardar Cambios</button>
+                            </form>
                           </div>
                         </div>
                       </div>
                     </div>
             </main>
     </div>
+    <script src="../js/alarmas.js"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
