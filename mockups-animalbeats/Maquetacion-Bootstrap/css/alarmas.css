@@ -99,18 +99,34 @@ body {
     border-radius: 0px 20px 20px;
 }
 
-.contenedor-consulta {
-    flex: 1;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    overflow-y: auto;
-    gap: 20px;
+.tamaño{
+    width: 100%;
 }
-
-.recuadro-inferior {
+.tab-content{
+    width: 100%;
+}
+.cartas{
+    width: 100%;
     margin-top: 20px;
+    display: flex;
+    flex-flow: row wrap;
+}
+.card{
+    margin: 0px 10px;
+    width: 100%;
+}
+.hora{
+    background-color: var(--negro);
+    color: var(--blanco);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.recuadro-inferior {
+    width: 100%;
+    display: flex;
+    margin: 20px 0;
+    justify-content: center;
     text-align: center;
 }
 
@@ -119,7 +135,7 @@ body {
     justify-content: center;
     gap: 15px;
     flex-wrap: wrap;
-    margin-top: 0px;
+    margin-top: 0px; 
 }
 
 .acciones-botones button {
@@ -133,62 +149,48 @@ body {
 }
 
 .acciones-botones button:hover {
-    background-color: var(--rojo);
+    background-color: #d50000;
+}
+/* Estilos del modal */
+
+
+label {
+    margin: 10px 0 5px;
 }
 
-.volver-boton {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background-color: var(--rojo);
+input, textarea, select {
+    padding: 10px;
+    width: 100%;
 }
 
-.close {
-    color: black;
-    float: right;
-    font-size: 20px;
-    font-weight: bold;
+button {
+    padding: 10px;
+    background-color: var(--verde);
+    color: white;
+    border: none;
     cursor: pointer;
 }
 
-.close:hover {
-    color: red;
+button:hover {
+    background-color: var(--negro);
 }
-
-.container-fluid {
-    border: 1px solid #888;
-    border-radius: 10px;
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
-    margin-top: 10px;
-    width: 600px;
+.nav-link{
+    color: var(--negro) ;
 }
-
-.d-flex {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
-.me-2 {
-    align-items: center;
-    margin-top: 18px;
-    width: 300px;
-}
-
-.btn-outline-success {
-    border-color: var(--rojo);
+.custom-style .nav-link.active{
     background-color: var(--rojo);
     color: var(--blanco);
 }
-
-.btn-outline-success:hover {
-    border-color: var(--negro);
-    background-color: var(--negro);
+.nav-link:hover{
+    color: var(--rojo);
 }
-
-.btn-primary {
+.btn-primary{
     background-color: var(--rojo);
     border-color: var(--rojo);
+}
+.btn-primary:hover{
+    border-color: var(--negro);
+    background-color: var(--negro);
 }
 .modal {
     display: none; 
