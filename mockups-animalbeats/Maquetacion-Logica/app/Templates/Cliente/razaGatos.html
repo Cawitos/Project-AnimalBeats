@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="../img/logoico.png">
+    <title>Gestión de Especies</title>
+    <link rel="stylesheet" href="../css/administrador.css">
+    <link rel="stylesheet" href="../css/GestionConsultas.css">
+    <link rel="stylesheet" href="../css/Especies.css">
+    <link rel="stylesheet" href="../css/razas.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">    
+    <script src="https://kit.fontawesome.com/a0994db117.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+
+    <div class="header">
+            <div class="logo">
+                <img src="../img/logo.png" alt="Logo" width="180px">
+                <h2>Cliente<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve" width="30" height="30">
+                    <g>
+                        <circle cx="256" cy="128" r="128"/>
+                        <path d="M256,298.667c-105.99,0.118-191.882,86.01-192,192C64,502.449,73.551,512,85.333,512h341.333   c11.782,0,21.333-9.551,21.333-21.333C447.882,384.677,361.99,298.784,256,298.667z"/>
+                    </g>
+                    </svg></h2>
+            </div>
+        <h1>RAZAS<svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24">
+            <path d="m24,7.5V0l-3.287,2.465c-.677-.299-1.426-.465-2.213-.465s-1.535.166-2.213.465l-3.287-2.465v7.5c0,.487.064.959.183,1.408-6.609,1.986-8.798,7.414-9.143,11.111-.616-.527-1.04-1.227-1.04-1.996,0-1.848.478-2.817.983-3.845.477-.969,1.017-2.066,1.017-3.679,0-2.649-2.056-4.5-5-4.5v3c.469,0,2,.108,2,1.5,0,.915-.297,1.518-.708,2.354-.575,1.169-1.292,2.624-1.292,5.17,0,3.522,3.456,5.977,6.558,5.977h17.442v-3h-2v-9.26c1.221-1.01,2-2.535,2-4.24Zm-5.5-2.5c1.378,0,2.5,1.122,2.5,2.5s-1.122,2.5-2.5,2.5-2.5-1.122-2.5-2.5,1.122-2.5,2.5-2.5Zm.5,16h-2c0-3.309-2.691-6-6-6v3c1.654,0,3,1.346,3,3h-7.002c.051-1.686.731-7.75,7.813-9.424.976.884,2.271,1.424,3.689,1.424.169,0,.335-.008.5-.023v8.023Z"/>
+          </svg></h1>
+        <div class="search-container">
+            <input type="text" placeholder="Búsqueda">
+        </div>
+    </div>
+    <div class="breed-buttons">
+        <button onclick="openRaceModal('siames')">SIÁMES</button>
+        <button onclick="openRaceModal('ragdoll')">RAGDOLL</button>
+        <button onclick="openRaceModal('abisinio')">ABISINIO</button>
+        <button onclick="openRaceModal('esfinge')">ESFINGE</button>
+        <button onclick="openRaceModal('persa')">PERSA</button>
+        <button onclick="openRaceModal('burnes')">BÚRNES</button>
+        <button onclick="openRaceModal('siberiano')">SIBERIANO</button>
+        <button onclick="openRaceModal('himalayo')">HIMALAYO</button>
+    </div>
+
+    <div id="siames" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('siames')">&times;</span>
+            <h2>Siámes</h2>
+            <div class="raza-modal">
+            <img src="../img/siames.avif" alt="" width="400" height="300">
+            <p> <b>Origen:</b> Tailandia (anteriormente Siam). <br>
+                <b>Características:</b> Cuerpo esbelto y musculoso, pelaje corto y brillante con "points" oscuros en extremidades. Altura de 30-35 cm y peso de 2.5-5.5 kg. <br>
+                <b>Temperamento:</b> Extrovertido, cariñoso y juguetón. Muy comunicativo y social, requiere interacción constante. <br>
+                <b>Cuidados:</b> Necesita juegos regulares y chequeos veterinarios frecuentes. Ideal para familias que buscan un compañero activo. <br></p>
+            </div>
+            </div>
+    </div>
+    <div id="ragdoll" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('ragdoll')">&times;</span>
+            <h2>Ragdoll</h2>
+            <div class="raza-modal">
+            <img src="../img/ragdoll.avif" alt="" width="300" height="200">
+            <p> <b>Origen:</b> Estados Unidos. <br>
+                <b>Características:</b> Gato grande con un pelaje semilargo y suave. Ojos azules grandes y expresivos, cuerpo robusto. <br>
+                <b>Temperamento:</b> Muy dócil, tranquilo y cariñoso. Se caracteriza por su tendencia a relajarse completamente cuando se le sostiene. <br>
+                <b>Cuidados:</b> Requiere cepillado regular para evitar enredos en su pelaje. Se adapta bien a la vida familiar y es amigable con niños y otras mascotas. <br></p>
+            </div>
+        </div>
+    </div>
+    <div id="abisinio" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('abisinio')">&times;</span>
+            <h2>Abisinio</h2>
+            <div class="raza-modal">
+            <img src="../img/abisinio.avif" alt="" width="300" height="300">
+            <p> <b>Origen:</b> Etiopía (antiguamente Abisinia). <br>
+                <b>Características:</b> Pelaje corto con un patrón "ticked" que da un aspecto cálido. Cuerpo ágil y musculoso. <br>
+                <b>Temperamento:</b> Activo, curioso e inteligente. Les gusta explorar y jugar. <br>
+                <b>Cuidados:</b>Necesitan estimulación mental y física. Requieren interacción social constante. <br></p>
+        </div>
+    </div>
+    </div>
+    <div id="esfinge" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('esfinge')">&times;</span>
+            <h2>Esfinge</h2>
+            <div class="raza-modal">
+            <img src="../img/esfinge.avif" alt="" width="400" height="300">
+            <p> <b>Origen:</b> Canadá. <br>
+                <b>Características:</b> Sin pelaje, con piel suave y arrugada. Tienen orejas grandes y ojos expresivos. <br>
+                <b>Temperamento:</b> Muy cariñosos, sociables e inteligentes. Suelen ser juguetones y disfrutan de la compañía humana. <br>
+                <b>Cuidados:</b> Necesitan baños regulares para mantener su piel limpia y evitar acumulación de grasa. <br></p>
+        </div>
+    </div>
+    </div>
+    <div id="persa" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('persa')">&times;</span>
+            <h2>Persa</h2>
+            <div class="raza-modal">
+            <img src="../img/persa.avif" alt="" width="400" height="300">
+            <p> <b>Origen:</b> Irán (antiguamente Persia). <br>
+                <b>Características:</b> Cuerpo robusto, pelaje largo y denso, cara plana con ojos grandes. <br>
+                <b>Temperamento:</b> Tranquilo, cariñoso y algo reservado. Prefiere ambientes calmados. <br>
+                <b>Cuidados:</b> Requiere cepillado diario para evitar enredos en su pelaje. Necesita atención a su salud ocular. <br></p>
+        </div>
+    </div>
+    </div>
+    <div id="burnes" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('burnes')">&times;</span>
+            <h2>Búrnes</h2>
+            <div class="raza-modal">
+            <img src="../img/burnes.jpg" alt="" width="400" height="300">
+            <p> <b>Origen:</b> Birmania (Myanmar). <br>
+                <b>Características:</b> Cuerpo compacto, pelaje corto y brillante que puede ser de varios colores. <br>
+                <b>Temperamento:</b> Amistoso, curioso y juguetón. Se adapta bien a diferentes entornos familiares. <br>
+                <b>Cuidados:</b> Necesitan ejercicio regular y estimulación mental. <br></p>
+        </div>
+    </div>
+    </div>
+    <div id="siberiano" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('siberiano')">&times;</span>
+            <h2>Siberiano</h2>
+            <div class="raza-modal">
+            <img src="../img/siberiano.jpg" alt="" width="400" height="300">
+            <p> <b>Origen:</b> Rusia (antiguamente Siberia). <br>
+                <b>Características:</b> Gato grande con pelaje denso y resistente al agua. Tienen una estructura muscular fuerte. <br>
+                <b>Temperamento:</b> Amigable, juguetón e inteligente. Son buenos nadadores. <br>
+                <b>Cuidados:</b> Requieren cepillado regular debido a su pelaje largo. Son adaptables a diferentes entornos. <br></p>
+        </div>
+    </div>
+    </div>
+    <div id="himalayo" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('himalayo')">&times;</span>
+            <h2>Himalayo</h2>
+            <div class="raza-modal">
+            <img src="../img/himalayo.jpg" alt="" width="400" height="300">
+            <p> <b>Origen:</b> Estados Unidos (cruce entre Persa y Siamés).
+                <b>Características:</b> Similar al Persa pero con el patrón de color del Siamés. Pelaje largo y suave, ojos azules intensos. <br>
+                <b>Temperamento:</b> Cariñoso, tranquilo y sociable. Disfrutan de la compañía humana. <br>
+                <b>Cuidados:</b> Requiere cepillado frecuente para mantener su pelaje en buen estado. <br></p>
+        </div>
+    </div>
+    </div>
+
+    <button onclick="location.href='../Cliente/Especies.html'" class="volver-boton"><svg xmlns="http://www.w3.org/2000/svg" id="Bold" viewBox="0 0 24 24" width="36" height="36">
+            <path d="M4.943,5.606,1.024,9.525a3.585,3.585,0,0,0,0,4.95l3.919,3.919a1.5,1.5,0,1,0,2.121-2.121L4.285,13.492l18.25-.023a1.5,1.5,0,0,0,1.5-1.5v0a1.5,1.5,0,0,0-1.5-1.5L4.3,10.492,7.064,7.727A1.5,1.5,0,0,0,4.943,5.606Z"/>
+        </svg>
+    </button>  
+    <script src="../js/razas.js"></script>
+</body>
+</html>
