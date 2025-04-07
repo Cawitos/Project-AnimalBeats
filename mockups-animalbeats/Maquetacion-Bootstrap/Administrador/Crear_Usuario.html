@@ -59,43 +59,61 @@
                     </li>
                 </ul>
             </nav>  
-        <div class="contenedor-formulario">
-            <h2>Crear Usuario</h2>
-            <form id="form-crear" onsubmit="crearUsuario(event)">
-                <label for="nombre">Nombre de Usuario:</label>
-                <input type="text" id="nombre" name="nombre" required>
-
-                <label for="Rol">Seleccion de Rol</label>
-                <select id="tipo-rol" name="tipo-rol" required>
-                    <option value="Veterinario">Veterinario</option>
-                    <option value="Cliente">Cliente</option>
-                </select>
-
-                <label for="tipo-documento">Tipo de Documento:</label>
-                <select id="tipo-documento" name="tipo-documento" required>
-                    <option value="cc">C.C</option>
-                    <option value="ce">C.E</option>
-                </select>
-
-                <label for="numero-documento">Número de Documento:</label>
-                <input type="text" id="numero-documento" name="numero-documento" required>
-
-                <label for="contacto">Contacto de Usuario:</label>
-                <input type="text" id="contacto" name="contacto" required>
-
-                <label for="correo">Correo Electrónico:</label>
-                <input type="email" id="correo" name="correo" required>
-
-                <label for="contrasena">Contraseña:</label>
-                <input type="password" id="contrasena" name="contrasena" required>
-
-                <div class="botones">
-                    <button type="submit">Crear Usuario</button>
-                    <a href="GestionDeUsuarios.html"><button type="button">Cancelar</button></a>
+            <body>
+                <div class="contenedor-formulario">
+                    <h2 class="text-center mb-4">Crear Usuario</h2>
+                    <form id="form-crear" onsubmit="crearUsuario(event)">
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label"><i class="fas fa-user"></i> Nombre de Usuario:</label>
+                            <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Ingrese el nombre de usuario" required>
+                        </div>
+            
+                        <div class="mb-3">
+                            <label for="tipo-rol" class="form-label"><i class="fas fa-user-tag"></i> Selección de Rol:</label>
+                            <select id="tipo-rol" name="tipo-rol" class="form-select" required>
+                                <option value="Veterinario">Veterinario</option>
+                                <option value="Cliente">Cliente</option>
+                            </select>
+                        </div>
+            
+                        <div class="mb-3">
+                            <label for="tipo-documento" class="form-label"><i class="fas fa-id-card"></i> Tipo de Documento:</label>
+                            <select id="tipo-documento" name="tipo-documento" class="form-select" required>
+                                <option value="cc">C.C</option>
+                                <option value="ce">C.E</option>
+                            </select>
+                        </div>
+            
+                        <div class="mb-3">
+                            <label for="numero-documento" class="form-label"><i class="fas fa-hashtag"></i> Número de Documento:</label>
+                            <input type="text" id="numero-documento" name="numero-documento" class="form-control" placeholder="Ingrese el número de documento" required>
+                        </div>
+            
+                        <div class="mb-3">
+                            <label for="contacto" class="form-label"><i class="fas fa-phone"></i> Contacto de Usuario:</label>
+                            <input type="text" id="contacto" name="contacto" class="form-control" placeholder="Ingrese el número de contacto" required>
+                        </div>
+            
+                        <div class="mb-3">
+                            <label for="correo" class="form-label"><i class="fas fa-envelope"></i> Correo Electrónico:</label>
+                            <input type="email" id="correo" name="correo" class="form-control" placeholder="Ingrese el correo electrónico" required>
+                        </div>
+            
+                        <div class="mb-3">
+                            <label for="contrasena" class="form-label"><i class="fas fa-lock"></i> Contraseña:</label>
+                            <input type="password" id="contrasena" name="contrasena" class="form-control" placeholder="Ingrese la contraseña" required>
+                        </div>
+            
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-user-plus"></i> Crear Usuario</button>
+                            <a href="GestionDeUsuarios.html" class="btn btn-secondary"><i class="fas fa-times"></i> Cancelar</a>
+                        </div>
+                    </form>
                 </div>
-            </form>
-        </div>
-    </div>
-</body>
-<script src="../js/CrearUsuario.js"></script>
-</html>
+            
+
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+                <script src="../js/CrearUsuario.js"></script>
+            </body>
+            </html>
