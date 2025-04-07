@@ -74,3 +74,28 @@ def profile():
 
     return render_template('profile.html', user=user)
 
+@user_bp.route('/Mascotas', methods=['GET', 'POST'])
+def Mascotas():
+    connection = current_app.connection
+    
+    return render_template('GestionMascotas.html')
+
+def create_mascot():
+    connection = current_app.connection
+    if request.method == 'POST':
+        namec = request.form['namec']
+        edadc = request.form['edadc']
+        razaC = request.form['razaC']
+        especieC = request.form['especieC']
+        n_documento = request.form['n_documento']
+
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute("INSERT INTO mascotas (id_cliente, nombre, edad, id_raza, id_especie) VALUES (%s, %s, %s, %s, %s)", (n_documento, namec, edadc, razaC, especieC))
+                connection.commit()
+            return redirect(url_for('user_bp.GestionMascotas.html'))
+        except Exception as e:
+            return str(e)
+        
+    return render_template('GestionMascotas.html')
+
