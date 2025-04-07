@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <?xml version="1.0" encoding="UTF-8"?>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="../img/logoico.png">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="../css/administrador.css">
+    <link rel="stylesheet" href="../css/GestionConsultas.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">    
+    <script src="https://kit.fontawesome.com/a0994db117.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div class="contenedor-dashboard">
+        <nav class="barra-desplegable-1">
+            <ul>
+                <li class="fondo-logo">
+                    <a href="cliente.html" class="animalbeats">
+                        <img src="../img/logo-corto.png" alt="">
+                        <span class="nav-logo">AnimalBeats</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../Cliente/GestionMascotas.html" class="opcion">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 -960 960 960" width="24px" fill="#FFFCE8"><path d="M180-475q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29Zm180-160q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29Zm240 0q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29Zm180 160q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29ZM266-75q-45 0-75.5-34.5T160-191q0-52 35.5-91t70.5-77q29-31 50-67.5t50-68.5q22-26 51-43t63-17q34 0 63 16t51 42q28 32 49.5 69t50.5 69q35 38 70.5 77t35.5 91q0 47-30.5 81.5T694-75q-54 0-107-9t-107-9q-54 0-107 9t-107 9Z"/></svg>
+                        <span class="item-nav">Mascotas</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../Cliente/GestionConsultas.html" class="opcion">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 -960 960 960" width="24px" fill="#FFFCE8"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>
+                        <span class="item-nav">Consultas</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../Cliente/GestionReportes.html" class="opcion">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 -960 960 960" width="24px" fill="#FFFCE8"><path d="M200-120v-680h360l16 80h224v400H520l-16-80H280v280h-80Zm300-440Zm86 160h134v-240H510l-16-80H280v240h290l16 80Z"/></svg>
+                        <span class="item-nav">Reportes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../index.html" class="salir">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 24 24" fill="#FFFCE8">
+                            <path d="M10 17l5-5-5-5v10zM4 4h2v16H4V4zm16 0h-6v2h6v12h-6v2h6c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"></path>
+                        </svg>
+                    <span class="item-nav">Salir</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <main class="contenedor-consulta">
+            <div class="opciones-consulta">
+                <ul>
+                    <li><a href="../Cliente/Especies.html"><div class="imagen"><svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24" width="100" height="100">
+                        <path d="m12,13c-4.038,0-8,3.669-8,7.408,0,2.296,1.371,3.667,3.667,3.667.826,0,1.535-.28,2.22-.551.682-.27,1.327-.524,2.113-.524s1.431.254,2.113.524c.686.271,1.395.551,2.22.551,2.296,0,3.667-1.371,3.667-3.667,0-3.738-3.962-7.408-8-7.408Zm4.902,7.98s-.126.094-.568.094c-.254,0-.674-.166-1.118-.341-.828-.327-1.857-.733-3.215-.733s-2.388.407-3.215.733c-.444.176-.864.341-1.118.341-.442,0-.567-.093-.568-.094s-.098-.128-.098-.573c0-2.101,2.617-4.408,5-4.408s5,2.307,5,4.408c0,.445-.097.572-.098.573Zm7.069-8.917c-.213,2.331-1.492,4.089-2.856,3.926-1.364-.163-2.297-2.185-2.084-4.516.213-2.331,1.449-3.623,2.814-3.46.025.003.05.007.075.011.041-.173.067-.349.075-.525.057-1.258-.5-2.5-.5-2.5,0,0,2.65,1.352,2.5,3.5-.025.361-.099.745-.298,1.149.252.649.361,1.468.275,2.414ZM2.885,15.99c-1.364.163-2.643-1.595-2.856-3.926-.086-.943.022-1.759.272-2.407-.201-.406-.276-.793-.301-1.156-.15-2.148,2.5-3.5,2.5-3.5,0,0-.557,1.242-.5,2.5.008.176.034.353.075.526.027-.004.054-.009.081-.012,1.364-.163,2.6,1.129,2.814,3.46.213,2.331-.72,4.353-2.084,4.516Zm3.387-11.392c-.18-.385-.248-.751-.273-1.097-.15-2.148,2.5-3.5,2.5-3.5,0,0-.557,1.242-.5,2.5.008.174.033.347.073.518.01-.001.02-.003.03-.005,1.364-.163,2.6,1.129,2.814,3.46.213,2.331-.72,4.353-2.084,4.516-1.364.163-2.643-1.595-2.856-3.926-.089-.972.029-1.808.296-2.466Zm6.758,1.876c.213-2.331,1.449-3.623,2.814-3.46.01.001.02.003.03.005.04-.171.066-.345.073-.518.057-1.258-.5-2.5-.5-2.5,0,0,2.65,1.352,2.5,3.5-.024.346-.092.713-.273,1.097.266.658.385,1.494.296,2.466-.213,2.331-1.492,4.089-2.856,3.926-1.364-.163-2.297-2.185-2.084-4.516Z"/>
+                    </svg></div><div class="info"><h1>Consulta de Especies</h1><p>En nuestra consulta veterinaria, atendemos una amplia variedad de especies animales para garantizar el bienestar de tus mascotas y otros animales que puedas tener. Nuestro equipo está especializado en el cuidado y tratamiento de estas especies, ofreciendo atención personalizada para cada una de ellas. ¡Estamos aquí para ayudarte a mantener a tus animales sanos y felices!</p></div></a></li>
+                    <li><a href="../Cliente/Enfermedad.html"><div class="imagen"><svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24" width="100" height="100">
+                        <path d="m18.992,13.572c.097-.385,1.027-1.409,1.644-2.086,1.576-1.733,3.363-3.698,3.363-5.986,0-3.248-2.679-3.5-3.5-3.5-1.353,0-2.467.591-3.45,1.113-.896.476-1.669.887-2.55.887-.616,0-1.551-.95-2.302-1.713C11.091,1.162,9.946-.001,8.388-.001c-.331-.005-.779,0-1.279.183-1.474.542-1.812,2.043-1.955,2.683-.158.7-.164,1.841-.156,3.048l.002.36c0,.308-1.232,1.008-1.759,1.307-1.443.821-3.24,1.843-3.24,3.863,0,1.918,1.66,2.696,2.759,3.211.636.298,1.169.564,1.233.778-.06.204-.271.71-.967,1.96,0,0-.711,1.448-.854,2.062-.287,1.222.094,2.426.97,3.065,1.024.749,2.226.433,2.74.297.901-.238,1.738-.839,2.624-1.477.829-.596,1.86-1.338,2.444-1.341.346.053,1.644.743,3.654,2.367.757.611,2.281,1.635,3.985,1.635,2.071,0,3.409-1.338,3.409-3.409,0-1.935-1.01-3.404-1.822-4.585-.632-.919-1.178-1.713-1.185-2.434Zm-.025,7.371s-.097.057-.377.057c-.562,0-1.349-.363-2.101-.97-3.754-3.03-5.016-3.03-5.49-3.03-1.6,0-3.005,1.011-4.245,1.903-.574.413-1.223.88-1.597,1-.088-.273.489-1.052.489-1.052.987-1.773,1.341-2.644,1.353-3.327.033-2.181-1.845-3.061-2.967-3.587-.318-.149-.829-.389-1.018-.552.141-.306,1.268-.947,1.709-1.198,1.459-.83,3.275-1.862,3.275-3.915l-.002-.38c-.004-.582-.013-1.945.083-2.368.063-.284.115-.441.151-.528h.019c.047,0,.103,0,.153.002.332.047,1.16.89,1.655,1.393,1.144,1.162,2.566,2.609,4.44,2.609,1.628,0,2.919-.686,3.957-1.237.771-.41,1.438-.763,2.043-.763.299,0,.45.055.449.035.015.029.051.131.051.465,0,1.127-1.432,2.702-2.583,3.967-1.297,1.426-2.417,2.658-2.417,4.033,0,1.724.906,3.042,1.706,4.206.694,1.01,1.294,1.882,1.294,2.885,0,.253-.032.341-.032.353Zm-9.468-9.943c-.828,0-1.5-.672-1.5-1.5s.672-1.5,1.5-1.5,1.5.672,1.5,1.5-.672,1.5-1.5,1.5Zm6.5-.5c0,.828-.672,1.5-1.5,1.5s-1.5-.672-1.5-1.5.672-1.5,1.5-1.5,1.5.672,1.5,1.5Zm-4,4c0,.828-.672,1.5-1.5,1.5s-1.5-.672-1.5-1.5.672-1.5,1.5-1.5,1.5.672,1.5,1.5Z"/>
+                    </svg></div><div class="info1"><h1>Consulta de Enfermedades</h1><p>En nuestra consulta veterinaria, nos dedicamos a la prevención, diagnóstico y tratamiento de una amplia gama de enfermedades que pueden afectar a tus mascotas. Nuestro equipo de profesionales está altamente capacitado para identificar y manejar condiciones de salud en diversas especies, asegurando que cada animal reciba la atención adecuada. ¡Tu mascota merece lo mejor! Estamos comprometidos a ayudarte a mantener a tus animales sanos y felices, brindándoles la atención veterinaria e Información que necesitan para vivir una vida plena y saludable.</p></div></a></li>
+                    <li><a href="../Cliente/Citas.html"><div class="imagen"><svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24" width="100" height="100">
+                        <path d="M17.5,0H6.5C3.462,0,1,2.462,1,5.5v14.303c.159,2.338,2.122,4.197,4.5,4.197h12c3.033,0,5.5-2.467,5.5-5.5V5.5c0-3.033-2.467-5.5-5.5-5.5ZM4,5.5c0-1.381,1.119-2.5,2.5-2.5h.5V15h-1.5c-.529,0-1.029,.108-1.5,.276V5.5Zm16,13c0,1.378-1.122,2.5-2.5,2.5H5.5c-1.972-.035-1.97-2.965,0-3h14.5v.5Zm0-3.5H10V3h3v7.348c0,.623,.791,.89,1.169,.395l1.331-1.743,1.331,1.743c.378,.495,1.169,.228,1.169-.395V3.051c1.14,.232,2,1.242,2,2.449V15Z"/>
+                    </svg></div><div class="info"><h1>Consulta de Citas</h1><p>En nuestra consulta veterinaria, entendemos la importancia de mantener un seguimiento adecuado de la salud de tus mascotas. Por eso, te invitamos a revisar tus próximas citas con nosotros para asegurarte de que tu animal reciba la atención necesaria en el momento adecuado. ¡Estamos aquí para asegurarnos de que tu mascota reciba la mejor atención posible! Revisa tus próximas citas y mantén a tu compañero sano y feliz.</p></div></a></li>
+                </ul>
+            </div>                
+        </main>
+    </div>
+</body>
+</html>
