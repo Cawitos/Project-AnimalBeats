@@ -1,5 +1,5 @@
 class Config:
-    SECRET_KEY = 'CLAVE'
+    SECRET_KEY = ''
     MYSQL_HOST = 'localhost'
     MYSQL_USER = 'root'
     MYSQL_PASSWORD = ''
