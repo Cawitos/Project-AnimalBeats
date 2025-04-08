@@ -4,4 +4,4 @@ main_bp = Blueprint('main_bp', __name__)
 
 @main_bp.route('/')
 def Home():
-    return render_template('administrador.html')
+    return render_template('index.html')

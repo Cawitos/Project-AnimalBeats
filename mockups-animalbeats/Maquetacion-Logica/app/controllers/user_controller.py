@@ -13,60 +13,64 @@ def login():
         contrasena = request.form['contrasena']
 
         connection = current_app.connection
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT contrasena FROM Usuarios WHERE correoelectronico=%s", (correoelectronico,))
-            result = cursor.fetchone()
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT contrasena FROM Usuarios WHERE correoelectronico=%s", (correoelectronico,))
+                result = cursor.fetchone()
+                if result and bcrypt.check_password_hash(result['contrasena'], contrasena):
+                    session['correoelectronico'] = correoelectronico  # Guardar el email del usuario en la sesión
+                    return redirect(url_for('user_bp.profile'))
+                else:
+                    return "Inicio de sesion fallido"
+        except Exception as e:
+            return str(e)
 
-            if result and bcrypt.check_password_hash(result['contrasena'], contrasena):
-                session['correoelectronico'] = correoelectronico  # Guardar el correo electrónico en la sesión
-                return redirect(url_for('user_bp.profile'))
-            else:
-                return "Inicio de sesión fallido"
-
-    return render_template('registro.html')
-
-
+    return render_template('login.html')
 
 @user_bp.route('/register', methods=['GET', 'POST'])
 def register():
+    
     connection = current_app.connection
-
     if request.method == 'POST':
-        n_documento = request.form['n_documento']
+        name = request.form['name']
         correoelectronico = request.form['correoelectronico']
         contrasena = request.form['contrasena']
-
-        if not contrasena:
-            return "Contraseña vacía. Por favor, ingrésala."
-
         hashed_password = bcrypt.generate_password_hash(contrasena).decode('utf-8')
 
-        with connection.cursor() as cursor:
-            # Insertar el nuevo usuario en la tabla Usuarios
-            cursor.execute("""
-                INSERT INTO Usuarios (n_documento, correoelectronico, contrasena)
-                VALUES (%s, %s, %s)
-            """, (n_documento, correoelectronico, hashed_password))
-            connection.commit()
-
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute("INSERT INTO usuarios (name, correoelectronico, contrasena) VALUES (%s, %s, %s, %s)", (name, correoelectronico, hashed_password))
+                connection.commit()
             return redirect(url_for('user_bp.login'))
+        except Exception as e:
+            return str(e)
 
-    return render_template('register.html')
+    # Obtener los roles de la base de datos
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT id, role_name FROM roles")
+            roles = cursor.fetchall()
+    except Exception as e:
+        return str(e)
 
+    return render_template('register.html', roles=roles)
 
 @user_bp.route('/profile')
 def profile():
-    # Obtener el correo electrónico del usuario desde la sesión o redireccionar al login si no está autenticado
-    correoelectronico = session.get('correoelectronico')
+    # Obtener el email del usuario desde la sesión o redireccionar al login si no está autenticado
+    correoelectronico = session.get('user_email')
     if not correoelectronico:
         return redirect(url_for('user_bp.login'))
     
     connection = current_app.connection
-    with connection.cursor() as cursor:
-        # Recuperar la información del usuario por correo electrónico
-        cursor.execute("SELECT n_documento, correoelectronico FROM Usuarios WHERE correoelectronico=%s", (correoelectronico,))
-        user = cursor.fetchone()
-        if not user:
-            return "Usuario no encontrado"
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT name, correoelectronico, role_id FROM usuarios WHERE email=%s", (correoelectronico,))
+            user  = cursor.fetchone()
+            if not user:
+                return "User not found"
+    except Exception as e:
+        return str(e)
 
     return render_template('profile.html', user=user)
+

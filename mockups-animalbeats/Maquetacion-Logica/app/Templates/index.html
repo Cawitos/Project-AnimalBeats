@@ -10,6 +10,7 @@
     <script src="https://kit.fontawesome.com/a0994db117.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="../static/css/styles.css">
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
     <title>AnimalBeats</title>
 </head>
 <body>
@@ -22,13 +23,10 @@
                 <button id="contact-btn">CONTACTENOS</button>
                 <form action="{{ url_for('user_bp.login') }}" method="get">
                     <button type="submit" class="btn">LOGIN</button>
-                </form>
-                
-
-                  
+                </form>     
             </div>
         </div>
-        <div id="contact-modal" class="modal">
+        <!-- <div id="contact-modal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
                 <h2>Contáctanos</h2>
@@ -42,11 +40,8 @@
                     <button type="submit" class="btn-submit">Enviar</button>
                 </form>
             </div>
-        </div>
-   
-<a href="{{ url_for('user_bp.register') }}" class="btn btn-success">Registrarse</a>
-
-        
+        </div> -->
+        <a href="{{ url_for('user_bp.register') }}" class="btn btn-success">Registrarse</a>
         <div class="publicidad">
             <ul>
                 <li>
@@ -112,7 +107,7 @@
             <p>2024 AnimalBeats Todos los derechos reservados.</p>
         </footer>
         
-        <div id="ubicacion-modal" class="modal">
+        <!-- <div id="ubicacion-modal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
                 <h2>¿Dónde nos ubicamos?</h2>
@@ -154,7 +149,7 @@
                     <b>Consulta General, Urgencias, Baños, Peluquerías, Vacunaciones, Cardiología y Nutricionista</b>. <br> 
                     También afiliamiento de usuarios en nuestra base de datos como de tus mascotas.</p>
             </div>
-        </div>             
+        </div>   -->          
     </div>
     <script src="js/modalLogin.js"></script>
     <script src="js/validacion.js"></script>
