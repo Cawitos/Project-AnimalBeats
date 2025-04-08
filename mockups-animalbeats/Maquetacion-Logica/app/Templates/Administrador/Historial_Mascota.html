@@ -7,8 +7,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Dashboard</title>
     <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/administrador.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{url_for('static', filename='administrador.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='bootstrap.min.css')}}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">    
@@ -85,49 +85,61 @@
       </div>
       <div class="contenedor-dashboard">
         <div class="contenido-principal">
-            <h1>Crear Mascota</h1>
-            <div class="contenedor-formulario-1">
-                <form id="form-mascota" method="POST" action="{{ url_for('user_bp.create_mascot') }}">
-                    <div class="mb-3">
-                        <label for="nameC" class="form-label">Nombre de Mascota:</label>
-                        <input type="text" class="form-control" id="nameC" name="nameC" required>
+            <h1>Historial Médico de la Mascota</h1>
+            
+            <div class="container">
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3>Información de la Mascota</h3>
+                        <table class="table">
+                            <tr>
+                                <th>ID de la Mascota</th>
+                                <td>{{ historiales.M.id }}</td>
+                            </tr>
+                            <tr>
+                                <th>Nombre de la Mascota</th>
+                                <td>{{ historiales.M.nombre }}</td>
+                            </tr>
+                            <tr>
+                                <th>Especie</th>
+                                <td>{{ historiales.M.especie }}</td>
+                            </tr>
+                            <tr>
+                                <th>Raza</th>
+                                <td>{{ historiales.M.raza }}</td>
+                            </tr>
+                            <tr>
+                                <th>Edad</th>
+                                <td>{{ historiales.M.edad }}</td>
+                            </tr>
+                            <tr>
+                                <th>Dueño</th>
+                                <td>{{ historiales.M.dueño }}</td>
+                            </tr>
+                        </table>
                     </div>
-
-                    <div class="mb-3">
-                        <label for="EspecieC" class="form-label">Especie:</label>
-                        <select class="form-select" id="EspecieC" name="especieC" required>
-                            {% for especie in especies %}
-                                <option value="{{ especie.Especie }}">{{ especie.Especie }}</option>
-                            {% endfor %}
-                        </select>
+                    <div class="col-md-6">
+                        <h3>Historial Médico</h3>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Descripción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{ historiales.A.fecha }}</td>
+                                    <td>{{ historiales.A.descripcion }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-
-                    <div class="mb-3">
-                        <label for="razaC" class="form-label">Raza:</label>
-                        <select class="form-select" id="razaC" name="razaC" required>
-                            {% for raza in razas %}
-                                <option value="{{ raza.id }}">{{ raza.Raza }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="edadC" class="form-label">Edad:</label>
-                        <input type="number" class="form-control" id="edadC" name="edadC" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="n_documento" class="form-label">Dueño a Asignar:</label>
-                        <input type="text" class="form-control" id="n_documento" name="n_documento" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <button type="submit" class="btn btn-primary">Crear Mascota</button>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

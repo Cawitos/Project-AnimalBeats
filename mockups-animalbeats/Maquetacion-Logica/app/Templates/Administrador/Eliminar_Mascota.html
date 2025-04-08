@@ -85,49 +85,16 @@
       </div>
       <div class="contenedor-dashboard">
         <div class="contenido-principal">
-            <h1>Crear Mascota</h1>
+            <h1>Eliminar Mascota</h1>
             <div class="contenedor-formulario-1">
-                <form id="form-mascota" method="POST" action="{{ url_for('user_bp.create_mascot') }}">
-                    <div class="mb-3">
-                        <label for="nameC" class="form-label">Nombre de Mascota:</label>
-                        <input type="text" class="form-control" id="nameC" name="nameC" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="EspecieC" class="form-label">Especie:</label>
-                        <select class="form-select" id="EspecieC" name="especieC" required>
-                            {% for especie in especies %}
-                                <option value="{{ especie.Especie }}">{{ especie.Especie }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="razaC" class="form-label">Raza:</label>
-                        <select class="form-select" id="razaC" name="razaC" required>
-                            {% for raza in razas %}
-                                <option value="{{ raza.id }}">{{ raza.Raza }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="edadC" class="form-label">Edad:</label>
-                        <input type="number" class="form-control" id="edadC" name="edadC" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="n_documento" class="form-label">Dueño a Asignar:</label>
-                        <input type="text" class="form-control" id="n_documento" name="n_documento" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <button type="submit" class="btn btn-primary">Crear Mascota</button>
-                    </div>
-                </form>
-            </div>
+                <form id="form-mascota" method="post" action="{{ url_for('user_bp.delete_mascot') }}">
+                    <tr><label for="nameC">Nombre de la mascota</label></tr>
+                    
+                    <td><button>Eliminar</button></td>
+                    <td><button>Volver</button></td>
         </div>
     </div>
+      </div>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
 </body>
 </html>
