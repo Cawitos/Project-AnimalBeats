@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="../img/logoico.png">
+    <title>Gestión de Especies</title>
+    <link rel="stylesheet" href="../css/administrador.css">
+    <link rel="stylesheet" href="../css/GestionConsultas.css">
+    <link rel="stylesheet" href="../css/Especies.css">
+    <link rel="stylesheet" href="../css/razas.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">    
+    <script src="https://kit.fontawesome.com/a0994db117.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+
+    <div class="header">
+            <div class="logo">
+                <img src="../img/logo.png" alt="Logo" width="180px">
+                <h2>Cliente<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve" width="30" height="30">
+                    <g>
+                        <circle cx="256" cy="128" r="128"/>
+                        <path d="M256,298.667c-105.99,0.118-191.882,86.01-192,192C64,502.449,73.551,512,85.333,512h341.333   c11.782,0,21.333-9.551,21.333-21.333C447.882,384.677,361.99,298.784,256,298.667z"/>
+                    </g>
+                    </svg></h2>
+            </div>
+        <h1>RAZAS<svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24">
+            <path d="m23.135,5.805c-.821-.798-1.864-.818-2.017-.805-.118,0-.224-.065-.277-.171-.564-1.128-1.698-1.829-2.959-1.829h-.882V.77c0-.525-.522-.904-1.015-.726-1.157.416-1.985,1.523-1.985,2.824v.934c-.034.064-1.55,4.197-1.55,4.197h-4.949c-1.433,0-2.777.552-3.806,1.543-.364-.468-.695-1.131-.695-2.042,0-.829-.671-1.5-1.5-1.5s-1.5.671-1.5,1.5c0,2.395,1.2,3.926,2.153,4.766-.092.402-.152.812-.152,1.234l.002,8.001c0,1.377,1.123,2.498,2.5,2.498s2.5-1.122,2.5-2.5v-2.5h7v2.5c0,1.378,1.122,2.5,2.5,2.5s2.5-1.122,2.5-2.5v-4.314l1.06-4.221c2.216-.278,3.937-2.174,3.937-4.465v-.474c0-1.14-.471-1.837-.865-2.221Zm-2.135,2.695c0,.828-.672,1.5-1.5,1.5h-.615c-.688,0-1.288.468-1.455,1.135l-1.261,5.021c-.201-.099-.426-.155-.666-.155H5.503c-.176,0-.345.03-.502.086v-2.586c0-1.381,1.119-2.5,2.5-2.5h6.002c.632,0,1.196-.396,1.411-.991l1.446-4.008h1.521c.121,0,.227.072.281.18.549,1.09,1.631,1.779,2.837,1.821,0,.008,0,.5,0,.5Z"/>
+          </svg></h1>
+        <div class="search-container">
+            <input type="text" placeholder="Búsqueda">
+        </div>
+    </div>
+    <div class="breed-buttons">
+        <button onclick="openRaceModal('bullterrier')">BULLTERRIER</button>
+        <button onclick="openRaceModal('bulldog')">BULLDOG</button>
+        <button onclick="openRaceModal('poodle')">PODDLE</button>
+        <button onclick="openRaceModal('dalmata')">DALMATA</button>
+        <button onclick="openRaceModal('pastoraleman')">PASTOR ALEMAN</button>
+        <button onclick="openRaceModal('chihuahua')">CHIHUAHUA</button>
+        <button onclick="openRaceModal('beagle')">BEAGLE</button>
+        <button onclick="openRaceModal('husky')">HUSKY</button>
+    </div>
+
+    <div id="bullterrier" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('bullterrier')">&times;</span>
+            <h2>Bullterrier</h2>
+            <div class="raza-modal">
+                <img src="../img/bullterrier.jpg" alt="" width="400" height="300">
+                <p><b>Características:</b> El Bull Terrier es conocido por su cuerpo robusto y su cabeza en forma de huevo. Tienen un pelaje corto que puede ser blanco o de varios colores. <br>
+                <b>Temperamento: </b> perros enérgicos, juguetones y leales. Pueden ser un poco obstinados, lo que requiere un entrenamiento firme y consistente. <br>
+                <b>Cuidados:</b> Necesitan ejercicio regular y socialización desde cachorros para evitar problemas de comportamiento. <br></p>
+        
+            </div>
+    </div>
+</div>
+    <div id="bulldog" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('bulldog')">&times;</span>
+            <h2>Bulldog</h2>
+            <div class="raza-modal">
+            <img src="../img/bulldog.jpg" alt="" width="400" height="300">
+            <p><b>Características:</b> Los Bulldogs son perros musculosos con un aspecto distintivo, incluyendo una cara arrugada y un cuerpo compacto. Su pelaje es corto y suave. <br>
+                <b>Temperamento:</b> Son conocidos por su naturaleza tranquila y amigable. Son muy leales a sus familias y suelen llevarse bien con niños. <br>
+                <b>Cuidados:</b> Requieren poco ejercicio, pero es importante cuidar su piel y arrugas para prevenir infecciones. <br></p>
+        </div>
+    </div>
+</div>
+    <div id="poodle" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('poodle')">&times;</span>
+            <h2>Poodle</h2>
+            <div class="raza-modal">
+            <img src="../img/poodle.jpg" alt="" width="400" height="300">
+            <p><b>Características:</b> Los Poodles vienen en tres tamaños (toy, miniatura y estándar) y tienen un pelaje rizado que requiere cuidados regulares. <br>
+                <b>Temperamento:</b> Son extremadamente inteligentes, lo que los hace fáciles de entrenar. Son activos y juguetones, disfrutando de la compañía humana. <br>
+                <b>Cuidados:</b> Necesitan cepillado frecuente para evitar enredos y mantener su pelaje en buen estado. <br></p>
+        </div>
+    </div>
+    </div>
+    <div id="dalmata" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('dalmata')">&times;</span>
+            <h2>Dalmata</h2>
+            <div class="raza-modal">
+            <img src="../img/dalmata.avif" alt="" width="400" height="300">
+            <p><b>Características:</b> Los Dálmatas son fácilmente reconocibles por su pelaje blanco con manchas negras o marrones. Miden entre 54 y 62 cm de altura. <br>
+                <b>Temperamento:</b> Son perros muy activos, inteligentes y sociables. Les encanta jugar y necesitan mucho ejercicio diario. <br>
+                <b>Cuidados:</b> Requieren atención constante para evitar problemas de comportamiento si se sienten solos. Además, son sensibles al sol. <br></p>
+        </div>
+    </div>
+    </div>
+    <div id="pastoraleman" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('pastoraleman')">&times;</span>
+            <h2>Pastor Aleman</h2>
+            <div class="raza-modal">
+            <img src="../img/pastor-aleman.avif" alt="" width="400" height="300">
+            <p><b>Características:</b> Esta raza es grande y musculosa, con un pelaje denso que puede ser negro con marcas marrones o completamente negro. <br>
+                <b>Temperamento:</b> Son conocidos por su inteligencia, lealtad y versatilidad. Se utilizan comúnmente como perros de trabajo en diversas funciones, incluyendo policía y servicio militar. <br>
+                <b>Cuidados:</b> Necesitan ejercicio regular y estimulación mental para mantenerse felices. <br></p>
+        </div>
+    </div>
+</div>
+    <div id="chihuahua" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('chihuahua')">&times;</span>
+            <h2>Chihuahua</h2>
+            <div class="raza-modal">
+            <img src="../img/chihuahua.avif" alt="" width="400" height="300">
+            <p><b>Características:</b> El Chihuahua es una de las razas más pequeñas, con un peso que varía entre 1.5 a 3 kg. Su pelaje puede ser corto o largo. <br>
+                <b>Temperamento:</b> Son perros muy leales, pero pueden ser territoriales. A menudo forman un fuerte vínculo con sus dueños. <br>
+                <b>Cuidados:</b> Requieren poco ejercicio, pero necesitan socialización adecuada para evitar comportamientos agresivos. <br></p>
+        </div>
+    </div>
+</div>
+    <div id="beagle" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('beagle')">&times;</span>
+            <h2>Beagle</h2>
+            <div class="raza-modal">
+            <img src="../img/beagle.avif" alt="" width="400" height="300">
+            <p><b>Características:</b> Los Beagles son perros de tamaño mediano con orejas largas y un pelaje corto que puede ser tricolor o bicolor. <br>
+                <b>Temperamento:</b> Son amigables, curiosos e inteligentes. Les encanta seguir olores, lo que puede hacerlos un poco difíciles de entrenar si no se les supervisa. <br>
+                <b>Cuidados:</b> Necesitan ejercicio regular para mantenerse saludables y felices. <br></p>
+        </div>
+    </div>
+</div>
+    <div id="husky" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('husky')">&times;</span>
+            <h2>Husky</h2><div class="raza-modal">
+            <img src="../img/husky.jpg" alt="" width="400" height="300">
+            <p><b>Características:</b> Los Huskies son conocidos por su apariencia similar a los lobos, con un pelaje denso que puede ser de varios colores. Tienen ojos llamativos que pueden ser azules o marrones. <br>
+               <b>Temperamento:</b> Son perros muy enérgicos e independientes, ideales para familias activas. Les encanta correr y jugar al aire libre. <br>
+                <b>Cuidados:</b> Requieren mucho ejercicio diario y no se adaptan bien a la vida en apartamentos sin suficiente actividad física. <br></p>
+        </div>
+    </div>
+    </div>
+</div>
+    <button onclick="location.href='../Cliente/Especies.html'" class="volver-boton"><svg xmlns="http://www.w3.org/2000/svg" id="Bold" viewBox="0 0 24 24" width="36" height="36">
+            <path d="M4.943,5.606,1.024,9.525a3.585,3.585,0,0,0,0,4.95l3.919,3.919a1.5,1.5,0,1,0,2.121-2.121L4.285,13.492l18.25-.023a1.5,1.5,0,0,0,1.5-1.5v0a1.5,1.5,0,0,0-1.5-1.5L4.3,10.492,7.064,7.727A1.5,1.5,0,0,0,4.943,5.606Z"/>
+        </svg>
+    </button>  
+    <script src="../js/razas.js"></script>
+</body>
+</html>

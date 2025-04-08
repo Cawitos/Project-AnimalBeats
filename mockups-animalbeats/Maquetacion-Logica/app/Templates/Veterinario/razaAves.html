@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="../img/logoico.png">
+    <title>Gestión de Especies</title>
+    <link rel="stylesheet" href="../css/administrador.css">
+    <link rel="stylesheet" href="../css/GestionConsultas.css">
+    <link rel="stylesheet" href="../css/Especies.css">
+    <link rel="stylesheet" href="../css/razas.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">    
+    <script src="https://kit.fontawesome.com/a0994db117.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+
+    <div class="header">        
+            <div class="logo">
+                <img src="../img/logo.png" alt="Logo" width="180px">
+                <h2>Veterinario<svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24" width="30" height="30"><path d="m12.021,12c-3.309,0-6-2.691-6-6S8.713,0,12.021,0s6,2.691,6,6-2.691,6-6,6Zm1.979,6.184v-4.184h-5.021v4.277c.595.346,1,.984,1,1.723,0,1.105-.895,2-2,2s-2-.895-2-2c0-.738.405-1.376,1-1.723v-4.275c-2.747.012-4.979,2.248-4.979,4.998v5h10v-3c0-1.302.839-2.402,2-2.816Zm3-4.184h-1v4.184c1.161.414,2,1.514,2,2.816v3h4v-5c0-2.757-2.243-5-5-5Zm-2,6c-.552,0-1,.448-1,1v3h2v-3c0-.552-.448-1-1-1Z"/></svg></h2>
+            </div>
+        <h1>RAZAS<svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24">
+            <path d="m20.91,10.024l.033-2.024h3.057c0-1.892-1.085-2.934-2-3.476,0-.008,0-.016,0-.024,0-1.414-.645-2.718-1.77-3.577-1.125-.86-2.571-1.136-3.966-.756-1.303.355-2.393,1.325-2.914,2.594-.151.368-.255.748-.309,1.131-.163,1.168-.57,2.097-1.212,2.76L-.015,21.367l2.338,1.881,1.808-2.248h3.692l1.5,3h3.354l-1.532-3.064c.512-.057,1.015-.151,1.506-.28l1.672,3.343h3.354l-2.253-4.507c3.25-1.928,5.486-5.496,5.486-9.469Zm-10.91,7.976h-3.456l2.42-3.008c3.328-.172,5.975-2.985,5.975-6.429l.034-1.125c.527-.899.876-1.946,1.041-3.129.019-.133.057-.271.113-.408.167-.407.522-.729.926-.839.664-.18,1.135.076,1.356.245.375.287.591.722.591,1.193,0,.579-.328.951-.523,1.122l-.502.438-.064,3.939c0,4.337-3.623,8-7.91,8Z"/>
+          </svg></h1>
+        <div class="search-container">
+            <input type="text" placeholder="Búsqueda">
+        </div>
+        <div class="actions">
+            <button id="añadirRaza">AÑADIR RAZA</button>
+            <button id="elimRaza">ELIMINAR RAZA</button>
+            <button id="modRaza">MODIFICAR RAZA</button>
+        </div>
+    </div>
+
+    <div id="razaModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalTitle">Añadir Raza</h2>
+            <form id="razaForm">
+                <label for="razaNombre">Nombre de la Raza:</label>
+                <input type="text" id="razaNombre" name="razaNombre" required>
+                <label for="razaInfo">Información:</label>
+                <textarea id="razaInfo" name="razaInfo" required></textarea>
+                <button type="submit" id="submitBtn">Añadir Raza</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="breed-buttons">
+        <button onclick="openRaceModal('loro')">LORO</button>
+        <button onclick="openRaceModal('gallo')">GALLO</button>
+        <button onclick="openRaceModal('pavo')">PAVO</button>
+        <button onclick="openRaceModal('perico')">PERICO</button>
+        <button onclick="openRaceModal('ganso')">GANSO</button>
+        <button onclick="openRaceModal('pato')">PATO</button>
+        <button onclick="openRaceModal('paloma')">PALOMA</button>
+        <button onclick="openRaceModal('canario')">CANARIO</button>
+    </div>
+
+    <div id="loro" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('loro')">&times;</span>
+            <h2>Loro</h2>
+            <div class="raza-modal">
+            <img src="../img/loro.avif" alt="" width="300" height="300">
+            <p> <b>Características:</b> Los loros son aves coloridas con un pico curvado y patas fuertes. Varían en    tamaño, desde pequeños como los agapornis hasta grandes como los guacamayos. <br>
+                <b>Temperamento:</b> Son muy inteligentes, sociales y pueden imitar sonidos y palabras. Disfrutan de la interacción humana. <br>
+                <b>Cuidados:</b> Necesitan espacio para volar, estimulación mental y una dieta variada que incluya frutas, verduras y semillas. <br></p>
+            </div>
+            </div>
+    </div>
+    <div id="gallo" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('gallo')">&times;</span>
+            <h2>Gallo</h2>
+            <div class="raza-modal">
+            <img src="../img/gallo.avif" alt="" width="300" height="300">
+            <p> <b>Características:</b> El gallo es un ave doméstica con plumaje colorido, cresta prominente y un canto característico. Mide entre 50 y 90 cm de altura. <br>
+                <b>Temperamento:</b> Son territoriales y protectores de su grupo. Pueden ser agresivos con otros machos. <br>
+                <b>Cuidados:</b> Requieren un espacio adecuado para moverse, así como una dieta balanceada para mantener su salud. <br></p>
+        </div>
+    </div>
+    </div>
+    <div id="pavo" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('pavo')">&times;</span>
+            <h2>Pavo</h2>
+            <div class="raza-modal">
+            <img src="../img/pavo.avif" alt="" width="300" height="300">
+            <p> <b>Características:</b> Los pavos son aves grandes con plumaje denso y colorido. Los machos tienen plumas iridiscentes y un característico "pico" en la cabeza. <br>
+                <b>Temperamento:</b> Son aves sociales que pueden ser amistosas pero también pueden mostrar comportamientos agresivos si se sienten amenazados. <br>
+                <b>Cuidados:</b> Necesitan un espacio amplio para forrajear y una dieta rica en granos y vegetales. <br>
+                </p>
+        </div>
+    </div>
+    </div>    
+    <div id="perico" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('perico')">&times;</span>
+            <h2>Perico</h2>
+            <div class="raza-modal">
+            <img src="../img/perico.avif" alt="" width="300" height="300">
+            <p> <b>Características:</b> Los pericos son aves pequeñas con plumaje vibrante, especialmente en las especies como el periquito australiano. Miden alrededor de 18 cm de longitud. <br>
+                <b>Temperamento:</b> Son sociables, juguetones y pueden ser muy cariñosos con sus dueños. Les gusta interactuar con otros pericos. <br>
+                <b>Cuidados:</b> Requieren una jaula espaciosa, juguetes para mantenerse activos y una dieta a base de semillas, frutas y verduras. <br></p>
+        </div>
+    </div>
+    </div>    
+    <div id="ganso" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('ganso')">&times;</span>
+            <h2>Ganso</h2>
+            <div class="raza-modal">
+            <img src="../img/ganso.avif" alt="" width="300" height="300">
+            <p><b>Características:</b> Los gansos son aves acuáticas grandes con cuerpos robustos y cuellos largos. Tienen plumaje que varía en color según la especie. <br>
+                <b>Temperamento:</b> Son protectores de su territorio y pueden ser agresivos si se sienten amenazados. Son muy sociales entre ellos. <br>
+                <b>Cuidados:</b> Necesitan acceso a agua para nadar y forrajear, así como una dieta rica en pasto y granos. <br></p>
+        </div>
+    </div>
+    </div>
+    <div id="pato" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('pato')">&times;</span>
+            <h2>Pato</h2>
+            <div class="raza-modal">
+            <img src="../img/pato.avif" alt="" width="300" height="300">
+            <p><b>Características:</b> Los patos son aves acuáticas de tamaño medio a grande, con cuerpos redondeados y picos anchos. Su plumaje es variado en colores. <br>
+                <b>Temperamento:</b> Son generalmente amigables y sociables. Les gusta estar en grupos. <br>
+                <b>Cuidados:</b> Requieren acceso a agua para nadar, así como una dieta que incluya granos, vegetales y insectos. <br></p>
+        </div>
+    </div>
+    </div>
+    <div id="paloma" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('paloma')">&times;</span>
+            <h2>Paloma</h2>
+            <div class="raza-modal">
+            <img src="../img/paloma.avif" alt="" width="300" height="300">
+            <p> <b>Características:</b> Las palomas son aves de tamaño pequeño a mediano con cuerpos compactos y plumas suaves. Suelen ser grises o blancas, aunque hay muchas variedades. <br>
+                <b>Temperamento:</b> Son aves sociales que forman fuertes lazos entre sí. Pueden ser amigables con los humanos. <br>
+                <b>Cuidados:</b> Necesitan un espacio seguro para volar, así como una dieta basada en semillas y granos. <br></p>
+        </div>
+    </div>
+    </div>
+    <div id="canario" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('canario')">&times;</span>
+            <h2>Canario</h2>
+            <div class="raza-modal">
+            <img src="../img/canario.avif" alt="" width="300" height="300">
+            <p> <b>Características: </b> Los canarios son aves pequeñas (alrededor de 10-20 cm) conocidas por su canto melodioso. Suelen ser amarillos, pero existen variedades en diferentes colores. <br>
+                <b>Temperamento:</b> Son alegres y activos, pero tienden a ser solitarios. Prefieren vivir solos o en parejas. <br>
+                <b>Cuidados:</b> Requieren una jaula adecuada, juguetes para estimular su actividad y una dieta rica en semillas específicas para canarios. <br></p>
+        </div>
+    </div>
+    </div>
+
+
+
+    <button onclick="location.href='../Veterinario/Especies.html'" class="volver-boton"><svg xmlns="http://www.w3.org/2000/svg" id="Bold" viewBox="0 0 24 24" width="36" height="36">
+            <path d="M4.943,5.606,1.024,9.525a3.585,3.585,0,0,0,0,4.95l3.919,3.919a1.5,1.5,0,1,0,2.121-2.121L4.285,13.492l18.25-.023a1.5,1.5,0,0,0,1.5-1.5v0a1.5,1.5,0,0,0-1.5-1.5L4.3,10.492,7.064,7.727A1.5,1.5,0,0,0,4.943,5.606Z"/>
+        </svg>
+    </button> 
+    <script src="../js/razas.js"></script>
+    <script src="../js/modalRaza.js"></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+:root {
+    --blanco: #FDF7FA;
+    --rojo: #DF2935;
+    --negro: #07090F;
+    --gris: #E6E8E6;
+    --verde: #4CAF50;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--blanco);
+    font-family: 'Arial', sans-serif;
+    color: var(--negro);
+}
+
+.card {
+    background-color: var(--gris);
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(7, 9, 15, 0.1);
+}
+
+.card h2 {
+    color: var(--rojo);
+}
+
+.btn {
+    background-color: var(--rojo);
+    color: var(--blanco);
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: var(--negro);
+}

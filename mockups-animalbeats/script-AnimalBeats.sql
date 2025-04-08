@@ -11,36 +11,35 @@ CREATE TABLE Documento(
 	tipo ENUM('T.I', 'C.C', 'C.E')
 );
 CREATE TABLE Usuarios(
-	id INT AUTO_INCREMENT PRIMARY KEY,
-	n_documento VARCHAR(10)NOT NULL,
+	n_documento VARCHAR(10) primary key,
 	correoelectronico VARCHAR(255)NOT NULL,
 	contrasena VARCHAR(255)NOT NULL,
-	id_documento INT NOT NULL,
+	id_documento INT,
 	FOREIGN KEY (id_documento) REFERENCES Documento(id) on delete cascade
 );
 CREATE TABLE Administrador(
 	id INT AUTO_INCREMENT PRIMARY KEY,
-    id_Usuario int not null,
+    id_Usuario varchar(10) not null,
     id_rol int not null,
     Nombre varchar(100) not null,
     FOREIGN KEY (id_rol) REFERENCES Rol(id) on delete cascade,
-    foreign key (id_Usuario) references Usuarios(id) on delete cascade
+    foreign key (id_Usuario) references Usuarios(n_documento) on delete cascade
 );
 CREATE TABLE Veterinario(
 	id INT AUTO_INCREMENT PRIMARY KEY,
-    id_Usuario int not null,
+    id_Usuario varchar(10) not null,
     id_rol int not null,
     Nombre varchar(100) not null,
     FOREIGN KEY (id_rol) REFERENCES Rol(id) on delete cascade,
-    foreign key (id_Usuario) references Usuarios(id) on delete cascade
+    foreign key (id_Usuario) references Usuarios(n_documento) on delete cascade
 );
 CREATE TABLE Cliente(
 	id INT AUTO_INCREMENT PRIMARY KEY,
-    id_Usuario int not null,
+    id_Usuario varchar(10) not null,
     id_rol int not null,
     Nombre varchar(100) NOT NULL,
     FOREIGN KEY (id_rol) REFERENCES Rol(id) on delete cascade,
-    foreign key (id_Usuario) references Usuarios(id) on delete cascade
+    foreign key (id_Usuario) references Usuarios(n_documento) on delete cascade
 );
 Create table Especie(
 	id int auto_increment primary key,
@@ -60,6 +59,10 @@ CREATE TABLE Mascota(
     foreign key (id_Raza) references Raza(id) on delete cascade,
     foreign key (id_Cliente) references Cliente(id) on delete cascade,
     foreign key (id_Especie) references Especie(id) on delete cascade
+);
+create table Enfermedad(
+	nombre varchar(60) primary key,
+    descripcion text
 );
 Create table Servicios(
 	id int auto_increment primary key,
@@ -88,4 +91,3 @@ Create table Alertas(
 	foreign key (id_Mascota) references Mascota(id) on delete cascade,
     foreign key (id_Cliente) references Cliente(id) on delete cascade
 );
-
