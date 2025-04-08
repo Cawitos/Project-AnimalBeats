@@ -11,7 +11,7 @@ def create_app():
     connection = pymysql.connect(
         host=app.config['MYSQL_HOST'],
         user=app.config['MYSQL_USER'],
-        password=app.config['MYSQL_PASSWORD'],
+        password=app.config[''],
         database=app.config['MYSQL_DB'],
         cursorclass=pymysql.cursors.DictCursor
     )
@@ -19,6 +19,8 @@ def create_app():
     # Importar y registrar los blueprints
     from app.controllers.main_controller import main_bp
     from app.controllers.user_controller import user_bp
+    from app.controllers.reportes_controller import reportes_bp
+    app.register_blueprint(reportes_bp)
     app.register_blueprint(main_bp)
     app.register_blueprint(user_bp)
 

@@ -1,5 +1,5 @@
 class Config:
-    SECRET_KEY = ''
+    SECRET_KEY = 'ANIMALBEATS'
     MYSQL_HOST = 'localhost'
     MYSQL_USER = 'root'
     MYSQL_PASSWORD = ''
