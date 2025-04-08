@@ -14,7 +14,7 @@ CREATE TABLE Usuarios(
 	n_documento VARCHAR(10) primary key,
 	correoelectronico VARCHAR(255)NOT NULL,
 	contrasena VARCHAR(255)NOT NULL,
-	id_documento INT NOT NULL,
+	id_documento INT,
 	FOREIGN KEY (id_documento) REFERENCES Documento(id) on delete cascade
 );
 CREATE TABLE Administrador(
