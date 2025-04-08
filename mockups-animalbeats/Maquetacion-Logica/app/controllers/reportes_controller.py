@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, session, url_for, jsonify
-from conexion import conexion
+from config import Config
 
 reportes_bp = Blueprint('reportes', __name__)
 
@@ -8,7 +8,7 @@ def gestion_reportes():
     if 'usuario' not in session:
         return redirect(url_for('auth.login'))
 
-    conn = conexion()
+    conn = Config()
     cursor = conn.cursor()
 
     cursor.execute("SELECT * FROM Alertas")
@@ -29,7 +29,7 @@ def guardar_alerta():
         fecha = request.form['fecha']
         descripcion = request.form['descripcion']
 
-        conn = conexion()
+        conn = Config()
         cursor = conn.cursor()
 
         cursor.execute("""
@@ -57,7 +57,7 @@ def editar_alerta():
         fecha = request.form['fecha']
         descripcion = request.form['descripcion']
 
-        conn = conexion()
+        conn = Config()
         cursor = conn.cursor()
 
         cursor.execute("""
@@ -81,7 +81,7 @@ def eliminar_alerta():
     try:
         alerta_id = request.form['id']
 
-        conn = conexion()
+        conn = Config()
         cursor = conn.cursor()
         cursor.execute("DELETE FROM Alertas WHERE id=%s", (alerta_id,))
         conn.commit()

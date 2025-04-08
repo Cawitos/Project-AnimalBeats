@@ -25,7 +25,7 @@ def login():
         except Exception as e:
             return str(e)
 
-    return render_template('login.html')
+    return render_template('registro.html')
 
 @user_bp.route('/register', methods=['GET', 'POST'])
 def register():

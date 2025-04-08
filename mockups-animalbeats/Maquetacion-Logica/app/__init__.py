@@ -28,5 +28,3 @@ def create_app():
     app.connection = connection
 
     return app
-
-    #return app
