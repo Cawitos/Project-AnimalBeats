@@ -1,4 +1,6 @@
-#vamos a definir la lógica para el registro, login y perfil, utilizando consultas SQL manuales. Este código se conecta directamente a la base de datos y ejecuta consultas SQL para el login, registro, y el perfil de usuario.
+# vamos a definir la lógica para el registro, login y perfil, utilizando consultas SQL manuales.
+# Este código se conecta directamente a la base de datos y ejecuta consultas SQL para el login, registro, y el perfil de usuario.
+
 from flask import Blueprint, render_template, request, redirect, url_for, current_app
 from flask_bcrypt import Bcrypt
 from flask import session
@@ -18,13 +20,17 @@ def login():
             result = cursor.fetchone()
 
             if result and bcrypt.check_password_hash(result['contrasena'], contrasena):
-                session['correoelectronico'] = correoelectronico  # Guardar el correo electrónico en la sesión
-                return redirect(url_for('user_bp.profile'))
+                # Validar por correo y contraseña exactos si es admin o veterinario
+                if correoelectronico == 'admin@animalbeats.com' and contrasena == 'admin200609':
+                    return redirect('/administrador')
+                elif correoelectronico == 'veterinario@animalbeats.com' and contrasena == 'veterinario200817':
+                    return redirect('/veterinario')
+                else:
+                    return redirect('/cliente')
             else:
                 return "Inicio de sesión fallido"
 
     return render_template('login.html')
-
 
 
 @user_bp.route('/register', methods=['GET', 'POST'])
@@ -49,24 +55,40 @@ def register():
             """, (n_documento, correoelectronico, hashed_password))
             connection.commit()
 
-            return redirect(url_for('user_bp.login'))
+        return redirect(url_for('user_bp.login'))
 
     return render_template('register.html')
 
 
 @user_bp.route('/profile')
 def profile():
-    # Obtener el correo electrónico del usuario desde la sesión o redireccionar al login si no está autenticado
     correoelectronico = session.get('correoelectronico')
     if not correoelectronico:
         return redirect(url_for('user_bp.login'))
-    
+
     connection = current_app.connection
     with connection.cursor() as cursor:
-        # Recuperar la información del usuario por correo electrónico
         cursor.execute("SELECT n_documento, correoelectronico FROM Usuarios WHERE correoelectronico=%s", (correoelectronico,))
         user = cursor.fetchone()
         if not user:
             return "Usuario no encontrado"
 
-    return render_template('profile.html', user=user)
+    if correoelectronico == 'admin@animalbeats.com':
+        return redirect('/administrador')
+    elif correoelectronico == 'veterinario@animalbeats.com':
+        return redirect('/veterinario')
+    else:
+        return redirect('/cliente')
+
+
+@user_bp.route('/administrador')
+def dashboard_admin():
+    return render_template('Administrador/administrador.html')
+
+@user_bp.route('/veterinario')
+def dashboard_veterinario():
+    return render_template('Veterinario/veterinario.html')
+
+@user_bp.route('/cliente')
+def dashboard_cliente():
+    return render_template('Cliente/cliente.html')
