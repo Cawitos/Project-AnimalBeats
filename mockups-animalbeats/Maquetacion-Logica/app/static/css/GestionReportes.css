@@ -189,3 +189,11 @@ button:hover {
     border-color: var(--negro);
     background-color: var(--negro);
 }
+.btn-success{
+    background-color: var(--rojo);
+    border-color: var(--rojo);
+}
+.btn-success:hover{
+    background-color: var(--negro);
+    border-color: var(--negro);
+}

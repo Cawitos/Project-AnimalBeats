@@ -35,7 +35,7 @@
     </div>
     <div class="offcanvas-body">
       <li>
-        <a href="../Administrador/GestionDeUsuarios.html" class="opcion">
+        <a href="{{ url_for('gestion_bp.gestion_usuarios') }}" class="opcion">
           <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 24 24" fill="#000">
             <path
               d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z">
@@ -65,7 +65,7 @@
         </a>
       </li>
       <li>
-        <a href="../Administrador/GestionReportes.html" class="opcion">
+        <a href="{{ url_for('reportes.gestion_reportes') }}" class="opcion">
           <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 -960 960 960" width="24px"
             fill="#000">
             <path
@@ -111,46 +111,7 @@
                 </tr>
               </thead>
               <tbody id="tabla-alarmas">
-                <tr>
-                  <td>xxxx</td>
-                  <td>Recordatorio</td>
-                  <td><input type="checkbox" checked="" onchange="cambiarEstado(0)"></td>
-                  <td>08:00 AM</td>
-                  <td>
-                    <button class="btn btn-sm btn-warning" onclick="modificarAlarma(0)">Modificar</button>
-                    <button class="btn btn-sm btn-danger" onclick="eliminarAlarma(0)">Eliminar</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>xxxx</td>
-                  <td>Pago Pendiente</td>
-                  <td><input type="checkbox" checked="" onchange="cambiarEstado(0)"></td>
-                  <td>10:30 AM</td>
-                  <td>
-                    <button class="btn btn-sm btn-warning" onclick="modificarAlarma(0)">Modificar</button>
-                    <button class="btn btn-sm btn-danger" onclick="eliminarAlarma(0)">Eliminar</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>xxxx</td>
-                  <td>Medicamentos</td>
-                  <td><input type="checkbox" checked="" onchange="cambiarEstado(0)"></td>
-                  <td>02:00 PM</td>
-                  <td>
-                    <button class="btn btn-sm btn-warning" onclick="modificarAlarma(0)">Modificar</button>
-                    <button class="btn btn-sm btn-danger" onclick="eliminarAlarma(0)">Eliminar</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>xxxx</td>
-                  <td>Cuidados</td>
-                  <td><input type="checkbox" checked="" onchange="cambiarEstado(0)"></td>
-                  <td>06:00 PM</td>
-                  <td>
-                    <button class="btn btn-sm btn-warning" onclick="modificarAlarma(0)">Modificar</button>
-                    <button class="btn btn-sm btn-danger" onclick="eliminarAlarma(0)">Eliminar</button>
-                  </td>
-                </tr>
+                
               </tbody>
             </table>
           </div>
@@ -166,128 +127,40 @@
                 </tr>
               </thead>
               <tbody id="tabla-alarmas">
-                <tr>
-                  <td>xxxx</td>
-                  <td>Recordatorio</td>
-                  <td><input type="checkbox" checked="" onchange="cambiarEstado(0)"></td>
-                  <td>08:00 AM</td>
-                  <td>
-                    <button class="btn btn-sm btn-warning" onclick="modificarAlarma(0)">Modificar</button>
-                    <button class="btn btn-sm btn-danger" onclick="eliminarAlarma(0)">Eliminar</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>xxxx</td>
-                  <td>Pago Pendiente</td>
-                  <td><input type="checkbox" checked="" onchange="cambiarEstado(0)"></td>
-                  <td>10:30 AM</td>
-                  <td>
-                    <button class="btn btn-sm btn-warning" onclick="modificarAlarma(0)">Modificar</button>
-                    <button class="btn btn-sm btn-danger" onclick="eliminarAlarma(0)">Eliminar</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>xxxx</td>
-                  <td>Medicamentos</td>
-                  <td><input type="checkbox" checked="" onchange="cambiarEstado(0)"></td>
-                  <td>02:00 PM</td>
-                  <td>
-                    <button class="btn btn-sm btn-warning" onclick="modificarAlarma(0)">Modificar</button>
-                    <button class="btn btn-sm btn-danger" onclick="eliminarAlarma(0)">Eliminar</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>xxxx</td>
-                  <td>Cuidados</td>
-                  <td><input type="checkbox" checked="" onchange="cambiarEstado(0)"></td>
-                  <td>06:00 PM</td>
-                  <td>
-                    <button class="btn btn-sm btn-warning" onclick="modificarAlarma(0)">Modificar</button>
-                    <button class="btn btn-sm btn-danger" onclick="eliminarAlarma(0)">Eliminar</button>
-                  </td>
-                </tr>
+                  
               </tbody>
             </table>
           </div>
         </div>
-        <div class="recuadro-inferior">
-          <div class="acciones-botones">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#crear-alarma">Crear
-              alarma</button>
-          </div>
-        </div>
-        <div class="modal fade" id="crear-alarma" tabindex="-1">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Crear alarma</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <div class="mb-3">
-                  <label for="alarmas" class="form-label">Tipo de alarma</label>
-                  <select name="tipos" id="servicios">
-                    <option value="veterinario">Veterinario</option>
-                    <option value="cliente">Cliente</option>
-                  </select>
-                </div>
-                <div class="mb-3">
-                  <label for="alarmas" class="form-label">Nombre del cliente</label>
-                  <input type="text" class="form-control" id="nombre" placeholder="Nombre del cliente" required>
-                </div>
-                <div class="mb-3">
-                  <label for="alarmas" class="form-label">Fecha</label>
-                  <input type="date" class="form-control" id="fecha" required>
-                </div>
-                <div class="mb-3">
-                  <label for="alarmas" class="form-label">Hora</label>
-                  <input type="time" class="form-control" id="hora" required>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary">Programar alarma</button>
-              </div>
+        <h5 class="mt-4">Crear nueva alarma</h5> <br>
+        <form action="{{ url_for('reportes.guardar_alerta') }}" method="POST" class="mb-5">
+          <div class="row">
+            <div class="col-md-3 mb-3">
+              <label for="veterinario" class="form-label">ID Veterinario</label>
+              <input type="number" name="veterinario" class="form-control" required>
+            </div>
+            <div class="col-md-3 mb-3">
+              <label for="cliente" class="form-label">ID Cliente</label>
+              <input type="number" name="cliente" class="form-control" required>
+            </div>
+            <div class="col-md-3 mb-3">
+              <label for="mascota" class="form-label">ID Mascota</label>
+              <input type="number" name="mascota" class="form-control" required>
+            </div>
+            <div class="col-md-3 mb-3">
+              <label for="fecha" class="form-label">Fecha</label>
+              <input type="datetime-local" name="fecha" class="form-control" required>
             </div>
           </div>
-        </div>
-        <!-- Modal Editar Alarma -->
-        <div class="modal fade" id="modalEditarAlarma" tabindex="-1" aria-labelledby="modalEditarAlarmaLabel"
-          aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header bg-warning text-white">
-                <h5 class="modal-title" id="modalEditarAlarmaLabel">Editar Alarma</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-              </div>
-              <div class="modal-body">
-                <form id="formEditarAlarma">
-                  <div class="mb-3">
-                    <label for="nombreMascota" class="form-label">Nombre Mascota</label>
-                    <input type="text" class="form-control" id="nombreMascota" required>
-                  </div>
-                  <div class="mb-3">
-                    <label for="motivo" class="form-label">Motivo</label>
-                    <input type="text" class="form-control" id="motivo" required>
-                  </div>
-                  <div class="mb-3">
-                    <label for="fecha" class="form-label">Fecha</label>
-                    <input type="date" class="form-control" id="fecha" required>
-                  </div>
-                  <div class="mb-3">
-                    <label for="hora" class="form-label">Hora</label>
-                    <input type="time" class="form-control" id="hora" required>
-                  </div>
-                  <button type="submit" class="btn btn-warning w-100">Guardar Cambios</button>
-                </form>
-              </div>
-            </div>
+          <div class="mb-3">
+            <label for="descripcion" class="form-label">Descripción</label>
+            <input type="text" name="descripcion" class="form-control" required>
           </div>
-        </div>
+          <button type="submit" class="btn btn-success">Guardar Alarma</button>
+        </form>
     </main>
   </div>
-  <script src="../js/alarmas.js"></script>
-  <script src="../js/bootstrap.bundle.min.js"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
 </body>
 
 </html>
