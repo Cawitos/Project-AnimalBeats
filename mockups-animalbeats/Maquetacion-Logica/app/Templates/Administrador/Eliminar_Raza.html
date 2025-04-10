@@ -85,10 +85,10 @@
       </div>
       <div class="contenedor-dashboard">
         <div class="contenido-principal">
-            <h1>Eliminar Mascota</h1>
+            <h1>Eliminar Raza</h1>
             <div class="contenedor-formulario-1">
-                <form id="form-mascota" method="post" action="{{ url_for('mascota_bp.delete_mascot') }}">
-                    <tr><label for="nameC">{{ mascota.nombre }}</label></tr>
+                <form method="post" action="{{ url_for('raza_bp.eliminar-raza') }}">
+                    <tr><label for="nameC">{{ raza.raza }}</label></tr>
                     
                     <td><button type="submit">Eliminar</button></td>
                     <td><button>Volver</button></td>

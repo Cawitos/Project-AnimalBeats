@@ -25,6 +25,13 @@ def create_app():
     app.register_blueprint(user_bp)
     app.register_blueprint(gestion_bp)
     app.register_blueprint(reportes_bp)
+    from app.controllers.mascota_controller import mascotas_bp
+    from app.controllers.especies_controller import especie_bp, raza_bp
+    app.register_blueprint(main_bp)
+    app.register_blueprint(user_bp)
+    app.register_blueprint(mascotas_bp)
+    app.register_blueprint(especie_bp)
+    app.register_blueprint(raza_bp)
 
     # Agregar la conexión a la base de datos como un atributo de la aplicación
     app.connection = connection

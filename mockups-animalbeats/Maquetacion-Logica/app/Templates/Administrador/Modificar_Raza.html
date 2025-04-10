@@ -85,30 +85,16 @@
   </div>
   <div class="contenedor-dashboard">
     <main class="contenedor-consulta">
-      <nav class="navbar bg-body-tertiary">
-        <div class="container-fluid">
-          <a class="navbar-brand">Busqueda</a>
-          <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Buscar Especie" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Buscar</button>
-          </form>
-        </div>
-      </nav>
-      <div class="row">
-        {% for especie in especies %}
-        <div class="col-sm-6 mb-3 mb-sm-0">
-          <div class="card">
-            <div class="card-body">
-              <h2 class="card-title">{{ especie['Especie'] }}</h2>
-              <a href="{{ url_for('raza_bp.razas', id_especie=especie.id) }}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#perros">Más info</a>
-              <a href="{{ url_for('especie_bp.modificar_especie', id_especie=especie.id) }}" class="btn btn-primary">Modificar</a>
-              <a href="{{ url_for('especie_bp.eliminar_especie', id_especie=especie.id) }}" class="btn btn-primary">Eliminar</a>
-            </div>
-          </div>
-        </div>
-        {% endfor %}
-      </div>
-      <a href="{{ url_for('especie_bp.crear_especie') }}">Crear especie</a>
+        <h1>Crear Raza</h1>
+        <form action="{{ url_for('raza_bp.editar_raza', id_especie=especie.id) }}" method="post">
+            <input type="hidden" name="id_especie" value="{{ especie.id }}">
+            <label for="Raza">Nombre de la Raza</label>
+            <input type="text" id="Raza" name="Raza" required>
+            <label for="descripcion">Descripción</label>
+            <textarea name="descripcion" id="descripcion"></textarea>
+            
+            <button type="submit">Modificar Especie</button>
+        </form>      
     </main>
   </div>
   <script src="../js/bootstrap.bundle.min.js"></script>
