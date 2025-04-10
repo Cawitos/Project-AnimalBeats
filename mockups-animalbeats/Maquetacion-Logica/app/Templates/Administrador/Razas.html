@@ -99,16 +99,16 @@
         <div class="col-sm-6 mb-3 mb-sm-0">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">{{ raza.raza }}</h5>
+              <h1 class="card-title">{{ raza.raza }}</h5>
               <p> Descripción: {{ raza.descripcion }}</p>
-              <a href="{{ url_for('raza_bp.modificar_raza')}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#perros">Modificar</a>
-              <a href="{{ url_for('raza_bp.eliminar_raza')}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#perros">Eliminar</a>
+              <a href="{{ url_for('raza_bp.modificar_raza', id_especie=id_especie ,id_raza=raza.id) }}" class="btn btn-primary">Modificar</a>
+              <a href="{{ url_for('raza_bp.eliminar_raza', id_especie=id_especie ,id_raza=raza.id) }}" class="btn btn-primary">Eliminar</a>
             </div>
           </div>
         </div>
         {% endfor %}
       </div>
-      <a href="{{url_for('raza_bp.crear_raza')}}">Crear raza</a>
+      <a href="{{ url_for('raza_bp.crear_raza', id_especie=id_especie) }}">Crear raza</a>
     </main>
   </div>
   <script src="../js/bootstrap.bundle.min.js"></script>
