@@ -47,7 +47,8 @@
     <div class="card shadow p-4" style="width: 28rem;">
       <h3 class="text-center mb-4">Usuario {{ usuario.n_documento }}</h3>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item"><strong>Correo:</strong> {{ usuario.correoelectronico }}</li>
+        <li class="list-group-item"><b>Tipo de documento:</b> {{ usuario.tipo_documento }}</li>
+        <li class="list-group-item"><b>Correo:</b> {{ usuario.correoelectronico }}</li>
       </ul>
       <div class="mt-4 text-center">
         <a href="{{ url_for('gestion_bp.gestion_usuarios') }}" class="btn btn-secondary">Volver</a>
