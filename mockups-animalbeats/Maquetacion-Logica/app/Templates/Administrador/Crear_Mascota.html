@@ -87,15 +87,15 @@
         <div class="contenido-principal">
             <h1>Crear Mascota</h1>
             <div class="contenedor-formulario-1">
-                <form id="form-mascota" method="POST" action="{{ url_for('user_bp.create_mascot') }}">
+              <form id="form-mascota" method="POST" action="{{ url_for('mascotas_bp.create_mascot') }}">
                     <div class="mb-3">
-                        <label for="nameC" class="form-label">Nombre de Mascota:</label>
-                        <input type="text" class="form-control" id="nameC" name="nameC" required>
+                        <label for="nombreM" class="form-label">Nombre de Mascota:</label>
+                        <input type="text" class="form-control" id="nombreM" name="nombreM" required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="EspecieC" class="form-label">Especie:</label>
-                        <select class="form-select" id="EspecieC" name="especieC" required>
+                        <label for="EspecieM" class="form-label">Especie:</label>
+                        <select class="form-select" id="EspecieM" name="especieM" required>
                             {% for especie in especies %}
                                 <option value="{{ especie.Especie }}">{{ especie.Especie }}</option>
                             {% endfor %}
@@ -103,8 +103,8 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="razaC" class="form-label">Raza:</label>
-                        <select class="form-select" id="razaC" name="razaC" required>
+                        <label for="razaM" class="form-label">Raza:</label>
+                        <select class="form-select" id="razaM" name="razaM" required>
                             {% for raza in razas %}
                                 <option value="{{ raza.id }}">{{ raza.Raza }}</option>
                             {% endfor %}
@@ -112,8 +112,8 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="edadC" class="form-label">Edad:</label>
-                        <input type="number" class="form-control" id="edadC" name="edadC" required>
+                        <label for="edadM" class="form-label">Edad:</label>
+                        <input type="number" class="form-control" id="edadM" name="edadM" required>
                     </div>
 
                     <div class="mb-3">

@@ -95,20 +95,20 @@
         </div>
       </nav>
       <div class="row">
-        {% for especie in especies %}
+        {% for raza in razas %}
         <div class="col-sm-6 mb-3 mb-sm-0">
           <div class="card">
             <div class="card-body">
-              <h2 class="card-title">{{ especie['Especie'] }}</h2>
-              <a href="{{ url_for('raza_bp.razas', id_especie=especie.id) }}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#perros">Más info</a>
-              <a href="{{ url_for('especie_bp.modificar_especie', id_especie=especie.id) }}" class="btn btn-primary">Modificar</a>
-              <a href="{{ url_for('especie_bp.eliminar_especie', id_especie=especie.id) }}" class="btn btn-primary">Eliminar</a>
+              <h5 class="card-title">{{ raza.raza }}</h5>
+              <p> Descripción: {{ raza.descripcion }}</p>
+              <a href="{{ url_for('raza_bp.modificar_raza')}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#perros">Modificar</a>
+              <a href="{{ url_for('raza_bp.eliminar_raza')}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#perros">Eliminar</a>
             </div>
           </div>
         </div>
         {% endfor %}
       </div>
-      <a href="{{ url_for('especie_bp.crear_especie') }}">Crear especie</a>
+      <a href="{{url_for('raza_bp.crear_raza')}}">Crear raza</a>
     </main>
   </div>
   <script src="../js/bootstrap.bundle.min.js"></script>

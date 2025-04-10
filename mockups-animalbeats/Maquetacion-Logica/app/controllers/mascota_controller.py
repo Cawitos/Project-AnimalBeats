@@ -1,69 +1,74 @@
-from flask import Blueprint, render_template, request, redirect, url_for, current_app, flash
-user_bp = Blueprint('user_bp', __name__)
+from flask import Blueprint, render_template, request, redirect, url_for, current_app, flash, session
+mascotas_bp = Blueprint('mascotas_bp', __name__)
 
-@user_bp.route('/Mascotas', methods=['GET', 'POST'])
+def is_authenticated():
+    return session.get('correoelectronico') is not None
+
+@mascotas_bp.route('/Mascotas', methods=['GET', 'POST'])
 def Mascotas():
     connection = current_app.connection
     try:
         with connection.cursor() as cursor:
-            cursor.execute("SELECT id_Cliente, Nombre, id_Especie, id_Raza, edad FROM mascotas")
+            cursor.execute("SELECT id_Cliente, Nombre, id_Especie, id_Raza, edad FROM mascota")
             mascotas = cursor.fetchall()
     except Exception as e:
         return str(e)
     
-    return render_template('GestionMascotas.html', mascotas=mascotas)
+    return render_template('Administrador/GestionMascotas.html', mascotas=mascotas)
 
-@user_bp.route('/Crear-Mascota', methods=['GET', 'POST'])
+@mascotas_bp.route('/Crear-Mascota', methods=['GET', 'POST'])
 def create_mascot():
     connection = current_app.connection
     if request.method == 'POST':
-        namec = request.form['nameC']
-        edadc = request.form['edadC']
-        razaC = request.form['razaC']
-        EspecieC = request.form['EspecieC']
-        n_documento = request.form['n_documento']
+        nombreM = request.form.get('nombreM')
+        especieM = request.form.get('especieM')
+        razaM = request.form.get('razaM')
+        edadM = request.form.get('edadM')
+        n_documento = request.form.get('n_documento')
 
         try:
             with connection.cursor() as cursor:
-                cursor.execute("INSERT INTO mascotas (id_cliente, nombre, edad, id_raza, id_especie) VALUES (%s, %s, %s, %s, %s)", (n_documento, namec, edadc, razaC, EspecieC))
+                cursor.execute("INSERT INTO mascota (id_cliente, nombre, edad, id_raza, id_especie) VALUES (%s, %s, %s, %s, %s)", (n_documento, nombreM, edadM, razaM, especieM))
                 connection.commit()
-            return redirect(url_for('user_bp.Mascotas'))
+            return redirect(url_for('mascotas_bp.Mascotas'))
         except Exception as e:
             return str(e)
         
-    return redirect(url_for('user_bp.Mascotas'))
+    return render_template('Administrador/Crear_Mascota.html')
 
-@user_bp.route('/Editar-Mascota/<int:id_mascota>', methods=['GET', 'POST'])
+@mascotas_bp.route('/Editar-Mascota/<int:id_mascota>', methods=['GET', 'POST'])
 def edit_mascot(id_mascota):
     connection = current_app.connection
     if request.method == 'POST':
-        namec = request.form['nameC']
-        edadc = request.form['edadC']
+        nombreM = request.form['nombreM']
+        edadM = request.form['edadM']
     try:
         with connection.cursor() as cursor:
-            cursor.execute("UPDATE mascotas SET nombre = %s, edad = %s WHERE id = %s", (namec, edadc, id_mascota))
+            cursor.execute("UPDATE mascota SET nombre = %s, edad = %s WHERE id = %s", (nombreM, edadM, id_mascota))
             connection.commit()
             flash('Mascota actualizada correctamente')
+            return redirect(url_for('mascotas_bp.Mascotas'))
     except Exception as e:
             flash('Error al actualizar la mascota: ' + str(e), 'danger')
 
-    return redirect(url_for('user_bp.Mascotas'))
+    return render_template('Administrador/Modificar_Mascota.html')
 
 
-@user_bp.route('/Eliminar-Mascota', methods=['GET', 'POST'])
+@mascotas_bp.route('/Eliminar-Mascota/<int:id_mascota>', methods=['GET', 'POST'])
 def delete_mascot(id_mascota):
     connection = current_app.connection
     try:
         with connection.cursor() as cursor:
-            cursor.execute("DELETE FROM mascotas WHERE id = %s", (id_mascota))
+            cursor.execute("DELETE FROM mascota WHERE id = %s", (id_mascota))
             connection.commit()
             flash('Mascota eliminada correctamente')
+            return redirect(url_for('mascotas_bp.Mascotas'))
     except Exception as e:
             flash('Error al eliminar la mascota: ' + str(e), 'danger')
 
-    return redirect(url_for('user_bp.Mascotas'))
+    return render_template('Administrador/Eliminar_Mascota.html')
 
-@user_bp.route('/Historial-Mascota/<int:id_mascota>', methods=['GET', 'POST'])
+@mascotas_bp.route('/Historial-Mascota/<int:id_mascota>', methods=['GET', 'POST'])
 def historial(id_mascota):
     connection = current_app.connection
     try:
