@@ -50,9 +50,9 @@ def register():
         with connection.cursor() as cursor:
             # Insertar el nuevo usuario en la tabla Usuarios
             cursor.execute("""
-                INSERT INTO Usuarios (n_documento, correoelectronico, contrasena)
-                VALUES (%s, %s, %s)
-            """, (n_documento, correoelectronico, hashed_password))
+                INSERT INTO Usuarios (n_documento, correoelectronico, contrasena, estado)
+                VALUES (%s, %s, %s, %s)
+            """, (n_documento, correoelectronico, hashed_password, 'activo'))
             connection.commit()
 
         return redirect(url_for('user_bp.login'))

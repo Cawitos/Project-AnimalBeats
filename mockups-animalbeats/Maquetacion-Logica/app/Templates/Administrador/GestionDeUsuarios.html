@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +11,7 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/Administrador.css') }}?v=2">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">    
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
   <script src="https://kit.fontawesome.com/a0994db117.js" crossorigin="anonymous"></script>
 </head>
 
@@ -25,7 +26,8 @@
     </button>
   </div>
 
-  <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+  <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions"
+    aria-labelledby="offcanvasWithBothOptionsLabel">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">
         <a href="{{ url_for('user_bp.dashboard_admin') }}" class="animalbeats">
@@ -45,7 +47,8 @@
       <li>
         <a href="../Administrador/GestionMascotas.html" class="opcion">
           <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 -960 960 960" fill="#000">
-            <path d="M180-475q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29Zm180-160q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29Zm240 0q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29Zm180 160q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29ZM266-75q-45 0-75.5-34.5T160-191q0-52 35.5-91t70.5-77q29-31 50-67.5t50-68.5q22-26 51-43t63-17q34 0 63 16t51 42q28 32 49.5 69t50.5 69q35 38 70.5 77t35.5 91q0 47-30.5 81.5T694-75q-54 0-107-9t-107-9q-54 0-107 9t-107 9Z" />
+            <path
+              d="M180-475q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29Zm180-160q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29Zm240 0q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29Zm180 160q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29ZM266-75q-45 0-75.5-34.5T160-191q0-52 35.5-91t70.5-77q29-31 50-67.5t50-68.5q22-26 51-43t63-17q34 0 63 16t51 42q28 32 49.5 69t50.5 69q35 38 70.5 77t35.5 91q0 47-30.5 81.5T694-75q-54 0-107-9t-107-9q-54 0-107 9t-107 9Z" />
           </svg>
           <span class="item-nav">Mascotas</span>
         </a>
@@ -53,7 +56,8 @@
       <li>
         <a href="../Administrador/GestionConsultas.html" class="opcion">
           <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 -960 960 960" fill="#000">
-            <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
+            <path
+              d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
           </svg>
           <span class="item-nav">Consultas</span>
         </a>
@@ -61,7 +65,8 @@
       <li>
         <a href="../Administrador/GestionReportes.html" class="opcion">
           <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 -960 960 960" fill="#000">
-            <path d="M200-120v-680h360l16 80h224v400H520l-16-80H280v280h-80Zm300-440Zm86 160h134v-240H510l-16-80H280v240h290l16 80Z" />
+            <path
+              d="M200-120v-680h360l16 80h224v400H520l-16-80H280v280h-80Zm300-440Zm86 160h134v-240H510l-16-80H280v240h290l16 80Z" />
           </svg>
           <span class="item-nav">Reportes</span>
         </a>
@@ -88,7 +93,7 @@
               <th>Correo</th>
               <th>Consultar</th>
               <th>Modificar</th>
-              <th>Eliminar</th>
+              <th>Suspender</th>
             </tr>
           </thead>
           <tbody>
@@ -96,9 +101,13 @@
             <tr>
               <td>{{ u.n_documento }}</td>
               <td>{{ u.correoelectronico }}</td>
-              <td><a href="{{ url_for('gestion_bp.consultar_usuario', id=u.n_documento) }}"><i class="fa-solid fa-eye text-danger"></i></a></td>
-              <td><a href="{{ url_for('gestion_bp.modificar_usuario', id=u.n_documento) }}"><i class="fa-solid fa-pen text-danger"></i></a></td>
-              <td><button class="btn-eliminar" data-id="{{ u.n_documento }}"><i class="fa-solid fa-trash"></i></button></td>
+              <td><a href="{{ url_for('gestion_bp.consultar_usuario', id=u.n_documento) }}"><i
+                    class="fa-solid fa-eye text-danger"></i></a></td>
+              <td><a href="{{ url_for('gestion_bp.modificar_usuario', id=u.n_documento) }}"><i
+                    class="fa-solid fa-pen text-danger"></i></a></td>
+              <td><button class="btn-eliminar" data-id="{{ u.n_documento }}"><i
+                    class="fa-solid fa-user-lock"></i></button>
+              </td>
             </tr>
             {% endfor %}
           </tbody>
@@ -115,10 +124,10 @@
         const id = this.getAttribute('data-id');
         Swal.fire({
           title: '¿Estás seguro?',
-          text: 'Este usuario será eliminado',
+          text: 'Este usuario será suspendido',
           icon: 'warning',
           showCancelButton: true,
-          confirmButtonText: 'Sí, eliminar'
+          confirmButtonText: 'Sí, suspender'
         }).then((result) => {
           if (result.isConfirmed) {
             window.location.href = `/usuario/${id}/eliminar`;
@@ -129,4 +138,5 @@
   </script>
 
 </body>
+
 </html>
