@@ -39,6 +39,7 @@ def register():
 
     if request.method == 'POST':
         n_documento = request.form['n_documento']
+        id_documento = request.form['id_documento']
         correoelectronico = request.form['correoelectronico']
         contrasena = request.form['contrasena']
 
@@ -48,16 +49,22 @@ def register():
         hashed_password = bcrypt.generate_password_hash(contrasena).decode('utf-8')
 
         with connection.cursor() as cursor:
-            # Insertar el nuevo usuario en la tabla Usuarios
             cursor.execute("""
-                INSERT INTO Usuarios (n_documento, correoelectronico, contrasena, estado)
-                VALUES (%s, %s, %s, %s)
-            """, (n_documento, correoelectronico, hashed_password, 'activo'))
+                INSERT INTO Usuarios (n_documento, correoelectronico, contrasena, id_documento, estado)
+                VALUES (%s, %s, %s, %s, %s)
+            """, (n_documento, correoelectronico, hashed_password, id_documento, 'ACTIVO'))
             connection.commit()
 
         return redirect(url_for('user_bp.login'))
 
-    return render_template('register.html')
+    # Aquí se cargan los tipos de documento desde la base de datos
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT id, tipo FROM Documento")
+        tipos_documento = cursor.fetchall()
+
+    return render_template('register.html', tipos_documento=tipos_documento)
+
+
 
 
 @user_bp.route('/profile')
