@@ -18,6 +18,14 @@
                 <h3>Registro de Usuario</h3>
 
                 <form method="POST" action="{{ url_for('user_bp.register') }}">
+                    <label for="id_documento">Tipo de Documento</label>
+                    <select id="id_documento" name="id_documento" required>
+                        <option value="">Selecciona un tipo</option>
+                        {% for doc in tipos_documento %}
+                        <option value="{{ doc.id }}">{{ doc.tipo }}</option>
+                        {% endfor %}
+                    </select>
+
                     <label for="n_documento">Número de Documento</label>
                     <input type="text" id="n_documento" name="n_documento" placeholder="Número de Documento" required>
 
@@ -30,6 +38,8 @@
 
                     <button type="submit">Registrar</button>
                 </form>
+
+
 
             </div>
         </div>

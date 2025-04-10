@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, request, redirect, url_for, current_app
+from flask import Blueprint, render_template, request, redirect, url_for, current_app, flash
 from flask_bcrypt import Bcrypt
+from flask import flash
 
 gestion_bp = Blueprint('gestion_bp', __name__)
 bcrypt = Bcrypt()
@@ -56,6 +57,16 @@ def modificar_usuario(id):
             return render_template('Administrador/ModificarUsuario.html', usuario=usuario)
         else:
             return "Usuario no encontrado"
+        
+@gestion_bp.route('/usuario/<n_documento>/eliminar', methods=['GET'])
+def suspender_usuario(n_documento):
+    connection = current_app.connection
+    with connection.cursor() as cursor:
+        cursor.execute("UPDATE Usuarios SET estado = 'INACTIVO' WHERE n_documento = %s", (n_documento,))
+        connection.commit()
+    flash('Usuario suspendido con éxito.')
+    return redirect(url_for('gestion_bp.gestion_usuarios'))
+
 
 
 
