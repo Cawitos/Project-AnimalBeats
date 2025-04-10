@@ -31,7 +31,7 @@ def login():
                     cursor.execute("""
                         INSERT INTO Administrador (id_Usuario, id_rol)
                         VALUES (%s, %s)
-                    """, (n_documento, id_rol, ''))
+                    """, (n_documento, id_rol))
                     connection.commit()
 
                     return redirect('/administrador')
@@ -43,7 +43,7 @@ def login():
                     cursor.execute("""
                         INSERT INTO Veterinario (id_Usuario, id_rol)
                         VALUES (%s, %s)
-                    """, (n_documento, id_rol, ''))
+                    """, (n_documento, id_rol))
                     connection.commit()
 
                     return redirect('/veterinario')
@@ -56,7 +56,7 @@ def login():
                     cursor.execute("""
                         INSERT INTO Cliente (id_Usuario, id_rol)
                         VALUES (%s, %s)
-                    """, (n_documento, id_rol, ''))
+                    """, (n_documento, id_rol))
                     connection.commit()
 
                     return redirect('/cliente')
