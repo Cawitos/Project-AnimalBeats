@@ -15,6 +15,7 @@ CREATE TABLE Usuarios(
 	correoelectronico VARCHAR(255)NOT NULL,
 	contrasena VARCHAR(255)NOT NULL,
 	id_documento INT,
+    estado enum('ACTIVO', 'INACTIVO'),
 	FOREIGN KEY (id_documento) REFERENCES Documento(id) on delete cascade
 );
 CREATE TABLE Administrador(
@@ -41,13 +42,17 @@ CREATE TABLE Cliente(
     FOREIGN KEY (id_rol) REFERENCES Rol(id) on delete cascade,
     foreign key (id_Usuario) references Usuarios(n_documento) on delete cascade
 );
-Create table Especie(
-	id int auto_increment primary key,
-    Especie enum ('Perro', 'Gato', 'Hamster', 'Aves')
+CREATE TABLE Especie (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    Especie VARCHAR(50)
 );
-Create table Raza(
-	id int auto_increment primary key,
-    Raza enum ('Huskie', 'Persa', 'Bullterrier', 'Atigrado')
+
+CREATE TABLE Raza (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    Raza VARCHAR(50),
+    descripcion text,
+    id_especie INT,
+    FOREIGN KEY (id_especie) REFERENCES Especie(id) ON DELETE CASCADE
 );
 CREATE TABLE Mascota(
 	id int auto_increment primary key,
@@ -55,6 +60,7 @@ CREATE TABLE Mascota(
     Nombre varchar(45) not null,
     id_Especie int not null,
     id_Raza int not null,
+    estado enum('ACTIVO', 'INACTIVO'),
     edad int not null,
     foreign key (id_Raza) references Raza(id) on delete cascade,
     foreign key (id_Cliente) references Cliente(id) on delete cascade,
@@ -90,4 +96,4 @@ Create table Alertas(
     foreign key (id_Veterinario) references Veterinario(id) on delete cascade,
 	foreign key (id_Mascota) references Mascota(id) on delete cascade,
     foreign key (id_Cliente) references Cliente(id) on delete cascade
-);
+);	
