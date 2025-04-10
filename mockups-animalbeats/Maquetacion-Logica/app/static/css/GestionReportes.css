@@ -148,8 +148,6 @@ body {
 .acciones-botones button:hover {
     background-color: #d50000;
 }
-/* Estilos del modal */
-
 
 label {
     margin: 10px 0 5px;
@@ -188,4 +186,12 @@ button:hover {
 .btn-primary:hover{
     border-color: var(--negro);
     background-color: var(--negro);
+}
+.btn-success{
+    background-color: var(--rojo);
+    border-color: var(--rojo);
+}
+.btn-success:hover{
+    background-color: var(--negro);
+    border-color: var(--negro);
 }

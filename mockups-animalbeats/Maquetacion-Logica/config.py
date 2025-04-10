@@ -2,6 +2,6 @@ class Config:
     SECRET_KEY = 'CLAVE'
     MYSQL_HOST = 'localhost'
     MYSQL_USER = 'root'
-    MYSQL_PASSWORD = 'Alejo19'
     MYSQL_DB = 'AnimalBeats'
+    MYSQL_PASSWORD = ''
     SESSION_COOKIE_SECURE: False
