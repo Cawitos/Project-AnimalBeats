@@ -27,10 +27,12 @@
   <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions"
     aria-labelledby="offcanvasWithBothOptionsLabel">
     <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel"><a href="administrador.html" class="animalbeats">
-          <img src="../img/logo-corto.png" alt="">
+      <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">
+        <a href="{{ url_for('user_bp.dashboard_admin') }}" class="animalbeats">
+          <img src="{{ url_for('static', filename='img/logo-corto.png') }}" alt="">
           <span class="nav-logo">AnimalBeats</span>
-        </a></h5>
+        </a>
+      </h5>
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
@@ -111,7 +113,7 @@
                 </tr>
               </thead>
               <tbody id="tabla-alarmas">
-                
+
               </tbody>
             </table>
           </div>
@@ -127,7 +129,7 @@
                 </tr>
               </thead>
               <tbody id="tabla-alarmas">
-                  
+
               </tbody>
             </table>
           </div>
