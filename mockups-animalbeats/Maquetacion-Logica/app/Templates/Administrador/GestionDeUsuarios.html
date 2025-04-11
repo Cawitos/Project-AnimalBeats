@@ -110,8 +110,10 @@
                     class="fa-solid fa-eye text-danger"></i></a></td>
               <td><a href="{{ url_for('gestion_bp.modificar_usuario', id=u.n_documento) }}"><i
                     class="fa-solid fa-pen text-danger"></i></a></td>
-              <td><button class="btn-eliminar" data-id="{{ u.n_documento }}"><i
-                    class="fa-solid fa-user-lock"></i></button>
+              <td>
+                <button class="btn-suspender"  data-id="{{ u.n_documento }}">
+                  <i class="fa-solid fa-user-lock"></i>
+                </button>
               </td>
             </tr>
             {% endfor %}
@@ -130,16 +132,19 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
   <script>
-    document.querySelectorAll('.btn-eliminar').forEach(btn => {
+    document.querySelectorAll('.btn-suspender').forEach(btn => {
       btn.addEventListener('click', function () {
         const id = this.getAttribute('data-id');
         Swal.fire({
           title: '¿Estás seguro?',
-          text: 'Este usuario será suspendido',
+          text: 'Este usuario será suspendido y no podrá iniciar sesión.',
           icon: 'warning',
           showCancelButton: true,
-          confirmButtonText: 'Sí, suspender'
+          confirmButtonText: 'Sí, suspender',
+          cancelButtonText: 'Cancelar'
         }).then((result) => {
           if (result.isConfirmed) {
             window.location.href = `/usuario/${id}/eliminar`;
@@ -148,6 +153,7 @@
       });
     });
   </script>
+
 
 </body>
 

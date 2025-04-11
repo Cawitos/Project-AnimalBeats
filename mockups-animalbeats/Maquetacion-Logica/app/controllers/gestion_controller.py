@@ -13,9 +13,11 @@ def gestion_usuarios():
             SELECT Usuarios.n_documento, Usuarios.correoelectronico, Documento.tipo
             FROM Usuarios
             JOIN Documento ON Usuarios.id_documento = Documento.id
+            WHERE Usuarios.estado = 'ACTIVO'
         """)
         usuarios = cursor.fetchall()
     return render_template('Administrador/GestionDeUsuarios.html', usuarios=usuarios)
+
 
 
 
