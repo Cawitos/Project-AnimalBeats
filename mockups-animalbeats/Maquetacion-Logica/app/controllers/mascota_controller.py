@@ -9,7 +9,7 @@ def Mascotas():
     connection = current_app.connection
     try:
         with connection.cursor() as cursor:
-            cursor.execute("SELECT id, id_Cliente, Nombre, id_Especie, id_Raza, edad FROM mascota where estado = 'ACTIVO'")
+            cursor.execute("SELECT M.id, C.id_Usuario, M.nombre, E.Especie, R.Raza, M.edad FROM mascota M join Especie E on id_Especie=E.id join Raza R on id_Raza=R.id join Cliente C on id_Cliente=C.id where estado = 'ACTIVO'")
             mascotas = cursor.fetchall()
     except Exception as e:
         return str(e)
@@ -95,23 +95,38 @@ def edit_mascot(id_mascota):
                 return redirect(url_for('mascotas_bp.Mascotas'))
         except Exception as e:
             flash('Error al actualizar la mascota: ' + str(e), 'danger')
+    
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT id FROM mascota WHERE id = %s", (id_mascota))
+            mascota = cursor.fetchone()
+    except Exception as e:
+        return str(e)
 
-    return render_template('Administrador/Modificar_Mascota.html')
+    return render_template('Administrador/Modificar_Mascota.html', mascota=mascota)
 
 
 @mascotas_bp.route('/Eliminar-Mascota/<int:id_mascota>', methods=['GET', 'POST'])
 def delete_mascot(id_mascota):
     connection = current_app.connection
+    if request.method == 'POST':
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute("update mascota set estado = 'INACTIVO' where id = %s", (id_mascota))
+                connection.commit()
+                flash('Mascota eliminada correctamente')
+                return redirect(url_for('mascotas_bp.Mascotas'))
+        except Exception as e:
+                flash('Error al eliminar la mascota: ' + str(e), 'danger')
+    
     try:
         with connection.cursor() as cursor:
-            cursor.execute("DELETE FROM mascota WHERE id = %s", (id_mascota))
-            connection.commit()
-            flash('Mascota eliminada correctamente')
-            return redirect(url_for('mascotas_bp.Mascotas'))
+            cursor.execute("SELECT id FROM mascota WHERE id = %s", (id_mascota))
+            mascota = cursor.fetchone()
     except Exception as e:
-            flash('Error al eliminar la mascota: ' + str(e), 'danger')
-
-    return render_template('Administrador/Eliminar_Mascota.html')
+        return str(e)
+    
+    return render_template('Administrador/Eliminar_Mascota.html', mascota=mascota)
 
 @mascotas_bp.route('/Historial-Mascota/<int:id_mascota>', methods=['GET', 'POST'])
 def historial(id_mascota):

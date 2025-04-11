@@ -89,7 +89,7 @@
       <main class="contenido-principal">
         <h1>Gestión de Mascotas</h1>
         <div class="contenedor-tabla">
-          <table id="tabla-mascotas">
+          <table class="tabla-mascotas" id="tabla-mascotas">
             <thead>
               <tr>
                 <th>Código dueño</th>
@@ -97,7 +97,7 @@
                 <th>Especie</th>
                 <th>Raza</th>
                 <th>Edad</th>
-                <th>Documento del Dueño</th>
+                <th>Dueño</th>
                 <th>Historial</th>
       
                 <th>Modificar</th>
@@ -108,14 +108,14 @@
               {% for mascota in mascotas %}
               <tr>
                 <td>{{ mascota['id'] }}</td>
-                <td>{{ mascota['Nombre'] }}</td>
-                <td>{{ mascota['id_Especie'] }}</td>
-                <td>{{ mascota['id_Raza'] }}</td>
+                <td>{{ mascota['nombre'] }}</td>
+                <td>{{ mascota['Especie'] }}</td>
+                <td>{{ mascota['Raza'] }}</td>
                 <td>{{ mascota['edad'] }}</td>
-                <td>{{ mascota['id_Cliente'] }}</td>
+                <td>{{ mascota['id_Usuario'] }}</td>
                 <td>
                   <a href="{{ url_for('mascotas_bp.historial', id_mascota=mascota['id'])}}"><svg version="1.0"
-                      xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 512.000000 512.000000"
+                      xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 512.000000 512.000000"
                       preserveAspectRatio="xMidYMid meet">
                       <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000"
                         stroke="none">

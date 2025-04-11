@@ -5,167 +5,120 @@
     --gris: #E6E8E6;
     --verde: #4CAF50;
 }
-
-* {
+*{
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
-
 body {
     margin: 0;
     font-family: 'Arial', sans-serif;
     background-color: var(--blanco);
     color: var(--negro);
 }
-
 .contenedor-dashboard {
+    flex-direction: row;
+    min-height: 90vh;
     display: flex;
-    min-height: 100vh;
-}
-
-.barra-desplegable {
-    width: 90px;
-    height: 100vh;
     overflow: hidden;
-    transition: width 0.3s ease;
-    background-color: var(--rojo);
-    position: fixed;
 }
-
-.barra-desplegable:hover {
-    width: 250px;
-}
-
-.barra-desplegable ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.fondo-logo {
-    background-color: var(--gris);
+.animalbeats{
     text-align: center;
-    padding: 10px 0;
-}
-
-.animalbeats {
-    text-decoration: none;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    color: var(--negro);
-    padding: 10px;
+    transition: all 0.5s ease;
+    text-decoration: none;
 }
-
-.animalbeats img {
-    width: 50px;
-    height: 50px;
+.animalbeats img{
+    width: 80px;
+    height: 80px;
+    margin-left: 5px;
 }
-
-.animalbeats span {
-    font-size: 18px;
+.animalbeats span{
     font-weight: bold;
-    color: var(--negro);
-    display: none;
+    padding: 15px;
+    font-size: 25px;
+    text-transform: uppercase;
 }
-
-.barra-desplegable:hover .animalbeats span {
-    display: inline-block;
-}
-
-.opcion, .salir {
-    color: var(--blanco);
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-}
-
-.opcion svg, .salir svg {
-    margin-right: 10px;
-    flex-shrink: 0;
-}
-
-.opcion:hover, .salir:hover {
-    background-color: var(--negro);
-}
-
-.item-nav {
-    display: none;
-    margin-left: 10px;
-}
-
-.barra-desplegable:hover .item-nav {
-    display: inline;
-}
-
-.salir {
-    position: absolute;
-    bottom: 20px;
-    width: 100%;
-}
-
-.contenido-principal {
-    margin-left: 90px;
-    padding: 20px;
-    width: calc(100% - 90px);
-    transition: margin-left 0.3s ease, width 0.3s ease;
-}
-
-.barra-desplegable:hover + .contenido-principal {
-    margin-left: 250px;
-    width: calc(100% - 250px);
-}
-
-h1 {
-    text-align: center;
-    margin: 20px 0;
-}
-
-.contenedor-formulario {
-    margin: 20px auto;
-    max-width: 500px;
-    padding: 20px;
-    border: 2px solid var(--gris);
-    border-radius: 10px;
-    background-color: var(--blanco);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.formulario-tabla {
-    width: 100%;
-    margin: 0 auto;
-}
-
-input, select {
-    width: 100%;
-    padding: 8px;
-    margin: 5px 0;
-    border: 1px solid var(--gris);
-    border-radius: 5px;
-    font-size: 14px;
-}
-
-button {
-    padding: 10px 20px;
-    font-size: 16px;
+.btn-primary{
+    border-color: var(--rojo);
     background-color: var(--rojo);
     color: var(--blanco);
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    display: inline-block;
 }
-
-button:hover {
-    background-color: var(--negro);
+.offcanvas-body{
+    list-style: none;
 }
-
-button a {
-    color: var(--blanco);
+.opcion{
+    position: relative;
+    color: var(--negro);
+    font-size: 18px;
+    display: table;
+    width: 300px;
+    padding: 10px;
     text-decoration: none;
+}
+.opcion svg{
+    position: relative;
+    color: var(--negro);
+    text-align: center;
+    margin-left: 15px;
+}
+.nav-logo{
+    margin-top: 15px;
+    color: #000;
+    text-decoration: none;
+}
+.item-nav{
+    position: absolute;
+    margin-left: 25px;
+    margin-top: 12px;
+    color: var(--negro);
+}
+.salir{
+    position: absolute;
+    bottom: 0;
+    color: var(--negro);
+    font-size: 18px;
+    display: table;
+    width: 300px;
+    padding: 10px;
+    text-decoration: none;
+}
+.salir svg{
+    position: relative;
+    color: var(--negro);
+    text-align: center;
+    margin-left: 15px;
+}
+.opcion:hover, .salir:hover {
+    background-color: var(--rojo);
+    color: var(--blanco);
+}
+
+.opcion:hover .item-nav, .salir:hover .item-nav {
+    color: var(--blanco);
+}
+
+.opcion:hover svg, .salir:hover svg {
+    fill: var(--blanco);
+}
+.btn-primary:hover{
+    background-color: var(--negro);
+    border-color: var(--negro);
+}
+
+.contenido-principal{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.contenido-principal h1{
+    width: 100%;
+    text-align: center;
+    margin: 20px;
+}
+.contenedor-formulario{
+    width: 50%;
+}
+.contenedor-formulario button{
+    width: 100%;
 }
