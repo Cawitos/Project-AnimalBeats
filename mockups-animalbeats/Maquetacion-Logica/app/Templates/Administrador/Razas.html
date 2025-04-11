@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/x-icon" href="../img/logoico.png">
   <title>Gestión de Especies</title>
-  <link rel="stylesheet" href="../css/bootstrap.min.css">
-  <link rel="stylesheet" href="../css/Enfermedad.css">
+  <link rel="stylesheet" href="{{url_for('static', filename='css/razas.css')}}">
+  <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
@@ -26,15 +26,17 @@
   <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions"
     aria-labelledby="offcanvasWithBothOptionsLabel">
     <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel"><a href="administrador.html" class="animalbeats">
-          <img src="../img/logo-corto.png" alt="">
+      <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">
+        <a href="{{ url_for('user_bp.dashboard_admin') }}" class="animalbeats">
+          <img src="{{ url_for('static', filename='img/logo-corto.png') }}" alt="">
           <span class="nav-logo">AnimalBeats</span>
-        </a></h5>
+        </a>
+      </h5>
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
       <li>
-        <a href="../Administrador/GestionDeUsuarios.html" class="opcion">
+        <a href="{{ url_for('gestion_bp.gestion_usuarios') }}" class="opcion">
           <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 24 24" fill="#000">
             <path
               d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z">
@@ -44,7 +46,7 @@
         </a>
       </li>
       <li>
-        <a href="../Administrador/GestionMascotas.html" class="opcion">
+        <a href="{{ url_for('mascotas_bp.Mascotas') }}" class="opcion">
           <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 -960 960 960" width="24px"
             fill="#000">
             <path
@@ -64,7 +66,7 @@
         </a>
       </li>
       <li>
-        <a href="../Administrador/GestionReportes.html" class="opcion">
+        <a href="{{ url_for('reportes.gestion_reportes') }}" class="opcion">
           <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 -960 960 960" width="24px"
             fill="#000">
             <path
@@ -90,7 +92,7 @@
           <a class="navbar-brand">Busqueda</a>
           <form class="d-flex" role="search">
             <input class="form-control me-2" type="search" placeholder="Buscar Especie" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Buscar</button>
+            <button class="btn btn-primary" type="submit">Buscar</button>
           </form>
         </div>
       </nav>
@@ -108,7 +110,9 @@
         </div>
         {% endfor %}
       </div>
-      <a href="{{ url_for('raza_bp.crear_raza', id_especie=id_especie) }}">Crear raza</a>
+      <div class="crear">
+      <a href="{{ url_for('raza_bp.crear_raza', id_especie=id_especie) }}" class="btn btn-primary">Crear raza</a>
+      </div>
     </main>
   </div>
   <script src="../js/bootstrap.bundle.min.js"></script>
