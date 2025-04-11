@@ -22,7 +22,6 @@ CREATE TABLE Administrador(
 	id INT AUTO_INCREMENT PRIMARY KEY,
     id_Usuario varchar(10) not null,
     id_rol int not null,
-    Nombre varchar(100) not null,
     FOREIGN KEY (id_rol) REFERENCES Rol(id) on delete cascade,
     foreign key (id_Usuario) references Usuarios(n_documento) on delete cascade
 );
@@ -30,7 +29,6 @@ CREATE TABLE Veterinario(
 	id INT AUTO_INCREMENT PRIMARY KEY,
     id_Usuario varchar(10) not null,
     id_rol int not null,
-    Nombre varchar(100) not null,
     FOREIGN KEY (id_rol) REFERENCES Rol(id) on delete cascade,
     foreign key (id_Usuario) references Usuarios(n_documento) on delete cascade
 );
@@ -38,7 +36,6 @@ CREATE TABLE Cliente(
 	id INT AUTO_INCREMENT PRIMARY KEY,
     id_Usuario varchar(10) not null,
     id_rol int not null,
-    Nombre varchar(100) NOT NULL,
     FOREIGN KEY (id_rol) REFERENCES Rol(id) on delete cascade,
     foreign key (id_Usuario) references Usuarios(n_documento) on delete cascade
 );
@@ -97,3 +94,6 @@ Create table Alertas(
 	foreign key (id_Mascota) references Mascota(id) on delete cascade,
     foreign key (id_Cliente) references Cliente(id) on delete cascade
 );	
+
+INSERT INTO Documento (tipo) VALUES ('C.C'), ('T.I'), ('C.E');
+INSERT INTO Rol (rol) VALUES ('admin'), ('cliente'), ('veterinario');
