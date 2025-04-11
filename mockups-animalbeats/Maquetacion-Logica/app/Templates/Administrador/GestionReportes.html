@@ -106,15 +106,38 @@
               <thead>
                 <tr>
                   <th>Cliente</th>
-                  <th>Tipo de alarma</th>
-                  <th>Activa</th>
-                  <th>Hora</th>
+                  <th>Veterinario</th>
+                  <th>Mascota</th>
+                  <th>Fecha</th>
+                  <th>Descripción</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
               <tbody id="tabla-alarmas">
+                {% for alerta in alertas %}
+                <tr>
+                  <td>{{ alerta['id_cliente'] }}</td>
+                  <td>{{ alerta['id_veterinario'] }}</td>
+                  <td>{{ alerta['id_mascota'] }}</td>
+                  <td>{{ alerta['fecha'] }}</td>
+                  <td>{{ alerta['descripcion'] }}</td>
+                  <td>
+                    <a href="{{ url_for('reportes.modificar_alerta', id=alerta['id']) }}"
+                      class="btn btn-sm btn-primary me-1">
+                      <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
 
+                    <form action="{{ url_for('reportes.eliminar_alerta', id=alerta['id']) }}" method="post"
+                      style="display:inline;">
+                      <button type="submit" class="btn btn-sm btn-danger">
+                        <i class="fa-solid fa-trash"></i>
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+                {% endfor %}
               </tbody>
+
             </table>
           </div>
           <div class="tab-pane fade" id="cliente-pane" role="tabpanel" aria-labelledby="cliente-tab" tabindex="0">
@@ -122,15 +145,38 @@
               <thead>
                 <tr>
                   <th>Cliente</th>
-                  <th>Tipo de alarma</th>
-                  <th>Activa</th>
-                  <th>Hora</th>
+                  <th>Veterinario</th>
+                  <th>Mascota</th>
+                  <th>Fecha</th>
+                  <th>Descripción</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
               <tbody id="tabla-alarmas">
+                {% for alerta in alertas %}
+                <tr>
+                  <td>{{ alerta['id_cliente'] }}</td>
+                  <td>{{ alerta['id_veterinario'] }}</td>
+                  <td>{{ alerta['id_mascota'] }}</td>
+                  <td>{{ alerta['fecha'] }}</td>
+                  <td>{{ alerta['descripcion'] }}</td>
+                  <td>
+                    <a href="{{ url_for('reportes.modificar_alerta', id=alerta['id']) }}"
+                      class="btn btn-sm btn-primary me-1">
+                      <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
 
+                    <form action="{{ url_for('reportes.eliminar_alerta', id=alerta['id']) }}" method="post"
+                      style="display:inline;">
+                      <button type="submit" class="btn btn-sm btn-danger">
+                        <i class="fa-solid fa-trash"></i>
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+                {% endfor %}
               </tbody>
+
             </table>
           </div>
         </div>
