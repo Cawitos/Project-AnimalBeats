@@ -16,9 +16,8 @@
 </head>
 
 <body>
-
   <div class="menu">
-    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions"
+    <button class="btn btn-danger" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions"
       aria-controls="offcanvasWithBothOptions"><svg xmlns="http://www.w3.org/2000/svg" height="24px"
         viewBox="0 -960 960 960" width="24px" fill="#FFF">
         <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
@@ -57,7 +56,7 @@
         </a>
       </li>
       <li>
-        <a href="../Administrador/GestionConsultas.html" class="opcion">
+        <a href="{{ url_for('especie_bp.especie')}}" class="opcion">
           <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 -960 960 960" width="24px"
             fill="#000">
             <path
@@ -77,7 +76,7 @@
         </a>
       </li>
       <li>
-        <a href="../index.html" class="salir">
+        <a href="{{ url_for('main_bp.Home')}}" class="salir">
           <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 24 24" fill="#000">
             <path d="M10 17l5-5-5-5v10zM4 4h2v16H4V4zm16 0h-6v2h6v12h-6v2h6c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"></path>
           </svg>
@@ -92,36 +91,38 @@
       <h1>Gestión de usuarios</h1>
       <div class="contenedor-tabla">
         {% if usuarios %}
-          <table id="tabla-usuarios" class="table table-striped">
-            <thead>
-              <tr>
-                <th>Código</th>
-                <th>Correo</th>
-                <th>Consultar</th>
-                <th>Modificar</th>
-                <th>Suspender</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for u in usuarios %}
-              <tr>
-                <td>{{ u.tipo }} - {{ u.n_documento }}</td>
-                <td>{{ u.correoelectronico }}</td>
-                <td><a href="{{ url_for('gestion_bp.consultar_usuario', id=u.n_documento) }}"><i class="fa-solid fa-eye text-danger"></i></a></td>
-                <td><a href="{{ url_for('gestion_bp.modificar_usuario', id=u.n_documento) }}"><i class="fa-solid fa-pen text-danger"></i></a></td>
-                <td>
-                  <button class="btn-suspender" data-id="{{ u.n_documento }}">
-                    <i class="fa-solid fa-user-lock"></i>
-                  </button>
-                </td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
+        <table id="tabla-usuarios" class="table table-striped">
+          <thead>
+            <tr>
+              <th>Código</th>
+              <th>Correo</th>
+              <th>Consultar</th>
+              <th>Modificar</th>
+              <th>Suspender</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for u in usuarios %}
+            <tr>
+              <td>{{ u.tipo }} - {{ u.n_documento }}</td>
+              <td>{{ u.correoelectronico }}</td>
+              <td><a href="{{ url_for('gestion_bp.consultar_usuario', id=u.n_documento) }}"><i
+                    class="fa-solid fa-eye text-danger"></i></a></td>
+              <td><a href="{{ url_for('gestion_bp.modificar_usuario', id=u.n_documento) }}"><i
+                    class="fa-solid fa-pen text-danger"></i></a></td>
+              <td>
+                <button class="btn-suspender" data-id="{{ u.n_documento }}">
+                  <i class="fa-solid fa-user-lock"></i>
+                </button>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
         {% else %}
-          <div class="alert alert-warning text-center" role="alert">
-            No hay usuarios registrados actualmente.
-          </div>
+        <div class="alert alert-warning text-center" role="alert">
+          No hay usuarios registrados actualmente.
+        </div>
         {% endif %}
       </div>
     </main>
