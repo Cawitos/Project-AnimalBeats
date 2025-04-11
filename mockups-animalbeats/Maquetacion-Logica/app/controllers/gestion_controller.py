@@ -140,8 +140,3 @@ def suspender_usuario(n_documento):
         connection.commit()
     flash('Usuario suspendido con éxito.')
     return redirect(url_for('gestion_bp.gestion_usuarios'))
-
-
-
-
-
