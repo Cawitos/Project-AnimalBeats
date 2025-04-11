@@ -9,12 +9,13 @@ def Mascotas():
     connection = current_app.connection
     try:
         with connection.cursor() as cursor:
-            cursor.execute("SELECT id_Cliente, Nombre, id_Especie, id_Raza, edad FROM mascota where estado = 'ACTIVO'")
+            cursor.execute("SELECT id, id_Cliente, Nombre, id_Especie, id_Raza, edad FROM mascota where estado = 'ACTIVO'")
             mascotas = cursor.fetchall()
     except Exception as e:
         return str(e)
     
     return render_template('Administrador/GestionMascotas.html', mascotas=mascotas)
+
 
 @mascotas_bp.route('/Crear-Mascota', methods=['GET', 'POST'])
 def create_mascot():
@@ -28,12 +29,27 @@ def create_mascot():
 
         try:
             with connection.cursor() as cursor:
-                cursor.execute("""
-                    INSERT INTO mascota (id_cliente, nombre, edad, id_raza, id_especie, estado)
-                    VALUES (%s, %s, %s, %s, %s, %s)
-                """, (n_documento, nombreM, edadM, razaM, especieM, 'ACTIVO'))
+                cursor.execute("SELECT id FROM cliente WHERE id_usuario = %s", (n_documento,))
+                cliente = cursor.fetchone()
+            
+            if cliente is None:
+                return "Error: El cliente especificado no existe."
+
+            id_cliente = cliente['id']
+            print(id_cliente)
+            print(nombreM)
+            print(especieM)
+            print(razaM)
+            print(edadM)
+            print(n_documento)
+            with connection.cursor() as cursor:
+                cursor.execute("INSERT INTO mascota (id_cliente, nombre, edad, id_raza, id_especie, estado) VALUES (%s, %s, %s, %s, %s, %s)", (id_cliente, nombreM, edadM, razaM, especieM, 'ACTIVO'))
                 connection.commit()
+
+            # Mensaje de éxito antes de redirigir
+            flash("Mascota creada con éxito.")
             return redirect(url_for('mascotas_bp.Mascotas'))
+
         except Exception as e:
             return str(e)
 
@@ -47,6 +63,8 @@ def create_mascot():
         return str(e)
 
     return render_template('Administrador/Crear_Mascota.html', especies=especies)
+
+
 
 
 @mascotas_bp.route('/get-razas/<int:especie_id>', methods=['GET'])
@@ -100,9 +118,17 @@ def historial(id_mascota):
     connection = current_app.connection
     try:
         with connection.cursor() as cursor:
-            cursor.execute("select M.id, M.id_Cliente, M.nombre, M.id_Especie, M.id_Raza, M.edad, A.fecha, A.descripcion from mascota M join alertas A on M.id=A.id_mascota WHERE M.id = %s", (id_mascota,))
-            historiales=cursor.fetchall()
+            cursor.execute("SELECT M.id, C.id_Usuario, M.nombre, E.Especie, R.Raza, M.edad FROM mascota M join Especie E on id_Especie=E.id join Raza R on id_Raza=R.id join Cliente C on id_Cliente=C.id WHERE M.id = %s", (id_mascota,))
+            mascota_info = cursor.fetchone()
+            print(mascota_info)
+            if mascota_info is None:
+                flash('No se encontró información de la mascota.', 'danger')
+                return redirect(url_for('mascotas_bp.Mascotas'))
+            
+            cursor.execute("SELECT A.fecha, A.descripcion FROM mascota M JOIN alertas A ON M.id = A.id_mascota WHERE M.id = %s", (id_mascota,))
+            historial_medico = cursor.fetchall()
+            print(historial_medico)
     except Exception as e:
         flash('Error al encontrar historial: ' + str(e), 'danger')
 
-    return render_template('Historial_Mascota.html', historiales=historiales)
+    return render_template('Administrador/Historial_Mascota.html', mascota_info=mascota_info, historial_medico=historial_medico)
