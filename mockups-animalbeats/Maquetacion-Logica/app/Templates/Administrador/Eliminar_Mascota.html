@@ -90,9 +90,12 @@
             <h1>Eliminar Mascota</h1>
             <div class="contenedor-formulario">
                 <form class="form-mascota" id="form-mascota" method="post" action="{{ url_for('mascotas_bp.delete_mascot', id_mascota = mascota['id']) }}">
+                  <div class="mb-3">
                     <tr><label for="nameC" class="form-label">{{ mascota.nombre }}</label></tr>
-                    
+                  </div>
+                  <div class="mb-3">
                     <td><button type="submit" class="btn btn-primary">Eliminar</button></td>
+                  </div>
                     <a href="{{ url_for('mascotas_bp.Mascotas') }}">Volver</a>
                 </form>
         </div>
