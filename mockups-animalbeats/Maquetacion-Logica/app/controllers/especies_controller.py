@@ -45,37 +45,53 @@ def modificar_especie(id_especie):
                 return redirect(url_for('especie_bp.especie'))
         except Exception as e:
             return str(e)
+    
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT id FROM Especie WHERE id = %s", (id_especie))
+            especie = cursor.fetchone()
+    except Exception as e:
+        return str(e)
         
     return render_template('Administrador/Modificar_Especie.html', especie=especie)
 
 @especie_bp.route('/Eliminar-Especie/<int:id_especie>', methods=['GET', 'POST'])
 def eliminar_especie(id_especie):
     connection = current_app.connection
+    if request.method == 'POST':
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute("DELETE FROM Especie WHERE id = %s", (id_especie))
+                connection.commit()
+                flash('Especie eliminada correctamente')
+                return redirect(url_for('especie_bp.especie'))
+        except Exception as e:
+                flash('Error al eliminar la especie: ' + str(e), 'danger')
+    
     try:
         with connection.cursor() as cursor:
-            cursor.execute("DELETE FROM Especie WHERE id = %s", (id_especie))
-            connection.commit()
-            flash('Especie eliminada correctamente')
-            return redirect(url_for('especie_bp.especie'))
+            cursor.execute("SELECT id FROM Especie WHERE id = %s", (id_especie))
+            especie = cursor.fetchone()
     except Exception as e:
-            flash('Error al eliminar la especie: ' + str(e), 'danger')
+        return str(e)
 
-    return render_template('Administrador/Eliminar_Especie.html')
+    return render_template('Administrador/Eliminar_Especie.html', especie=especie)
 
 
 raza_bp = Blueprint('raza_bp', __name__)
 
-@raza_bp.route('/Razas/<int:id_especie>', methods=['GET', 'POST'])
+@raza_bp.route('/Razas/<int:id_especie>', methods=['GET'])
 def razas(id_especie):
     connection = current_app.connection
     try:
         with connection.cursor() as cursor:
-            cursor.execute("SELECT Raza FROM Raza WHERE id_especie = %s", (id_especie))
+            cursor.execute("SELECT id, raza, descripcion FROM Raza WHERE id_especie = %s", (id_especie,))
             razas = cursor.fetchall()
     except Exception as e:
         return str(e)
     
     return render_template('Administrador/Razas.html', razas=razas, id_especie=id_especie)
+
 
 @raza_bp.route('/Crear-Raza/<int:id_especie>', methods=['GET', 'POST'])
 def crear_raza(id_especie):
@@ -90,36 +106,72 @@ def crear_raza(id_especie):
                 return redirect(url_for('raza_bp.razas', id_especie=id_especie))
         except Exception as e:
             return str(e)
+    
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT id FROM Especie WHERE id = %s", (id_especie))
+            especie = cursor.fetchone()
+    except Exception as e:
+        return str(e)
         
-        return render_template('Administrador/Crear_Raza.html')
+    return render_template('Administrador/Crear_Raza.html', especie=especie)
     
 
-@raza_bp.route('/Editar-raza/<int:id_raza>', methods=['GET', 'POST'])
-def modificar_raza(id_raza):
+@raza_bp.route('/Editar-raza/<int:id_especie>/<int:id_raza>', methods=['GET', 'POST'])
+def modificar_raza(id_especie, id_raza):
     connection = current_app.connection
     if request.method == 'POST':
         Raza=request.form.get('Raza')
         descripcion=request.form.get('descripcion')
         try:
             with connection.cursor() as cursor:
-                cursor.execute("UPDATE Raza SET Raza = %s, descripcion = %s WHERE id = %s", (Raza, descripcion, id_raza))
+                cursor.execute("UPDATE Raza SET Raza = %s, descripcion = %s WHERE id = %s and id_especie = %s", (Raza, descripcion, id_raza, id_especie))
                 connection.commit()
-                return redirect(url_for('raza_bp.razas'))
+                return redirect(url_for('raza_bp.razas', id_especie=id_especie))
         except Exception as e:
             return str(e)
         
-        return render_template('Administrador/Modificar_Raza.html')
-
-@raza_bp.route('/Eliminar-Especie/<int:id_raza>', methods=['GET', 'POST'])
-def eliminar_raza(id_raza):
-    connection = current_app.connection
     try:
         with connection.cursor() as cursor:
-            cursor.execute("DELETE FROM Raza WHERE id = %s", (id_raza))
-            connection.commit()
-            flash('Raza eliminada correctamente')
-            return redirect(url_for('raza_bp.razas'))
+            cursor.execute("SELECT id FROM Especie WHERE id = %s", (id_especie))
+            especie = cursor.fetchone()
     except Exception as e:
-            flash('Error al eliminar la raza: ' + str(e), 'danger')
+        return str(e)
+        
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT id FROM Raza WHERE id = %s and id_especie = %s", (id_raza, id_especie))
+            raza = cursor.fetchone()
+    except Exception as e:
+        return str(e)
+        
+    return render_template('Administrador/Modificar_Raza.html', especie=especie, raza=raza)
 
-    return render_template('Administrador/Eliminar_Raza.html')
+@raza_bp.route('/Eliminar-Especie/<int:id_especie>/<int:id_raza>', methods=['GET', 'POST'])
+def eliminar_raza(id_especie, id_raza):
+    connection = current_app.connection
+    if request.method == 'POST':
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute("DELETE FROM Raza WHERE id = %s and id_especie = %s", (id_raza, id_especie))
+                connection.commit()
+                flash('Raza eliminada correctamente')
+                return redirect(url_for('raza_bp.razas', id_especie=id_especie))
+        except Exception as e:
+                flash('Error al eliminar la raza: ' + str(e), 'danger')
+    
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT id FROM Especie WHERE id = %s", (id_especie))
+            especie = cursor.fetchone()
+    except Exception as e:
+        return str(e)
+        
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT id FROM Raza WHERE id = %s and id_especie = %s", (id_raza, id_especie))
+            raza = cursor.fetchone()
+    except Exception as e:
+        return str(e)
+
+    return render_template('Administrador/Eliminar_Raza.html', especie=especie, raza=raza)

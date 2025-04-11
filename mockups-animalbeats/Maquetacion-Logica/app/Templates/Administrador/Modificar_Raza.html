@@ -85,15 +85,15 @@
   </div>
   <div class="contenedor-dashboard">
     <main class="contenedor-consulta">
-        <h1>Crear Raza</h1>
-        <form action="{{ url_for('raza_bp.editar_raza', id_especie=especie.id) }}" method="post">
+        <h1>Modificar Raza</h1>
+        <form action="{{ url_for('raza_bp.modificar_raza', id_especie=especie['id'], id_raza=raza['id']) }}" method="post">
             <input type="hidden" name="id_especie" value="{{ especie.id }}">
+            <input type="hidden" name="id_raza" value="{{ raza.id }}">
             <label for="Raza">Nombre de la Raza</label>
             <input type="text" id="Raza" name="Raza" required>
             <label for="descripcion">Descripción</label>
-            <textarea name="descripcion" id="descripcion"></textarea>
-            
-            <button type="submit">Modificar Especie</button>
+            <textarea name="descripcion" id="descripcion" placeholder="{{ raza.descripcion }}"></textarea>
+            <button type="submit">Modificar Raza</button>
         </form>      
     </main>
   </div>

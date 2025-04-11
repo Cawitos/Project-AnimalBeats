@@ -87,7 +87,7 @@
         <div class="contenido-principal">
             <h1>Eliminar Raza</h1>
             <div class="contenedor-formulario-1">
-                <form method="post" action="{{ url_for('raza_bp.eliminar-raza') }}">
+                <form method="post" action="{{ url_for('raza_bp.eliminar_raza', id_especie=especie['id'], id_raza=raza['id']) }}">
                     <tr><label for="nameC">{{ raza.raza }}</label></tr>
                     
                     <td><button type="submit">Eliminar</button></td>
