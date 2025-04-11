@@ -91,34 +91,38 @@
     <main class="contenido-principal">
       <h1>Gestión de usuarios</h1>
       <div class="contenedor-tabla">
-        <table id="tabla-usuarios" class="table table-striped">
-          <thead>
-            <tr>
-              <th>Código</th>
-              <th>Correo</th>
-              <th>Consultar</th>
-              <th>Modificar</th>
-              <th>Suspender</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for u in usuarios %}
-            <tr>
-              <td>{{ u.tipo }} - {{ u.n_documento }}</td>
-              <td>{{ u.correoelectronico }}</td>
-              <td><a href="{{ url_for('gestion_bp.consultar_usuario', id=u.n_documento) }}"><i
-                    class="fa-solid fa-eye text-danger"></i></a></td>
-              <td><a href="{{ url_for('gestion_bp.modificar_usuario', id=u.n_documento) }}"><i
-                    class="fa-solid fa-pen text-danger"></i></a></td>
-              <td>
-                <button class="btn-suspender"  data-id="{{ u.n_documento }}">
-                  <i class="fa-solid fa-user-lock"></i>
-                </button>
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+        {% if usuarios %}
+          <table id="tabla-usuarios" class="table table-striped">
+            <thead>
+              <tr>
+                <th>Código</th>
+                <th>Correo</th>
+                <th>Consultar</th>
+                <th>Modificar</th>
+                <th>Suspender</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for u in usuarios %}
+              <tr>
+                <td>{{ u.tipo }} - {{ u.n_documento }}</td>
+                <td>{{ u.correoelectronico }}</td>
+                <td><a href="{{ url_for('gestion_bp.consultar_usuario', id=u.n_documento) }}"><i class="fa-solid fa-eye text-danger"></i></a></td>
+                <td><a href="{{ url_for('gestion_bp.modificar_usuario', id=u.n_documento) }}"><i class="fa-solid fa-pen text-danger"></i></a></td>
+                <td>
+                  <button class="btn-suspender" data-id="{{ u.n_documento }}">
+                    <i class="fa-solid fa-user-lock"></i>
+                  </button>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <div class="alert alert-warning text-center" role="alert">
+            No hay usuarios registrados actualmente.
+          </div>
+        {% endif %}
       </div>
     </main>
   </div>
