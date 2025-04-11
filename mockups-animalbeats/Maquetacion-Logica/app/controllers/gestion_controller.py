@@ -9,24 +9,98 @@ bcrypt = Bcrypt()
 def gestion_usuarios():
     connection = current_app.connection
     with connection.cursor() as cursor:
-        cursor.execute("SELECT n_documento, correoelectronico FROM Usuarios")
+        cursor.execute("""
+            SELECT Usuarios.n_documento, Usuarios.correoelectronico, Documento.tipo
+            FROM Usuarios
+            JOIN Documento ON Usuarios.id_documento = Documento.id
+        """)
         usuarios = cursor.fetchall()
     return render_template('Administrador/GestionDeUsuarios.html', usuarios=usuarios)
+
+
+
 
 @gestion_bp.route('/usuarios/consultar/<id>')
 def consultar_usuario(id):
     connection = current_app.connection
     with connection.cursor() as cursor:
-        cursor.execute("SELECT n_documento, correoelectronico FROM Usuarios WHERE n_documento = %s", (id,))
+        cursor.execute("""
+            SELECT Usuarios.n_documento, Usuarios.correoelectronico, Documento.tipo
+            FROM Usuarios
+            JOIN Documento ON Usuarios.id_documento = Documento.id
+            WHERE Usuarios.n_documento = %s
+        """, (id,))
         resultado = cursor.fetchone()
         if resultado:
             usuario = {
                 'n_documento': resultado['n_documento'],
-                'correoelectronico': resultado['correoelectronico']
+                'correoelectronico': resultado['correoelectronico'],
+                'tipo_documento': resultado['tipo']
             }
             return render_template('Administrador/ConsultarUsuario.html', usuario=usuario)
         else:
             return "Usuario no encontrado"
+
+@gestion_bp.route('/crear-usuario', methods=['GET', 'POST'])
+def crear_usuario():
+    connection = current_app.connection
+
+    if request.method == 'POST':
+        n_documento = request.form['n_documento']
+        id_documento = request.form['id_documento']
+        correoelectronico = request.form['correoelectronico']
+        contrasena = request.form['contrasena']
+        rol_nombre = request.form['rol']
+
+        if not contrasena:
+            return "Contraseña vacía. Por favor, ingrésala."
+
+        hashed_password = bcrypt.generate_password_hash(contrasena).decode('utf-8')
+
+        with connection.cursor() as cursor:
+        
+            cursor.execute("SELECT id FROM Rol WHERE rol = %s", (rol_nombre,))
+            rol_resultado = cursor.fetchone()
+
+            if not rol_resultado:
+                return "Rol no válido."
+
+            id_rol = rol_resultado['id']
+
+            #
+            cursor.execute("""
+                INSERT INTO Usuarios (n_documento, correoelectronico, contrasena, id_documento, estado)
+                VALUES (%s, %s, %s, %s, %s)
+            """, (n_documento, correoelectronico, hashed_password, id_documento, 'ACTIVO'))
+
+            
+            if rol_nombre == 'admin':
+                cursor.execute("""
+                    INSERT INTO Administrador (id_Usuario, id_rol)
+                    VALUES (%s, %s)
+                """, (n_documento, id_rol))
+            elif rol_nombre == 'cliente':
+                cursor.execute("""
+                    INSERT INTO Cliente (id_Usuario, id_rol)
+                    VALUES (%s, %s)
+                """, (n_documento, id_rol))
+            elif rol_nombre == 'veterinario':
+                cursor.execute("""
+                    INSERT INTO Veterinario (id_Usuario, id_rol)
+                    VALUES (%s, %s)
+                """, (n_documento, id_rol))
+
+            connection.commit()
+
+        return redirect(url_for('gestion_bp.gestion_usuarios'))
+
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT id, tipo FROM Documento")
+        tipos_documento = cursor.fetchall()
+
+    return render_template('Administrador/CrearUsuario.html', tipos_documento=tipos_documento)
+
+
 
 
 @gestion_bp.route('/usuarios/modificar/<id>', methods=['GET', 'POST'])

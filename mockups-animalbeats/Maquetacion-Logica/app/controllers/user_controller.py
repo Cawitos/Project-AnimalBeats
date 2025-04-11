@@ -10,27 +10,71 @@ bcrypt = Bcrypt()
 
 @user_bp.route('/login', methods=['GET', 'POST'])
 def login():
+    connection = current_app.connection
+
     if request.method == 'POST':
         correoelectronico = request.form['correoelectronico']
         contrasena = request.form['contrasena']
 
-        connection = current_app.connection
         with connection.cursor() as cursor:
-            cursor.execute("SELECT contrasena FROM Usuarios WHERE correoelectronico=%s", (correoelectronico,))
+            cursor.execute("SELECT * FROM Usuarios WHERE correoelectronico = %s", (correoelectronico,))
             result = cursor.fetchone()
 
             if result and bcrypt.check_password_hash(result['contrasena'], contrasena):
-                # Validar por correo y contraseña exactos si es admin o veterinario
+                session['correoelectronico'] = correoelectronico
+                n_documento = result['n_documento']
+
+                # ADMINISTRADOR
                 if correoelectronico == 'admin@animalbeats.com' and contrasena == 'admin200609':
+                    cursor.execute("SELECT id FROM Rol WHERE rol = 'admin'")
+                    id_rol = cursor.fetchone()['id']
+
+                    # Verificar si ya existe en la tabla Administrador
+                    cursor.execute("SELECT * FROM Administrador WHERE id_Usuario = %s", (n_documento,))
+                    if not cursor.fetchone():
+                        cursor.execute("""
+                            INSERT INTO Administrador (id_Usuario, id_rol)
+                            VALUES (%s, %s)
+                        """, (n_documento, id_rol))
+                        connection.commit()
+
                     return redirect('/administrador')
+
+                # VETERINARIO
                 elif correoelectronico == 'veterinario@animalbeats.com' and contrasena == 'veterinario200817':
+                    cursor.execute("SELECT id FROM Rol WHERE rol = 'veterinario'")
+                    id_rol = cursor.fetchone()['id']
+
+                    cursor.execute("SELECT * FROM Veterinario WHERE id_Usuario = %s", (n_documento,))
+                    if not cursor.fetchone():
+                        cursor.execute("""
+                            INSERT INTO Veterinario (id_Usuario, id_rol)
+                            VALUES (%s, %s)
+                        """, (n_documento, id_rol))
+                        connection.commit()
+
                     return redirect('/veterinario')
+
+                # CLIENTE
                 else:
+                    cursor.execute("SELECT id FROM Rol WHERE rol = 'cliente'")
+                    id_rol = cursor.fetchone()['id']
+
+                    cursor.execute("SELECT * FROM Cliente WHERE id_Usuario = %s", (n_documento,))
+                    if not cursor.fetchone():
+                        cursor.execute("""
+                            INSERT INTO Cliente (id_Usuario, id_rol)
+                            VALUES (%s, %s)
+                        """, (n_documento, id_rol))
+                        connection.commit()
+
                     return redirect('/cliente')
             else:
                 return "Inicio de sesión fallido"
 
     return render_template('login.html')
+
+
 
 
 @user_bp.route('/register', methods=['GET', 'POST'])
@@ -57,7 +101,6 @@ def register():
 
         return redirect(url_for('user_bp.login'))
 
-    # Aquí se cargan los tipos de documento desde la base de datos
     with connection.cursor() as cursor:
         cursor.execute("SELECT id, tipo FROM Documento")
         tipos_documento = cursor.fetchall()
