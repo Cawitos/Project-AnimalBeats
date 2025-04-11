@@ -17,7 +17,7 @@ body {
 }
 .contenedor-dashboard {
     flex-direction: row;
-    min-height: 90vh;
+    max-height: 80vh;
     display: flex;
     overflow: hidden;
 }
