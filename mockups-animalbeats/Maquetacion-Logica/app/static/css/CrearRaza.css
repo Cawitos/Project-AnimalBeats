@@ -46,6 +46,14 @@ body {
 .offcanvas-body{
     list-style: none;
 }
+.offcanvas-body li{
+    list-style: none;
+}
+.offcanvas-body li a:hover{
+    margin-left: -15px;
+    border-radius: 15px;
+    border: 1px solid var(--rojo);
+}
 .opcion{
     position: relative;
     color: var(--negro);

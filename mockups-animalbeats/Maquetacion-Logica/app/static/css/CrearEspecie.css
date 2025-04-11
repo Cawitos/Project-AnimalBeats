@@ -46,8 +46,16 @@ body {
 .offcanvas-body{
     list-style: none;
 }
+.offcanvas-body li{
+    list-style: none;
+}
+.offcanvas-body li a:hover{
+    margin-left: -15px;
+    border-radius: 15px;
+    border: 1px solid var(--rojo);
+}
 .opcion{
-    position: relative;
+    position:        relative;
     color: var(--negro);
     font-size: 18px;
     display: table;
@@ -89,17 +97,10 @@ body {
     margin-left: 15px;
 }
 .opcion:hover, .salir:hover {
-    background-color: var(--rojo);
-    color: var(--blanco);
+    border-color: var(--rojo);
+    color: var(--negro);
 }
 
-.opcion:hover .item-nav, .salir:hover .item-nav {
-    color: var(--blanco);
-}
-
-.opcion:hover svg, .salir:hover svg {
-    fill: var(--blanco);
-}
 .btn-primary:hover{
     background-color: var(--negro) !important;
     border-color: var(--negro) !important;
