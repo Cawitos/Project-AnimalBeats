@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, current_app, flash, session
+from flask import Blueprint, render_template, request, redirect, url_for, current_app, flash, session, jsonify
 mascotas_bp = Blueprint('mascotas_bp', __name__)
 
 def is_authenticated():
@@ -29,9 +29,9 @@ def create_mascot():
         try:
             with connection.cursor() as cursor:
                 cursor.execute("""
-                    INSERT INTO mascota (id_cliente, nombre, edad, id_raza, id_especie)
-                    VALUES (%s, %s, %s, %s, %s)
-                """, (n_documento, nombreM, edadM, razaM, especieM))
+                    INSERT INTO mascota (id_cliente, nombre, edad, id_raza, id_especie, estado)
+                    VALUES (%s, %s, %s, %s, %s, %s)
+                """, (n_documento, nombreM, edadM, razaM, especieM, 'ACTIVO'))
                 connection.commit()
             return redirect(url_for('mascotas_bp.Mascotas'))
         except Exception as e:
@@ -42,15 +42,26 @@ def create_mascot():
         with connection.cursor() as cursor:
             cursor.execute("SELECT id, Especie FROM Especie")
             especies = cursor.fetchall()
-            
-
-            cursor.execute("SELECT id, Raza, id_especie FROM Raza")
-            razas = cursor.fetchall()
 
     except Exception as e:
         return str(e)
 
-    return render_template('Administrador/Crear_Mascota.html', especies=especies, razas=razas)
+    return render_template('Administrador/Crear_Mascota.html', especies=especies)
+
+
+@mascotas_bp.route('/get-razas/<int:especie_id>', methods=['GET'])
+def get_razas(especie_id):
+    connection = current_app.connection
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT id, Raza FROM Raza WHERE id_especie = %s", (especie_id,))
+            razas = cursor.fetchall()
+            return jsonify(razas)
+    except Exception as e:
+        return jsonify({'error': str(e)})
+
+
+
 
 @mascotas_bp.route('/Editar-Mascota/<int:id_mascota>', methods=['GET', 'POST'])
 def edit_mascot(id_mascota):
