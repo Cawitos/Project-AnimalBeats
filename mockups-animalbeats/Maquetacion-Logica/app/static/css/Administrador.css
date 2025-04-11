@@ -1,4 +1,4 @@
-    :root {
+:root {
     --blanco: #FDF7FA;
     --rojo: #DF2935;
     --negro: #07090F;
@@ -38,8 +38,21 @@ body {
     font-size: 25px;
     text-transform: uppercase;
 }
+.btn-primary{
+    border-color: var(--rojo);
+    background-color: var(--rojo);
+    color: var(--blanco);
+}
 .offcanvas-body{
     list-style: none;
+}
+.offcanvas-body li{
+    list-style: none;
+}
+.offcanvas-body li a:hover{
+    margin-left: -15px;
+    border-radius: 15px;
+    border: 1px solid var(--rojo);
 }
 .opcion{
     position: relative;
@@ -65,7 +78,7 @@ body {
     position: absolute;
     margin-left: 25px;
     margin-top: 12px;
-    color: var(--blanco);
+    color: var(--negro);
 }
 .salir{
     position: absolute;
@@ -83,37 +96,21 @@ body {
     text-align: center;
     margin-left: 15px;
 }
-.opcion:hover{
+.opcion:hover, .salir:hover {
+    background-color: var(--rojo);
+    color: var(--blanco);
+}
+
+.opcion:hover .item-nav, .salir:hover .item-nav {
+    color: var(--blanco);
+}
+
+.opcion:hover svg, .salir:hover svg {
+    fill: var(--blanco);
+}
+.btn-primary:hover{
     background-color: var(--negro);
-}
-.salir:hover{
-    background-color: var(--negro);
-}
-.logo {
-    text-align: center;
-    padding: 20px;
-    font-size: 20px;
-    font-weight: normal;
-    background-color: var(--gris);
-    border-bottom: 1px solid rgba(138, 104, 104, 0.5); 
-    display: inline-block; 
-    padding-bottom: 5px; 
-    margin: 0; 
-}
-.logo .icono-grande {
-    fill: var(--blanco); 
-    width: 60px; 
-    height: 60px; 
-    margin-bottom: 5px; 
-}
-.logo h2 {
-    font-size: 24px; 
-    font-family: 'open sans', sans-serif;
-    font-weight: 300;
-    color: var(--blanco); 
-    margin-top: 0; 
-    margin-bottom: 0; 
-    line-height: 1.2; 
+    border-color: var(--negro);
 }
 
 .contenido-principal {
@@ -311,68 +308,4 @@ button:hover {
     height: 50px;
     font-size: 20px;
 }
-.animalbeats{
-    text-align: center;
-    display: flex;
-    transition: all 0.5s ease;
-    text-decoration: none;
-}
-.animalbeats img{
-    width: 80px;
-    height: 80px;
-    margin-left: 5px;
-}
-.animalbeats span{
-    font-weight: bold;
-    padding: 15px;
-    font-size: 25px;
-    text-transform: uppercase;
-}
-.opcion{
-    position: relative;
-    color: var(--negro);
-    font-size: 18px;
-    display: table;
-    width: 300px;
-    padding: 10px;
-    text-decoration: none;
-}
-.opcion svg{
-    position: relative;
-    color: var(--negro);
-    text-align: center;
-    margin-left: 15px;
-}
-.nav-logo{
-    margin-top: 15px;
-    color: #000;
-    text-decoration: none;
-}
-.item-nav{
-    position: absolute;
-    margin-left: 25px;
-    margin-top: 12px;
-    color: var(--blanco);
-}
-.salir{
-    position: absolute;
-    bottom: 0;
-    color: var(--negro);
-    font-size: 18px;
-    display: table;
-    width: 300px;
-    padding: 10px;
-    text-decoration: none;
-}
-.salir svg{
-    position: relative;
-    color: var(--negro);
-    text-align: center;
-    margin-left: 15px;
-}
-.opcion:hover{
-    background-color: var(--negro);
-}
-.salir:hover{
-    background-color: var(--negro);
-}
+
