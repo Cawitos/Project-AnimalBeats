@@ -89,7 +89,7 @@
         <div class="contenido-principal">
             <h1>Crear Mascota</h1>
             <div class="contenedor-formulario">
-              <form id="form-mascota" method="POST" action="{{ url_for('mascotas_bp.create_mascot') }}">
+              <form class="form-mascota" id="form-mascota" method="POST" action="{{ url_for('mascotas_bp.create_mascot') }}">
                 <div class="mb-3">
                     <label for="nombreM" class="form-label">Nombre de Mascota:</label>
                     <input type="text" class="form-control" id="nombreM" name="nombreM" required>
@@ -125,6 +125,7 @@
                 <div class="mb-3">
                     <button type="submit" class="btn btn-primary">Crear Mascota</button>
                 </div>
+                <a href="{{ url_for('mascotas_bp.Mascotas') }}">Volver</a>
             </form>
             
             </div>

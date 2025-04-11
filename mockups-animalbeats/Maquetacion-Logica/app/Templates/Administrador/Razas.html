@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/x-icon" href="../img/logoico.png">
   <title>Gestión de Especies</title>
-  <link rel="stylesheet" href="../css/bootstrap.min.css">
-  <link rel="stylesheet" href="../css/Enfermedad.css">
+  <link rel="stylesheet" href="{{url_for('static', filename='css/razas.css')}}">
+  <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
@@ -92,7 +92,7 @@
           <a class="navbar-brand">Busqueda</a>
           <form class="d-flex" role="search">
             <input class="form-control me-2" type="search" placeholder="Buscar Especie" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Buscar</button>
+            <button class="btn btn-primary" type="submit">Buscar</button>
           </form>
         </div>
       </nav>
@@ -110,7 +110,9 @@
         </div>
         {% endfor %}
       </div>
-      <a href="{{ url_for('raza_bp.crear_raza', id_especie=id_especie) }}">Crear raza</a>
+      <div class="crear">
+      <a href="{{ url_for('raza_bp.crear_raza', id_especie=id_especie) }}" class="btn btn-primary">Crear raza</a>
+      </div>
     </main>
   </div>
   <script src="../js/bootstrap.bundle.min.js"></script>
