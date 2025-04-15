@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/x-icon" href="../img/logoico.png">
   <title>Gestión de Especies</title>
-  <link rel="stylesheet" href="{{url_for('static', filename='css/Especies.css')}}">
+  <link rel="stylesheet" href="{{url_for('static', filename='css/razas.css')}}">
   <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -91,35 +91,33 @@
         <div class="container-fluid">
           <a class="navbar-brand">Busqueda</a>
           <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Buscar Especie" aria-label="Search">
+            <input class="form-control me-2" type="search" placeholder="Buscar Raza" aria-label="Search">
             <button class="btn btn-primary" type="submit">Buscar</button>
           </form>
         </div>
       </nav>
       <div class="row">
-        {% for especie in especies %}
+        {% for raza in razas %}
         <div class="col-sm-6 mb-3 mb-sm-0">
           <div class="card">
             <div class="card-body">
-              <h2 class="card-title">{{ especie['Especie'] }}</h2>
-              <a href="{{ url_for('raza_bp.razas', id_especie=especie['id']) }}" class="btn btn-primary">Más info</a>
-              <a href="{{ url_for('especie_bp.modificar_especie', id_especie=especie.id) }}"
-                class="btn btn-primary">Modificar</a>
-              <a href="{{ url_for('especie_bp.eliminar_especie', id_especie=especie.id) }}"
-                class="btn btn-primary">Eliminar</a>
+              <h1 class="card-title">{{ raza.raza }}</h5>
+                <p> Descripción: {{ raza.descripcion }}</p>
+                <a href="{{ url_for('raza_bp.modificar_raza', id_especie=id_especie ,id_raza=raza.id) }}"
+                  class="btn btn-primary">Modificar</a>
+                <a href="{{ url_for('raza_bp.eliminar_raza', id_especie=id_especie ,id_raza=raza.id) }}"
+                  class="btn btn-primary">Eliminar</a>
             </div>
           </div>
         </div>
         {% endfor %}
       </div>
       <div class="crear">
-        <a href="{{ url_for('especie_bp.crear_especie') }}" class="btn btn-primary">Crear especie</a>
+        <a href="{{ url_for('raza_bp.crear_raza', id_especie=id_especie) }}" class="btn btn-primary">Crear raza</a>
       </div>
     </main>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
-    crossorigin="anonymous"></script>
+  <script src="../js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
