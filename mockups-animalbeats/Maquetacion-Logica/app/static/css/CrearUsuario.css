@@ -10,41 +10,16 @@
     padding: 0;
 }
 body {
+    margin: 0;
     font-family: 'Arial', sans-serif;
     background-color: var(--blanco);
-    margin: 0;
-    padding: 0;
-}
-
-h2 {
-    text-align: center;
-    margin-top: 20px;
     color: var(--negro);
-    font-weight: 400;
-    font-size: 24px;
 }
-
 .contenedor-dashboard {
+    flex-direction: row;
+    min-height: 90vh;
     display: flex;
-    min-height: 100vh;
-}
-.barra-desplegable{
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 90px;
     overflow: hidden;
-    transition: width 0.2s linear;
-    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
-    height: 100%;
-    background-color: var(--rojo);
-}
-.barra-desplegable ul{
-    list-style: none;    
-}
-.fondo-logo{
-    background-color: var(--gris);
 }
 .animalbeats{
     text-align: center;
@@ -62,6 +37,22 @@ h2 {
     padding: 15px;
     font-size: 25px;
     text-transform: uppercase;
+}
+.btn-primary{
+    border-color: var(--rojo);
+    background-color: var(--rojo);
+    color: var(--blanco);
+}
+.offcanvas-body{
+    list-style: none;
+}
+.offcanvas-body li{
+    list-style: none;
+}
+.offcanvas-body li a:hover{
+    margin-left: -15px;
+    border-radius: 15px;
+    border: 1px solid var(--rojo);
 }
 .opcion{
     position: relative;
@@ -87,7 +78,7 @@ h2 {
     position: absolute;
     margin-left: 25px;
     margin-top: 12px;
-    color: var(--blanco);
+    color: var(--negro);
 }
 .salir{
     position: absolute;
@@ -105,11 +96,21 @@ h2 {
     text-align: center;
     margin-left: 15px;
 }
-.opcion:hover{
-    background-color: var(--negro);
+.opcion:hover, .salir:hover {
+    background-color: var(--rojo);
+    color: var(--blanco);
 }
-.salir:hover{
+
+.opcion:hover .item-nav, .salir:hover .item-nav {
+    color: var(--blanco);
+}
+
+.opcion:hover svg, .salir:hover svg {
+    fill: var(--blanco);
+}
+.btn-primary:hover{
     background-color: var(--negro);
+    border-color: var(--negro);
 }
 .barra-desplegable:hover{
     width: 290px;

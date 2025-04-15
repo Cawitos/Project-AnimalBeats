@@ -36,12 +36,6 @@ def create_mascot():
                 return "Error: El cliente especificado no existe."
 
             id_cliente = cliente['id']
-            print(id_cliente)
-            print(nombreM)
-            print(especieM)
-            print(razaM)
-            print(edadM)
-            print(n_documento)
             with connection.cursor() as cursor:
                 cursor.execute("INSERT INTO mascota (id_cliente, nombre, edad, id_raza, id_especie, estado) VALUES (%s, %s, %s, %s, %s, %s)", (id_cliente, nombreM, edadM, razaM, especieM, 'ACTIVO'))
                 connection.commit()

@@ -6,7 +6,7 @@ reportes_bp = Blueprint('reportes', __name__)
 def gestion_reportes():
     connection = current_app.connection
     with connection.cursor() as cursor:
-        cursor.execute("SELECT * FROM Alertas")
+        cursor.execute("SELECT id, id_veterinario, id_cliente, id_mascota, fecha, descripcion FROM Alertas")
         alertas = cursor.fetchall()
     return render_template('Administrador/GestionReportes.html', alertas=alertas)
 
@@ -37,6 +37,7 @@ def guardar_alerta():
 def modificar_alerta(id):
     connection = current_app.connection
     with connection.cursor() as cursor:
+
         if request.method == 'POST':
             veterinario = request.form['veterinario']
             cliente = request.form['cliente']
@@ -52,12 +53,31 @@ def modificar_alerta(id):
             connection.commit()
             return redirect(url_for('reportes.gestion_reportes'))
 
+        # Traer alerta actual
         cursor.execute("SELECT * FROM Alertas WHERE id = %s", (id,))
-        resultado = cursor.fetchone()
-        if resultado:
-            return render_template('Administrador/ModificarAlerta.html', alerta=resultado)
-        else:
-            return "Alerta no encontrada"
+        alerta = cursor.fetchone()
+
+        # Traer opciones de veterinarios, clientes y mascotas
+        cursor.execute("SELECT id FROM Veterinario")
+        veterinarios = cursor.fetchall()
+
+        cursor.execute("SELECT id FROM Cliente")
+        clientes = cursor.fetchall()
+
+        cursor.execute("SELECT id FROM Mascota")
+        mascotas = cursor.fetchall()
+
+    if alerta:
+        return render_template(
+            'Administrador/ModificarAlerta.html',
+            alerta=alerta,
+            veterinarios=veterinarios,
+            clientes=clientes,
+            mascotas=mascotas
+        )
+    else:
+        return "Alerta no encontrada", 404
+
 
 
 @reportes_bp.route('/alertas/eliminar/<id>', methods=['POST'])

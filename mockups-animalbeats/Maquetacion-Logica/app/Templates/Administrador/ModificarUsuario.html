@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,10 +9,10 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://kit.fontawesome.com/a0994db117.js" crossorigin="anonymous"></script>
 </head>
-<body>
 
+<body>
   <div class="menu">
-    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions"
+    <button class="btn btn-danger" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions"
       aria-controls="offcanvasWithBothOptions"><svg xmlns="http://www.w3.org/2000/svg" height="24px"
         viewBox="0 -960 960 960" width="24px" fill="#FFF">
         <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
@@ -50,7 +51,7 @@
         </a>
       </li>
       <li>
-        <a href="../Administrador/GestionConsultas.html" class="opcion">
+        <a href="{{ url_for('especie_bp.especie')}}" class="opcion">
           <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 -960 960 960" width="24px"
             fill="#000">
             <path
@@ -70,7 +71,7 @@
         </a>
       </li>
       <li>
-        <a href="../index.html" class="salir">
+        <a href="{{ url_for('main_bp.Home')}}" class="salir">
           <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 24 24" fill="#000">
             <path d="M10 17l5-5-5-5v10zM4 4h2v16H4V4zm16 0h-6v2h6v12h-6v2h6c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"></path>
           </svg>
@@ -78,7 +79,7 @@
         </a>
       </li>
     </div>
-  </div>    
+  </div>
 
 
   <div class="d-flex justify-content-center align-items-center vh-100">
@@ -87,15 +88,18 @@
       <form method="POST">
         <div class="mb-3">
           <label for="n_documento" class="form-label">Número de Documento</label>
-          <input type="text" class="form-control" id="n_documento" name="n_documento" value="{{ usuario.n_documento }}" required>
+          <input type="number" class="form-control" id="n_documento" name="n_documento"
+            value="{{ usuario.n_documento }}" required>
         </div>
         <div class="mb-3">
           <label for="correoelectronico" class="form-label">Correo Electrónico</label>
-          <input type="email" class="form-control" id="correoelectronico" name="correoelectronico" value="{{ usuario.correoelectronico }}" required>
+          <input type="email" class="form-control" id="correoelectronico" name="correoelectronico"
+            value="{{ usuario.correoelectronico }}" required>
         </div>
         <div class="mb-3">
           <label for="contrasena" class="form-label">Nueva Contraseña</label>
-          <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="Escribe nueva contraseña" required>
+          <input type="password" class="form-control" id="contrasena" name="contrasena"
+            placeholder="Escribe nueva contraseña" required>
         </div>
         <button type="submit" class="btn btn-danger w-100">Guardar Cambios</button>
       </form>
@@ -104,4 +108,5 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

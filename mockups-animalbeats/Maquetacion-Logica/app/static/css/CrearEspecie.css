@@ -55,7 +55,7 @@ body {
     border: 1px solid var(--rojo);
 }
 .opcion{
-    position:        relative;
+    position: relative;
     color: var(--negro);
     font-size: 18px;
     display: table;
@@ -97,15 +97,21 @@ body {
     margin-left: 15px;
 }
 .opcion:hover, .salir:hover {
-    border-color: var(--rojo);
-    color: var(--negro);
+    background-color: var(--rojo);
+    color: var(--blanco);
 }
 
+.opcion:hover .item-nav, .salir:hover .item-nav {
+    color: var(--blanco);
+}
+
+.opcion:hover svg, .salir:hover svg {
+    fill: var(--blanco);
+}
 .btn-primary:hover{
     background-color: var(--negro) !important;
     border-color: var(--negro) !important;
 }
-
 .contenido-principal{
     width: 100%;
     display: flex;
