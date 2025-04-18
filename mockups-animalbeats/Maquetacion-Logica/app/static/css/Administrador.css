@@ -5,59 +5,67 @@
     --gris: #E6E8E6;
     --verde: #4CAF50;
 }
-*{
+
+* {
     margin: 0;
     padding: 0;
 }
+
 body {
     margin: 0;
     font-family: 'Arial', sans-serif;
     background-color: var(--blanco);
     color: var(--negro);
 }
+
 .contenedor-dashboard {
     flex-direction: row;
-    min-height: 90vh;
+    max-height: 80vh;
     display: flex;
     overflow: hidden;
 }
 
-.barra-desplegable{
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    margin-left: -32px;
-    width: 120px;
-    overflow: hidden;
-    transition: width 0.2s linear;
-    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
-    height: 100%;
-    background-color: var(--rojo);
-}
-.barra-desplegable ul{
-    list-style: none;    
-}
-.fondo-logo{
-    background-color: var(--gris);
-}
-.animalbeats{
+.animalbeats {
     text-align: center;
     display: flex;
     transition: all 0.5s ease;
     text-decoration: none;
 }
-.animalbeats img{
+
+.animalbeats img {
     width: 80px;
     height: 80px;
     margin-left: 5px;
 }
-.animalbeats span{
+
+.animalbeats span {
     font-weight: bold;
     padding: 15px;
     font-size: 25px;
     text-transform: uppercase;
 }
-.opcion{
+
+.btn-primary {
+    border-color: var(--rojo);
+    background-color: var(--rojo);
+    color: var(--blanco);
+}
+
+.offcanvas-body {
+    list-style: none;
+}
+
+.offcanvas-body li {
+    list-style: none;
+}
+
+.offcanvas-body li a:hover {
+    margin-left: -15px;
+    border-radius: 15px;
+    border: 1px solid var(--rojo);
+}
+
+.opcion {
     position: relative;
     color: var(--negro);
     font-size: 18px;
@@ -66,24 +74,28 @@ body {
     padding: 10px;
     text-decoration: none;
 }
-.opcion svg{
+
+.opcion svg {
     position: relative;
     color: var(--negro);
     text-align: center;
     margin-left: 15px;
 }
-.nav-logo{
+
+.nav-logo {
     margin-top: 15px;
     color: #000;
     text-decoration: none;
 }
-.item-nav{
+
+.item-nav {
     position: absolute;
     margin-left: 25px;
     margin-top: 12px;
-    color: var(--blanco);
+    color: var(--negro);
 }
-.salir{
+
+.salir {
     position: absolute;
     bottom: 0;
     color: var(--negro);
@@ -93,82 +105,34 @@ body {
     padding: 10px;
     text-decoration: none;
 }
-.salir svg{
+
+.salir svg {
     position: relative;
     color: var(--negro);
     text-align: center;
     margin-left: 15px;
 }
-.opcion:hover{
-    background-color: var(--negro);
-}
-.salir:hover{
-    background-color: var(--negro);
-}
-.barra-desplegable:hover{
-    width: 320px;
-    transition: all 0.5s ease;
-}
-.barra-lateral {
-    width: 250px;
+
+.opcion:hover,
+.salir:hover {
     background-color: var(--rojo);
     color: var(--blanco);
-    display: flex;
-    flex-direction: column;
 }
 
-.logo {
-    text-align: center;
-    padding: 20px;
-    font-size: 20px;
-    font-weight: normal;
-    background-color: var(--gris);
-    border-bottom: 1px solid rgba(138, 104, 104, 0.5); 
-    display: inline-block; 
-    padding-bottom: 5px; 
-    margin: 0; 
-}
-.logo .icono-grande {
-    fill: var(--blanco); 
-    width: 60px; 
-    height: 60px; 
-    margin-bottom: 5px; 
-}
-.logo h2 {
-    font-size: 24px; 
-    font-family: 'open sans', sans-serif;
-    font-weight: 300;
-    color: var(--blanco); 
-    margin-top: 0; 
-    margin-bottom: 0; 
-    line-height: 1.2; 
-}
-.menu {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.menu .opcion {
-    padding: 15px;
-    text-decoration: none;
+.opcion:hover .item-nav,
+.salir:hover .item-nav {
     color: var(--blanco);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    display: flex;
-    align-items: center;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
 }
 
-.menu .opcion:hover {
-    background-color: var(--negro);
-}
-
-.menu .opcion svg {
-    margin-right: 10px;
+.opcion:hover svg,
+.salir:hover svg {
     fill: var(--blanco);
 }
 
+.btn-primary:hover {
+    background-color: var(--negro);
+    border-color: var(--negro);
+}
 
 .contenido-principal {
     width: 1300px;
@@ -181,6 +145,7 @@ body {
     font-size: 28px;
     margin-bottom: 20px;
 }
+
 .contenedor-tabla {
     margin-right: 300px;
     width: 1350px;
@@ -199,20 +164,25 @@ table {
 thead {
     background-color: var(--negro);
     color: var(--blanco);
-    
+
 }
-th, td {
+
+th,
+td {
     padding: 10px;
     text-align: center;
     border: 1px solid #ddd;
 }
+
 tbody tr:hover {
     background-color: #f1f1f1;
 }
-.perfil{
+
+.perfil {
     margin-left: -90px;
     display: flex;
 }
+
 .contenedor-perfil {
     margin-left: 210px;
     margin-top: 95px;
@@ -225,19 +195,23 @@ tbody tr:hover {
     background-color: var(--blanco);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-.contenedor-perfil h1{
+
+.contenedor-perfil h1 {
     text-align: center;
 }
-.contenedor-perfil svg{
+
+.contenedor-perfil svg {
     margin-left: 10px;
 }
+
 label {
     display: block;
     margin: 10px 0 5px;
     font-size: 16px;
     color: var(--negro);
 }
-.estadisticas{
+
+.estadisticas {
     margin-left: 10px;
     margin-top: 95px;
     font-family: 'Arial', sans-serif;
@@ -249,35 +223,42 @@ label {
     background-color: var(--blanco);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-.estadisticas ul{
+
+.estadisticas ul {
     list-style: none;
     margin-top: 50px;
     display: flex;
     justify-content: space-between;
     width: 100%;
 }
-.estadisticas ul li{
+
+.estadisticas ul li {
     padding: 0 10px;
     display: flex;
 }
-.stats{
+
+.stats {
     background-color: var(--rojo);
     width: 50px;
     height: 50px;
     border-radius: 15px;
 }
-.stats svg{
+
+.stats svg {
     margin-left: 5px;
     margin-top: 5px;
 }
-.info{
+
+.info {
     margin-left: 10px;
     text-align: center;
 }
-.info p{
+
+.info p {
     font-size: 20px;
 }
-.ConsultarUsuario{
+
+.ConsultarUsuario {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -295,198 +276,81 @@ button {
     font-size: 14px;
     transition: background-color 0.3s ease;
 }
+
 button:hover {
     background-color: var(--negro);
 }
+
 .volver-boton {
     position: absolute;
     top: 20px;
     right: 20px;
-    background-color: var(--rojo); 
+    background-color: var(--rojo);
 }
-.usuarios-boton button{
+
+.usuarios-boton button {
     margin-top: 12px;
     margin-left: 550px;
     width: 160px;
     height: 45px;
     font-size: 20px;
 }
-.modal-contenido h2{
-    text-align: center;
-}
-.modal-contenido form{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    flex-wrap: wrap ;
-}
-.modificar{
+
+.modificar {
     margin-left: 210px;
     display: flex;
     flex-direction: row;
 }
-.modificar label{
+
+.modificar label {
     width: 150px;
     margin-left: 20px;
     margin-top: 15px;
 }
-.modificar input{
+
+.modificar input {
     margin-top: 10px;
     border-radius: 5px;
     margin-left: 60px;
     width: 200px;
     height: 35px;
 }
-.boton-modal{
-    margin-top: 10px;
-    margin-left: 365px;
-}
+
 .eliminar {
     text-align: center;
-  }
-  
-  .eliminar p {
+}
+
+.eliminar p {
     margin: 15px 0;
-  }
-  
-  .eliminar-botones {
+}
+
+.eliminar-botones {
     display: flex;
     justify-content: center;
     gap: 20px;
     margin-top: 20px;
-  }
-  
-  .eliminar-botones button {
+}
+
+.eliminar-botones button {
     padding: 8px 16px;
     background-color: #dc3545;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-  }
-  
-  .eliminar-botones button:hover {
+}
+
+.eliminar-botones button:hover {
     background-color: #c82333;
-  }
-  
-.CrearUsuario{
+}
+
+.CrearUsuario {
     margin-top: 15px;
     margin-left: 600px;
 }
-.CrearUsuario button{
+
+.CrearUsuario button {
     width: 150px;
     height: 50px;
     font-size: 20px;
-}
-.barra-desplegable-1{
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 90px;
-    overflow: hidden;
-    transition: width 0.2s linear;
-    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
-    height: 100%;
-    background-color: var(--rojo);
-}
-.barra-desplegable-1 ul{
-    list-style: none;    
-}
-.fondo-logo{
-    background-color: var(--gris);
-}
-.animalbeats{
-    text-align: center;
-    display: flex;
-    transition: all 0.5s ease;
-    text-decoration: none;
-}
-.animalbeats img{
-    width: 80px;
-    height: 80px;
-    margin-left: 5px;
-}
-.animalbeats span{
-    font-weight: bold;
-    padding: 15px;
-    font-size: 25px;
-    text-transform: uppercase;
-}
-.opcion{
-    position: relative;
-    color: var(--negro);
-    font-size: 18px;
-    display: table;
-    width: 300px;
-    padding: 10px;
-    text-decoration: none;
-}
-.opcion svg{
-    position: relative;
-    color: var(--negro);
-    text-align: center;
-    margin-left: 15px;
-}
-.nav-logo{
-    margin-top: 15px;
-    color: #000;
-    text-decoration: none;
-}
-.item-nav{
-    position: absolute;
-    margin-left: 25px;
-    margin-top: 12px;
-    color: var(--blanco);
-}
-.salir{
-    position: absolute;
-    bottom: 0;
-    color: var(--negro);
-    font-size: 18px;
-    display: table;
-    width: 300px;
-    padding: 10px;
-    text-decoration: none;
-}
-.salir svg{
-    position: relative;
-    color: var(--negro);
-    text-align: center;
-    margin-left: 15px;
-}
-.opcion:hover{
-    background-color: var(--negro);
-}
-.salir:hover{
-    background-color: var(--negro);
-}
-.barra-desplegable-1:hover{
-    width: 300px;
-    transition: all 0.5s ease;
-}
-.menu > .btn {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    background-color: var(--rojo);
-    color: var(--blanco);
-    border: none;
-    padding: 8px 12px;
-    font-size: 14px;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    z-index: 1000;
-    transition: background-color 0.3s ease;
-}
-
-.menu > .btn:hover {
-    background-color: var(--negro);
-}
-
-.menu > .btn svg {
-    fill: var(--blanco);
-    margin-bottom: 2px;
 }
