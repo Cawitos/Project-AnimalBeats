@@ -9,7 +9,7 @@ def Mascotas():
     connection = current_app.connection
     try:
         with connection.cursor() as cursor:
-            cursor.execute("SELECT M.id, C.id_Usuario, M.nombre, E.Especie, R.Raza, M.edad FROM mascota M join Especie E on id_Especie=E.id join Raza R on id_Raza=R.id join Cliente C on id_Cliente=C.id where estado = 'ACTIVO'")
+            cursor.execute("SELECT M.id, M.id_cliente, M.nombre, E.Especie, R.Raza, M.edad FROM Mascota M join Especie E on id_Especie=E.id join Raza R on id_Raza=R.id where estado = 'ACTIVO'")
             mascotas = cursor.fetchall()
     except Exception as e:
         return str(e)
@@ -29,13 +29,13 @@ def create_mascot():
 
         try:
             with connection.cursor() as cursor:
-                cursor.execute("SELECT id FROM cliente WHERE id_usuario = %s", (n_documento,))
+                cursor.execute("SELECT n_documento FROM Usuarios WHERE n_documento = %s", (n_documento,))
                 cliente = cursor.fetchone()
             
             if cliente is None:
                 return "Error: El cliente especificado no existe."
 
-            id_cliente = cliente['id']
+            id_cliente = cliente['n_documento']
             with connection.cursor() as cursor:
                 cursor.execute("INSERT INTO mascota (id_cliente, nombre, edad, id_raza, id_especie, estado) VALUES (%s, %s, %s, %s, %s, %s)", (id_cliente, nombreM, edadM, razaM, especieM, 'ACTIVO'))
                 connection.commit()
@@ -127,7 +127,7 @@ def historial(id_mascota):
     connection = current_app.connection
     try:
         with connection.cursor() as cursor:
-            cursor.execute("SELECT M.id, C.id_Usuario, M.nombre, E.Especie, R.Raza, M.edad FROM mascota M join Especie E on id_Especie=E.id join Raza R on id_Raza=R.id join Cliente C on id_Cliente=C.id WHERE M.id = %s", (id_mascota,))
+            cursor.execute("SELECT M.id, M.id_cliente, M.nombre, E.Especie, R.Raza, M.edad FROM mascota M join Especie E on id_Especie=E.id join Raza R on id_Raza=R.id WHERE M.id = %s", (id_mascota,))
             mascota_info = cursor.fetchone()
             print(mascota_info)
             if mascota_info is None:

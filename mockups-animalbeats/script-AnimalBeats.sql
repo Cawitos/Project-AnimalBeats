@@ -37,10 +37,12 @@ CREATE TABLE Mascota(
 	id int auto_increment primary key,
     Nombre varchar(45) not null,
     id_Especie int not null,
+    id_cliente varchar(10) not null,
     id_Raza int not null,
     estado enum('ACTIVO', 'INACTIVO'),
     edad int not null,
     foreign key (id_Raza) references Raza(id) on delete cascade,
+    foreign key (id_cliente) references Usuarios(n_documento) on delete cascade,
     foreign key (id_Especie) references Especie(id) on delete cascade
 );
 create table Enfermedad(
@@ -53,17 +55,21 @@ Create table Servicios(
 );
 Create table Citas(
     id_Mascota int not null,
+	id_cliente varchar(10) not null,
 	id_Servicio int not null,
     Fecha date not null,
     Descripcion varchar(255),
     foreign key (id_Mascota) references Mascota(id) on delete cascade,
+    foreign key (id_cliente) references Usuarios(n_documento) on delete cascade,
     foreign key (id_Servicio) references Servicios(id) on delete cascade
 );
 Create table Alertas(
 	id INT AUTO_INCREMENT PRIMARY KEY,
     id_Mascota int not null,
+	id_cliente varchar(10) not null,
     Fecha date not null,
     descripcion TEXT not null,
+    foreign key (id_cliente) references Usuarios(n_documento) on delete cascade,
 	foreign key (id_Mascota) references Mascota(id) on delete cascade
 );	
 
