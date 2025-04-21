@@ -39,9 +39,9 @@ body {
     text-transform: uppercase;
 }
 .btn-primary{
-    border-color: var(--rojo);
-    background-color: var(--rojo);
-    color: var(--blanco);
+    border-color: var(--rojo) !important;
+    background-color: var(--rojo) !important;
+    color: var(--blanco) !important;
 }
 .offcanvas-body{
     list-style: none;
@@ -109,117 +109,39 @@ body {
     fill: var(--blanco);
 }
 .btn-primary:hover{
-    background-color: var(--negro);
-    border-color: var(--negro);
+    background-color: var(--negro) !important;
+    border-color: var(--negro) !important;
 }
-.contenedor-consulta {
-    flex: 1;
-    padding: 20px;
+
+.contenido-principal{
+    width: 100%;
     display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-start; 
-    overflow-y: auto;
-    gap: 20px;
+    align-items: center;
+    flex-direction: column;
 }
-.btn-outline-success{
-    border-color: var(--rojo);
+.contenido-principal h1{
+    width: 100%;
+    text-align: center;
+    margin: 20px;
+}
+.contenedor-formulario{
+    width: 50%;
+}
+.contenedor-formulario button{
+    width: 100%;
+}
+.form-mascota a {
+    margin-top: 10px;
+    padding: 5px 0;
+    display: block;
+    width: 100%;
+    height: 35px;
+    border-radius: 5px;
+    text-decoration: none;
     background-color: var(--rojo);
     color: var(--blanco);
-}
-.btn-outline-success:hover{
-    border-color: var(--negro);
-    background-color: var(--negro);
-}
-.tamaño{
-    width: 100%;
-}
-.tab-content{
-    width: 100%;
-}
-.tab-pane{
-    margin-top: 20px;
-}
-.hora{
-    background-color: var(--negro);
-    color: var(--blanco);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.recuadro-inferior {
-    width: 100%;
-    display: flex;
-    margin: 20px 0;
-    justify-content: center;
     text-align: center;
 }
-
-.acciones-botones {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap;
-    margin-top: 0px; 
-}
-
-.acciones-botones button {
-    background-color: #757575;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    min-width: 120px;
-}
-
-.acciones-botones button:hover {
-    background-color: #d50000;
-}
-
-label {
-    margin: 10px 0 5px;
-}
-
-input, textarea, select {
-    padding: 10px;
-    width: 100%;
-}
-
-button {
-    padding: 10px;
-    background-color: var(--verde);
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-button:hover {
+.form-mascota a:hover{
     background-color: var(--negro);
-}
-.nav-link{
-    color: var(--negro) ;
-}
-.custom-style .nav-link.active{
-    background-color: var(--rojo);
-    color: var(--blanco);
-}
-.nav-link:hover{
-    color: var(--rojo);
-}
-.btn-primary{
-    background-color: var(--rojo);
-    border-color: var(--rojo);
-}
-.btn-primary:hover{
-    border-color: var(--negro);
-    background-color: var(--negro);
-}
-.btn-success{
-    background-color: var(--rojo);
-    border-color: var(--rojo);
-}
-.btn-success:hover{
-    background-color: var(--negro);
-    border-color: var(--negro);
 }

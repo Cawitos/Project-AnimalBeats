@@ -5,6 +5,10 @@
     --gris: #E6E8E6;
     --verde: #4CAF50;
 }
+*{
+    margin: 0;
+    padding: 0;
+}
 body {
     margin: 0;
     font-family: 'Arial', sans-serif;
@@ -13,36 +17,9 @@ body {
 }
 .contenedor-dashboard {
     flex-direction: row;
-    min-height: 100vh;
+    min-height: 90vh;
     display: flex;
-    height: 100vh;
     overflow: hidden;
-}
-
-.barra-lateral {
-    width: 250px;
-    background-color: var(--rojo);
-    color: var(--blanco);
-    display: flex;
-    flex-direction: column;
-}
-.barra-desplegable{
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 90px;
-    overflow: hidden;
-    transition: width 0.2s linear;
-    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
-    height: 100%;
-    background-color: var(--rojo);
-}
-.barra-desplegable ul{
-    list-style: none;    
-}
-.fondo-logo{
-    background-color: var(--gris);
 }
 .animalbeats{
     text-align: center;
@@ -60,6 +37,22 @@ body {
     padding: 15px;
     font-size: 25px;
     text-transform: uppercase;
+}
+.btn-primary{
+    border-color: var(--rojo) !important;
+    background-color: var(--rojo) !important;
+    color: var(--blanco) !important;
+}
+.offcanvas-body{
+    list-style: none;
+}
+.offcanvas-body li{
+    list-style: none;
+}
+.offcanvas-body li a:hover{
+    margin-left: -15px;
+    border-radius: 15px;
+    border: 1px solid var(--rojo);
 }
 .opcion{
     position: relative;
@@ -85,7 +78,7 @@ body {
     position: absolute;
     margin-left: 25px;
     margin-top: 12px;
-    color: var(--blanco);
+    color: var(--negro);
 }
 .salir{
     position: absolute;
@@ -103,157 +96,52 @@ body {
     text-align: center;
     margin-left: 15px;
 }
-.opcion:hover{
-    background-color: var(--negro);
-}
-.salir:hover{
-    background-color: var(--negro);
-}
-.barra-desplegable:hover{
-    width: 290px;
-    transition: all 0.5s ease;
+.opcion:hover, .salir:hover {
+    background-color: var(--rojo);
+    color: var(--blanco);
 }
 
-.contenedor-consulta {
-    flex: 1;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start; 
-    overflow-y: auto;
-    gap: 20px;
+.opcion:hover .item-nav, .salir:hover .item-nav {
+    color: var(--blanco);
 }
 
-.opciones-consulta {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.opcion:hover svg, .salir:hover svg {
+    fill: var(--blanco);
+}
+.btn-primary:hover{
+    background-color: var(--negro) !important;
+    border-color: var(--negro) !important;
 }
 
-.busqueda-container {
+.contenedor-consulta{
+    width: 100%;
     display: flex;
     align-items: center;
-    gap: 10px;
-}
-
-.botones-especies {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.botones-especies button {
-    background-color: #d50000;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    flex: 1;
-}
-
-.botones-especies button:hover {
-    background-color: var(--negro);
-}
-
-.recuadro-superior {
-    display: flex;
     flex-direction: column;
-    gap: 20px;
 }
-
-.recuadro-inferior {
-    margin-top: 200px; 
-    text-align: center;
-}
-
-.acciones-botones {
+.row{
     display: flex;
-    justify-content: center;
-    gap: 15px;
     flex-wrap: wrap;
-    margin-top: 0px; 
 }
-
-.acciones-botones button {
-    background-color: #757575;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    min-width: 120px;
+.card{
+    margin: 10px 0px;
 }
-
-.acciones-botones button:hover {
-    background-color: #d50000;
+.crear{
+    display: flex;
+    margin: 15px;
 }
-/* Estilos del modal */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.4);
-    padding-top: 60px;
-}
-
-.modal-content {
-    background-color: #fff;
-    margin: 5% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 50%;
-}
-
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
+.crear a{
+    display: inline-block;
+    width: 200px;
+    height: 40px;
     text-decoration: none;
-    cursor: pointer;
+    background-color: var(--rojo);
+    color: var(--blanco);
+    text-align: center;
+    line-height: 25px;
+    border-radius: 15px;
+}
+.crear a:hover{
+    transform: scale(1.02);
 }
 
-form {
-    display: flex;
-    flex-direction: column;
-}
-
-label {
-    margin: 10px 0 5px;
-}
-
-input, textarea {
-    padding: 10px;
-    margin-bottom: 20px;
-    width: 100%;
-}
-
-button {
-    padding: 10px;
-    background-color: var(--verde);
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: var(--negro);
-}
-.volver-boton {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background-color: var(--rojo); 
-}

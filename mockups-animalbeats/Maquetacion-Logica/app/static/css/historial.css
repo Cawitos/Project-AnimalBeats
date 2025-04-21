@@ -39,9 +39,9 @@ body {
     text-transform: uppercase;
 }
 .btn-primary{
-    border-color: var(--rojo);
-    background-color: var(--rojo);
-    color: var(--blanco);
+    border-color: var(--rojo) !important;
+    background-color: var(--rojo) !important;
+    color: var(--blanco) !important;
 }
 .offcanvas-body{
     list-style: none;
@@ -109,82 +109,12 @@ body {
     fill: var(--blanco);
 }
 .btn-primary:hover{
-    background-color: var(--negro);
-    border-color: var(--negro);
+    background-color: var(--negro) !important;
+    border-color: var(--negro) !important;
 }
-.contenedor-consulta {
-    flex: 1;
-    padding: 20px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center; 
-    overflow-y: auto;
-    gap: 20px;
-}
-.opcion:hover, .salir:hover{
-    border: 1px solid var(--rojo);
-    border-radius: 0px 20px 20px;
-}
-.btn-outline-success{
-    border-color: var(--rojo);
-    background-color: var(--rojo);
-    color: var(--blanco);
-}
-.btn-outline-success:hover{
-    border-color: var(--negro);
-    background-color: var(--negro);
-}
-button {
-    padding: 10px;
-    background-color: var(--verde);
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: var(--negro);
-}
-.nav-link{
-    color: var(--negro) ;
-}
-.custom-style .nav-link.active{
-    background-color: var(--rojo);
-    color: var(--blanco);
-}
-.nav-link:hover{
-    color: var(--rojo);
-}
-.btn-primary{
-    background-color: var(--rojo);
-    border-color: var(--rojo);
-}
-.btn-primary:hover{
-    border-color: var(--negro);
-    background-color: var(--negro);
-}
-.cartas{
+.contenido-principal{
     width: 100%;
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    height: 60%;
-    flex-flow: row wrap;
 }
-.card{
-    margin: 0px 10px;
-    width: 100%;
-    align-items: center;
+.contenido-principal h1{
+    text-align: center;
 }
-.img-card{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.card-body{
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-
