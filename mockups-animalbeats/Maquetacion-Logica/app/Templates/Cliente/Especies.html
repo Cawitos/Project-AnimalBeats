@@ -98,15 +98,23 @@
       </nav>
       <div class="row">
         {% for especie in especies %}
-        <div class="col-sm-6 mb-3 mb-sm-0">
-          <div class="card">
-            <div class="card-body">
-              <h2 class="card-title">{{ especie['Especie'] }}</h2>
-              <a href="{{ url_for('raza_bp.razas', id_especie=especie['id']) }}" class="btn btn-primary">Más info</a>
+        <div class="card mb-3" style="max-width: 540px;">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img src="..." class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h1 class="card-title">{{ especie['Especie'] }}</h1>
+                <a href="{{ url_for('raza_bp.razas', id_especie=especie['id']) }}" class="btn btn-primary">Más info</a>
+              </div>
             </div>
           </div>
         </div>
         {% endfor %}
+      </div>
+      <div class="crear">
+        <a href="{{ url_for('especie_bp.crear_especie') }}" class="btn btn-primary">Crear especie</a>
       </div>
     </main>
   </div>

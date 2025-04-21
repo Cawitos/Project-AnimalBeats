@@ -1,4 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, current_app, flash, session, jsonify
+import os
+from werkzeug.utils import secure_filename
 
 especie_bp = Blueprint('especie_bp', __name__)
 raza_bp = Blueprint('raza_bp', __name__)
@@ -38,10 +40,28 @@ def crear_especie():
     id_rol = session.get('id_rol')
 
     if request.method == 'POST':
+        file_path = None
         Especie = request.form.get('Especie')
+
+        imagen = request.files.get('imagen')
+        if imagen and imagen.filename:
+            print(f"Archivo recibido: {imagen.filename}")
+            # Guardar la imagen en 'static/uploads/profile_pictures'
+            images_dir = os.path.join(current_app.root_path, 'static/img/Especies')
+            os.makedirs(images_dir, exist_ok=True)
+
+            # Guardar la imagen de forma segura
+            filename = secure_filename(imagen.filename)
+            file_path = os.path.join('img/Especies', filename)  # Guardar la ruta relativa
+            file_path = file_path.replace("\\", "/") 
+            imagen.save(os.path.join(images_dir, filename))
+            print(f"Guardando imagen en: {file_path}")
+        else:
+            print("No se recibió ningún archivo.")
+
         try:
             with connection.cursor() as cursor:
-                cursor.execute("INSERT INTO Especie (Especie) VALUES (%s)", (Especie,))
+                cursor.execute("INSERT INTO Especie (Especie, imagen) VALUES (%s, %s)", (Especie, file_path))
                 connection.commit()
                 return redirect(url_for('especie_bp.especie'))
         except Exception as e:
@@ -143,12 +163,28 @@ def crear_raza(id_especie):
     connection = current_app.connection
     id_rol = session.get('id_rol')
 
+    imagen = request.files.get('imagen')
+    if imagen and imagen.filename:
+        print(f"Archivo recibido: {imagen.filename}")
+            # Guardar la imagen en 'static/uploads/profile_pictures'
+        images_dir = os.path.join(current_app.root_path, 'static/img/Especies')
+        os.makedirs(images_dir, exist_ok=True)
+
+            # Guardar la imagen de forma segura
+        filename = secure_filename(imagen.filename)
+        file_path = os.path.join('uploads/profile_pictures', filename)  # Guardar la ruta relativa
+        file_path = file_path.replace("\\", "/") 
+        imagen.save(os.path.join(images_dir, filename))
+        print(f"Guardando imagen en: {file_path}")
+    else:
+            print("No se recibió ningún archivo.")
+
     if request.method == 'POST':
         Raza=request.form.get('Raza')
         descripcion=request.form.get('descripcion')
         try:
             with connection.cursor() as cursor:
-                cursor.execute("INSERT INTO Raza (Raza, descripcion, id_especie) VALUES (%s, %s, %s)", (Raza, descripcion, id_especie))
+                cursor.execute("INSERT INTO Raza (Raza, descripcion, id_especie, imagen) VALUES (%s, %s, %s, %s)", (Raza, descripcion, id_especie, file_path))
                 connection.commit()
                 return redirect(url_for('raza_bp.razas', id_especie=id_especie))
         except Exception as e:

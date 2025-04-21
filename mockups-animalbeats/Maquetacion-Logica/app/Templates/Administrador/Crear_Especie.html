@@ -95,6 +95,10 @@
             <input type="text" class="form-control" id="Especie" name="Especie" required>
           </div>
           <div class="mb-3">
+            <label for="imagen">Imagen de la Especie</label>
+            <input type="file" class="form-control" id="imagen" name="imagen" accept="image/*">
+          </div>
+          <div class="mb-3">
             <button type="submit" class="btn btn-primary">Crear Especie</button>
           </div>
           <a href="{{ url_for('especie_bp.especie') }}">Volver</a>

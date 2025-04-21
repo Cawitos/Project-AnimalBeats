@@ -132,6 +132,7 @@ body {
     justify-content: center;
 }
 .card{
+    width: auto;
     margin: 5px; 
 }
 .crear{
