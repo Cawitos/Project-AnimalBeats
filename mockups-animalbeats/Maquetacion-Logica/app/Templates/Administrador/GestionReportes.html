@@ -143,8 +143,8 @@
                 {% for alerta in alertas %}
                 <tr>
                   <td>{{ alerta.id_cliente }}</td>
-                  <td><input type="checkbox" checked></td>
-                  <td>{{ alerta.Fecha.strftime('%H:%M') if alerta.Fecha else '' }}</td>
+                  <td>{{ alerta.id_Mascota }}</td>
+                  <td>{{ alerta.Fecha }}</td>
                   <td>{{ alerta.descripcion }}</td>
                   <td>
                     <button class="btn btn-sm btn-warning">Modificar</button>
