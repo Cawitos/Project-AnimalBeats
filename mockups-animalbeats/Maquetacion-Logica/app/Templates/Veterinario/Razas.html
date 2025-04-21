@@ -101,7 +101,7 @@
         <div class="card mb-3" style="max-width: 540px;">
           <div class="row g-0">
             <div class="col-md-4">
-              <img src="..." class="img-fluid rounded-start" alt="...">
+              <img src="{{ url_for('static', filename=raza['imagen'])}}" class="img-fluid rounded-start" alt="...">
             </div>
             <div class="col-md-8">
               <div class="card-body">
@@ -116,6 +116,7 @@
           </div>
         </div>
         {% endfor %}
+      </div>
       <div class="crear">
         <a href="{{ url_for('raza_bp.crear_raza', id_especie=id_especie) }}" class="btn btn-primary">Crear raza</a>
       </div>
@@ -124,5 +125,4 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
 </body>
 
-</html>
 </html>
