@@ -100,6 +100,10 @@
             <textarea name="descripcion" id="descripcion"></textarea>
           </div>
           <div class="mb-3">
+            <label for="imagen">Imagen de la Especie</label>
+            <input type="file" class="form-control" id="imagen" name="imagen" accept="image/*">
+          </div>
+          <div class="mb-3">
             <button type="submit" class="btn btn-primary">Crear Raza</button>
           </div>
           <a href="{{ url_for('raza_bp.razas', id_especie=especie['id']) }}">Volver</a>

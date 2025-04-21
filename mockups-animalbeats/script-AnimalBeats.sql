@@ -23,7 +23,8 @@ CREATE TABLE Usuarios(
 
 CREATE TABLE Especie (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    Especie VARCHAR(50)
+    Especie VARCHAR(50),
+    imagen varchar(300)
 );
 
 CREATE TABLE Raza (
@@ -31,6 +32,7 @@ CREATE TABLE Raza (
     Raza VARCHAR(50),
     descripcion text,
     id_especie INT,
+    imagen varchar(300),
     FOREIGN KEY (id_especie) REFERENCES Especie(id) ON DELETE CASCADE
 );
 CREATE TABLE Mascota(
