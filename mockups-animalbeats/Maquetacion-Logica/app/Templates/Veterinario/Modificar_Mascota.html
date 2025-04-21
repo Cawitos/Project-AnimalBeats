@@ -48,7 +48,7 @@ V<!DOCTYPE html>
         </a>
       </li>
       <li>
-        <a href="{{ url_for('mascotas_bp.MascotasV') }}" class="opcion">
+        <a href="{{ url_for('mascotas_bp.Mascotas') }}" class="opcion">
           <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 -960 960 960" width="24px"
             fill="#000">
             <path
@@ -58,7 +58,7 @@ V<!DOCTYPE html>
         </a>
       </li>
       <li>
-        <a href="{{ url_for('especie_bp.especieV')}}" class="opcion">
+        <a href="{{ url_for('especie_bp.especie')}}" class="opcion">
           <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 -960 960 960" width="24px"
             fill="#000">
             <path
@@ -92,7 +92,7 @@ V<!DOCTYPE html>
       <h1>Modificar Mascota</h1>
       <div class="contenedor-formulario">
         <form class="form-mascota" id="form-mascota" method="post"
-          action="{{ url_for('mascotas_bp.edit_mascotV', id_mascota=mascota['id']) }}">
+          action="{{ url_for('mascotas_bp.edit_mascot', id_mascota=mascota['id']) }}">
 
           <div class="mb-3">
             <label for="nameC" class="form-label">Nombre de Mascota:</label>
@@ -105,7 +105,7 @@ V<!DOCTYPE html>
           <div class="mb-3">
             <button type="submit" class="btn btn-primary">Modificar</button>
           </div>
-          <a href="{{ url_for('mascotas_bp.MascotasV') }}">Volver</a>
+          <a href="{{ url_for('mascotas_bp.Mascotas') }}">Volver</a>
         </form>
       </div>
     </div>

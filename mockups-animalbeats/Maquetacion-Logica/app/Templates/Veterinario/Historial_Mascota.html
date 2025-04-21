@@ -48,7 +48,7 @@
         </a>
       </li>
       <li>
-        <a href="{{ url_for('mascotas_bp.MascotasV') }}" class="opcion">
+        <a href="{{ url_for('mascotas_bp.Mascotas') }}" class="opcion">
           <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 -960 960 960" width="24px"
             fill="#000">
             <path
@@ -58,7 +58,7 @@
         </a>
       </li>
       <li>
-        <a href="{{ url_for('especie_bp.especieV')}}" class="opcion">
+        <a href="{{ url_for('especie_bp.especie')}}" class="opcion">
           <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 -960 960 960" width="24px"
             fill="#000">
             <path
@@ -120,7 +120,7 @@
               </tr>
               <tr>
                 <th>Dueño</th>
-                <td>{{ mascota_info['id_Usuario'] }}</td>
+                <td>{{ mascota_info['id_Cliente'] }}</td>
               </tr>
             </table>
             {% else %}

@@ -46,7 +46,7 @@
         </a>
       </li>
       <li>
-        <a href="{{ url_for('mascotas_bp.MascotasV') }}" class="opcion">
+        <a href="{{ url_for('mascotas_bp.Mascotas') }}" class="opcion">
           <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 -960 960 960" width="24px"
             fill="#000">
             <path
@@ -56,7 +56,7 @@
         </a>
       </li>
       <li>
-        <a href="{{ url_for('especie_bp.especieV')}}" class="opcion">
+        <a href="{{ url_for('especie_bp.especie')}}" class="opcion">
           <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 -960 960 960" width="24px"
             fill="#000">
             <path
@@ -102,10 +102,10 @@
           <div class="card">
             <div class="card-body">
               <h2 class="card-title">{{ especie['Especie'] }}</h2>
-              <a href="{{ url_for('raza_bp.razasV', id_especie=especie['id']) }}" class="btn btn-primary">Más info</a>
-              <a href="{{ url_for('especie_bp.modificar_especieV', id_especie=especie.id) }}"
+              <a href="{{ url_for('raza_bp.razas', id_especie=especie['id']) }}" class="btn btn-primary">Más info</a>
+              <a href="{{ url_for('especie_bp.modificar_especie', id_especie=especie.id) }}"
                 class="btn btn-primary">Modificar</a>
-              <a href="{{ url_for('especie_bp.eliminar_especieV', id_especie=especie.id) }}"
+              <a href="{{ url_for('especie_bp.eliminar_especie', id_especie=especie.id) }}"
                 class="btn btn-primary">Eliminar</a>
             </div>
           </div>
@@ -113,7 +113,7 @@
         {% endfor %}
       </div>
       <div class="crear">
-        <a href="{{ url_for('especie_bp.crear_especieV') }}" class="btn btn-primary">Crear especie</a>
+        <a href="{{ url_for('especie_bp.crear_especie') }}" class="btn btn-primary">Crear especie</a>
       </div>
     </main>
   </div>

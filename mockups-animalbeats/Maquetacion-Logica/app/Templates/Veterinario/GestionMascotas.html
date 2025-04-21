@@ -99,7 +99,6 @@
               <th>Especie</th>
               <th>Raza</th>
               <th>Edad</th>
-              <th>Dueño</th>
               <th>Historial</th>
 
               <th>Modificar</th>
@@ -109,14 +108,13 @@
           <tbody>
             {% for mascota in mascotas %}
             <tr>
-              <td>{{ mascota['id'] }}</td>
+              <td>{{ mascota['id_cliente'] }}</td>
               <td>{{ mascota['nombre'] }}</td>
               <td>{{ mascota['Especie'] }}</td>
               <td>{{ mascota['Raza'] }}</td>
               <td>{{ mascota['edad'] }}</td>
-              <td>{{ mascota['id_Usuario'] }}</td>
               <td>
-                <a href="{{ url_for('mascotas_bp.historialV', id_mascota=mascota['id'])}}"><svg version="1.0"
+                <a href="{{ url_for('mascotas_bp.historial', id_mascota=mascota['id'])}}"><svg version="1.0"
                     xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 512.000000 512.000000"
                     preserveAspectRatio="xMidYMid meet">
                     <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000"
@@ -158,7 +156,7 @@
                   </svg></a>
               </td>
               <td>
-                <a href="{{ url_for('mascotas_bp.edit_mascotV', id_mascota=mascota['id']) }}"><svg
+                <a href="{{ url_for('mascotas_bp.edit_mascot', id_mascota=mascota['id']) }}"><svg
                     xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000">
                     <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16
                       0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56
@@ -166,7 +164,7 @@
                   </svg></a>
               </td>
               <td>
-                <a href="{{ url_for('mascotas_bp.delete_mascotV', id_mascota=mascota['id']) }}"><svg
+                <a href="{{ url_for('mascotas_bp.delete_mascot', id_mascota=mascota['id']) }}"><svg
                     xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000">
                     <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0
                       33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160
@@ -179,7 +177,7 @@
         </table>
       </div>
       <div class="usuarios-boton">
-        <a href="{{ url_for('mascotas_bp.create_mascotV') }}">Crear mascota</a>
+        <a href="{{ url_for('mascotas_bp.create_mascot') }}">Crear mascota</a>
       </div>
 
     </main>
