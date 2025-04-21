@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/x-icon" href="../img/logoico.png">
-  <title>Gestión de Especies</title>
+  <title>Gestión de Razas</title>
   <link rel="stylesheet" href="{{url_for('static', filename='css/razas.css')}}">
   <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -101,17 +101,23 @@
         <div class="col-sm-6 mb-3 mb-sm-0">
           <div class="card">
             <div class="card-body">
-              <h1 class="card-title">{{ raza.raza }}</h5>
+              <h1 class="card-title">{{ raza.raza }}</h1>
                 <p> Descripción: {{ raza.descripcion }}</p>
-    
+                <a href="{{ url_for('raza_bp.modificar_raza', id_especie=id_especie ,id_raza=raza.id) }}"
+                  class="btn btn-primary">Modificar</a>
+                <a href="{{ url_for('raza_bp.eliminar_raza', id_especie=id_especie ,id_raza=raza.id) }}"
+                  class="btn btn-primary">Eliminar</a>
             </div>
           </div>
         </div>
         {% endfor %}
       </div>
+      <div class="crear">
+        <a href="{{ url_for('raza_bp.crear_raza', id_especie=id_especie) }}" class="btn btn-primary">Crear raza</a>
+      </div>
     </main>
   </div>
-  <script src="../js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

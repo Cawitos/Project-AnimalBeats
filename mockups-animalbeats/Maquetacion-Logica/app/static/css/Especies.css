@@ -122,9 +122,12 @@ body {
 .row{
     display: flex;
     flex-wrap: wrap;
+    width: 100%;
+    padding: 10px;
+    justify-content: center;
 }
 .card{
-    margin: 10px 0px;
+    margin: 5px; 
 }
 .crear{
     display: flex;
