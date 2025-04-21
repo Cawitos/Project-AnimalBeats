@@ -135,6 +135,11 @@ body {
     width: auto;
     margin: 5px; 
 }
+.col-md-4{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .crear{
     display: flex;
     margin: 15px;
