@@ -115,29 +115,18 @@
               </thead>
               <tbody id="tabla-alarmas">
                 {% for alerta in alertas %}
-                <tr>
-                  <td>{{ alerta['id_cliente'] }}</td>
-                  <td>{{ alerta['id_veterinario'] }}</td>
-                  <td>{{ alerta['id_mascota'] }}</td>
-                  <td>{{ alerta['fecha'] }}</td>
-                  <td>{{ alerta['descripcion'] }}</td>
-                  <td>
-                    <a href="{{ url_for('reportes.modificar_alerta', id=alerta['id']) }}"
-                      class="btn btn-sm btn-primary me-1">
-                      <i class="fa-solid fa-pen-to-square"></i>
-                    </a>
-
-                    <form action="{{ url_for('reportes.eliminar_alerta', id=alerta['id']) }}" method="post"
-                      style="display:inline;">
-                      <button type="submit" class="btn btn-sm btn-danger">
-                        <i class="fa-solid fa-trash"></i>
-                      </button>
-                    </form>
-                  </td>
-                </tr>
+                  <tr>
+                    <td>{{ alerta.id_cliente }}</td>
+                    <td>{{ alerta.descripcion }}</td>
+                    <td><input type="checkbox" checked></td>
+                    <td>{{ alerta.Fecha.strftime('%H:%M') if alerta.Fecha else '' }}</td>
+                    <td>
+                      <button class="btn btn-sm btn-warning">Modificar</button>
+                      <button class="btn btn-sm btn-danger">Eliminar</button>
+                    </td>
+                  </tr>
                 {% endfor %}
               </tbody>
-
             </table>
           </div>
           <div class="tab-pane fade" id="cliente-pane" role="tabpanel" aria-labelledby="cliente-tab" tabindex="0">
@@ -154,50 +143,35 @@
               </thead>
               <tbody id="tabla-alarmas">
                 {% for alerta in alertas %}
-                <tr>
-                  <td>{{ alerta['id_cliente'] }}</td>
-                  <td>{{ alerta['id_veterinario'] }}</td>
-                  <td>{{ alerta['id_mascota'] }}</td>
-                  <td>{{ alerta['fecha'] }}</td>
-                  <td>{{ alerta['descripcion'] }}</td>
-                  <td>
-                    <a href="{{ url_for('reportes.modificar_alerta', id=alerta['id']) }}"
-                      class="btn btn-sm btn-primary me-1">
-                      <i class="fa-solid fa-pen-to-square"></i>
-                    </a>
-
-                    <form action="{{ url_for('reportes.eliminar_alerta', id=alerta['id']) }}" method="post"
-                      style="display:inline;">
-                      <button type="submit" class="btn btn-sm btn-danger">
-                        <i class="fa-solid fa-trash"></i>
-                      </button>
-                    </form>
-                  </td>
-                </tr>
+                  <tr>
+                    <td>{{ alerta.id_cliente }}</td>
+                    <td>{{ alerta.descripcion }}</td>
+                    <td><input type="checkbox" checked></td>
+                    <td>{{ alerta.Fecha.strftime('%H:%M') if alerta.Fecha else '' }}</td>
+                    <td>
+                      <button class="btn btn-sm btn-warning">Modificar</button>
+                      <button class="btn btn-sm btn-danger">Eliminar</button>
+                    </td>
+                  </tr>
                 {% endfor %}
               </tbody>
-
             </table>
           </div>
         </div>
-        <h5 class="mt-4">Crear nueva alarma</h5> <br>
+        <h5 class="mt-4">Crear nueva alarma</h5>
         <form action="{{ url_for('reportes.guardar_alerta') }}" method="POST" class="mb-5">
           <div class="row">
-            <div class="col-md-3 mb-3">
-              <label for="veterinario" class="form-label">ID Veterinario</label>
-              <input type="number" name="veterinario" class="form-control" required>
+            <div class="col-md-4 mb-3">
+              <label for="cliente" class="form-label">N° Documento del Cliente</label>
+              <input type="text" name="cliente" class="form-control" required>
             </div>
-            <div class="col-md-3 mb-3">
-              <label for="cliente" class="form-label">ID Cliente</label>
-              <input type="number" name="cliente" class="form-control" required>
-            </div>
-            <div class="col-md-3 mb-3">
+            <div class="col-md-4 mb-3">
               <label for="mascota" class="form-label">ID Mascota</label>
               <input type="number" name="mascota" class="form-control" required>
             </div>
-            <div class="col-md-3 mb-3">
+            <div class="col-md-4 mb-3">
               <label for="fecha" class="form-label">Fecha</label>
-              <input type="datetime-local" name="fecha" class="form-control" required>
+              <input type="date" name="fecha" class="form-control" required>
             </div>
           </div>
           <div class="mb-3">
@@ -205,7 +179,7 @@
             <input type="text" name="descripcion" class="form-control" required>
           </div>
           <button type="submit" class="btn btn-success">Guardar Alarma</button>
-        </form>
+        </form>        
     </main>
   </div>
   <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
