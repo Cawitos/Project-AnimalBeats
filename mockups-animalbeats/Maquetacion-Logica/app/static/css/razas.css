@@ -19,7 +19,9 @@ body {
     flex-direction: row;
     min-height: 90vh;
     display: flex;
-    overflow: hidden;
+}
+.offcanvas {
+    z-index: 1050 !important;
 }
 .animalbeats{
     text-align: center;
@@ -119,13 +121,18 @@ body {
     align-items: center;
     flex-direction: column;
 }
+.container-fluid{
+    width: 80%;
+}
 .row{
     display: flex;
     flex-wrap: wrap;
-    width: 95%;
+    width: 100%;
+    padding: 10px;
+    justify-content: center;
 }
 .card{
-    margin: 10px 0px;
+    margin: 5px; 
 }
 .crear{
     display: flex;
