@@ -15,6 +15,8 @@ def Mascotas():
         return str(e)
     
     return render_template('Administrador/GestionMascotas.html', mascotas=mascotas)
+
+@mascotas_bp.route('/Mascotas', methods=['GET', 'POST'])
 def MascotasV():
     connection = current_app.connection
     try:
@@ -26,6 +28,7 @@ def MascotasV():
     
     return render_template('Veterinario/GestionMascotas.html', mascotas=mascotas)
 
+@mascotas_bp.route('/Mascotas', methods=['GET', 'POST'])
 def MascotasC():
     connection = current_app.connection
     try:
@@ -79,6 +82,7 @@ def create_mascot():
 
     return render_template('Administrador/Crear_Mascota.html', especies=especies)
 
+@mascotas_bp.route('/Crear-Mascota', methods=['GET', 'POST'])
 def create_mascotV():
     connection = current_app.connection
     if request.method == 'POST':
@@ -160,6 +164,7 @@ def edit_mascot(id_mascota):
 
     return render_template('Administrador/Modificar_Mascota.html', mascota=mascota)
 
+@mascotas_bp.route('/Editar-Mascota/<int:id_mascota>', methods=['GET', 'POST'])
 def edit_mascotV(id_mascota):
     connection = current_app.connection
     if request.method == 'POST':
@@ -205,6 +210,8 @@ def delete_mascot(id_mascota):
         return str(e)
     
     return render_template('Administrador/Eliminar_Mascota.html', mascota=mascota)
+
+@mascotas_bp.route('/Eliminar-Mascota/<int:id_mascota>', methods=['GET', 'POST'])
 def delete_mascotV(id_mascota):
     connection = current_app.connection
     if request.method == 'POST':
@@ -246,6 +253,7 @@ def historial(id_mascota):
 
     return render_template('Administrador/Historial_Mascota.html', mascota_info=mascota_info, historial_medico=historial_medico)
 
+@mascotas_bp.route('/Historial-Mascota/<int:id_mascota>', methods=['GET', 'POST'])
 def historialV(id_mascota):
     connection = current_app.connection
     try:
@@ -265,6 +273,7 @@ def historialV(id_mascota):
 
     return render_template('Veterinario/Historial_Mascota.html', mascota_info=mascota_info, historial_medico=historial_medico)
 
+@mascotas_bp.route('/Historial-Mascota/<int:id_mascota>', methods=['GET', 'POST'])
 def historialC(id_mascota):
     connection = current_app.connection
     try:

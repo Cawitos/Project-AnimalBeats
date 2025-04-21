@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="../img/logoico.png">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/Administrador.css') }}">
+    <link rel="stylesheet" href="../css/administrador.css">
+    <link rel="stylesheet" href="../css/usuarios.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">    
@@ -31,7 +32,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ url_for('mascotas_bp.MascotasV') }}" class="opcion">
+                    <a href="../Veterinario/GestionMascotas.html" class="opcion">
                         <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 -960 960 960" width="24px" fill="#FFFCE8"><path d="M180-475q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29Zm180-160q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29Zm240 0q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29Zm180 160q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29ZM266-75q-45 0-75.5-34.5T160-191q0-52 35.5-91t70.5-77q29-31 50-67.5t50-68.5q22-26 51-43t63-17q34 0 63 16t51 42q28 32 49.5 69t50.5 69q35 38 70.5 77t35.5 91q0 47-30.5 81.5T694-75q-54 0-107-9t-107-9q-54 0-107 9t-107 9Z"/></svg>
                         <span class="item-nav">Mascotas</span>
                     </a>
@@ -60,22 +61,25 @@
         </nav>
         <main class="perfil">
             <div class="contenedor-perfil">
-                <h1>PERFIL DE USUARIO</h1>
-                <h2>Veterinario <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24" width="30" height="30"><path d="m12.021,12c-3.309,0-6-2.691-6-6S8.713,0,12.021,0s6,2.691,6,6-2.691,6-6,6Zm1.979,6.184v-4.184h-5.021v4.277c.595.346,1,.984,1,1.723,0,1.105-.895,2-2,2s-2-.895-2-2c0-.738.405-1.376,1-1.723v-4.275c-2.747.012-4.979,2.248-4.979,4.998v5h10v-3c0-1.302.839-2.402,2-2.816Zm3-4.184h-1v4.184c1.161.414,2,1.514,2,2.816v3h4v-5c0-2.757-2.243-5-5-5Zm-2,6c-.552,0-1,.448-1,1v3h2v-3c0-.552-.448-1-1-1Z"/></svg></h2>
-                </svg>
+                <h1>USUARIO PEREZ</h1>
+                <h2>Usuario</h2>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50px" height="50px" fill="currentColor">
+                  <circle cx="12" cy="8" r="4"/>
+                  <path d="M12 14c-4.418 0-8 2.239-8 5v2h16v-2c0-2.761-3.582-5-8-5z"/>
                 </svg>
                   </h2>
                     <label for=""><b>Código:</b> 001</label>
-                    <label for=""><b>Nombre:</b> Alejandro</label>
-                    <label for=""><b>Correo:</b> veterinario@animalbeats.com</label>
-                    <label for=""><b>Contacto:</b> 322786342</label>
-                    <label for=""><b>Dirección:</b> Calle 30</label>
-                    <label for=""><b>Mascotas:</b> 3</label>
+                    <label for=""><b>Nombre:</b> Juan</label>
+                    <label for=""><b>Apellido:</b> Perez</label>
+                    <label for=""><b>Correo:</b> juan_23@gmail.com</label>
+                    <label for=""><b>Contacto:</b> 3102767312</label>
+                    <label for=""><b>Dirección:</b> Calle 152</label>
+                    <label for=""><b>Mascotas:</b> 6</label>
             </div>
             <div class="estadisticas">
                 <h1>ESTADISTICAS GENERALES</h1>
                 <ul>
-                    <li><div class="stats"><svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#FFF"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z"/></svg></div><div class="info"><h4>Clientes Asignados</h4><p>10</p></div></li>
+                    <li><div class="stats"><svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="39px" fill="#FFF"><path d="M380-80q-59 0-99.5-40.5T240-220q0-9 2.5-14t-.5-8q-3-3-8-.5t-14 2.5q-59 0-99.5-40.5T80-380q0-59 40.5-99.5T220-520q23 0 42 6t36 18l166-166q-12-17-18-36t-6-42q0-59 40.5-99.5T580-880q59 0 99.5 40.5T720-740q0 9-2.5 14t.5 8q3 3 8 .5t14-2.5q59 0 99.5 40.5T880-580q0 59-40.5 99.5T740-440q-23 0-42-6t-36-18L496-298q12 17 18 36t6 42q0 59-40.5 99.5T380-80Zm0-80q26 0 43-17t17-43q0-9-2.5-17.5T430-254q-17-24-14-51.5t24-48.5l166-166q21-21 48.5-24t51.5 14q8 5 16.5 7.5T740-520q26 0 43-17t17-43q0-26-17-43t-43-17q-35 0-49-3.5T662-662q-15-15-18.5-29t-3.5-49q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 11 2 18.5t8 15.5q17 24 14 51.5T520-606L354-440q-21 21-48.5 24T254-430q-8-5-16.5-7.5T220-440q-26 0-43 17t-17 43q0 26 17 43t43 17q35 0 49 3.5t29 18.5q15 15 18.5 29t3.5 49q0 26 17 43t43 17Zm100-320Z"/></svg></div><div class="info"><h4>Mascotas Asignadas</h4><p>1</p></div></li>
                     <li><div class="stats"><svg version="1.0" xmlns="http://www.w3.org/2000/svg"
                         width="40px" height="35px" viewBox="0 0 512.000000 512.000000"
                         preserveAspectRatio="xMidYMid meet">
@@ -132,7 +136,7 @@
                        <path d="M3145 1021 c-97 -40 -69 -191 35 -191 29 0 77 27 90 49 27 52 1 122
                        -52 140 -36 13 -45 13 -73 2z"/>
                        </g>
-                       </svg></div><div class="info"><h4>Citas Pendientes</h4><p>20</p></div></li>
+                       </svg></div><div class="info"><h4>Proxima cita</h4><p>20/12/2024</p></div></li>
                     <li><div class="stats"><svg version="1.0" xmlns="http://www.w3.org/2000/svg"
                         width="40px" height="40px" viewBox="0 0 512.000000 512.000000"
                         preserveAspectRatio="xMidYMid meet">
@@ -166,7 +170,7 @@
                        152 132 273 279 312 l42 12 0 149 0 149 -87 27 c-141 43 -302 81 -414 99 -95
                        15 -473 29 -524 20z"/>
                        </g>
-                       </svg></div><div class="info"><h4>Mascotas Asignadas</h4><p>6</p></div></li>
+                       </svg></div><div class="info"><h4>Veterinario Asignado</h4><p>Ricardo Banguero</p></div></li>
                     </ul>
             </div>
         </main>

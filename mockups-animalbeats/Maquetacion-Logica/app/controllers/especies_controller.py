@@ -15,6 +15,8 @@ def especie():
         return str(e)
     
     return render_template('Administrador/Especies.html', especies=especies)
+
+@especie_bp.route('/Especies', methods=['GET', 'POST'])
 def especieV():
     connection = current_app.connection
     try:
@@ -25,6 +27,8 @@ def especieV():
         return str(e)
     
     return render_template('Veterinario/Especies.html', especies=especies)
+
+@especie_bp.route('/Especies', methods=['GET', 'POST'])
 def especieC():
     connection = current_app.connection
     try:
@@ -51,6 +55,8 @@ def crear_especie():
         except Exception as e:
             return str(e)
     return render_template('Administrador/Crear_Especie.html')
+
+@especie_bp.route('/Crear-Especie', methods=['GET', 'POST'])
 def crear_especieV():
     connection = current_app.connection
     if request.method == 'POST':
@@ -86,6 +92,8 @@ def modificar_especie(id_especie):
         return str(e)
         
     return render_template('Administrador/Modificar_Especie.html', especie=especie)
+
+@especie_bp.route('/Editar-Especie/<int:id_especie>', methods=['GET', 'POST'])
 def modificar_especieV(id_especie):
     connection = current_app.connection
     if request.method == 'POST':
@@ -128,6 +136,8 @@ def eliminar_especie(id_especie):
         return str(e)
 
     return render_template('Administrador/Eliminar_Especie.html', especie=especie)
+
+@especie_bp.route('/Eliminar-Especie/<int:id_especie>', methods=['GET', 'POST'])
 def eliminar_especieV(id_especie):
     connection = current_app.connection
     if request.method == 'POST':
@@ -163,6 +173,8 @@ def razas(id_especie):
         return str(e)
     
     return render_template('Administrador/Razas.html', razas=razas, id_especie=id_especie)
+
+@raza_bp.route('/Razas/<int:id_especie>', methods=['GET'])
 def razasV(id_especie):
     connection = current_app.connection
     try:
@@ -173,6 +185,8 @@ def razasV(id_especie):
         return str(e)
     
     return render_template('Veterinario/Razas.html', razas=razas, id_especie=id_especie)
+
+@raza_bp.route('/Razas/<int:id_especie>', methods=['GET'])
 def razasC(id_especie):
     connection = current_app.connection
     try:
@@ -207,6 +221,8 @@ def crear_raza(id_especie):
         return str(e)
         
     return render_template('Administrador/Crear_Raza.html', especie=especie)
+
+@raza_bp.route('/Crear-Raza/<int:id_especie>', methods=['GET', 'POST'])
 def crear_razaV(id_especie):
     connection = current_app.connection
     if request.method == 'POST':
@@ -259,6 +275,8 @@ def modificar_raza(id_especie, id_raza):
         return str(e)
         
     return render_template('Administrador/Modificar_Raza.html', especie=especie, raza=raza)
+
+@raza_bp.route('/Crear-Raza/<int:id_especie>', methods=['GET', 'POST'])
 def modificar_razaV(id_especie, id_raza):
     connection = current_app.connection
     if request.method == 'POST':
@@ -316,6 +334,8 @@ def eliminar_raza(id_especie, id_raza):
         return str(e)
 
     return render_template('Administrador/Eliminar_Raza.html', especie=especie, raza=raza)
+
+@raza_bp.route('/Eliminar-Especie/<int:id_especie>/<int:id_raza>', methods=['GET', 'POST'])
 def eliminar_razaV(id_especie, id_raza):
     connection = current_app.connection
     if request.method == 'POST':
