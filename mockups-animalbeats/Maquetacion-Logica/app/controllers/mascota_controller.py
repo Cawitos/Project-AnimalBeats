@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, curren
 mascotas_bp = Blueprint('mascotas_bp', __name__)
 
 def is_authenticated():
-    return 'n_documento' in session and 'correoelectronico' in session
+    return 'n_documento' in session and 'correoelectronico' in session and 'id_rol' in session
 
 @mascotas_bp.route('/Mascotas', methods=['GET', 'POST'])
 def Mascotas():
