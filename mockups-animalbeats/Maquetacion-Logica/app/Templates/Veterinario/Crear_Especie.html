@@ -46,7 +46,7 @@
         </a>
       </li>
       <li>
-        <a href="{{ url_for('mascotas_bp.Mascotas') }}" class="opcion">
+        <a href="{{ url_for('mascotas_bp.MascotasV') }}" class="opcion">
           <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 -960 960 960" width="24px"
             fill="#000">
             <path
@@ -56,7 +56,7 @@
         </a>
       </li>
       <li>
-        <a href="{{ url_for('especie_bp.especie')}}" class="opcion">
+        <a href="{{ url_for('especie_bp.especieV')}}" class="opcion">
           <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 -960 960 960" width="24px"
             fill="#000">
             <path
@@ -89,7 +89,7 @@
     <div class="contenido-principal">
       <main class="contenedor-formulario">
         <h1>Crear Especie</h1>
-        <form class="form-mascota" action="{{ url_for('especie_bp.crear_especie') }}" method="POST">
+        <form class="form-mascota" action="{{ url_for('especie_bp.crear_especieV') }}" method="POST">
           <div class="mb-3">
             <label for="Especie" class="form-label">Nombre de la Especie</label>
             <input type="text" class="form-control" id="Especie" name="Especie" required>
@@ -97,7 +97,7 @@
           <div class="mb-3">
             <button type="submit" class="btn btn-primary">Crear Especie</button>
           </div>
-          <a href="{{ url_for('especie_bp.especie') }}">Volver</a>
+          <a href="{{ url_for('especie_bp.especieV') }}">Volver</a>
         </form>
       </main>
     </div>
