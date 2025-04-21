@@ -19,7 +19,7 @@ def especie():
 
     try:
         with connection.cursor() as cursor:
-            cursor.execute("SELECT id, Especie FROM Especie")
+            cursor.execute("SELECT id, Especie, imagen FROM Especie")
             especies = cursor.fetchall()
     except Exception as e:
         return str(e)
@@ -31,6 +31,7 @@ def especie():
     else:
         return render_template('Cliente/Especies.html', especies=especies)
 
+
 @especie_bp.route('/Crear-Especie', methods=['GET', 'POST'])
 def crear_especie():
     if not is_authenticated():
@@ -40,37 +41,49 @@ def crear_especie():
     id_rol = session.get('id_rol')
 
     if request.method == 'POST':
+        # Obtener datos del formulario
+        nombre_especie = request.form.get('Especie')
+        
+        # Validar que nombre_especie no sea vacío o None
+        if not nombre_especie:
+            return "El nombre de la especie es obligatorio", 400
+        
+        # Manejo de la imagen
         file_path = None
-        Especie = request.form.get('Especie')
-
         imagen = request.files.get('imagen')
+        
         if imagen and imagen.filename:
             print(f"Archivo recibido: {imagen.filename}")
-            # Guardar la imagen en 'static/uploads/profile_pictures'
+            
+            # Configurar rutas
             images_dir = os.path.join(current_app.root_path, 'static/img/Especies')
             os.makedirs(images_dir, exist_ok=True)
-
-            # Guardar la imagen de forma segura
+            
+            # Generar nombre seguro
             filename = secure_filename(imagen.filename)
-            file_path = os.path.join('img/Especies', filename)  # Guardar la ruta relativa
-            file_path = file_path.replace("\\", "/") 
+            file_path = os.path.join('img/Especies', filename).replace("\\", "/")
+            
+            # Guardar imagen
             imagen.save(os.path.join(images_dir, filename))
-            print(f"Guardando imagen en: {file_path}")
-        else:
-            print("No se recibió ningún archivo.")
+            print(f"Imagen guardada en: {file_path}")
 
         try:
             with connection.cursor() as cursor:
-                cursor.execute("INSERT INTO Especie (Especie, imagen) VALUES (%s, %s)", (Especie, file_path))
-                connection.commit()
-                return redirect(url_for('especie_bp.especie'))
+                cursor.execute(
+                    "INSERT INTO Especie (Especie, imagen) VALUES (%s, %s)",
+                    (nombre_especie, file_path)
+                )
+            connection.commit()
+            return redirect(url_for('especie_bp.especie'))
+                
         except Exception as e:
             return str(e)
-    
+
     if id_rol == 1:
         return render_template('Administrador/Crear_Especie.html')
     elif id_rol == 3:
         return render_template('Veterinario/Crear_Especie.html')
+
 
 @especie_bp.route('/Editar-Especie/<int:id_especie>', methods=['GET', 'POST'])
 def modificar_especie(id_especie):
@@ -143,7 +156,7 @@ def razas(id_especie):
 
     try:
         with connection.cursor() as cursor:
-            cursor.execute("SELECT id, raza, descripcion FROM Raza WHERE id_especie = %s", (id_especie,))
+            cursor.execute("SELECT id, raza, descripcion, imagen FROM Raza WHERE id_especie = %s", (id_especie,))
             razas = cursor.fetchall()
     except Exception as e:
         return str(e)
@@ -163,25 +176,28 @@ def crear_raza(id_especie):
     connection = current_app.connection
     id_rol = session.get('id_rol')
 
-    imagen = request.files.get('imagen')
-    if imagen and imagen.filename:
-        print(f"Archivo recibido: {imagen.filename}")
-            # Guardar la imagen en 'static/uploads/profile_pictures'
-        images_dir = os.path.join(current_app.root_path, 'static/img/Especies')
-        os.makedirs(images_dir, exist_ok=True)
-
-            # Guardar la imagen de forma segura
-        filename = secure_filename(imagen.filename)
-        file_path = os.path.join('uploads/profile_pictures', filename)  # Guardar la ruta relativa
-        file_path = file_path.replace("\\", "/") 
-        imagen.save(os.path.join(images_dir, filename))
-        print(f"Guardando imagen en: {file_path}")
-    else:
-            print("No se recibió ningún archivo.")
-
     if request.method == 'POST':
         Raza=request.form.get('Raza')
         descripcion=request.form.get('descripcion')
+
+        file_path = None
+        imagen = request.files.get('imagen')
+        
+        if imagen and imagen.filename:
+            print(f"Archivo recibido: {imagen.filename}")
+            
+            # Configurar rutas
+            images_dir = os.path.join(current_app.root_path, 'static/img/Especies')
+            os.makedirs(images_dir, exist_ok=True)
+            
+            # Generar nombre seguro
+            filename = secure_filename(imagen.filename)
+            file_path = os.path.join('img/Especies', filename).replace("\\", "/")
+            
+            # Guardar imagen
+            imagen.save(os.path.join(images_dir, filename))
+            print(f"Imagen guardada en: {file_path}")
+
         try:
             with connection.cursor() as cursor:
                 cursor.execute("INSERT INTO Raza (Raza, descripcion, id_especie, imagen) VALUES (%s, %s, %s, %s)", (Raza, descripcion, id_especie, file_path))

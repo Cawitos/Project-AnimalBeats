@@ -89,7 +89,7 @@
     <div class="contenido-principal">
       <main class="contenedor-formulario">
         <h1>Crear Especie</h1>
-        <form class="form-mascota" action="{{ url_for('especie_bp.crear_especie') }}" method="POST">
+        <form class="form-mascota" action="{{ url_for('especie_bp.crear_especie') }}" method="POST" enctype="multipart/form-data">
           <div class="mb-3">
             <label for="Especie" class="form-label">Nombre de la Especie</label>
             <input type="text" class="form-control" id="Especie" name="Especie" required>

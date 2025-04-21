@@ -101,7 +101,7 @@
         <div class="card mb-3" style="max-width: 540px;">
           <div class="row g-0">
             <div class="col-md-4">
-              <img src="{{ especie['imagen'] }}" class="img-fluid rounded-start" alt="{{ especie['Especie'] }}">
+              <img src="{{ url_for('static', filename=especie['imagen'])}}" class="img-fluid rounded-start" alt="{{ especie['Especie'] }}">
             </div>
             <div class="col-md-8">
               <div class="card-body">

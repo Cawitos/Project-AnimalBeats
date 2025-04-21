@@ -89,7 +89,7 @@
     <main class="contenido-principal">
       <h1>Crear Raza</h1>
       <div class="contenedor-formulario">
-        <form class="form-mascota" action="{{ url_for('raza_bp.crear_raza', id_especie=especie['id']) }}" method="post">
+        <form class="form-mascota" action="{{ url_for('raza_bp.crear_raza', id_especie=especie['id']) }}" method="post" enctype="multipart/form-data">
           <input type="hidden" name="id_especie" value="{{ especie['id'] }}">
           <div class="mb-3">
             <label for="Raza" class="form-label">Nombre de la Raza</label>
