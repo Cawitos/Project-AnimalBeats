@@ -120,11 +120,10 @@ body {
     align-items: center;
     flex-direction: column;
 }
-.contenido-principal h1{
-    width: 100%;
-    text-align: center;
-    margin: 20px;
-}
+.contenido-principal {
+    display: flex;
+    justify-content: center;
+  }
 .contenedor-tabla{
     width: 80%;
 }

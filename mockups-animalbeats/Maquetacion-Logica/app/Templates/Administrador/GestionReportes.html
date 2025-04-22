@@ -92,17 +92,13 @@
         <ul class="nav nav-tabs" id="myTab" role="tablist">
           <li class="nav-item custom-style" role="presentation">
             <button class="nav-link active" id="veterinario-tab" data-bs-toggle="tab" data-bs-target="#veterinario-pane"
-              type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Alarmas Veterinaria</button>
-          </li>
-          <li class="nav-item custom-style" role="presentation">
-            <button class="nav-link" id="cliente-tab" data-bs-toggle="tab" data-bs-target="#cliente-pane" type="button"
-              role="tab" aria-controls="profile-tab-pane" aria-selected="false">Alarmas Cliente</button>
+              type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true"><h4>Gestion Alarmas</h4></button>
           </li>
         </ul>
         <div class="tab-content" id="myTabContent">
           <div class="tab-pane fade show active" id="veterinario-pane" role="tabpanel" aria-labelledby="veterinario-tab"
             tabindex="0">
-            <table class="table table-striped-columns">
+            <table id="tabla-alarmas" class="table table-striped-columns">
               <thead>
                 <tr>
                   <th>Cliente</th>
@@ -112,7 +108,7 @@
                   <th>Acciones</th>
                 </tr>
               </thead>
-              <tbody id="tabla-alarmas">
+              <tbody>
                 {% for alerta in alertas %}
                 <tr>
                   <td>{{ alerta.id_cliente }}</td>
@@ -120,35 +116,11 @@
                   <td>{{ alerta.Fecha }}</td>
                   <td>{{ alerta.descripcion }}</td>
                   <td>
-                    <button class="btn btn-sm btn-warning">Modificar</button>
-                    <button class="btn btn-sm btn-danger">Eliminar</button>
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-          <div class="tab-pane fade" id="cliente-pane" role="tabpanel" aria-labelledby="cliente-tab" tabindex="0">
-            <table class="table table-striped-columns">
-              <thead>
-                <tr>
-                  <th>Cliente</th>
-                  <th>Mascota</th>
-                  <th>Fecha</th>
-                  <th>Descripción</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody id="tabla-alarmas">
-                {% for alerta in alertas %}
-                <tr>
-                  <td>{{ alerta.id_cliente }}</td>
-                  <td><input type="checkbox" checked></td>
-                  <td>{{ alerta.Fecha.strftime('%H:%M') if alerta.Fecha else '' }}</td>
-                  <td>{{ alerta.descripcion }}</td>
-                  <td>
-                    <button class="btn btn-sm btn-warning">Modificar</button>
-                    <button class="btn btn-sm btn-danger">Eliminar</button>
+                    <a href="{{ url_for('reportes.modificar_alerta', id=alerta.id) }}" class="btn btn-sm btn-warning">Modificar</a>
+              
+                    <form action="{{ url_for('reportes.eliminar_alerta', id=alerta.id) }}" method="POST" style="display:inline;">
+                      <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar esta alerta?')">Eliminar</button>
+                    </form>
                   </td>
                 </tr>
                 {% endfor %}

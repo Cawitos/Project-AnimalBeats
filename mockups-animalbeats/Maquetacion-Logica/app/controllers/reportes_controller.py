@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, current_app, jsonify
+from datetime import datetime
 
 reportes_bp = Blueprint('reportes', __name__)
 
@@ -58,6 +59,9 @@ def modificar_alerta(id):
         cursor.execute("SELECT * FROM Alertas WHERE id = %s", (id,))
         alerta = cursor.fetchone()
 
+        if alerta and isinstance(alerta['Fecha'], datetime):
+            alerta['Fecha'] = alerta['Fecha'].strftime('%Y-%m-%d')
+
         cursor.execute("SELECT n_documento FROM Usuarios WHERE id_rol = 2") 
         clientes = cursor.fetchall()
 
@@ -73,7 +77,6 @@ def modificar_alerta(id):
         )
     else:
         return "Alerta no encontrada", 404
-
 @reportes_bp.route('/alertas/eliminar/<id>', methods=['POST'])
 def eliminar_alerta(id):
     connection = current_app.connection
