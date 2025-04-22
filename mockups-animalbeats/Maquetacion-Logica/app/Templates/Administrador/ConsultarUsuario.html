@@ -94,7 +94,10 @@
         <li class="list-group-item"><b>Correo:</b> {{ usuario.correoelectronico }}</li>
       </ul>
       <div class="mt-4 text-center">
-        <a href="{{ url_for('gestion_bp.gestion_usuarios') }}" class="btn btn-secondary">Volver</a>
+        <a href="{{ url_for('gestion_bp.gestion_usuarios_veterinario') if session['id_rol'] == 3 else url_for('gestion_bp.gestion_usuarios') }}" class="btn btn-danger">
+                  Volver
+            </a>
+
       </div>
     </div>
   </div>

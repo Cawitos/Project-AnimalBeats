@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, current_app, flash
 from flask_bcrypt import Bcrypt
 from flask import flash
+from flask import session
 
 gestion_bp = Blueprint('gestion_bp', __name__)
 bcrypt = Bcrypt()
@@ -18,7 +19,23 @@ def gestion_usuarios():
         usuarios = cursor.fetchall()
     return render_template('Administrador/GestionDeUsuarios.html', usuarios=usuarios)
 
-
+@gestion_bp.route('/gestion-usuarios-veterinario')
+def gestion_usuarios_veterinario():
+    # Verifica que el usuario tenga el rol de veterinario
+    if 'id_rol' not in session or session['id_rol'] != 3:  
+        return redirect(url_for('user_bp.login'))  
+    
+    connection = current_app.connection
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT Usuarios.n_documento, Usuarios.nombre, Usuarios.correoelectronico, Documento.tipo
+            FROM Usuarios
+            JOIN Documento ON Usuarios.id_documento = Documento.id
+            WHERE Usuarios.estado = 'ACTIVO'
+        """)
+        usuarios = cursor.fetchall()
+    
+    return render_template('Veterinario/GestionDeUsuarios.html', usuarios=usuarios)
 
 
 

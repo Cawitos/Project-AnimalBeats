@@ -165,7 +165,28 @@ def dashboard_admin():
 
 @user_bp.route('/veterinario')
 def dashboard_veterinario():
-    return render_template('Veterinario/veterinario.html')
+    correoelectronico = session.get('correoelectronico')
+    if not correoelectronico:
+        return redirect(url_for('user_bp.login'))
+
+    connection = current_app.connection
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT n_documento, nombre, correoelectronico
+            FROM Usuarios
+            WHERE correoelectronico = %s
+        """, (correoelectronico,))
+        usuario = cursor.fetchone()
+
+    if not usuario:
+        return redirect(url_for('user_bp.login'))
+
+    # Para depuración
+    print(usuario)
+
+    return render_template('Veterinario/veterinario.html', usuario=usuario)
+
+
 
 @user_bp.route('/cliente')
 def dashboard_cliente():
