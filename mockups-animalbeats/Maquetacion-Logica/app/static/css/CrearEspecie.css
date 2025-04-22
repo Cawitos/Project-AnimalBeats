@@ -47,9 +47,9 @@ body {
 }
 
 .btn-primary {
-    border-color: var(--rojo);
-    background-color: var(--rojo);
-    color: var(--blanco);
+    border-color: var(--rojo) !important;
+    background-color: var(--rojo) !important;
+    color: var(--blanco) !important;
 }
 
 .offcanvas-header a{
