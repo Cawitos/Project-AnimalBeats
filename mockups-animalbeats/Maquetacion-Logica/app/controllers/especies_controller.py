@@ -69,20 +69,20 @@ def crear_especie():
             return "El nombre de la especie es obligatorio", 400
         
         # Manejo de la imagen
-        file_path = None
+        file_path = 'img/Especies/default.png'
         imagen = request.files.get('imagen')
         
         if imagen and imagen.filename:
             print(f"Archivo recibido: {imagen.filename}")
-            
+    
             # Configurar rutas
             images_dir = os.path.join(current_app.root_path, 'static/img/Especies')
             os.makedirs(images_dir, exist_ok=True)
-            
+    
             # Generar nombre seguro
             filename = secure_filename(imagen.filename)
             file_path = os.path.join('img/Especies', filename).replace("\\", "/")
-            
+    
             # Guardar imagen
             imagen.save(os.path.join(images_dir, filename))
             print(f"Imagen guardada en: {file_path}")
@@ -220,7 +220,7 @@ def crear_raza(id_especie):
         Raza=request.form.get('Raza')
         descripcion=request.form.get('descripcion')
 
-        file_path = None
+        file_path = 'img/Razas/default.png'
         imagen = request.files.get('imagen')
         
         if imagen and imagen.filename:
