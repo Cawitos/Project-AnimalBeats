@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, current_app, flash, session, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, current_app, flash, session
 
 enfermedad_bp = Blueprint('enfermedad_bp', __name__)
 
@@ -16,7 +16,7 @@ def enfermedades():
 
     try:
         with connection.cursor() as cursor:
-            cursor.execute("SELECT id, nombre, descripcion FROM Enfermedad")
+            cursor.execute("SELECT nombre, descripcion FROM Enfermedad")
             enfermedades = cursor.fetchall()
     except Exception as e:
         return str(e)
@@ -52,8 +52,8 @@ def crear_enfermedad():
     elif id_rol == 3:
         return render_template('Veterinario/Crear_Enfermedad.html')
 
-@enfermedad_bp.route('/Editar-Enfermedad/<int:id_enfermedad>', methods=['GET', 'POST'])
-def modificar_enfermedad(id_enfermedad):
+@enfermedad_bp.route('/Editar-Enfermedad/<string:nombre>', methods=['GET', 'POST'])
+def modificar_enfermedad(nombre):
     if not is_authenticated():
         return redirect(url_for('user_bp.login'))
 
@@ -61,11 +61,14 @@ def modificar_enfermedad(id_enfermedad):
     id_rol = session.get('id_rol')
 
     if request.method == 'POST':
-        nombre = request.form.get('nombre')
+        nuevo_nombre = request.form.get('nombre')
         descripcion = request.form.get('descripcion')
         try:
             with connection.cursor() as cursor:
-                cursor.execute("UPDATE Enfermedad SET nombre = %s, descripcion = %s WHERE id = %s", (nombre, descripcion, id_enfermedad))
+                cursor.execute(
+                    "UPDATE Enfermedad SET nombre = %s, descripcion = %s WHERE nombre = %s",
+                    (nuevo_nombre, descripcion, nombre)
+                )
                 connection.commit()
                 return redirect(url_for('enfermedad_bp.enfermedades'))
         except Exception as e:
@@ -73,7 +76,7 @@ def modificar_enfermedad(id_enfermedad):
     
     try:
         with connection.cursor() as cursor:
-            cursor.execute("SELECT id, nombre, descripcion FROM Enfermedad WHERE id = %s", (id_enfermedad,))
+            cursor.execute("SELECT nombre, descripcion FROM Enfermedad WHERE nombre = %s", (nombre,))
             enfermedad = cursor.fetchone()
     except Exception as e:
         return str(e)
@@ -83,8 +86,8 @@ def modificar_enfermedad(id_enfermedad):
     elif id_rol == 3:
         return render_template('Veterinario/Modificar_Enfermedad.html', enfermedad=enfermedad)
 
-@enfermedad_bp.route('/Eliminar-Enfermedad/<int:id_enfermedad>', methods=['GET', 'POST'])
-def eliminar_enfermedad(id_enfermedad):
+@enfermedad_bp.route('/Eliminar-Enfermedad/<string:nombre>', methods=['GET', 'POST'])
+def eliminar_enfermedad(nombre):
     if not is_authenticated():
         return redirect(url_for('user_bp.login'))
 
@@ -94,7 +97,7 @@ def eliminar_enfermedad(id_enfermedad):
     if request.method == 'POST':
         try:
             with connection.cursor() as cursor:
-                cursor.execute("DELETE FROM Enfermedad WHERE id = %s", (id_enfermedad,))
+                cursor.execute("DELETE FROM Enfermedad WHERE nombre = %s", (nombre,))
                 connection.commit()
                 flash('Enfermedad eliminada correctamente')
                 return redirect(url_for('enfermedad_bp.enfermedades'))
@@ -103,7 +106,7 @@ def eliminar_enfermedad(id_enfermedad):
     
     try:
         with connection.cursor() as cursor:
-            cursor.execute("SELECT id, nombre FROM Enfermedad WHERE id = %s", (id_enfermedad,))
+            cursor.execute("SELECT nombre FROM Enfermedad WHERE nombre = %s", (nombre,))
             enfermedad = cursor.fetchone()
     except Exception as e:
         return str(e)
