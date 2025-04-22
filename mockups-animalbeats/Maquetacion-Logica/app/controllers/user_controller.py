@@ -12,6 +12,7 @@ def is_authenticated():
     return 'n_documento' in session and 'correoelectronico' in session and 'id_rol' in session
 
 
+
 @user_bp.route('/login', methods=['GET', 'POST'])
 def login():
     connection = current_app.connection
@@ -55,6 +56,7 @@ def register():
 
     if request.method == 'POST':
         n_documento = request.form['n_documento']
+        nombre = request.form['nombre']  # Nuevo campo
         id_documento = request.form['id_documento']
         correoelectronico = request.form['correoelectronico']
         contrasena = request.form['contrasena']
@@ -76,9 +78,9 @@ def register():
 
         with connection.cursor() as cursor:
             cursor.execute("""
-                INSERT INTO Usuarios (n_documento, correoelectronico, contrasena, id_documento, estado, id_rol)
-                VALUES (%s, %s, %s, %s, %s, %s)
-            """, (n_documento, correoelectronico, hashed_password, id_documento, 'ACTIVO', id_rol))
+                INSERT INTO Usuarios (n_documento, nombre, correoelectronico, contrasena, id_documento, estado, id_rol)
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
+            """, (n_documento, nombre, correoelectronico, hashed_password, id_documento, 'ACTIVO', id_rol))
             connection.commit()
 
         return redirect(url_for('user_bp.login'))
@@ -93,6 +95,7 @@ def register():
 
 
 
+
 @user_bp.route('/profile')
 def profile():
     correoelectronico = session.get('correoelectronico')
@@ -101,14 +104,19 @@ def profile():
 
     connection = current_app.connection
     with connection.cursor() as cursor:
-        cursor.execute("SELECT n_documento, correoelectronico FROM Usuarios WHERE correoelectronico=%s", (correoelectronico,))
+        cursor.execute("""
+            SELECT u.n_documento, u.correoelectronico, u.id_rol, r.rol
+            FROM Usuarios u
+            JOIN Rol r ON u.id_rol = r.id
+            WHERE u.correoelectronico = %s
+        """, (correoelectronico,))
         user = cursor.fetchone()
         if not user:
             return "Usuario no encontrado"
 
-    if correoelectronico == 'admin@animalbeats.com':
+    if user['rol'] == 'admin':
         return redirect('/administrador')
-    elif correoelectronico == 'veterinario@animalbeats.com':
+    elif user['rol'] == 'veterinario':
         return redirect('/veterinario')
     else:
         return redirect('/cliente')
@@ -125,3 +133,4 @@ def dashboard_veterinario():
 @user_bp.route('/cliente')
 def dashboard_cliente():
     return render_template('Cliente/cliente.html')
+

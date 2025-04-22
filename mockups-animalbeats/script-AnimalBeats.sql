@@ -12,6 +12,7 @@ CREATE TABLE Documento(
 );
 CREATE TABLE Usuarios(
 	n_documento VARCHAR(10) PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
 	correoelectronico VARCHAR(255) NOT NULL,
 	contrasena VARCHAR(255) NOT NULL,
 	id_documento INT,

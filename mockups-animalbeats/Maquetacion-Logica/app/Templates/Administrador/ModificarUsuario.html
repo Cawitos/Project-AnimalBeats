@@ -88,23 +88,37 @@
       <form method="POST">
         <div class="mb-3">
           <label for="n_documento" class="form-label">Número de Documento</label>
-          <input type="number" class="form-control" id="n_documento" name="n_documento"
-            value="{{ usuario.n_documento }}" required>
+          <input type="number" class="form-control" id="n_documento" name="n_documento" value="{{ usuario.n_documento }}" required>
+        </div>
+        <div class="mb-3">
+          <label for="nombre" class="form-label">Nombre</label>
+          <input type="text" class="form-control" id="nombre" name="nombre" value="{{ usuario.nombre }}" required>
         </div>
         <div class="mb-3">
           <label for="correoelectronico" class="form-label">Correo Electrónico</label>
-          <input type="email" class="form-control" id="correoelectronico" name="correoelectronico"
-            value="{{ usuario.correoelectronico }}" required>
+          <input type="email" class="form-control" id="correoelectronico" name="correoelectronico" value="{{ usuario.correoelectronico }}" required>
         </div>
         <div class="mb-3">
+          <label for="rol" class="form-label">Rol</label>
+          <select class="form-select" name="rol" id="rol" required>
+              <option value="admin" {% if usuario['id_rol'] == 1 %} selected {% endif %}>Administrador</option>
+              <option value="cliente" {% if usuario['id_rol'] == 2 %} selected {% endif %}>Cliente</option>
+              <option value="veterinario" {% if usuario['id_rol'] == 3 %} selected {% endif %}>Veterinario</option>
+          </select>
+      </div>
+      
+        <div class="mb-3">
           <label for="contrasena" class="form-label">Nueva Contraseña</label>
-          <input type="password" class="form-control" id="contrasena" name="contrasena"
-            placeholder="Escribe nueva contraseña" required>
+          <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="Escribe nueva contraseña">
         </div>
         <button type="submit" class="btn btn-danger w-100">Guardar Cambios</button>
       </form>
     </div>
   </div>
+  
+  
+  
+  
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
