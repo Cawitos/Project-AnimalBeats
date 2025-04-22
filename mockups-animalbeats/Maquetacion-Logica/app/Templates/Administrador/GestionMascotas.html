@@ -99,7 +99,6 @@
               <th>Especie</th>
               <th>Raza</th>
               <th>Edad</th>
-              <th>Dueño</th>
               <th>Historial</th>
 
               <th>Modificar</th>
@@ -109,12 +108,11 @@
           <tbody>
             {% for mascota in mascotas %}
             <tr>
-              <td>{{ mascota['id'] }}</td>
+              <td>{{ mascota['id_cliente'] }}</td>
               <td>{{ mascota['nombre'] }}</td>
               <td>{{ mascota['Especie'] }}</td>
               <td>{{ mascota['Raza'] }}</td>
               <td>{{ mascota['edad'] }}</td>
-              <td>{{ mascota['id_Usuario'] }}</td>
               <td>
                 <a href="{{ url_for('mascotas_bp.historial', id_mascota=mascota['id'])}}"><svg version="1.0"
                     xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 512.000000 512.000000"

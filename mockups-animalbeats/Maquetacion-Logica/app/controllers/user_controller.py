@@ -8,6 +8,10 @@ from flask import session
 user_bp = Blueprint('user_bp', __name__)
 bcrypt = Bcrypt()
 
+def is_authenticated():
+    return 'n_documento' in session and 'correoelectronico' in session and 'id_rol' in session
+
+
 @user_bp.route('/login', methods=['GET', 'POST'])
 def login():
     connection = current_app.connection
@@ -22,57 +26,25 @@ def login():
 
             if result and bcrypt.check_password_hash(result['contrasena'], contrasena):
                 session['correoelectronico'] = correoelectronico
+                session['n_documento'] = result['n_documento'] 
+                session['id_rol'] = result['id_rol']
                 n_documento = result['n_documento']
+                id_rol = result['id_rol']
 
-                # ADMINISTRADOR
-                if correoelectronico == 'admin@animalbeats.com' and contrasena == 'admin200609':
-                    cursor.execute("SELECT id FROM Rol WHERE rol = 'admin'")
-                    id_rol = cursor.fetchone()['id']
+                cursor.execute("SELECT rol FROM Rol WHERE id = %s", (id_rol,))
+                rol = cursor.fetchone()['rol']
 
-                    # Verificar si ya existe en la tabla Administrador
-                    cursor.execute("SELECT * FROM Administrador WHERE id_Usuario = %s", (n_documento,))
-                    if not cursor.fetchone():
-                        cursor.execute("""
-                            INSERT INTO Administrador (id_Usuario, id_rol)
-                            VALUES (%s, %s)
-                        """, (n_documento, id_rol))
-                        connection.commit()
-
+                if rol == 'admin':
                     return redirect('/administrador')
-
-                # VETERINARIO
-                elif correoelectronico == 'veterinario@animalbeats.com' and contrasena == 'veterinario200817':
-                    cursor.execute("SELECT id FROM Rol WHERE rol = 'veterinario'")
-                    id_rol = cursor.fetchone()['id']
-
-                    cursor.execute("SELECT * FROM Veterinario WHERE id_Usuario = %s", (n_documento,))
-                    if not cursor.fetchone():
-                        cursor.execute("""
-                            INSERT INTO Veterinario (id_Usuario, id_rol)
-                            VALUES (%s, %s)
-                        """, (n_documento, id_rol))
-                        connection.commit()
-
+                elif rol == 'veterinario':
                     return redirect('/veterinario')
-
-                # CLIENTE
                 else:
-                    cursor.execute("SELECT id FROM Rol WHERE rol = 'cliente'")
-                    id_rol = cursor.fetchone()['id']
-
-                    cursor.execute("SELECT * FROM Cliente WHERE id_Usuario = %s", (n_documento,))
-                    if not cursor.fetchone():
-                        cursor.execute("""
-                            INSERT INTO Cliente (id_Usuario, id_rol)
-                            VALUES (%s, %s)
-                        """, (n_documento, id_rol))
-                        connection.commit()
-
                     return redirect('/cliente')
             else:
                 return "Inicio de sesión fallido"
 
     return render_template('login.html')
+
 
 
 
@@ -90,13 +62,23 @@ def register():
         if not contrasena:
             return "Contraseña vacía. Por favor, ingrésala."
 
+        with connection.cursor() as cursor:
+            if correoelectronico == 'admin@animalbeats.com' and contrasena == 'admin200609':
+                cursor.execute("SELECT id FROM Rol WHERE rol = 'admin'")
+            elif correoelectronico == 'veterinario@animalbeats.com' and contrasena == 'veterinario200817':
+                cursor.execute("SELECT id FROM Rol WHERE rol = 'veterinario'")
+            else:
+                cursor.execute("SELECT id FROM Rol WHERE rol = 'cliente'")
+
+            id_rol = cursor.fetchone()['id']
+
         hashed_password = bcrypt.generate_password_hash(contrasena).decode('utf-8')
 
         with connection.cursor() as cursor:
             cursor.execute("""
-                INSERT INTO Usuarios (n_documento, correoelectronico, contrasena, id_documento, estado)
-                VALUES (%s, %s, %s, %s, %s)
-            """, (n_documento, correoelectronico, hashed_password, id_documento, 'ACTIVO'))
+                INSERT INTO Usuarios (n_documento, correoelectronico, contrasena, id_documento, estado, id_rol)
+                VALUES (%s, %s, %s, %s, %s, %s)
+            """, (n_documento, correoelectronico, hashed_password, id_documento, 'ACTIVO', id_rol))
             connection.commit()
 
         return redirect(url_for('user_bp.login'))
@@ -106,6 +88,7 @@ def register():
         tipos_documento = cursor.fetchall()
 
     return render_template('register.html', tipos_documento=tipos_documento)
+
 
 
 

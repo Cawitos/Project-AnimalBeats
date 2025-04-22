@@ -60,7 +60,6 @@ def crear_usuario():
         hashed_password = bcrypt.generate_password_hash(contrasena).decode('utf-8')
 
         with connection.cursor() as cursor:
-        
             cursor.execute("SELECT id FROM Rol WHERE rol = %s", (rol_nombre,))
             rol_resultado = cursor.fetchone()
 
@@ -69,28 +68,10 @@ def crear_usuario():
 
             id_rol = rol_resultado['id']
 
-            #
             cursor.execute("""
-                INSERT INTO Usuarios (n_documento, correoelectronico, contrasena, id_documento, estado)
-                VALUES (%s, %s, %s, %s, %s)
-            """, (n_documento, correoelectronico, hashed_password, id_documento, 'ACTIVO'))
-
-            
-            if rol_nombre == 'admin':
-                cursor.execute("""
-                    INSERT INTO Administrador (id_Usuario, id_rol)
-                    VALUES (%s, %s)
-                """, (n_documento, id_rol))
-            elif rol_nombre == 'cliente':
-                cursor.execute("""
-                    INSERT INTO Cliente (id_Usuario, id_rol)
-                    VALUES (%s, %s)
-                """, (n_documento, id_rol))
-            elif rol_nombre == 'veterinario':
-                cursor.execute("""
-                    INSERT INTO Veterinario (id_Usuario, id_rol)
-                    VALUES (%s, %s)
-                """, (n_documento, id_rol))
+                INSERT INTO Usuarios (n_documento, correoelectronico, contrasena, id_documento, id_rol, estado)
+                VALUES (%s, %s, %s, %s, %s, %s)
+            """, (n_documento, correoelectronico, hashed_password, id_documento, id_rol, 'ACTIVO'))
 
             connection.commit()
 
