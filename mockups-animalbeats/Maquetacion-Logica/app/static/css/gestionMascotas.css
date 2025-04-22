@@ -21,6 +21,7 @@ body {
 .contenedor-dashboard {
     flex-direction: row;
     max-height: 80vh;
+    padding-top: 50px;
     display: flex;
     overflow: hidden;
 }
