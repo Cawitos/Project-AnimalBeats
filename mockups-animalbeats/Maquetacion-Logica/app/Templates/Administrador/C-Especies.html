@@ -92,18 +92,11 @@
               <div class="card-body">
                 <h1 class="card-title">{{ especie['Especie'] }}</h1>
                 <a href="{{ url_for('raza_bp.razas', id_especie=especie['id']) }}" class="btn btn-primary">Más info</a>
-                <a href="{{ url_for('especie_bp.modificar_especie', id_especie=especie.id) }}"
-                class="btn btn-primary">Modificar</a>
-                <a href="{{ url_for('especie_bp.eliminar_especie', id_especie=especie.id) }}"
-                class="btn btn-primary">Eliminar</a>
               </div>
             </div>
           </div>
         </div>
         {% endfor %}
-      </div>
-      <div class="crear">
-        <a href="{{ url_for('especie_bp.crear_especie') }}" class="btn btn-primary">Crear especie</a>
       </div>
     </main>
   </div>

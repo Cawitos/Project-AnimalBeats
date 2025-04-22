@@ -8,7 +8,7 @@ raza_bp = Blueprint('raza_bp', __name__)
 def is_authenticated():
     return 'correoelectronico' in session
 
-## Especie routes
+
 @especie_bp.route('/Especies', methods=['GET', 'POST'])
 def especie():
     if not is_authenticated():
@@ -30,6 +30,26 @@ def especie():
         return render_template('Veterinario/Especies.html', especies=especies)
     else:
         return render_template('Cliente/Especies.html', especies=especies)
+    
+@especie_bp.route('/Especies-C', methods=['GET', 'POST'])
+def especieC():
+    if not is_authenticated():
+        return redirect(url_for('user_bp.login'))
+
+    connection = current_app.connection
+    id_rol = session.get('id_rol')
+
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT id, Especie, imagen FROM Especie")
+            especies = cursor.fetchall()
+    except Exception as e:
+        return str(e)
+    
+    if id_rol == 1:
+        return render_template('Administrador/C-Especies.html', especies=especies)
+    elif id_rol == 3:
+        return render_template('Veterinario/C-Especies.html', especies=especies)
 
 
 @especie_bp.route('/Crear-Especie', methods=['GET', 'POST'])
@@ -167,6 +187,26 @@ def razas(id_especie):
         return render_template('Veterinario/Razas.html', razas=razas, id_especie=id_especie)
     else:
         return render_template('Cliente/Razas.html', razas=razas, id_especie=id_especie)
+    
+@raza_bp.route('/Razas-C/<int:id_especie>', methods=['GET'])
+def razasC(id_especie):
+    if not is_authenticated():
+        return redirect(url_for('user_bp.login'))
+
+    connection = current_app.connection
+    id_rol = session.get('id_rol')
+
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT id, raza, descripcion, imagen FROM Raza WHERE id_especie = %s", (id_especie,))
+            razas = cursor.fetchall()
+    except Exception as e:
+        return str(e)
+    
+    if id_rol == 1:
+        return render_template('Administrador/C-Razas.html', razas=razas, id_especie=id_especie)
+    elif id_rol == 3:
+        return render_template('Veterinario/C-Razas.html', razas=razas, id_especie=id_especie)
 
 @raza_bp.route('/Crear-Raza/<int:id_especie>', methods=['GET', 'POST'])
 def crear_raza(id_especie):
