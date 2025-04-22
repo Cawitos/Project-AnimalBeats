@@ -12,6 +12,7 @@ CREATE TABLE Documento(
 );
 CREATE TABLE Usuarios(
 	n_documento VARCHAR(10) PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
 	correoelectronico VARCHAR(255) NOT NULL,
 	contrasena VARCHAR(255) NOT NULL,
 	id_documento INT,
@@ -23,7 +24,8 @@ CREATE TABLE Usuarios(
 
 CREATE TABLE Especie (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    Especie VARCHAR(50)
+    Especie VARCHAR(50),
+    imagen varchar(300)
 );
 
 CREATE TABLE Raza (
@@ -31,6 +33,7 @@ CREATE TABLE Raza (
     Raza VARCHAR(50),
     descripcion text,
     id_especie INT,
+    imagen varchar(300),
     FOREIGN KEY (id_especie) REFERENCES Especie(id) ON DELETE CASCADE
 );
 CREATE TABLE Mascota(
@@ -51,7 +54,7 @@ create table Enfermedad(
 );
 Create table Servicios(
 	id int auto_increment primary key,
-    servicio enum ('1','2','3','4','5')
+    servicio varchar(200)
 );
 Create table Citas(
     id_Mascota int not null,
@@ -75,3 +78,4 @@ Create table Alertas(
 
 INSERT INTO Documento (tipo) VALUES ('C.C'), ('T.I'), ('C.E');
 INSERT INTO Rol (rol) VALUES ('admin'), ('cliente'), ('veterinario');
+insert into Servicios (servicio) values ('Consulta Generla'), ('Urgencias'), ('Baño y peluqueria'), ('Vacunaciones'), ('Cardiologia'), ('Nutricional');
