@@ -56,7 +56,7 @@ def register():
 
     if request.method == 'POST':
         n_documento = request.form['n_documento']
-        nombre = request.form['nombre']  # Nuevo campo
+        nombre = request.form['nombre']  
         id_documento = request.form['id_documento']
         correoelectronico = request.form['correoelectronico']
         contrasena = request.form['contrasena']
@@ -124,7 +124,44 @@ def profile():
 
 @user_bp.route('/administrador')
 def dashboard_admin():
-    return render_template('Administrador/administrador.html')
+    correoelectronico = session.get('correoelectronico')
+    if not correoelectronico:
+        return redirect(url_for('user_bp.login'))
+
+    connection = current_app.connection
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT n_documento, nombre, correoelectronico 
+            FROM Usuarios 
+            WHERE correoelectronico = %s
+        """, (correoelectronico,))
+        usuario = cursor.fetchone()
+
+     
+        cursor.execute("""
+            SELECT COUNT(*) 
+            FROM Usuarios 
+            WHERE id_rol = (SELECT id FROM Rol WHERE rol = 'cliente')
+        """)
+        total_clientes_result = cursor.fetchone()
+        total_clientes = total_clientes_result.get('COUNT(*)', 0) if total_clientes_result else 0
+
+       
+        cursor.execute("""
+            SELECT COUNT(*) 
+            FROM Usuarios 
+            WHERE id_rol = (SELECT id FROM Rol WHERE rol = 'veterinario')
+        """)
+        total_veterinarios_result = cursor.fetchone()
+        total_veterinarios = total_veterinarios_result.get('COUNT(*)', 0) if total_veterinarios_result else 0
+
+    return render_template('Administrador/administrador.html', 
+                           usuario=usuario, 
+                           total_clientes=total_clientes,
+                           total_veterinarios=total_veterinarios)
+
+
+
 
 @user_bp.route('/veterinario')
 def dashboard_veterinario():
