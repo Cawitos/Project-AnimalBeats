@@ -6,7 +6,7 @@
     <link rel="icon" type="image/x-icon" href="../img/logoico.png">
     <title>Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/veterinario.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Veterinario.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">    
@@ -30,7 +30,7 @@
         <div class="offcanvas-body">
           <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
             <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="{{ url_for('gestion_bp.gestion_usuarios') }}"><svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path></svg>
+              <a class="nav-link" aria-current="page" href="{{ url_for('gestion_bp.gestion_usuarios_veterinario') }}"><svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path></svg>
               Usuarios</a>
             </li>
             <li class="nav-item dropdown">
@@ -75,10 +75,66 @@
                 <h2>Veterinario <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24" width="30" height="30"><path d="m12.021,12c-3.309,0-6-2.691-6-6S8.713,0,12.021,0s6,2.691,6,6-2.691,6-6,6Zm1.979,6.184v-4.184h-5.021v4.277c.595.346,1,.984,1,1.723,0,1.105-.895,2-2,2s-2-.895-2-2c0-.738.405-1.376,1-1.723v-4.275c-2.747.012-4.979,2.248-4.979,4.998v5h10v-3c0-1.302.839-2.402,2-2.816Zm3-4.184h-1v4.184c1.161.414,2,1.514,2,2.816v3h4v-5c0-2.757-2.243-5-5-5Zm-2,6c-.552,0-1,.448-1,1v3h2v-3c0-.552-.448-1-1-1Z"/></svg></h2>
                 <label><b>Nombre:</b> {{ usuario.nombre }}</label><br>
                 <label><b>Correo:</b> {{ usuario.correoelectronico }}</label><br>
-                <label><b>Código:</b> {{ usuario.n_documento }}</label><br>
             </div>
         </main>
     </div>
+
+    <div class="estadisticas">
+      <h1>ESTADISTICAS GENERALES</h1>
+      <ul>
+        <li>
+          <div class="stats">
+            <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#FFF">
+              <path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z"/>
+            </svg>
+          </div>
+          <div class="info">
+            <h4>Alertas</h4>
+            <p>{{ total_alertas }}</p>
+          </div>
+        </li>
+         <li> <div class="stats"><svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+            width="40px" height="40px" viewBox="0 0 512.000000 512.000000"
+            preserveAspectRatio="xMidYMid meet">
+           
+           <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+           fill="#FFF" stroke="none">
+           <path d="M2550 4374 c-285 -55 -510 -224 -626 -469 -55 -116 -73 -186 -81
+           -312 -25 -407 238 -763 642 -868 101 -27 292 -25 400 4 292 77 515 294 599
+           585 86 297 6 600 -218 821 -121 119 -220 176 -382 221 -58 16 -282 28 -334 18z"/>
+           <path d="M1596 2503 c-19 -92 -56 -336 -56 -367 0 -97 109 -182 199 -156 86
+           24 113 67 142 225 25 139 37 165 78 165 59 0 64 -34 32 -213 -21 -118 -49
+           -176 -103 -222 -138 -116 -368 -67 -436 92 -34 82 -35 116 -3 293 16 91 28
+           166 28 166 -1 1 -167 -174 -369 -388 l-368 -389 0 -327 0 -327 28 -60 c33 -68
+           92 -127 161 -159 42 -19 67 -21 268 -24 l221 -4 56 79 c96 136 146 238 261
+           527 l112 281 289 5 c287 5 289 5 345 31 105 49 184 157 191 258 l3 45 -172 79
+           c-124 58 -173 85 -173 97 0 9 -14 44 -30 77 -40 79 -130 164 -217 206 l-68 32
+           -207 3 -206 3 -6 -28z"/>
+           <path d="M2505 2485 c-11 -2 -46 -7 -77 -10 l-57 -6 40 -62 c22 -33 42 -71 45
+           -82 4 -16 50 -41 192 -105 l187 -85 3 -39 c2 -22 -1 -76 -7 -120 -30 -224
+           -201 -397 -421 -426 -41 -5 -161 -10 -266 -10 l-191 0 -97 -247 c-87 -219
+           -145 -340 -217 -450 l-21 -33 1371 0 1372 0 -3 463 c-3 454 -3 463 -26 518
+           -49 122 -100 175 -287 301 -90 60 -326 181 -377 193 l-28 7 0 -125 0 -125 53
+           -16 c64 -21 147 -76 182 -122 41 -53 76 -139 82 -200 5 -46 3 -60 -16 -84 -20
+           -28 -21 -40 -21 -263 0 -220 -1 -236 -20 -260 -11 -14 -31 -29 -43 -33 -12 -4
+           -28 -15 -35 -25 -18 -27 -83 -26 -107 1 -26 29 -24 79 4 102 28 22 84 24 102
+           2 12 -14 14 -14 26 2 10 13 13 72 13 232 0 199 -1 216 -20 239 -11 14 -20 37
+           -20 51 0 55 -25 108 -75 158 -64 65 -130 84 -214 64 -96 -23 -181 -126 -181
+           -220 0 -15 -9 -39 -20 -53 -19 -23 -20 -40 -20 -237 0 -128 4 -219 10 -231 10
+           -18 13 -18 33 -4 70 49 151 -32 101 -103 -18 -27 -84 -31 -104 -7 -7 9 -28 22
+           -46 31 -58 28 -64 55 -64 308 0 213 -1 228 -21 255 -18 24 -19 33 -10 88 24
+           152 132 273 279 312 l42 12 0 149 0 149 -87 27 c-141 43 -302 81 -414 99 -95
+           15 -473 29 -524 20z"/>
+           </g>
+           </svg></div>
+          <div class="info">
+            <h4>Total Mascotas</h4>
+            <p>{{ total_mascotas }}</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+    
     
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>

@@ -227,12 +227,12 @@ def crear_raza(id_especie):
             print(f"Archivo recibido: {imagen.filename}")
             
             # Configurar rutas
-            images_dir = os.path.join(current_app.root_path, 'static/img/Especies')
+            images_dir = os.path.join(current_app.root_path, 'static/img/Razas')
             os.makedirs(images_dir, exist_ok=True)
             
             # Generar nombre seguro
             filename = secure_filename(imagen.filename)
-            file_path = os.path.join('img/Especies', filename).replace("\\", "/")
+            file_path = os.path.join('img/Razas', filename).replace("\\", "/")
             
             # Guardar imagen
             imagen.save(os.path.join(images_dir, filename))

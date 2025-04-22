@@ -178,13 +178,27 @@ def dashboard_veterinario():
         """, (correoelectronico,))
         usuario = cursor.fetchone()
 
-    if not usuario:
-        return redirect(url_for('user_bp.login'))
+        if not usuario:
+            return redirect(url_for('user_bp.login'))
 
-    # Para depuración
-    print(usuario)
+      
+        cursor.execute("""
+            SELECT COUNT(*) FROM Mascota
+        """)
+        total_mascotas_result = cursor.fetchone()
+        total_mascotas = total_mascotas_result.get('COUNT(*)', 0) if total_mascotas_result else 0
 
-    return render_template('Veterinario/veterinario.html', usuario=usuario)
+       
+        cursor.execute("""
+            SELECT COUNT(*) FROM Alertas
+        """)
+        total_alertas_result = cursor.fetchone()
+        total_alertas = total_alertas_result.get('COUNT(*)', 0) if total_alertas_result else 0
+
+    return render_template('Veterinario/veterinario.html',
+                           usuario=usuario,
+                           total_mascotas=total_mascotas,
+                           total_alertas=total_alertas)
 
 
 
