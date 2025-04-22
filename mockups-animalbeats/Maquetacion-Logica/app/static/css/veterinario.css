@@ -19,10 +19,10 @@ body {
 }
 
 .contenedor-dashboard {
+    flex-direction: row;
+    max-height: 80vh;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; 
+    overflow: hidden;
 }
 
 .animalbeats {
@@ -51,82 +51,63 @@ body {
     color: var(--blanco);
 }
 
+.offcanvas-header a{
+    text-decoration: none;
+    color: var(--negro);
+}
 .offcanvas-body {
     list-style: none;
 }
-
-.offcanvas-body li {
+.offcanvas-body li{
     list-style: none;
 }
 
-.offcanvas-body li a:hover {
-    margin-left: -15px;
+.offcanvas-body li a:hover{
     border-radius: 15px;
     border: 1px solid var(--rojo);
+    background-color: var(--rojo);
+    color: var(--blanco) !important;
+    fill: var(--blanco) !important;
 }
-
-.opcion {
-    position: relative;
+.nav-item{
     color: var(--negro);
+    margin: 0px -15px;
+    width: 95%;
     font-size: 18px;
-    display: table;
-    width: 300px;
-    padding: 10px;
+}
+.nav-link{
     text-decoration: none;
+    color: var(--negro) !important;
+    margin: 5px 10px;
 }
-
-.opcion svg {
-    position: relative;
-    color: var(--negro);
-    text-align: center;
-    margin-left: 15px;
+.nav-link svg{
+    margin: 0px 10px;
 }
-
-.nav-logo {
-    margin-top: 15px;
-    color: #000;
-    text-decoration: none;
+.nav-link.dropdown-toggle[aria-expanded="true"] {
+    background-color: var(--blanco);
+    color: var(--rojo) !important;
+    border-radius: 15px;
+    border: 2px solid var(--rojo);
+    fill: var(--rojo)!important;
 }
-
-.item-nav {
-    position: absolute;
-    margin-left: 25px;
-    margin-top: 12px;
-    color: var(--negro);
+.dropdown-menu{
+    margin-left: 30px !important;
+    width: 80%;
+    border-radius: 5px;
 }
-
-.salir {
-    position: absolute;
-    bottom: 0;
-    color: var(--negro);
-    font-size: 18px;
-    display: table;
-    width: 300px;
-    padding: 10px;
-    text-decoration: none;
+.dropdown-menu li {
+    padding: 0px 20px;
+    width: 100%;
 }
-
-.salir svg {
-    position: relative;
-    color: var(--negro);
-    text-align: center;
-    margin-left: 15px;
+.navbar-toggler-icon{
+    color: var(--negro) !important;
 }
-
-.opcion:hover,
-.salir:hover {
+.navbar-toggler{
+    color: var(--negro) !important;
+}
+.navbar-toggler:hover{
     background-color: var(--rojo);
     color: var(--blanco);
-}
-
-.opcion:hover .item-nav,
-.salir:hover .item-nav {
-    color: var(--blanco);
-}
-
-.opcion:hover svg,
-.salir:hover svg {
-    fill: var(--blanco);
 }
 
 .btn-primary:hover {

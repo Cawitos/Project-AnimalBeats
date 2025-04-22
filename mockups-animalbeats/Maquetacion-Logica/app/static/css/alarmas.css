@@ -88,7 +88,7 @@ body {
     color: var(--rojo) !important;
     border-radius: 15px;
     border: 2px solid var(--rojo);
-    fill: var(--rojo);
+    fill: var(--rojo) !important;
 }
 .dropdown-menu{
     margin-left: 30px !important;
