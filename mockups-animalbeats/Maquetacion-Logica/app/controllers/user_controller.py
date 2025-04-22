@@ -8,6 +8,10 @@ from flask import session
 user_bp = Blueprint('user_bp', __name__)
 bcrypt = Bcrypt()
 
+def is_authenticated():
+    return 'n_documento' in session and 'correoelectronico' in session and 'id_rol' in session
+
+
 @user_bp.route('/login', methods=['GET', 'POST'])
 def login():
     connection = current_app.connection
@@ -22,6 +26,8 @@ def login():
 
             if result and bcrypt.check_password_hash(result['contrasena'], contrasena):
                 session['correoelectronico'] = correoelectronico
+                session['n_documento'] = result['n_documento'] 
+                session['id_rol'] = result['id_rol']
                 n_documento = result['n_documento']
                 id_rol = result['id_rol']
 
