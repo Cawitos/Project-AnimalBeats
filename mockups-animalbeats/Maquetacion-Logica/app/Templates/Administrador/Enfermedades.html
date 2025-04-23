@@ -4,10 +4,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/x-icon" href="../img/logoico.png">
+  <link rel="icon" type="image/x-icon" href="../../static/Img/logoico.png">
   <title>Gestión de Especies</title>
-  <link rel="stylesheet" href="../css/bootstrap.min.css">
-  <link rel="stylesheet" href="../css/Enfermedad.css">
+  <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../static/css/Enfermedad.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
@@ -43,15 +43,15 @@
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="{{ url_for('mascotas_bp.Mascotas') }}">Mascotas</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Citas</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('citas_bp.citas') }}">Citas</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="{{ url_for('especie_bp.especie') }}">Especies y Razas</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Enfermedades</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('enfermedad_bp.enfermedades') }}">Enfermedades</a></li>
               </ul>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 -960 960 960" width="24px"><path
+              <a class="nav-link" href="{{ url_for('Consulta_bp.Consultas')}}"><svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 -960 960 960" width="24px"><path
                   d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" /></svg>Consultas</a>
             </li>
             <li class="nav-item">
@@ -437,7 +437,7 @@
       </button>
     </main>
   </div>
-  <script src="../js/bootstrap.bundle.min.js"></script>
+  <script src="../../static/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
