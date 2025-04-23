@@ -429,6 +429,28 @@
           </div>
         </div>
       </div>
+
+      <div class="row">
+        {% for enfermedad in enfermedades %}
+        <div class="card mb-3" style="max-width: 540px;">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img src="{{ url_for('static', filename=especie['imagen'])}}" class="img-fluid rounded-start" alt="{{ enfermedad['enfermedad'] }}">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h1 class="card-title">{{ <enfermedad></enfermedad> }}</h1>
+                <a href="{{ url_for('enfermedad_bp.enfermedades', id_enfermedades=enfermedades['id']) }}" class="btn btn-primary">Más info</a>
+                <a href="{{ url_for('enfermedad_bp.modificar_enfermedad', id_enfermedades=enfermedades.id) }}"
+                class="btn btn-primary">Modificar</a>
+                <a href="{{ url_for('enfermedad_bp.eliminar_enfermedad', id_enfermedades=enfermedades.id) }}"
+                class="btn btn-primary">Eliminar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        
       <button onclick="location.href='../Administrador/GestionConsultas.html'" class="volver-boton"><svg
           xmlns="http://www.w3.org/2000/svg" id="Bold" viewBox="0 0 24 24" width="36" height="36">
           <path
@@ -437,6 +459,8 @@
       </button>
     </main>
   </div>
+
+  
   <script src="../../static/js/bootstrap.bundle.min.js"></script>
 </body>
 
