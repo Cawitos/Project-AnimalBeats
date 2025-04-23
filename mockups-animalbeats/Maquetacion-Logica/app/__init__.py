@@ -25,6 +25,8 @@ def create_app():
     from app.controllers.especies_controller import especie_bp, raza_bp
     from app.controllers.Enfermedad_controller import enfermedad_bp
     from app.controllers.Citas_controller import citas_bp
+    from app.controllers.Consultas_controller import Consulta_bp
+    app.register_blueprint(Consulta_bp)
     app.register_blueprint(citas_bp)
     app.register_blueprint(enfermedad_bp)
     app.register_blueprint(main_bp)
