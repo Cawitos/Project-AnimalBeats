@@ -89,7 +89,7 @@ body {
     color: var(--rojo) !important;
     border-radius: 15px;
     border: 2px solid var(--rojo);
-    fill: var(--rojo) !important;
+    fill: var(--rojo)!important;
 }
 .dropdown-menu{
     margin-left: 30px !important;
@@ -165,7 +165,7 @@ tbody tr:hover {
 }
 
 .contenedor-perfil {
-    margin-left: 210px;
+    margin-left: 135px;
     margin-top: 95px;
     font-family: 'Arial', sans-serif;
     width: 100%;
@@ -208,8 +208,9 @@ label {
 }
 
 .estadisticas {
-    margin-left: 10px;
-    margin-top: 95px;
+    position: relative;
+    left: 550px;
+    top: -345px; /* Ajusta este valor para moverlo más arriba */
     font-family: 'Arial', sans-serif;
     width: 1210px;
     height: 240px;
