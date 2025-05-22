@@ -4,11 +4,11 @@ Use AnimalBeats;
 
 CREATE TABLE Rol(
 	id INT AUTO_INCREMENT PRIMARY KEY,
-	rol ENUM('admin', 'cliente','veterinario')
+	rol VARCHAR(100)
 );
 CREATE TABLE Documento(
 	id INT AUTO_INCREMENT PRIMARY KEY,
-	tipo ENUM('T.I', 'C.C', 'C.E')
+	tipo VARCHAR(100)
 );
 CREATE TABLE Usuarios(
 	n_documento VARCHAR(10) PRIMARY KEY,
@@ -16,7 +16,7 @@ CREATE TABLE Usuarios(
 	contrasena VARCHAR(255) NOT NULL,
 	id_documento INT,
 	id_rol INT,
-	estado ENUM('ACTIVO', 'INACTIVO'),
+	estado VARCHAR(100),
 	FOREIGN KEY (id_documento) REFERENCES Documento(id) ON DELETE CASCADE,
 	FOREIGN KEY (id_rol) REFERENCES Rol(id)
 );
@@ -37,12 +37,12 @@ CREATE TABLE Raza (
 );
 CREATE TABLE Mascota(
 	id int auto_increment primary key,
-    Nombre varchar(45) not null,
+    nombre varchar(45) not null,
     id_Especie int not null,
     id_cliente varchar(10) not null,
     id_Raza int not null,
-    estado enum('ACTIVO', 'INACTIVO'),
-    edad int not null,
+    estado VARCHAR(100),
+    fecha_nacimiento date not null,
     foreign key (id_Raza) references Raza(id) on delete cascade,
     foreign key (id_cliente) references Usuarios(n_documento) on delete cascade,
     foreign key (id_Especie) references Especie(id) on delete cascade
@@ -59,7 +59,7 @@ Create table Citas(
     id_Mascota int not null,
 	id_cliente varchar(10) not null,
 	id_Servicio int not null,
-    Fecha date not null,
+    fecha date not null,
     Descripcion varchar(255),
     foreign key (id_Mascota) references Mascota(id) on delete cascade,
     foreign key (id_cliente) references Usuarios(n_documento) on delete cascade,
@@ -69,7 +69,7 @@ Create table Alertas(
 	id INT AUTO_INCREMENT PRIMARY KEY,
     id_Mascota int not null,
 	id_cliente varchar(10) not null,
-    Fecha date not null,
+    fecha date not null,
     descripcion TEXT not null,
     foreign key (id_cliente) references Usuarios(n_documento) on delete cascade,
 	foreign key (id_Mascota) references Mascota(id) on delete cascade
