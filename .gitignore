@@ -1,5 +1,17 @@
+# Entornos virtuales de Python
 venv/
-
 __pycache__/
+
+# Archivos de configuración sensibles
 mockups-animalbeats/Maquetacion-Logica/config.py
-mockups-animalbeats/Maquetacion-Logica/config.py
+
+# Node.js (frontend y backend)
+**/node_modules/
+**/dist/
+
+# Variables de entorno
+.env
+**/.env
+
+# Archivos del sistema
+.DS_Store

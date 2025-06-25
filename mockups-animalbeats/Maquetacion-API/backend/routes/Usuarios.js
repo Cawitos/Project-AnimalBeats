@@ -1,11 +1,12 @@
+// routes/usuarios.js
+
 const express = require('express');
 const sql = require('mysql2');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
-const puerto = 1409;
+const router = express.Router();
 
-const app = express();
-
+// Conexión a la base de datos
 const conexion = sql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -18,38 +19,29 @@ conexion.connect(error => {
     console.log('Conexión a la base de datos exitosa');
 });
 
-app.use(function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', '*');
-    next();
-});
-app.use(bodyParser.json());
+// Middleware
+router.use(bodyParser.json());
 
-app.listen(puerto, () => {
-    console.log('Servidor escuchando en el puerto: ', puerto);
-});
+// RUTAS
 
-// Listar todos los usuarios
-app.get('/Usuarios/Listado', (req, res) => {
-    let sql = "SELECT * FROM Usuarios";
+router.get('/Listado', (req, res) => {
+    const sql = "SELECT * FROM Usuarios";
     conexion.query(sql, (err, resultado) => {
         if (err) throw err;
         res.json(resultado.length > 0 ? resultado : 'No hay usuarios registrados');
     });
 });
 
-// Obtener un usuario por documento
-app.get('/Usuarios/:n_documento', (req, res) => {
+router.get('/:n_documento', (req, res) => {
     const { n_documento } = req.params;
-    let sql = "SELECT * FROM Usuarios WHERE n_documento = ?";
+    const sql = "SELECT * FROM Usuarios WHERE n_documento = ?";
     conexion.query(sql, [n_documento], (err, resultado) => {
         if (err) throw err;
         res.json(resultado.length > 0 ? resultado[0] : 'Usuario no encontrado');
     });
 });
 
-// Registrar un nuevo usuario
-app.post('/Usuarios/Registro', async (req, res) => {
+router.post('/Registro', async (req, res) => {
     const { n_documento, nombre, correoelectronico, contrasena, id_documento, id_rol, estado } = req.body;
     const hashedPassword = await bcrypt.hash(contrasena, 10);
     const sql = "INSERT INTO Usuarios (n_documento, nombre, correoelectronico, contrasena, id_documento, id_rol, estado) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -63,8 +55,7 @@ app.post('/Usuarios/Registro', async (req, res) => {
     });
 });
 
-// Actualizar usuario
-app.put('/Usuarios/Actualizar/:n_documento', (req, res) => {
+router.put('/Actualizar/:n_documento', (req, res) => {
     const { n_documento } = req.params;
     const { nombre, correoelectronico, id_documento, id_rol, estado } = req.body;
     const sql = "UPDATE Usuarios SET nombre = ?, correoelectronico = ?, id_documento = ?, id_rol = ?, estado = ? WHERE n_documento = ?";
@@ -78,8 +69,7 @@ app.put('/Usuarios/Actualizar/:n_documento', (req, res) => {
     });
 });
 
-// Suspender (no eliminar) usuario
-app.put('/Usuarios/Suspender/:n_documento', (req, res) => {
+router.put('/Suspender/:n_documento', (req, res) => {
     const { n_documento } = req.params;
     const sql = "UPDATE Usuarios SET estado = 'Suspendido' WHERE n_documento = ?";
     conexion.query(sql, [n_documento], (err, resultado) => {
@@ -91,3 +81,5 @@ app.put('/Usuarios/Suspender/:n_documento', (req, res) => {
         }
     });
 });
+
+module.exports = router;
