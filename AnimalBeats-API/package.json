@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "animalbeats-api",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -10,11 +10,8 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "bcrypt": "^6.0.0",
-    "cors": "^2.8.5",
+    "body-parser": "^2.2.0",
     "express": "^5.1.0",
     "mysql2": "^3.14.1"
   }
 }
-
-
