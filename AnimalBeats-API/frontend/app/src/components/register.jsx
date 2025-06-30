@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import '../assets/css/register.css'; 
+import { useNavigate } from 'react-router-dom'; 
+import '../assets/css/register.css';
 
 const Register = () => {
+    const navigate = useNavigate(); 
+
     const [tiposDocumento, setTiposDocumento] = useState([]);
     const [formData, setFormData] = useState({
         id_documento: '',
@@ -29,6 +32,8 @@ const Register = () => {
         try {
             const res = await axios.post('http://localhost:3000/api/auth/register', formData);
             setMensaje(res.data.mensaje);
+
+            //Si el registro es exitoso, limpia el formulario
             setFormData({
                 id_documento: '',
                 n_documento: '',
@@ -36,6 +41,10 @@ const Register = () => {
                 correoelectronico: '',
                 contrasena: ''
             });
+
+            // Espera breve antes de redirigir
+            setTimeout(() => navigate('/'), 1000);
+
         } catch (error) {
             console.error(error);
             setMensaje(error.response?.data?.mensaje || 'Error al registrar');

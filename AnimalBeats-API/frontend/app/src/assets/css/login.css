@@ -1,38 +1,61 @@
-:root {
-    --blanco: #FDF7FA;
-    --rojo: #DF2935;
-    --negro: #07090F;
-    --gris: #E6E8E6;
-    --verde: #4CAF50;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* pantalla completa */
     background-color: var(--blanco);
-    font-family: 'Arial', sans-serif;
-    color: var(--negro);
 }
 
-.card {
+.login-card {
+    width: 350px;
+    padding: 30px;
     background-color: var(--gris);
-    border: none;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(7, 9, 15, 0.1);
 }
 
-.card h2 {
+.login-card h3 {
+    text-align: center;
+    color: var(--negro);
+    margin-bottom: 20px;
+}
+
+.campo {
+    margin-bottom: 15px;
+}
+
+.campo label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: var(--negro);
+}
+
+.campo input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.mensaje {
+    text-align: center;
+    margin-bottom: 15px;
+    font-weight: bold;
     color: var(--rojo);
 }
 
 .btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
     background-color: var(--rojo);
     color: var(--blanco);
     border: none;
+    border-radius: 8px;
+    cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
