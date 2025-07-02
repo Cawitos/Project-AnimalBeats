@@ -27,29 +27,37 @@ const Register = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const res = await axios.post('http://localhost:3000/api/auth/register', formData);
-            setMensaje(res.data.mensaje);
+   const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+        const res = await axios.post('http://localhost:3000/api/auth/register', formData);
+        setMensaje(res.data.mensaje);
 
-            //Si el registro es exitoso, limpia el formulario
-            setFormData({
-                id_documento: '',
-                n_documento: '',
-                nombre: '',
-                correoelectronico: '',
-                contrasena: ''
-            });
+        // Limpiar formulario solo si fue exitoso
+        setFormData({
+            id_documento: '',
+            n_documento: '',
+            nombre: '',
+            correoelectronico: '',
+            contrasena: ''
+        });
 
-            // Espera breve antes de redirigir
-            setTimeout(() => navigate('/'), 1000);
+        // Redirigir según el rol recibido
+        setTimeout(() => {
+            if (res.data.rol === 'admin') {
+                navigate('/admin');
+            } else if (res.data.rol === 'veterinario') {
+                navigate('/veterinario');
+            } else {
+                navigate('/cliente');
+            }
+        }, 1000);
 
-        } catch (error) {
-            console.error(error);
-            setMensaje(error.response?.data?.mensaje || 'Error al registrar');
-        }
-    };
+    } catch (error) {
+        console.error(error);
+        setMensaje(error.response?.data?.mensaje || 'Error al registrar');
+    }
+};
 
     return (
         <div className="register-container">

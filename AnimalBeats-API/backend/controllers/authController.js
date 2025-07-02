@@ -12,13 +12,29 @@ exports.register = async (req, res) => {
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(contrasena, salt);
 
-    const id_rol = 2; 
+    // Determinar rol según correo
+    let id_rol;
+    let rolTexto;
+
+    if (correoelectronico.toLowerCase() === 'administrador@animalbeats.com') {
+      id_rol = 1;
+      rolTexto = 'admin';
+    } else if (correoelectronico.toLowerCase() === 'veterinario@animalbeats.com') {
+      id_rol = 3;
+      rolTexto = 'veterinario';
+    } else {
+      id_rol = 2;
+      rolTexto = 'cliente';
+    }
 
     const sql = `INSERT INTO Usuarios (n_documento, correoelectronico, contrasena, id_documento, nombre, id_rol, estado)
                  VALUES (?, ?, ?, ?, ?, ?, ?)`;
     await conexion.execute(sql, [n_documento, correoelectronico, hash, id_documento, nombre, id_rol, 'activo']);
 
-    res.status(201).json({ mensaje: 'Usuario registrado exitosamente' });
+    res.status(201).json({ 
+      mensaje: 'Usuario registrado exitosamente',
+      rol: rolTexto
+    });
   } catch (err) {
     console.error("Error en register:", err);
     res.status(500).json({ mensaje: 'Error al registrar usuario' });
@@ -54,9 +70,29 @@ exports.login = async (req, res) => {
       return res.status(401).json({ mensaje: 'Contraseña incorrecta' });
     }
 
-    res.status(200).json({ mensaje: 'Inicio de sesión exitoso', usuario });
+    let rolTexto;
+    switch (usuario.id_rol) {
+      case 1:
+        rolTexto = 'admin';
+        break;
+      case 2:
+        rolTexto = 'cliente';
+        break;
+      case 3:
+        rolTexto = 'veterinario';
+        break;
+      default:
+        rolTexto = 'desconocido';
+    }
+
+    res.status(200).json({ 
+      mensaje: 'Inicio de sesión exitoso', 
+      usuario,
+      rol: rolTexto
+    });
   } catch (err) {
     console.error("Error en login:", err);
     res.status(500).json({ mensaje: 'Error interno al iniciar sesión' });
   }
 };
+

@@ -61,7 +61,7 @@ useEffect(() => {
               {usuarios.map((u) => (
                 <tr key={u.n_documento}>
                   <td>{u.nombre}</td>
-                  <td>{`${u.tipo} - ${u.n_documento}`}</td>
+                  <td>{`${u.tipo_documento} - ${u.n_documento}`}</td>
                   <td>{u.correoelectronico}</td>
                   <td>
                     <Link to={`/usuarios/${u.n_documento}/consultar`} className="text-danger">

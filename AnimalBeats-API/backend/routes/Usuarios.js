@@ -8,7 +8,11 @@ const router = express.Router();
 // RUTAS
 
 router.get('/Listado', async (req, res) => {
-    const sql = "SELECT * FROM Usuarios";
+    const sql = `
+      SELECT u.n_documento, u.nombre, u.correoelectronico, d.tipo AS tipo_documento,u.estado
+      FROM Usuarios u
+      LEFT JOIN Documento d ON u.id_documento = d.id
+    `;
     try {
         const [resultado] = await conexion.query(sql);
         res.json(resultado.length > 0 ? resultado : 'No hay usuarios registrados');
@@ -20,7 +24,12 @@ router.get('/Listado', async (req, res) => {
 
 router.get('/:n_documento', async (req, res) => {
     const { n_documento } = req.params;
-    const sql = "SELECT * FROM Usuarios WHERE n_documento = ?";
+    const sql = `
+      SELECT u.n_documento, u.nombre, u.correoelectronico, d.tipo AS tipo_documento
+      FROM Usuarios u
+      LEFT JOIN Documento d ON u.id_documento = d.id
+      WHERE u.n_documento = ?
+    `;
     try {
         const [resultado] = await conexion.query(sql, [n_documento]);
         res.json(resultado.length > 0 ? resultado[0] : 'Usuario no encontrado');
@@ -30,7 +39,7 @@ router.get('/:n_documento', async (req, res) => {
     }
 });
 
-router.post('/Registro', async (req, res) => {
+router.post('/Crear', async (req, res) => {
     const { n_documento, nombre, correoelectronico, contrasena, id_documento, id_rol, estado } = req.body;
     try {
         const hashedPassword = await bcrypt.hash(contrasena, 10);

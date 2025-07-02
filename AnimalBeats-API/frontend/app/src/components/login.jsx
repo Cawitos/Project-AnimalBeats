@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import '../assets/css/login.css'
+import '../assets/css/login.css';
 
 const Login = () => {
   const [correoelectronico, setCorreo] = useState("");
   const [contrasena, setContrasena] = useState("");
   const [mensaje, setMensaje] = useState("");
+  const navigate = useNavigate(); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,13 +22,15 @@ const Login = () => {
 
       console.log("Usuario:", response.data.usuario);
 
-      // Redirigir según el rol
+      // Redirigir según el rol 
       if (rol === 1) {
-        window.location.href = "/admin";
+        navigate("/admin");
       } else if (rol === 2) {
-        window.location.href = "/cliente";
+        navigate("/cliente");
+      } else if (rol === 3) {
+        navigate("/veterinario");
       } else {
-        window.location.href = "/veterinario";
+        setMensaje("Rol desconocido, contacta al administrador.");
       }
     } catch (error) {
       if (error.response) {
