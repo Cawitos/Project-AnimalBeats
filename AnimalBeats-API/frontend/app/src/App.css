@@ -1,42 +1,337 @@
-#root {
-  max-width: 1280px;
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Variables */
+:root {
+  --blanco: #FDF7FA;
+  --rojo: #DF2935;
+  --negro: #07090F;
+  --gris: #E6E8E6;
+  --verde: #4CAF50;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--blanco);
+  /* Padding para que no tape el navbar fijo */
+  padding-top: 100px;
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%;
   margin: 0 auto;
-  padding: 2rem;
+}
+
+/* Navbar fijo arriba */
+/* Contenedor del menú */
+.menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background-color: var(--blanco);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+}
+
+/* Logo */
+.c1 img {
+  width: 140px;
+  height: auto;
+  object-fit: contain;
+  cursor: pointer;
+  display: block;
+}
+
+/* Botones menú */
+.c2 {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+/* Botones estándar */
+.c2 button {
+  min-width: 110px;
+  height: 40px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 30px;
+  background-color: var(--rojo);
+  color: var(--blanco);
+  font-weight: bold;
+  font-size: 16px;
+  letter-spacing: 1.2px;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, border 0.3s ease;
+  transform-origin: center center;
+  position: relative;
+  z-index: 10;
+}
+
+/* Hover general para botones */
+.c2 button:hover,
+.c2 button:focus {
+  transform: scale(1.08);
+  background-color: var(--blanco);
+  color: var(--rojo);
+  border: 2px solid var(--rojo);
+  outline: none;
+}
+
+/* Botón Registrarse con estilo distinto */
+.c2 .btn-registrarse {
+  background-color: var(--rojo);
+  color: var(--blanco);
+  border: 2px solid var(--rojo);
+  font-weight: 700;
+  min-width: 130px;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.c2 .btn-registrarse:hover,
+.c2 .btn-registrarse:focus {
+  background-color: var(--blanco);
+  color: var(--rojo);
+  transform: scale(1.1);
+  outline: none;
+}
+
+/* Publicidad - slider organizado en bloque visible completo */
+.publicidad {
+  max-width: 1200px;
+  margin: 140px auto 40px auto;
+  /* MARGIN-TOP aumentado para bajar publicidad */
+  overflow: visible;
+  position: relative;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Lista imágenes en fila */
+.publicidad ul {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  animation: slide 30s infinite alternate ease-in-out;
+  list-style: none;
+}
+
+/* Cada imagen ocupa el 100% del contenedor publicidad */
+.publicidad li {
+  min-width: 100%;
+  position: relative;
+}
+
+/* Imagenes */
+.publicidad li img {
+  width: 100%;
+  height: auto;
+  border-radius: 15px;
+  display: block;
+}
+
+/* Textos sobre imágenes centrados */
+.texto1,
+.texto2,
+.texto3 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 90%;
+  max-width: 600px;
+  transform: translate(-50%, -50%);
   text-align: center;
+  color: white;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+  font-weight: 700;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.texto1 h2,
+.texto2 h2 {
+  font-size: 48px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.texto3 h2 {
+  font-size: 56px;
+  color: var(--negro);
+  text-shadow: none;
+}
+
+.texto1 p,
+.texto2 p {
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+.texto3 p {
+  font-size: 20px;
+  color: var(--negro);
+  margin-top: 10px;
+}
+
+/* Animación slider */
+@keyframes slide {
+  0% {
+    margin-left: 0;
   }
-  to {
-    transform: rotate(360deg);
+
+  33% {
+    margin-left: -33.3333%;
+  }
+
+  66% {
+    margin-left: -66.6666%;
+  }
+
+  100% {
+    margin-left: 0;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+
+/* Información de servicios */
+.informacion {
+  max-width: 1200px;
+  margin: 0 auto 60px auto;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  /* Permite que los bloques se acomoden en fila y en varias filas */
+  gap: 20px;
+  justify-content: center;
+}
+
+.servicios,
+.s1,
+.s2,
+.s3,
+.s4 {
+  background: var(--blanco);
+  border-radius: 25px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  color: #333;
+  flex: 1 1 280px;
+  /* Base 280px, puede crecer y encoger */
+  max-width: 350px;
+  box-sizing: border-box;
+}
+
+.servicios nav,
+.s1 nav,
+.s2 nav,
+.s3 nav,
+.s4 nav {
+  background: var(--rojo);
+  padding: 10px 20px;
+  color: #fff;
+  border-radius: 25px;
+  text-transform: uppercase;
+  font-size: 30px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* Footer con botones organizados */
+footer {
+  background: var(--gris);
+  padding: 20px 10px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--negro);
+}
+
+footer .botones-container {
+  display: flex;
+  flex-direction: row;
+  /* Forzar fila en escritorio */
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: nowrap;
+}
+
+footer .botones-container button {
+  padding: 10px 20px;
+  font-size: 18px;
+  background: var(--rojo);
+  color: var(--blanco);
+  border: 3px solid #a30900;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+footer .botones-container button:hover,
+footer .botones-container button:focus {
+  background-color: #B00A00;
+  transform: scale(1.1);
+  outline: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  body {
+    padding-top: 140px;
   }
-}
 
-.card {
-  padding: 2em;
-}
+  .menu {
+    flex-direction: column;
+    height: auto;
+    padding: 15px 20px;
+  }
 
-.read-the-docs {
-  color: #888;
+  .c1 img {
+    width: 120px;
+    margin-bottom: 10px;
+  }
+
+  .c2 {
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .c2 button {
+    min-width: 100px;
+    font-size: 14px;
+    padding: 6px 12px;
+  }
+
+  .publicidad {
+    max-width: 100%;
+    margin: 10px auto 30px;
+  }
+
+  .texto1,
+  .texto2,
+  .texto3 {
+    display: none;
+  }
+
+  .informacion {
+    max-width: 100%;
+    padding: 10px;
+    flex-direction: column;
+    /* En móvil los servicios en columna */
+  }
+
+  footer .botones-container {
+    flex-direction: column;
+    /* Footer botones en columna en móvil */
+    gap: 10px;
+  }
 }

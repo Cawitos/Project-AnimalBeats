@@ -30,6 +30,7 @@ function GestionReportes() {
 
   return (
     <div className="contenedor-dashboard container mt-5">
+      <OffcanvasMenu />
       <h4 className="mb-4">Gestión de Alarmas</h4>
       <table className="table table-striped-columns">
         <thead>

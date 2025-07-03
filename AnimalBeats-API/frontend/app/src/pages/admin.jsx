@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../assets/css/Administrador.css';
+import OffcanvasMenu from "../components/menu";
 
 export default function AdminDashboard() {
   const [dashboardData, setDashboardData] = useState(null);
@@ -34,33 +35,8 @@ if (dashboardData.error) {
 
   return (
     <>
-      <nav className="navbar bg-body-tertiary fixed-top">
-        <div className="container-fluid">
-          <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
-            <span className="navbar-toggler-icon"></span> MENU
-          </button>
-          <div className="offcanvas offcanvas-start" id="offcanvasNavbar">
-            <div className="offcanvas-header">
-              <h5 className="offcanvas-title">
-                <img src="/static/img/logo-corto.png" alt="Logo" />
-                <span className="nav-logo">AnimalBeats</span>
-              </h5>
-              <button type="button" className="btn-close" data-bs-dismiss="offcanvas"></button>
-            </div>
-            <div className="offcanvas-body">
-              <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
-                <li className="nav-item">
-                            <Link className="nav-link" to="/gestionusuarios">Usuarios</Link>
-                </li>
-                <li className="nav-item"><a className="nav-link" href="#">Gestion de Mascotas</a></li>
-                <li className="nav-item"><a className="nav-link" href="#">Consultas</a></li>
-                <li className="nav-item"><a className="nav-link" href="#">Reportes</a></li>
-                <li className="nav-item"><a className="nav-link" href="#">Salir</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </nav>
+      < OffcanvasMenu />
+      {/* Menú */}
 
       <div className="contenedor-dashboard">
         <main className="perfil">

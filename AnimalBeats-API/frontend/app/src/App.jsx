@@ -1,5 +1,4 @@
-import './assets/css/styles.css';
-import './assets/css/bootstrap.min.css';
+import './App.css'
 import { useNavigate } from 'react-router-dom';
 
 export default function App() {
@@ -10,36 +9,35 @@ export default function App() {
       {/* Menú */}
       <div className="menu">
         <div className="c1">
-          <img src="/img/logo.png" alt="Logo AnimalBeats" />
+          <img src="./public/img/logo.png" alt="Logo AnimalBeats" />
         </div>
         <div className="c2">
           <button onClick={() => navigate('/#menu')}>INICIO</button>
           <button id="contact-btn">CONTACTENOS</button>
           <button className="btn" onClick={() => navigate('/login')}>LOGIN</button>
+          <button className="btn-registrarse" onClick={() => navigate('/register')}>REGISTRARSE</button>
         </div>
       </div>
-
-      <button className="btn btn-danger" onClick={() => navigate('/register')}>Registrarse</button>
 
       {/* Publicidad */}
       <div className="publicidad">
         <ul>
           <li>
-            <img src="/img/banner_perro.jpg" alt="Perro feliz en veterinaria" />
+            <img src="./public/img/banner_perro.jpg" alt="Perro feliz en veterinaria" />
             <div className="texto1">
               <h2>Cuidando de tus mascotas, nuestra pasión sin límites.</h2>
               <p>En nuestra veterinaria, tu mascota es parte de nuestra familia...</p>
             </div>
           </li>
           <li>
-            <img src="/img/banner_perrogato.png" alt="Perro y gato juntos" />
+            <img src="./public/img/banner_perrogato.png" alt="Perro y gato juntos" />
             <div className="texto2">
               <h2>Salud y felicidad, juntos en cada latido.</h2>
               <p>Creemos que cada latido cuenta. Ofrecemos servicios...</p>
             </div>
           </li>
           <li>
-            <img src="/img/banner_gato.jpg" alt="Gato recibiendo cuidado" />
+            <img src="./public/img/banner_gato.jpg" alt="Gato recibiendo cuidado" />
             <div className="texto3">
               <h2>Juntos por la salud y alegría de tus compañeros peludos.</h2>
               <p>La salud de tus mascotas es una responsabilidad compartida...</p>
@@ -133,7 +131,7 @@ export default function App() {
             </div>
             <div className="offcanvas-body">
               <img
-                src="/img/medicos-cuidadosos-alto-angulo-que-ayudan-al-perro-enfermo_23-2148302253.avif"
+                src="./public/img/medicos-cuidadosos-alto-angulo-que-ayudan-al-perro-enfermo_23-2148302253.avif"
                 alt="Veterinarios ayudando a un perro"
                 className="img-fluid mb-3"
               />

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+import OffcanvasMenu from "../components/menu";
 
 export default function GestionUsuarios() {
   const [usuarios, setUsuarios] = useState([]);
@@ -42,6 +43,7 @@ useEffect(() => {
 
   return (
     <div className="container py-5 mt-5">
+      <OffcanvasMenu />
       <h1 className="text-center mb-4">Gestión de usuarios</h1>
 
       {usuarios.length > 0 ? (
