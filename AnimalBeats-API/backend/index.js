@@ -3,7 +3,7 @@ const sql = require('mysql2');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const cors = require('cors');
-const puerto = 1409
+const puerto = 3000
 
 const app = express();
 app.use(cors());
