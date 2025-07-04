@@ -2,36 +2,36 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 function GestionReportes() {
-  const [alertas, setAlertas] = useState([]);
+  const [recordatorio, setRecordatorio] = useState([]);
   const [form, setForm] = useState({ cliente: '', mascota: '', fecha: '', descripcion: '' });
 
-  const fetchAlertas = async () => {
+  const fetchRecordatorios = async () => {
     const res = await axios.get('http://localhost:3000/api/gestionRecordatorios');
-    setAlertas(res.data);
+    setRecordatorios(res.data);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     await axios.post('http://localhost:3000/api/recordatorios/guardar', form);
-    fetchAlertas(); // Actualizar (por probar)
+    fetchRecordatorio(); // Actualizar (por probar)
     setForm({ cliente: '', mascota: '', fecha: '', descripcion: '' });
   };
 
-  const eliminarAlerta = async (id) => {
+  const eliminarRecordatorio = async (id) => {
     const confirm = window.confirm('¿Estás seguro de que quieres eliminar este recordatorio?');
     if (!confirm) return;
     await axios.delete(`http://localhost:3000/api/recordatorios/eliminar/${id}`);
-    fetchAlertas();
+    fetchRecordatorios();
   };
 
   useEffect(() => {
-    fetchAlertas();
+    fetchRecordatorios();
   }, []);
 
   return (
     <div className="contenedor-dashboard container mt-5">
       <OffcanvasMenu />
-      <h4 className="mb-4">Gestión de Alarmas</h4>
+      <h4 className="mb-4">Gestión de Recordatorios</h4>
       <table className="table table-striped-columns">
         <thead>
           <tr>
@@ -43,15 +43,15 @@ function GestionReportes() {
           </tr>
         </thead>
         <tbody>
-          {alertas.map(alerta => (
-            <tr key={alerta.id}>
-              <td>{alerta.id_cliente}</td>
-              <td>{alerta.id_Mascota}</td>
-              <td>{new Date(alerta.Fecha).toLocaleDateString()}</td>
-              <td>{alerta.descripcion}</td>
+          {Recordatorios.map(recordatorio => (
+            <tr key={Recordatorios.id}>
+              <td>{Recordatorios.id_cliente}</td>
+              <td>{Recordatorios.id_Mascota}</td>
+              <td>{new Date(Recordatorios.Fecha).toLocaleDateString()}</td>
+              <td>{Recordatorios.descripcion}</td>
               <td>
                 {/* Botón eliminar */}
-                <button onClick={() => eliminarAlerta(alerta.id)} className="btn btn-sm btn-danger me-2">
+                <button onClick={() => eliminarRecordatorio(Recordatorios.id)} className="btn btn-sm btn-danger me-2">
                   Eliminar
                 </button>
                 {/* falta boton de modificar */}
@@ -61,7 +61,7 @@ function GestionReportes() {
         </tbody>
       </table>
 
-      <h5 className="mt-4">Crear nueva alarma</h5>
+      <h5 className="mt-4">Crear nuevo Recordatorio</h5>
       <form onSubmit={handleSubmit} className="mb-5">
         <div className="row">
           <div className="col-md-4 mb-3">
@@ -105,7 +105,7 @@ function GestionReportes() {
             required
           />
         </div>
-        <button type="submit" className="btn btn-success">Guardar Alarma</button>
+        <button type="submit" className="btn btn-success">Guardar Recordatorio</button>
       </form>
     </div>
   );
