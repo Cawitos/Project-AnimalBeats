@@ -157,7 +157,6 @@ app.delete('/Mascotas/Eliminar/:id', (req, res) => {
   })
 });
 
-
 // Obtener todas las especies
 app.get('/Especies/Listado', (req, res) => {
   conexion.connect(function (err) {
@@ -332,6 +331,175 @@ app.delete('/Razas/Eliminar/:id', (req, res) => {
     })
   })
 });
+
+
+
+/* ==========================
+*  Rutas de Gestion de enfermedades y citas
+* ========================== */
+
+// Obtener todas las enfermedades
+app.get('/Enfermedades/Listado', (req, res) => {
+  conexion.connect((err) => {
+    if (err) throw err;
+    const query = "SELECT * FROM Enfermedad";
+    conexion.query(query, (err, resultado) => {
+      if (err) throw err;
+      if (resultado.length > 0) {
+        res.json(resultado);
+      } else {
+        res.json({ mensaje: 'No hay enfermedades registradas' });
+      }
+    });
+  });
+});
+
+// Registrar nueva enfermedad
+app.post('/Enfermedades/Registrar', (req, res) => {
+  conexion.connect((err) => {
+    if (err) throw err;
+    const { nombre, descripcion } = req.body;
+    const query = "INSERT INTO Enfermedad (nombre, descripcion) VALUES (?, ?)";
+    conexion.query(query, [nombre, descripcion], (err, resultado) => {
+      if (err) {
+        console.log('Error al registrar la enfermedad:', err);
+        res.status(500).json({ error: 'Error al registrar la enfermedad' });
+      } else {
+        res.status(201).json({ mensaje: 'Enfermedad registrada correctamente', resultado });
+      }
+    });
+  });
+});
+
+// Actualizar enfermedad
+app.put('/Enfermedades/Actualizar/:nombre', (req, res) => {
+  conexion.connect((err) => {
+    if (err) throw err;
+    const { descripcion } = req.body;
+    const nombre = req.params.nombre;
+    const query = "UPDATE Enfermedad SET descripcion = ? WHERE nombre = ?";
+    conexion.query(query, [descripcion, nombre], (err, resultado) => {
+      if (err) {
+        console.log('Error al modificar la enfermedad:', err);
+        res.status(500).json({ error: 'Error al actualizar la enfermedad' });
+      } else {
+        if (resultado.affectedRows > 0) {
+          res.json({ mensaje: 'Enfermedad actualizada correctamente', resultado });
+        } else {
+          res.status(404).json({ mensaje: 'No se encontró la enfermedad' });
+        }
+      }
+    });
+  });
+});
+
+// Eliminar enfermedad
+app.delete('/Enfermedades/Eliminar/:nombre', (req, res) => {
+  conexion.connect((err) => {
+    if (err) throw err;
+    const nombre = req.params.nombre;
+    const query = "DELETE FROM Enfermedad WHERE nombre = ?";
+    conexion.query(query, [nombre], (err, resultado) => {
+      if (err) {
+        console.log('Error al eliminar la enfermedad:', err);
+        res.status(500).json({ error: 'Error al eliminar la enfermedad' });
+      } else {
+        if (resultado.affectedRows > 0) {
+          res.json({ mensaje: 'Enfermedad eliminada correctamente', resultado });
+        } else {
+          res.status(404).json({ mensaje: 'No se encontró la enfermedad' });
+        }
+      }
+    });
+  });
+});
+
+//Rutas de citas
+// Obtener todas las citas
+app.get('/Citas/Listado', (req, res) => {
+  conexion.query('SELECT * FROM Citas', (err, resultado) => {
+    if (err) {
+      console.error('Error al obtener citas:', err);
+      return res.status(500).json({ error: 'Error al obtener las citas' });
+    }
+    if (resultado.length > 0) {
+      res.json(resultado);
+    } else {
+      res.json({ mensaje: 'No hay citas registradas' });
+    }
+  });
+});
+
+// Registrar nueva cita
+app.post('/Citas/Registrar', (req, res) => {
+  const { id_Mascota, id_cliente, id_Servicio, fecha, Descripcion } = req.body;
+  const query = `
+    INSERT INTO Citas (id_Mascota, id_cliente, id_Servicio, fecha, Descripcion)
+    VALUES (?, ?, ?, ?, ?)
+  `;
+  conexion.query(query, [id_Mascota, id_cliente, id_Servicio, fecha, Descripcion], (err, resultado) => {
+    if (err) {
+      console.error('Error al registrar cita:', err);
+      return res.status(500).json({ error: 'Error al registrar la cita' });
+    }
+    res.status(201).json({ mensaje: 'Cita registrada correctamente', resultado });
+  });
+});
+
+// Obtener una cita por ID
+app.get('/Citas/:id', (req, res) => {
+  const { id } = req.params;
+  conexion.query('SELECT * FROM Citas WHERE id = ?', [id], (err, resultado) => {
+    if (err) {
+      console.error('Error al buscar la cita:', err);
+      return res.status(500).json({ error: 'Error al buscar la cita' });
+    }
+    if (resultado.length > 0) {
+      res.json(resultado[0]);
+    } else {
+      res.status(404).json({ mensaje: 'Cita no encontrada' });
+    }
+  });
+});
+
+// Actualizar una cita por ID
+app.put('/Citas/Actualizar/:id', (req, res) => {
+  const { id } = req.params;
+  const { id_Mascota, id_cliente, id_Servicio, fecha, Descripcion } = req.body;
+  const query = `
+    UPDATE Citas
+    SET id_Mascota = ?, id_cliente = ?, id_Servicio = ?, fecha = ?, Descripcion = ?
+    WHERE id = ?
+  `;
+  conexion.query(query, [id_Mascota, id_cliente, id_Servicio, fecha, Descripcion, id], (err, resultado) => {
+    if (err) {
+      console.error('Error al actualizar cita:', err);
+      return res.status(500).json({ error: 'Error al actualizar la cita' });
+    }
+    if (resultado.affectedRows > 0) {
+      res.json({ mensaje: 'Cita actualizada correctamente', resultado });
+    } else {
+      res.status(404).json({ mensaje: 'Cita no encontrada para actualizar' });
+    }
+  });
+});
+
+// Eliminar una cita por ID
+app.delete('/Citas/Eliminar/:id', (req, res) => {
+  const { id } = req.params;
+  conexion.query('DELETE FROM Citas WHERE id = ?', [id], (err, resultado) => {
+    if (err) {
+      console.error('Error al eliminar cita:', err);
+      return res.status(500).json({ error: 'Error al eliminar la cita' });
+    }
+    if (resultado.affectedRows > 0) {
+      res.json({ mensaje: 'Cita eliminada correctamente', resultado });
+    } else {
+      res.status(404).json({ mensaje: 'Cita no encontrada para eliminar' });
+    }
+  });
+});
+
 
 /*========================
 *  Rutas de Gestion de recordatorios

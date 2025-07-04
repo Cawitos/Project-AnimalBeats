@@ -6,21 +6,21 @@ function GestionReportes() {
   const [form, setForm] = useState({ cliente: '', mascota: '', fecha: '', descripcion: '' });
 
   const fetchAlertas = async () => {
-    const res = await axios.get('http://localhost:3000/api/gestion-reportes');
+    const res = await axios.get('http://localhost:3000/api/gestionRecordatorios');
     setAlertas(res.data);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post('http://localhost:3000/api/alertas/guardar', form);
+    await axios.post('http://localhost:3000/api/recordatorios/guardar', form);
     fetchAlertas(); // Actualizar (por probar)
     setForm({ cliente: '', mascota: '', fecha: '', descripcion: '' });
   };
 
   const eliminarAlerta = async (id) => {
-    const confirm = window.confirm('¿Estás seguro de que quieres eliminar esta alerta?');
+    const confirm = window.confirm('¿Estás seguro de que quieres eliminar este recordatorio?');
     if (!confirm) return;
-    await axios.delete(`http://localhost:3000/api/alertas/eliminar/${id}`);
+    await axios.delete(`http://localhost:3000/api/recordatorios/eliminar/${id}`);
     fetchAlertas();
   };
 
