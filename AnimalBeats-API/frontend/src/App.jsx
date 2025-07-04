@@ -19,7 +19,6 @@ function App() {
           <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path='/registro' element={<Register setUser={setUser} />} />
           <Route path='/admin' element={User?.rol === 1 ? <Admin /> : <Navigate to="/" /> }/> 
-          <Route path='/gestionRecordatorios' element={User?.rol===1?<Admin/>:<Navigate to="/"/>}></Route>       
         </Routes>
       </BrowserRouter>
     </>

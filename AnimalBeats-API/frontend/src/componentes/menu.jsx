@@ -86,9 +86,9 @@ export default function OffcanvasMenu() {
             <li className="nav-item">
               <button
                 className="nav-link btn btn-link"
-                onClick={() => handleNavigate('/reportes')}
+                onClick={() => handleNavigate('/gestionRecordatorios')}
               >
-                Reportes
+                Recordatorios
               </button>
             </li>
 
