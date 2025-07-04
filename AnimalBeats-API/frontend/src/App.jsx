@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './componentes/Home';
 import Login from './componentes/login';
 import Register from './componentes/register';
-import GestionReportes from './componentes/gestionReportes';
+import GestionReportes from './componentes/gestionRecordatorios';
 import Admin from './componentes/admin';
 import './App.css'
 
