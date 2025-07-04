@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import '../assets/css/login.css';
 
-const Login = () => {
+const Login = ( { setUser} ) => {
   const [correoelectronico, setCorreo] = useState("");
   const [contrasena, setContrasena] = useState("");
   const [mensaje, setMensaje] = useState("");
@@ -11,33 +11,36 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+
     try {
-      const response = await axios.post("http://localhost:3000/api/auth/login", {
-        correoelectronico,
-        contrasena,
+      const response = await fetch("http://localhost:3000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
       });
 
-      setMensaje(response.data.mensaje);
-      const rol = response.data.usuario.id_rol;
+      const data = await response.json();
 
-      console.log("Usuario:", response.data.usuario);
+      if (response.ok) {
+        setUser(data.usuario); // Asumiendo que el usuario viene en data.usuario
 
-      // Redirigir según el rol 
-      if (rol === 1) {
-        navigate("/admin");
-      } else if (rol === 2) {
-        navigate("/cliente");
-      } else if (rol === 3) {
-        navigate("/veterinario");
+        // Redirigir según el rol (ajusta los valores según tu backend)
+        const rol = data.usuario.id_rol;
+        if (rol === 1) {
+          navigate("/admin");
+        } else if (rol === 2) {
+          navigate("/cliente");
+        } else if (rol === 3) {
+          navigate("/veterinario");
+        } else {
+          setError("Rol desconocido, contacta al administrador.");
+        }
       } else {
-        setMensaje("Rol desconocido, contacta al administrador.");
+        setError(data.mensaje || "Error al iniciar sesión");
       }
-    } catch (error) {
-      if (error.response) {
-        setMensaje(error.response.data.mensaje);
-      } else {
-        setMensaje("Error al conectar con el servidor");
-      }
+    } catch (err) {
+      setError("Error de conexión con el servidor");
     }
   };
 
