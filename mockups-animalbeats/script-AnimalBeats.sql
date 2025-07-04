@@ -66,7 +66,7 @@ Create table Citas(
     foreign key (id_cliente) references Usuarios(n_documento) on delete cascade,
     foreign key (id_Servicio) references Servicios(id) on delete cascade
 );
-Create table Alertas(
+Create table Recordatorios(
 	id INT AUTO_INCREMENT PRIMARY KEY,
     id_Mascota int not null,
 	id_cliente varchar(10) not null,
