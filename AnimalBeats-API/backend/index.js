@@ -41,26 +41,87 @@ app.listen(puerto, () => {
 /* ==========================
 *  Rutas de Gestion de usuarios
 * ========================== */
+// Listar usuarios
+app.get('/Listado', async (req, res) => {
+  const sqlQuery = `
+    SELECT u.n_documento, u.nombre, u.correoelectronico, d.tipo AS tipo_documento, u.estado
+    FROM Usuarios u
+    LEFT JOIN Documento d ON u.id_documento = d.id
+  `;
+  try {
+    const [resultado] = await conexion.query(sqlQuery);
+    res.json(resultado.length > 0 ? resultado : 'No hay usuarios registrados');
+  } catch (err) {
+    console.error('Error al obtener usuarios:', err);
+    res.status(500).json({ error: 'Error al obtener usuarios' });
+  }
+});
 
-// alejandro aqui tu codigo
+// Obtener usuario por documento
+app.get('/:n_documento', async (req, res) => {
+  const { n_documento } = req.params;
+  const sqlQuery = `
+    SELECT u.n_documento, u.nombre, u.correoelectronico, d.tipo AS tipo_documento
+    FROM Usuarios u
+    LEFT JOIN Documento d ON u.id_documento = d.id
+    WHERE u.n_documento = ?
+  `;
+  try {
+    const [resultado] = await conexion.query(sqlQuery, [n_documento]);
+    res.json(resultado.length > 0 ? resultado[0] : 'Usuario no encontrado');
+  } catch (err) {
+    console.error('Error al obtener usuario:', err);
+    res.status(500).json({ error: 'Error al obtener usuario' });
+  }
+});
 
+// Crear usuario
+app.post('/Crear', async (req, res) => {
+  const { n_documento, nombre, correoelectronico, contrasena, id_documento, id_rol, estado } = req.body;
+  try {
+    const hashedPassword = await bcrypt.hash(contrasena, 10);
+    const sqlInsert = `
+      INSERT INTO Usuarios (n_documento, nombre, correoelectronico, contrasena, id_documento, id_rol, estado)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+    `;
+    const [resultado] = await conexion.query(sqlInsert, [n_documento, nombre, correoelectronico, hashedPassword, id_documento, id_rol, estado]);
+    res.status(201).json({ mensaje: 'Usuario registrado correctamente', resultado });
+  } catch (err) {
+    console.error('Error al registrar usuario:', err);
+    res.status(500).json({ error: 'Error al registrar usuario' });
+  }
+});
 
+// Actualizar usuario
+app.put('/Actualizar/:n_documento', async (req, res) => {
+  const { n_documento } = req.params;
+  const { nombre, correoelectronico, id_documento, id_rol, estado } = req.body;
+  const sqlUpdate = `
+    UPDATE Usuarios
+    SET nombre = ?, correoelectronico = ?, id_documento = ?, id_rol = ?, estado = ?
+    WHERE n_documento = ?
+  `;
+  try {
+    const [resultado] = await conexion.query(sqlUpdate, [nombre, correoelectronico, id_documento, id_rol, estado, n_documento]);
+    res.json(resultado.affectedRows > 0 ? { mensaje: 'Usuario actualizado correctamente' } : 'Usuario no encontrado');
+  } catch (err) {
+    console.error('Error al actualizar usuario:', err);
+    res.status(500).json({ error: 'Error al actualizar usuario' });
+  }
+});
 
-
-
-
-
-
-
-
-
-
-
-
-/* ==========================
-*  Rutas de Gestion de mascotas, Especies y razas
-* ========================== */
-
+// Suspender usuario
+app.put('/Suspender/:n_documento', async (req, res) => {
+  const { n_documento } = req.params;
+  const sqlUpdate = `UPDATE Usuarios SET estado = 'Suspendido' WHERE n_documento = ?`;
+  try {
+    const [resultado] = await conexion.query(sqlUpdate, [n_documento]);
+    res.json(resultado.affectedRows > 0 ? { mensaje: 'Usuario suspendido correctamente' } : 'Usuario no encontrado');
+  } catch (err) {
+    console.error('Error al suspender usuario:', err);
+    res.status(500).json({ error: 'Error al suspender usuario' });
+  }
+});
 
 // Mostrar todas las mascotas registradas
 app.get('/mascotas', (req, res) => {
@@ -507,85 +568,85 @@ app.delete('/Citas/Eliminar/:id', (req, res) => {
 
 // Obtener todas las alarmas de recordatorios
 app.get('/gestionRecordatorios', async (req, res) => {
-    const connection = req.app.locals.connection;
-    try {
-        const [alertas] = await connection.execute(`
+  const connection = req.app.locals.connection;
+  try {
+    const [alertas] = await connection.execute(`
             SELECT Recordatorios.id, Recordatorios.id_Mascota, Mascota.Nombre AS nombre_mascota,
                    Recordatorios.id_cliente, Recordatorios.Fecha, Recordatorios.descripcion
             FROM Alertas
             JOIN Mascota ON Recordatorios.id_Mascota = Mascota.id
         `);
-        res.json(alertas);
-    } catch (error) {
-        res.status(500).json({ error: 'Error al obtener las alertas' });
-    }
+    res.json(alertas);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al obtener las alertas' });
+  }
 });
 
 // Guardar el nuevo recordatorio
 app.post('/recordatorios/guardar', async (req, res) => {
-    const connection = req.app.locals.connection;
-    const { cliente, mascota, fecha, descripcion } = req.body;
+  const connection = req.app.locals.connection;
+  const { cliente, mascota, fecha, descripcion } = req.body;
 
-    try {
-        await connection.execute(`
+  try {
+    await connection.execute(`
             INSERT INTO Recordatorios (id_cliente, id_Mascota, Fecha, descripcion)
             VALUES (?, ?, ?, ?)
         `, [cliente, mascota, fecha, descripcion]);
-        res.status(201).json({ message: 'Recordatorio guardado correctamente' });
-    } catch (error) {
-        res.status(500).json({ error: 'Error al guardar el recordatorio' });
-    }
+    res.status(201).json({ message: 'Recordatorio guardado correctamente' });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al guardar el recordatorio' });
+  }
 });
 
 // Modificar recordatorio
 app.put('/recordatorios/modificar/:id', async (req, res) => {
-    const connection = req.app.locals.connection;
-    const { id } = req.params;
-    const { cliente, mascota, fecha, descripcion } = req.body;
+  const connection = req.app.locals.connection;
+  const { id } = req.params;
+  const { cliente, mascota, fecha, descripcion } = req.body;
 
-    try {
-        await connection.execute(`
+  try {
+    await connection.execute(`
             UPDATE Recordatorios
             SET id_cliente = ?, id_Mascota = ?, Fecha = ?, descripcion = ?
             WHERE id = ?
         `, [cliente, mascota, fecha, descripcion, id]);
-        res.json({ message: 'Recordatorio actualizado correctamente' });
-    } catch (error) {
-        res.status(500).json({ error: 'Error al modificar el recordatorio' });
-    }
+    res.json({ message: 'Recordatorio actualizado correctamente' });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al modificar el recordatorio' });
+  }
 });
 
 // Obtener datos de un recordatorio para edición
 app.get('/recordatorios/:id', async (req, res) => {
-    const connection = req.app.locals.connection;
-    const { id } = req.params;
+  const connection = req.app.locals.connection;
+  const { id } = req.params;
 
-    try {
-        const [alertaRows] = await connection.execute("SELECT * FROM Recordatorios WHERE id = ?", [id]);
-        if (alertaRows.length === 0) {
-            return res.status(404).json({ error: 'Recordatorio no encontrada' });
-        }
-
-        const alerta = alertaRows[0];
-
-        const [clientes] = await connection.execute("SELECT n_documento FROM Usuarios WHERE id_rol = 2");
-        const [mascotas] = await connection.execute("SELECT id, Nombre FROM Mascota");
-
-        res.json({ alerta, clientes, mascotas });
-    } catch (error) {
-        res.status(500).json({ error: 'Error al obtener datos del recordatorio' });
+  try {
+    const [alertaRows] = await connection.execute("SELECT * FROM Recordatorios WHERE id = ?", [id]);
+    if (alertaRows.length === 0) {
+      return res.status(404).json({ error: 'Recordatorio no encontrada' });
     }
+
+    const alerta = alertaRows[0];
+
+    const [clientes] = await connection.execute("SELECT n_documento FROM Usuarios WHERE id_rol = 2");
+    const [mascotas] = await connection.execute("SELECT id, Nombre FROM Mascota");
+
+    res.json({ alerta, clientes, mascotas });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al obtener datos del recordatorio' });
+  }
 });
 
 // Eliminar recordatorio
 app.delete('/recordatorios/eliminar/:id', async (req, res) => {
-    const connection = req.app.locals.connection;
-    const { id } = req.params;
+  const connection = req.app.locals.connection;
+  const { id } = req.params;
 
-    try {
-        await connection.execute("DELETE FROM Recordatorios WHERE id = ?", [id]);
-        res.json({ message: 'Recordatorio eliminado correctamente' });
-    } catch (error) {
-        res.status(500).json({ error: 'Error al eliminar el recordatorio' });
-    }
+  try {
+    await connection.execute("DELETE FROM Recordatorios WHERE id = ?", [id]);
+    res.json({ message: 'Recordatorio eliminado correctamente' });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al eliminar el recordatorio' });
+  }
 });
