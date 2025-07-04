@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 
 
 const Register = () => {
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
 
     const [tiposDocumento, setTiposDocumento] = useState([]);
     const [formData, setFormData] = useState({
@@ -16,9 +16,9 @@ const Register = () => {
     });
     const [mensaje, setMensaje] = useState('');
 
-    // Obtener tipos de documento
+    // Obtener tipos de documento desde la ruta correcta
     useEffect(() => {
-        axios.get('http://localhost:3000/api/auth/documentos')
+        axios.get('http://localhost:3000/tiposDocumento')
             .then(res => setTiposDocumento(res.data))
             .catch(err => console.error('Error al obtener tipos de documento:', err));
     }, []);
@@ -27,37 +27,37 @@ const Register = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-        const res = await axios.post('http://localhost:3000/api/auth/register', formData);
-        setMensaje(res.data.mensaje);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await axios.post('http://localhost:3000/registro', formData);
+            setMensaje(res.data.mensaje);
 
-        // Limpiar formulario solo si fue exitoso
-        setFormData({
-            id_documento: '',
-            n_documento: '',
-            nombre: '',
-            correoelectronico: '',
-            contrasena: ''
-        });
+            // Limpiar el formulario
+            setFormData({
+                id_documento: '',
+                n_documento: '',
+                nombre: '',
+                correoelectronico: '',
+                contrasena: ''
+            });
 
-        // Redirigir según el rol recibido
-        setTimeout(() => {
-            if (res.data.rol === 'admin') {
-                navigate('/admin');
-            } else if (res.data.rol === 'veterinario') {
-                navigate('/veterinario');
-            } else {
-                navigate('/cliente');
-            }
-        }, 1000);
+            // Redirigir según el rol
+            setTimeout(() => {
+                if (res.data.rol === 'admin') {
+                    navigate('/admin');
+                } else if (res.data.rol === 'veterinario') {
+                    navigate('/veterinario');
+                } else {
+                    navigate('/cliente');
+                }
+            }, 1000);
 
-    } catch (error) {
-        console.error(error);
-        setMensaje(error.response?.data?.mensaje || 'Error al registrar');
-    }
-};
+        } catch (error) {
+            console.error(error);
+            setMensaje(error.response?.data?.mensaje || 'Error al registrar');
+        }
+    };
 
     return (
         <div className="register-container">

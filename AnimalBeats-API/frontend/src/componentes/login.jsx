@@ -1,36 +1,43 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import '../css/login.css'
+import '../css/login.css';
 
-
-const Login = ( { setUser} ) => {
+const Login = ({ setUser }) => {
   const [correoelectronico, setCorreo] = useState("");
   const [contrasena, setContrasena] = useState("");
   const [mensaje, setMensaje] = useState("");
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+    setMensaje("");
 
     try {
-      const response = await fetch("http://localhost:3000/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+      const response = await axios.post("http://localhost:3000/login", {
+        correoelectronico,
+        contrasena
       });
 
-      const data = await response.json();
+      const data = response.data;
 
-      if (response.ok) {
-        setUser(data.usuario); // Guarda los datos del usuario
-        // No redireccionamos aquí
-      } else {
-        setError(data.mensaje || "Error al iniciar sesión");
-      }
-    } catch (err) {
-      setError("Error de conexión con el servidor");
+      setUser(data.usuario); 
+      setMensaje(data.mensaje || "Inicio de sesión exitoso");
+
+      // Redirigir según rol
+      setTimeout(() => {
+        if (data.rol === "admin") {
+          navigate("/admin");
+        } else if (data.rol === "veterinario") {
+          navigate("/veterinario");
+        } else {
+          navigate("/cliente");
+        }
+      }, 1000);
+
+    } catch (error) {
+      console.error(error);
+      setMensaje(error.response?.data?.mensaje || "Error al iniciar sesión");
     }
   };
 

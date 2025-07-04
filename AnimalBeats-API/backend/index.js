@@ -41,24 +41,101 @@ app.listen(puerto, () => {
 /* ==========================
 *  Rutas de Gestion de usuarios
 * ========================== */
+// Registro de usuario
+// Registro
+app.post('/registro', (req, res) => {
+  const { n_documento, correoelectronico, contrasena, id_documento, nombre } = req.body;
+
+  if (!n_documento || !correoelectronico || !contrasena || !id_documento || !nombre) {
+    return res.status(400).json({ mensaje: 'Faltan campos' });
+  }
+
+  bcrypt.genSalt(10, (err, salt) => {
+    if (err) return res.status(500).json({ mensaje: 'Error interno' });
+    bcrypt.hash(contrasena, salt, (err, hash) => {
+      if (err) return res.status(500).json({ mensaje: 'Error interno' });
+
+      let id_rol, rolTexto;
+      if (correoelectronico.toLowerCase() === 'administrador@animalbeats.com') {
+        id_rol = 1; rolTexto = 'admin';
+      } else if (correoelectronico.toLowerCase() === 'veterinario@animalbeats.com') {
+        id_rol = 3; rolTexto = 'veterinario';
+      } else {
+        id_rol = 2; rolTexto = 'cliente';
+      }
+
+      const sql = `INSERT INTO Usuarios (n_documento, correoelectronico, contrasena, id_documento, nombre, id_rol, estado) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+      conexion.query(sql, [n_documento, correoelectronico, hash, id_documento, nombre, id_rol, 'activo'], (err, result) => {
+        if (err) {
+          console.error("Error en registro:", err);
+          return res.status(500).json({ mensaje: 'Error al registrar usuario' });
+        }
+        res.status(201).json({ mensaje: 'Usuario registrado exitosamente', rol: rolTexto });
+      });
+    });
+  });
+});
+
+// Obtener tipos de documento
+app.get('/tiposDocumento', (req, res) => {
+  conexion.query('SELECT id, tipo FROM Documento', (err, results) => {
+    if (err) {
+      console.error("Error en getTiposDocumento:", err);
+      return res.status(500).json({ mensaje: 'Error al obtener tipos de documento' });
+    }
+    res.status(200).json(results);
+  });
+});
+
+// Login
+app.post('/login', (req, res) => {
+  const { correoelectronico, contrasena } = req.body;
+
+  conexion.query('SELECT * FROM Usuarios WHERE correoelectronico = ?', [correoelectronico], (err, resultados) => {
+    if (err) {
+      console.error("Error en login:", err);
+      return res.status(500).json({ mensaje: 'Error interno al iniciar sesión' });
+    }
+    if (resultados.length === 0) {
+      return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+    }
+
+    const usuario = resultados[0];
+    bcrypt.compare(contrasena, usuario.contrasena, (err, esCorrecta) => {
+      if (err) return res.status(500).json({ mensaje: 'Error interno' });
+      if (!esCorrecta) return res.status(401).json({ mensaje: 'Contraseña incorrecta' });
+
+      let rolTexto;
+      switch (usuario.id_rol) {
+        case 1: rolTexto = 'admin'; break;
+        case 2: rolTexto = 'cliente'; break;
+        case 3: rolTexto = 'veterinario'; break;
+        default: rolTexto = 'desconocido';
+      }
+
+      res.status(200).json({ mensaje: 'Inicio de sesión exitoso', usuario, rol: rolTexto });
+    });
+  });
+});
+
 // Listar usuarios
-app.get('/Listado', async (req, res) => {
+app.get('/Listado', (req, res) => {
   const sqlQuery = `
     SELECT u.n_documento, u.nombre, u.correoelectronico, d.tipo AS tipo_documento, u.estado
     FROM Usuarios u
     LEFT JOIN Documento d ON u.id_documento = d.id
   `;
-  try {
-    const [resultado] = await conexion.query(sqlQuery);
+  conexion.query(sqlQuery, (err, resultado) => {
+    if (err) {
+      console.error('Error al obtener usuarios:', err);
+      return res.status(500).json({ error: 'Error al obtener usuarios' });
+    }
     res.json(resultado.length > 0 ? resultado : 'No hay usuarios registrados');
-  } catch (err) {
-    console.error('Error al obtener usuarios:', err);
-    res.status(500).json({ error: 'Error al obtener usuarios' });
-  }
+  });
 });
 
 // Obtener usuario por documento
-app.get('/:n_documento', async (req, res) => {
+app.get('/:n_documento', (req, res) => {
   const { n_documento } = req.params;
   const sqlQuery = `
     SELECT u.n_documento, u.nombre, u.correoelectronico, d.tipo AS tipo_documento
@@ -66,61 +143,78 @@ app.get('/:n_documento', async (req, res) => {
     LEFT JOIN Documento d ON u.id_documento = d.id
     WHERE u.n_documento = ?
   `;
-  try {
-    const [resultado] = await conexion.query(sqlQuery, [n_documento]);
+  conexion.query(sqlQuery, [n_documento], (err, resultado) => {
+    if (err) {
+      console.error('Error al obtener usuario:', err);
+      return res.status(500).json({ error: 'Error al obtener usuario' });
+    }
     res.json(resultado.length > 0 ? resultado[0] : 'Usuario no encontrado');
-  } catch (err) {
-    console.error('Error al obtener usuario:', err);
-    res.status(500).json({ error: 'Error al obtener usuario' });
-  }
+  });
 });
 
 // Crear usuario
-app.post('/Crear', async (req, res) => {
+app.post('/Crear', (req, res) => {
   const { n_documento, nombre, correoelectronico, contrasena, id_documento, id_rol, estado } = req.body;
-  try {
-    const hashedPassword = await bcrypt.hash(contrasena, 10);
+
+  bcrypt.hash(contrasena, 10, (err, hashedPassword) => {
+    if (err) return res.status(500).json({ error: 'Error interno al hashear contraseña' });
+
     const sqlInsert = `
       INSERT INTO Usuarios (n_documento, nombre, correoelectronico, contrasena, id_documento, id_rol, estado)
       VALUES (?, ?, ?, ?, ?, ?, ?)
     `;
-    const [resultado] = await conexion.query(sqlInsert, [n_documento, nombre, correoelectronico, hashedPassword, id_documento, id_rol, estado]);
-    res.status(201).json({ mensaje: 'Usuario registrado correctamente', resultado });
-  } catch (err) {
-    console.error('Error al registrar usuario:', err);
-    res.status(500).json({ error: 'Error al registrar usuario' });
-  }
+
+    conexion.query(sqlInsert, [n_doacumento, nombre, correoelectronico, hashedPassword, id_documento, id_rol, estado], (err, resultado) => {
+      if (err) {
+        console.error('Error al registrar usuario:', err);
+        return res.status(500).json({ error: 'Error al registrar usuario' });
+      }
+      res.status(201).json({ mensaje: 'Usuario registrado correctamente', resultado });
+    });
+  });
 });
 
 // Actualizar usuario
-app.put('/Actualizar/:n_documento', async (req, res) => {
+app.put('/Actualizar/:n_documento', (req, res) => {
   const { n_documento } = req.params;
   const { nombre, correoelectronico, id_documento, id_rol, estado } = req.body;
+
   const sqlUpdate = `
     UPDATE Usuarios
     SET nombre = ?, correoelectronico = ?, id_documento = ?, id_rol = ?, estado = ?
     WHERE n_documento = ?
   `;
-  try {
-    const [resultado] = await conexion.query(sqlUpdate, [nombre, correoelectronico, id_documento, id_rol, estado, n_documento]);
-    res.json(resultado.affectedRows > 0 ? { mensaje: 'Usuario actualizado correctamente' } : 'Usuario no encontrado');
-  } catch (err) {
-    console.error('Error al actualizar usuario:', err);
-    res.status(500).json({ error: 'Error al actualizar usuario' });
-  }
+
+  conexion.query(sqlUpdate, [nombre, correoelectronico, id_documento, id_rol, estado, n_documento], (err, resultado) => {
+    if (err) {
+      console.error('Error al actualizar usuario:', err);
+      return res.status(500).json({ error: 'Error al actualizar usuario' });
+    }
+    if (resultado.affectedRows > 0) {
+      res.json({ mensaje: 'Usuario actualizado correctamente' });
+    } else {
+      res.json('Usuario no encontrado');
+    }
+  });
 });
 
 // Suspender usuario
-app.put('/Suspender/:n_documento', async (req, res) => {
+app.put('/Suspender/:n_documento', (req, res) => {
   const { n_documento } = req.params;
+
   const sqlUpdate = `UPDATE Usuarios SET estado = 'Suspendido' WHERE n_documento = ?`;
-  try {
-    const [resultado] = await conexion.query(sqlUpdate, [n_documento]);
-    res.json(resultado.affectedRows > 0 ? { mensaje: 'Usuario suspendido correctamente' } : 'Usuario no encontrado');
-  } catch (err) {
-    console.error('Error al suspender usuario:', err);
-    res.status(500).json({ error: 'Error al suspender usuario' });
-  }
+
+  conexion.query(sqlUpdate, [n_documento], (err, resultado) => {
+    if (err) {
+      console.error('Error al suspender usuario:', err);
+      return res.status(500).json({ error: 'Error al suspender usuario' });
+    }
+    if (resultado.affectedRows > 0) {
+      res.json({ mensaje: 'Usuario suspendido correctamente' });
+    } else {
+      res.json('Usuario no encontrado');
+    }
+  });
 });
 
 // Mostrar todas las mascotas registradas

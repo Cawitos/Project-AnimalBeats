@@ -6,40 +6,46 @@ import OffcanvasMenu from "../components/menu";
 export default function GestionUsuarios() {
   const [usuarios, setUsuarios] = useState([]);
 
-useEffect(() => {
-  fetch("http://localhost:3000/api/usuario/Listado")
-    .then((res) => res.json())
-    .then((data) => setUsuarios(data))
-    .catch((err) => console.error("Error al cargar usuarios:", err));
-}, []);
+  useEffect(() => {
+    fetch("http://localhost:3000/usuario/Listado")
+      .then((res) => res.json())
+      .then((data) => setUsuarios(data))
+      .catch((err) => console.error("Error al cargar usuarios:", err));
+  }, []);
 
   const suspenderUsuario = (id) => {
-  Swal.fire({
-    title: "¿Estás seguro?",
-    text: "Este usuario será suspendido y no podrá iniciar sesión.",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: "Sí, suspender",
-    cancelButtonText: "Cancelar",
-  }).then((result) => {
-    if (result.isConfirmed) {
-      fetch(`http://localhost:3000/usuario/Suspender/:id`, {
-        method: "DELETE",
-      })
-        .then((response) => {
-          if (!response.ok) throw new Error("Error al suspender usuario");
-          setUsuarios((prev) =>
-            prev.filter((u) => u.n_documento !== id)
-          );
-          Swal.fire("¡Suspendido!", "El usuario ha sido suspendido.", "success");
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "Este usuario será suspendido y no podrá iniciar sesión.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, suspender",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost:3000/usuario/Suspender/${id}`, {
+          method: "DELETE",
         })
-        .catch((error) => {
-          console.error(error);
-          Swal.fire("Error", "No se pudo suspender el usuario.", "error");
-        });
-    }
-  });
-};
+          .then((response) => {
+            if (!response.ok) throw new Error("Error al suspender usuario");
+
+            setUsuarios((prev) =>
+              prev.filter((u) => u.n_documento !== id)
+            );
+
+            Swal.fire(
+              "¡Suspendido!",
+              "El usuario ha sido suspendido.",
+              "success"
+            );
+          })
+          .catch((error) => {
+            console.error(error);
+            Swal.fire("Error", "No se pudo suspender el usuario.", "error");
+          });
+      }
+    });
+  };
 
   return (
     <div className="container py-5 mt-5">
@@ -66,12 +72,18 @@ useEffect(() => {
                   <td>{`${u.tipo_documento} - ${u.n_documento}`}</td>
                   <td>{u.correoelectronico}</td>
                   <td>
-                    <Link to={`/usuarios/${u.n_documento}/consultar`} className="text-danger">
+                    <Link
+                      to={`/usuarios/${u.n_documento}/consultar`}
+                      className="text-danger"
+                    >
                       <i className="fa-solid fa-eye"></i>
                     </Link>
                   </td>
                   <td>
-                    <Link to={`/usuarios/${u.n_documento}/modificar`} className="text-danger">
+                    <Link
+                      to={`/usuarios/${u.n_documento}/modificar`}
+                      className="text-danger"
+                    >
                       <i className="fa-solid fa-pen"></i>
                     </Link>
                   </td>
