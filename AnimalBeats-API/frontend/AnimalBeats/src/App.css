@@ -1,0 +1,348 @@
+/* ===========================
+   RESET Y VARIABLES
+=========================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --blanco: #FDF7FA;
+  --rojo: #DF2935;
+  --negro: #07090F;
+  --gris: #E6E8E6;
+  --verde: #4CAF50;
+}
+
+/* ===========================
+   ESTILOS GENERALES
+=========================== */
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--blanco);
+  padding-top: 100px;
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  color: var(--negro);
+}
+
+/* ===========================
+   NAVBAR FIJO
+=========================== */
+
+.menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background-color: var(--blanco);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+}
+
+.c1 img {
+  width: 140px;
+  height: auto;
+  object-fit: contain;
+  cursor: pointer;
+  display: block;
+}
+
+.c2 {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.c2 button {
+  min-width: 110px;
+  height: 40px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 30px;
+  background-color: var(--rojo);
+  color: var(--blanco);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 1.2px;
+  cursor: pointer;
+  transition:
+    transform 0.3s ease,
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border 0.3s ease;
+  transform-origin: center center;
+  position: relative;
+  z-index: 10;
+}
+
+.c2 button:hover,
+.c2 button:focus {
+  transform: scale(1.08);
+  background-color: var(--blanco);
+  color: var(--rojo);
+  border: 2px solid var(--rojo);
+  outline: none;
+}
+
+.c2 .btn-registrarse {
+  min-width: 130px;
+  border: 2px solid var(--rojo);
+  font-weight: 700;
+}
+
+.c2 .btn-registrarse:hover,
+.c2 .btn-registrarse:focus {
+  transform: scale(1.1);
+  background-color: var(--blanco);
+  color: var(--rojo);
+  outline: none;
+}
+
+/* ===========================
+   SLIDER DE PUBLICIDAD
+=========================== */
+
+.publicidad {
+  max-width: 1200px;
+  margin: 140px auto 40px;
+  overflow: visible;
+  position: relative;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.publicidad ul {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  list-style: none;
+  animation: slide 30s infinite alternate ease-in-out;
+}
+
+.publicidad li {
+  min-width: 100%;
+  position: relative;
+}
+
+.publicidad li img {
+  width: 100%;
+  height: auto;
+  border-radius: 15px;
+  display: block;
+}
+
+.texto1,
+.texto2,
+.texto3 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 90%;
+  max-width: 600px;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+  font-weight: 700;
+  user-select: none;
+}
+
+.texto1 h2,
+.texto2 h2 {
+  font-size: 48px;
+}
+
+.texto3 h2 {
+  font-size: 56px;
+  color: var(--negro);
+  text-shadow: none;
+}
+
+.texto1 p,
+.texto2 p,
+.texto3 p {
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+.texto3 p {
+  color: var(--negro);
+}
+
+@keyframes slide {
+  0% {
+    margin-left: 0;
+  }
+  33% {
+    margin-left: -33.3333%;
+  }
+  66% {
+    margin-left: -66.6666%;
+  }
+  100% {
+    margin-left: 0;
+  }
+}
+
+/* ===========================
+   INFORMACIÓN DE SERVICIOS
+=========================== */
+
+.informacion {
+  max-width: 1200px;
+  margin: 0 auto 60px;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.servicios,
+.s1,
+.s2,
+.s3,
+.s4 {
+  background: var(--blanco);
+  border-radius: 25px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  color: #333;
+  flex: 1 1 320px;
+  max-width: 400px;
+  box-sizing: border-box;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.servicios nav,
+.s1 nav,
+.s2 nav,
+.s3 nav,
+.s4 nav {
+  background: var(--rojo);
+  padding: 15px 25px;
+  color: #fff;
+  border-radius: 25px;
+  text-transform: uppercase;
+  font-size: 34px;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* ===========================
+   FOOTER
+=========================== */
+
+footer {
+  max-width: 1200px;
+  margin: 0 auto 40px;
+  background: var(--gris);
+  padding: 20px 10px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--negro);
+  box-sizing: border-box;
+}
+
+footer .botones-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: nowrap;
+}
+
+footer .botones-container button {
+  padding: 10px 20px;
+  font-size: 18px;
+  background: var(--rojo);
+  color: var(--blanco);
+  border: 3px solid #a30900;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+footer .botones-container button:hover,
+footer .botones-container button:focus {
+  background-color: #B00A00;
+  transform: scale(1.1);
+  outline: none;
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+@media (max-width: 768px) {
+  body {
+    padding-top: 140px;
+  }
+
+  .menu {
+    flex-direction: column;
+    height: auto;
+    padding: 15px 20px;
+  }
+
+  .c1 img {
+    width: 120px;
+    margin-bottom: 10px;
+  }
+
+  .c2 {
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .c2 button {
+    min-width: 100px;
+    font-size: 14px;
+    padding: 6px 12px;
+  }
+
+  .publicidad,
+  .informacion,
+  footer {
+    max-width: 100%;
+    margin: 10px auto;
+    padding: 10px;
+  }
+
+  .informacion {
+    flex-direction: column;
+  }
+
+  footer .botones-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Ocultar textos sobre imágenes en móvil */
+  .texto1,
+  .texto2,
+  .texto3 {
+    display: none;
+  }
+}
