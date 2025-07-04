@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import '../assets/css/login.css';
+import '../css/login.css'
+
 
 const Login = ( { setUser} ) => {
   const [correoelectronico, setCorreo] = useState("");
@@ -23,19 +24,8 @@ const Login = ( { setUser} ) => {
       const data = await response.json();
 
       if (response.ok) {
-        setUser(data.usuario); // Asumiendo que el usuario viene en data.usuario
-
-        // Redirigir según el rol (ajusta los valores según tu backend)
-        const rol = data.usuario.id_rol;
-        if (rol === 1) {
-          navigate("/admin");
-        } else if (rol === 2) {
-          navigate("/cliente");
-        } else if (rol === 3) {
-          navigate("/veterinario");
-        } else {
-          setError("Rol desconocido, contacta al administrador.");
-        }
+        setUser(data.usuario); // Guarda los datos del usuario
+        // No redireccionamos aquí
       } else {
         setError(data.mensaje || "Error al iniciar sesión");
       }

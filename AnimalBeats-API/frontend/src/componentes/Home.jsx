@@ -1,17 +1,11 @@
 import React from 'react'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Login from './login';
-import Registro from './register';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
+  const navigate = useNavigate()
+
   return (
     <div>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/login" element={ <Login setUser={setUser}/>} />
-          <Route path="/register" element={ <Registro setUser={setUser}/>} />
-        </Routes>
-      </BrowserRouter>
       {/* Navbar fijo */}
       <div className="menu">
         <div className="c1">
@@ -21,7 +15,7 @@ const Home = () => {
           <button onClick={() => navigate('/#menu')}>INICIO</button>
           <button id="contact-btn">CONTACTENOS</button>
           <button className="btn" onClick={() => navigate('/login')}>LOGIN</button>
-          <button className="btn-registrarse" onClick={() => navigate('/register')}>REGISTRARSE</button>
+          <button className="btn-registrarse" onClick={() => navigate('/registro')}>REGISTRARSE</button>
         </div>
       </div>
 
