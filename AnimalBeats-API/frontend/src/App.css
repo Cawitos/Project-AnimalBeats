@@ -29,9 +29,10 @@ body {
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 100%;
-  margin: 0 auto;
+  max-width: 120rem; /* Limitar ancho máximo */
+  margin: 0 auto;    /* Centrar contenido */
   color: var(--negro);
+  box-sizing: border-box;
 }
 
 /* ===========================
@@ -52,6 +53,7 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 0 30px;
+  box-sizing: border-box;
 }
 
 .c1 img {
@@ -118,12 +120,14 @@ body {
 =========================== */
 
 .publicidad {
-  max-width: 1200px;
-  margin: 140px auto 40px;
+  max-width: 120rem; /* máximo ancho */
+  margin: 20px auto 40px;
   overflow: visible;
   position: relative;
   border-radius: 15px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  padding: 0 20px;
 }
 
 .publicidad ul {
@@ -206,15 +210,16 @@ body {
 =========================== */
 
 .informacion {
-  max-width: 1200px;
+  max-width: 120rem; /* máximo ancho */
   margin: 0 auto 60px;
   padding: 20px;
   display: flex;
-  flex-wrap: wrap;
-  gap: 30px;
+  flex-direction: column; /* vertical */
+  gap: 40px;
   justify-content: center;
   width: 100%;
   box-sizing: border-box;
+  align-items: center; /* centrar horizontalmente */
 }
 
 .servicios,
@@ -225,13 +230,14 @@ body {
   background: var(--blanco);
   border-radius: 25px;
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
-  padding: 30px;
+  padding: 40px 30px;
   color: #333;
-  flex: 1 1 320px;
-  max-width: 400px;
-  box-sizing: border-box;
   font-size: 18px;
-  line-height: 1.5;
+  line-height: 1.7;
+  width: 100%;
+  max-width: 80rem; /* ancho para que se vean largos */
+  box-sizing: border-box;
+  min-height: 20rem; /* altura mínima para longitud visual */
 }
 
 .servicios nav,
@@ -240,13 +246,13 @@ body {
 .s3 nav,
 .s4 nav {
   background: var(--rojo);
-  padding: 15px 25px;
+  padding: 20px 30px;
   color: #fff;
   border-radius: 25px;
   text-transform: uppercase;
-  font-size: 34px;
+  font-size: 28px;
   text-align: center;
-  margin-bottom: 15px;
+  margin-bottom: 25px;
 }
 
 /* ===========================
@@ -254,7 +260,7 @@ body {
 =========================== */
 
 footer {
-  max-width: 1200px;
+  max-width: 120rem; /* máximo ancho */
   margin: 0 auto 40px;
   background: var(--gris);
   padding: 20px 10px;
@@ -332,6 +338,28 @@ footer .botones-container button:focus {
 
   .informacion {
     flex-direction: column;
+    align-items: stretch; /* que ocupen todo el ancho */
+  }
+
+  .servicios,
+  .s1,
+  .s2,
+  .s3,
+  .s4 {
+    max-width: 100%;
+    padding: 25px 20px;
+    font-size: 18px;
+    min-height: auto; /* altura automática en móvil */
+  }
+
+  .servicios nav,
+  .s1 nav,
+  .s2 nav,
+  .s3 nav,
+  .s4 nav {
+    font-size: 24px;
+    padding: 15px 20px;
+    margin-bottom: 15px;
   }
 
   footer .botones-container {
