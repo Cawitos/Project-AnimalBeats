@@ -8,9 +8,9 @@ function ConsultarU() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/api/usuario/${n_documento}`)
+    fetch(`http://localhost:3000/usuario/${n_documento}`)
       .then(res => res.json())
-      .then(data => {
+      .then(data => { 
         setUsuario(data);
         setLoading(false);
       })

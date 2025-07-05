@@ -7,7 +7,7 @@ export default function AdminDashboard() {
   const [dashboardData, setDashboardData] = useState(null);
 
 useEffect(() => {
-  fetch('http://localhost:3000/api/admin/dashboard')
+  fetch('http://localhost:3000/admin/dashboard')
     .then(res => {
       if (!res.ok) {
         throw new Error(`Error del servidor: ${res.status}`);

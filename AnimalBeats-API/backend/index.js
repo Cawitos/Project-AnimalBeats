@@ -1,141 +1,161 @@
 const express = require('express');
-const sql = require('mysql2');
+const jwt = require('jsonwebtoken');
+const mysql = require('mysql2/promise');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const cors = require('cors');
-const puerto = 3000
+const puerto = 3000;
+const JWT_SECRET = 'Alejo192006'; 
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// Conexion a la base de datos AnimalBeats
-const conexion = sql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'AnimalBeats'
-});
+// Conexión asincrónica a la base de datos AnimalBeats
+let conexion;
+(async () => {
+  try {
+    conexion = await mysql.createConnection({
+      host: 'localhost',
+      user: 'root',
+      password: 'Alejo19',
+      database: 'AnimalBeats',
+    });
+    console.log('Conexión a la base de datos exitosa');
+  } catch (error) {
+    console.error('Error al conectar a la base de datos:', error);
+    process.exit(1);
+  }
+})();
 
-
-// Comprobar que la conexion si se ha establecido
-conexion.connect(error => {
-  if (error) throw error;
-  console.log('Conexión a la base de datos exitosa');
-});
-
-
-// Headers de la api
-app.use(function (req, res, next) {
+// Headers de la API
+app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', '*');
   next();
 });
 
-
-// Rutas de la api
+// Rutas de la API
 app.listen(puerto, () => {
-  console.log('Servidor escuchando en el puerto: ', puerto);
+  console.log('Servidor escuchando en el puerto:', puerto);
 });
 
 /* ==========================
-*  Rutas de Gestion de usuarios
+*  Rutas de gestión de usuarios
 * ========================== */
+
 // Registro de usuario
-// Registro
-app.post('/registro', (req, res) => {
+app.post('/registro', async (req, res) => {
   const { n_documento, correoelectronico, contrasena, id_documento, nombre } = req.body;
 
   if (!n_documento || !correoelectronico || !contrasena || !id_documento || !nombre) {
     return res.status(400).json({ mensaje: 'Faltan campos' });
   }
 
-  bcrypt.genSalt(10, (err, salt) => {
-    if (err) return res.status(500).json({ mensaje: 'Error interno' });
-    bcrypt.hash(contrasena, salt, (err, hash) => {
-      if (err) return res.status(500).json({ mensaje: 'Error interno' });
+  try {
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(contrasena, salt);
 
-      let id_rol, rolTexto;
-      if (correoelectronico.toLowerCase() === 'administrador@animalbeats.com') {
-        id_rol = 1; rolTexto = 'admin';
-      } else if (correoelectronico.toLowerCase() === 'veterinario@animalbeats.com') {
-        id_rol = 3; rolTexto = 'veterinario';
-      } else {
-        id_rol = 2; rolTexto = 'cliente';
-      }
+    let id_rol, rolTexto;
+    if (correoelectronico.toLowerCase() === 'administrador@animalbeats.com') {
+      id_rol = 1; rolTexto = 'admin';
+    } else if (correoelectronico.toLowerCase() === 'veterinario@animalbeats.com') {
+      id_rol = 3; rolTexto = 'veterinario';
+    } else {
+      id_rol = 2; rolTexto = 'cliente';
+    }
 
-      const sql = `INSERT INTO Usuarios (n_documento, correoelectronico, contrasena, id_documento, nombre, id_rol, estado) VALUES (?, ?, ?, ?, ?, ?, ?)`;
-      conexion.query(sql, [n_documento, correoelectronico, hash, id_documento, nombre, id_rol, 'activo'], (err, result) => {
-        if (err) {
-          console.error("Error en registro:", err);
-          return res.status(500).json({ mensaje: 'Error al registrar usuario' });
-        }
-        res.status(201).json({ mensaje: 'Usuario registrado exitosamente', rol: rolTexto });
-      });
-    });
-  });
+    const sql = `
+      INSERT INTO Usuarios (n_documento, correoelectronico, contrasena, id_documento, nombre, id_rol, estado)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+    `;
+    await conexion.execute(sql, [n_documento, correoelectronico, hash, id_documento, nombre, id_rol, 'activo']);
+
+    res.status(201).json({ mensaje: 'Usuario registrado exitosamente', rol: rolTexto });
+  } catch (err) {
+    console.error("Error en registro:", err);
+    res.status(500).json({ mensaje: 'Error al registrar usuario' });
+  }
 });
 
 // Obtener tipos de documento
-app.get('/tiposDocumento', (req, res) => {
-  conexion.query('SELECT id, tipo FROM Documento', (err, results) => {
-    if (err) {
-      console.error("Error en getTiposDocumento:", err);
-      return res.status(500).json({ mensaje: 'Error al obtener tipos de documento' });
-    }
+app.get('/tiposDocumento', async (req, res) => {
+  try {
+    const [results] = await conexion.query('SELECT id, tipo FROM Documento');
     res.status(200).json(results);
-  });
+  } catch (err) {
+    console.error("Error en getTiposDocumento:", err);
+    res.status(500).json({ mensaje: 'Error al obtener tipos de documento' });
+  }
 });
 
 // Login
-app.post('/login', (req, res) => {
+app.post('/login', async (req, res) => {
   const { correoelectronico, contrasena } = req.body;
 
-  conexion.query('SELECT * FROM Usuarios WHERE correoelectronico = ?', [correoelectronico], (err, resultados) => {
-    if (err) {
-      console.error("Error en login:", err);
-      return res.status(500).json({ mensaje: 'Error interno al iniciar sesión' });
-    }
+  try {
+    const [resultados] = await conexion.execute(
+      'SELECT * FROM Usuarios WHERE correoelectronico = ?',
+      [correoelectronico]
+    );
+
     if (resultados.length === 0) {
       return res.status(404).json({ mensaje: 'Usuario no encontrado' });
     }
 
     const usuario = resultados[0];
-    bcrypt.compare(contrasena, usuario.contrasena, (err, esCorrecta) => {
-      if (err) return res.status(500).json({ mensaje: 'Error interno' });
-      if (!esCorrecta) return res.status(401).json({ mensaje: 'Contraseña incorrecta' });
+    const esCorrecta = await bcrypt.compare(contrasena, usuario.contrasena);
+    if (!esCorrecta) return res.status(401).json({ mensaje: 'Contraseña incorrecta' });
 
-      let rolTexto;
-      switch (usuario.id_rol) {
-        case 1: rolTexto = 'admin'; break;
-        case 2: rolTexto = 'cliente'; break;
-        case 3: rolTexto = 'veterinario'; break;
-        default: rolTexto = 'desconocido';
-      }
+    let rolTexto;
+    switch (usuario.id_rol) {
+      case 1: rolTexto = 'admin'; break;
+      case 2: rolTexto = 'cliente'; break;
+      case 3: rolTexto = 'veterinario'; break;
+      default: rolTexto = 'desconocido';
+    }
 
-      res.status(200).json({ mensaje: 'Inicio de sesión exitoso', usuario, rol: rolTexto });
+    const payload = {
+      id: usuario.id,
+      nombre: usuario.nombre,
+      rol: usuario.id_rol
+    };
+
+    // Generar el token, válido por 1 hora
+    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' });
+
+    // Enviar solo esta respuesta
+    res.json({
+      mensaje: 'Inicio de sesión exitoso',
+      usuario: { id: usuario.id, nombre: usuario.nombre, rol: usuario.id_rol },
+      rol: rolTexto,
+      token
     });
-  });
+
+  } catch (err) {
+    console.error("Error en login:", err);
+    res.status(500).json({ mensaje: 'Error interno al iniciar sesión' });
+  }
 });
 
 // Listar usuarios
-app.get('/Listado', (req, res) => {
+app.get('/usuario/Listado', async (req, res) => {
   const sqlQuery = `
     SELECT u.n_documento, u.nombre, u.correoelectronico, d.tipo AS tipo_documento, u.estado
     FROM Usuarios u
     LEFT JOIN Documento d ON u.id_documento = d.id
   `;
-  conexion.query(sqlQuery, (err, resultado) => {
-    if (err) {
-      console.error('Error al obtener usuarios:', err);
-      return res.status(500).json({ error: 'Error al obtener usuarios' });
-    }
-    res.json(resultado.length > 0 ? resultado : 'No hay usuarios registrados');
-  });
+  try {
+    const [resultado] = await conexion.query(sqlQuery);
+    res.json({ usuarios: resultado });
+  } catch (err) {
+    console.error('Error al obtener usuarios:', err);
+    res.status(500).json({ error: 'Error al obtener usuarios' });
+  }
 });
 
 // Obtener usuario por documento
-app.get('/:n_documento', (req, res) => {
+app.get('/usuario/:n_documento', async (req, res) => {
   const { n_documento } = req.params;
   const sqlQuery = `
     SELECT u.n_documento, u.nombre, u.correoelectronico, d.tipo AS tipo_documento
@@ -143,39 +163,40 @@ app.get('/:n_documento', (req, res) => {
     LEFT JOIN Documento d ON u.id_documento = d.id
     WHERE u.n_documento = ?
   `;
-  conexion.query(sqlQuery, [n_documento], (err, resultado) => {
-    if (err) {
-      console.error('Error al obtener usuario:', err);
-      return res.status(500).json({ error: 'Error al obtener usuario' });
-    }
+  try {
+    const [resultado] = await conexion.execute(sqlQuery, [n_documento]);
     res.json(resultado.length > 0 ? resultado[0] : 'Usuario no encontrado');
-  });
+  } catch (err) {
+    console.error('Error al obtener usuario:', err);
+    res.status(500).json({ error: 'Error al obtener usuario' });
+  }
 });
 
 // Crear usuario
-app.post('/Crear', (req, res) => {
+app.post('/usuario/Crear', async (req, res) => {
   const { n_documento, nombre, correoelectronico, contrasena, id_documento, id_rol, estado } = req.body;
 
-  bcrypt.hash(contrasena, 10, (err, hashedPassword) => {
-    if (err) return res.status(500).json({ error: 'Error interno al hashear contraseña' });
+  try {
+    const hashedPassword = await bcrypt.hash(contrasena, 10);
 
     const sqlInsert = `
       INSERT INTO Usuarios (n_documento, nombre, correoelectronico, contrasena, id_documento, id_rol, estado)
       VALUES (?, ?, ?, ?, ?, ?, ?)
     `;
 
-    conexion.query(sqlInsert, [n_doacumento, nombre, correoelectronico, hashedPassword, id_documento, id_rol, estado], (err, resultado) => {
-      if (err) {
-        console.error('Error al registrar usuario:', err);
-        return res.status(500).json({ error: 'Error al registrar usuario' });
-      }
-      res.status(201).json({ mensaje: 'Usuario registrado correctamente', resultado });
-    });
-  });
+    const [resultado] = await conexion.execute(sqlInsert, [
+      n_documento, nombre, correoelectronico, hashedPassword, id_documento, id_rol, estado,
+    ]);
+
+    res.status(201).json({ mensaje: 'Usuario registrado correctamente', resultado });
+  } catch (err) {
+    console.error('Error al registrar usuario:', err);
+    res.status(500).json({ error: 'Error al registrar usuario' });
+  }
 });
 
 // Actualizar usuario
-app.put('/Actualizar/:n_documento', (req, res) => {
+app.put('/usuario/Actualizar/:n_documento', async (req, res) => {
   const { n_documento } = req.params;
   const { nombre, correoelectronico, id_documento, id_rol, estado } = req.body;
 
@@ -185,514 +206,526 @@ app.put('/Actualizar/:n_documento', (req, res) => {
     WHERE n_documento = ?
   `;
 
-  conexion.query(sqlUpdate, [nombre, correoelectronico, id_documento, id_rol, estado, n_documento], (err, resultado) => {
-    if (err) {
-      console.error('Error al actualizar usuario:', err);
-      return res.status(500).json({ error: 'Error al actualizar usuario' });
-    }
+  try {
+    const [resultado] = await conexion.execute(sqlUpdate, [
+      nombre, correoelectronico, id_documento, id_rol, estado, n_documento,
+    ]);
+
     if (resultado.affectedRows > 0) {
       res.json({ mensaje: 'Usuario actualizado correctamente' });
     } else {
       res.json('Usuario no encontrado');
     }
-  });
+  } catch (err) {
+    console.error('Error al actualizar usuario:', err);
+    res.status(500).json({ error: 'Error al actualizar usuario' });
+  }
 });
 
 // Suspender usuario
-app.put('/Suspender/:n_documento', (req, res) => {
+app.put('/usuario/Suspender/:n_documento', async (req, res) => {
   const { n_documento } = req.params;
 
   const sqlUpdate = `UPDATE Usuarios SET estado = 'Suspendido' WHERE n_documento = ?`;
 
-  conexion.query(sqlUpdate, [n_documento], (err, resultado) => {
-    if (err) {
-      console.error('Error al suspender usuario:', err);
-      return res.status(500).json({ error: 'Error al suspender usuario' });
-    }
+  try {
+    const [resultado] = await conexion.execute(sqlUpdate, [n_documento]);
+
     if (resultado.affectedRows > 0) {
       res.json({ mensaje: 'Usuario suspendido correctamente' });
     } else {
       res.json('Usuario no encontrado');
     }
-  });
+  } catch (err) {
+    console.error('Error al suspender usuario:', err);
+    res.status(500).json({ error: 'Error al suspender usuario' });
+  }
+});
+
+// Dashboard de admin
+app.get('/admin/dashboard', async (req, res) => {
+  try {
+    // Obtener el primer administrador registrado 
+    const [adminRows] = await conexion.execute(
+      "SELECT nombre, correoelectronico FROM usuarios WHERE id_rol = ?", [1]
+    );
+
+    if (adminRows.length === 0) {
+      return res.status(404).json({ error: "No se encontró ningún admin" });
+    }
+
+    // Contar total de usuarios que sean clientes o veterinarios 
+    const [countRows] = await conexion.execute(
+      "SELECT COUNT(*) AS total FROM usuarios WHERE id_rol IN (2, 3)"
+    );
+
+    const totalClientes = countRows[0].total;
+
+    // Enviar respuesta con datos del admin y el conteo de clientes
+    res.json({
+      usuario: {
+        nombre: adminRows[0].nombre,
+        correo: adminRows[0].correoelectronico,
+      },
+      total_clientes: totalClientes,
+    });
+  } catch (error) {
+    console.error("Error en /admin/dashboard:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
 });
 
 // Mostrar todas las mascotas registradas
-app.get('/mascotas', (req, res) => {
-  conexion.connect(function (err) {
-    if (err) throw err;
-    let mascotas = "SELECT * FROM Mascota";
-    conexion.query(mascotas, (err, resultado) => {
-      if (err) throw err;
-      if (resultado.length > 0) {
-        res.json(resultado);
-      }
-      else {
-        res.json('No hay mascotas registradas');
-      }
-    })
-  })
+app.get('/mascotas', async (req, res) => {
+  try {
+    const [mascotas] = await conexion.query("SELECT * FROM Mascota");
+    if (mascotas.length > 0) {
+      res.json(mascotas);
+    } else {
+      res.json('No hay mascotas registradas');
+    }
+  } catch (err) {
+    console.error('Error al obtener mascotas:', err);
+    res.status(500).json({ error: 'Error al obtener mascotas' });
+  }
 });
 
-// Mostrar una mascota en especifico
-app.get('/Mascotas/:id', (req, res) => {
-  conexion.connect(function (err) {
-    if (err) throw err;
-    let id = req.params.id;
-    let mascota = "SELECT * FROM Mascota WHERE id = ?";
-    conexion.query(mascota, [id], (err, resultado) => {
-      if (err) throw err;
-      if (resultado.length > 0) {
-        res.json(resultado);
-      }
-      else {
-        res.json('No hay mascota registradas');
-      }
-    })
-  })
+// Mostrar una mascota en específico
+app.get('/Mascotas/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const [resultado] = await conexion.execute("SELECT * FROM Mascota WHERE id = ?", [id]);
+    if (resultado.length > 0) {
+      res.json(resultado[0]);
+    } else {
+      res.status(404).json('No hay mascota registrada con ese ID');
+    }
+  } catch (err) {
+    console.error('Error al obtener mascota:', err);
+    res.status(500).json({ error: 'Error al obtener mascota' });
+  }
 });
 
 // Registrar una mascota
-app.post('/Mascotas/Registro', (req, res) => {
-  conexion.connect(function (err) {
-    if (err) throw err;
-    const { nombre, id_especie, id_raza, estado, fecha_nacimiento } = req.body;
-    let insercion = "INSERT INTO Mascota (nombre, id_especie, id_raza, estado, fecha_nacimiento) VALUES (?, ?, ?, ?, ?)";
-    conexion.query(insercion, [nombre, id_especie, id_raza, estado], (err, resultado) => {
-      if (err) throw err;
-      res.status(201).json({ "Mascota ingresada correctamente ": resultado });
-    })
-  })
+app.post('/Mascotas/Registro', async (req, res) => {
+  const { nombre, id_especie, id_raza, estado, fecha_nacimiento } = req.body;
+  try {
+    const sql = "INSERT INTO Mascota (nombre, id_especie, id_raza, estado, fecha_nacimiento) VALUES (?, ?, ?, ?, ?)";
+    const [resultado] = await conexion.execute(sql, [nombre, id_especie, id_raza, estado, fecha_nacimiento]);
+    res.status(201).json({ mensaje: "Mascota ingresada correctamente", resultado });
+  } catch (err) {
+    console.error('Error al registrar mascota:', err);
+    res.status(500).json({ error: 'Error al registrar mascota' });
+  }
 });
 
 // Actualizar mascota
-app.put('/Mascotas/Actualizar/:id', (req, res) => {
-  conexion.connect(function (err) {
-    if (err) throw err;
-    let id = req.params.id;
-    const { nombre, estado } = req.body;
-    let modificacion = "UPDATE Mascota SET nombre = ?, estado = ? WHERE id = ?";
-    conexion.query(modificacion, [nombre, estado, id], (err, resultado) => {
-      if (err) {
-        console.log('Error al modificar la mascota ', err)
-        res.status(500).json({ "Error al actualizar la mascota": err });
-      }
-      else {
-        if (resultado.affectedRows > 0) {
-          res.json({ "Mascota actualizada correctamente ": resultado });
-        }
-        else {
-          res.status(404).json({ "No hay mascota registradas": resultado });
-        }
-      }
-    })
-  })
+app.put('/Mascotas/Actualizar/:id', async (req, res) => {
+  const { id } = req.params;
+  const { nombre, estado } = req.body;
+  try {
+    const sql = "UPDATE Mascota SET nombre = ?, estado = ? WHERE id = ?";
+    const [resultado] = await conexion.execute(sql, [nombre, estado, id]);
+    if (resultado.affectedRows > 0) {
+      res.json({ mensaje: "Mascota actualizada correctamente", resultado });
+    } else {
+      res.status(404).json({ mensaje: "No hay mascota registrada con ese ID" });
+    }
+  } catch (err) {
+    console.error('Error al actualizar mascota:', err);
+    res.status(500).json({ error: 'Error al actualizar mascota' });
+  }
 });
 
 // Eliminar mascota
-app.delete('/Mascotas/Eliminar/:id', (req, res) => {
-  conexion.connect(function (err) {
-    if (err) throw err;
-    let id = req.params.id;
-    let eliminacion = "DELETE FROM Mascota WHERE id = ?";
-    conexion.query(eliminacion, id, (err, resultado) => {
-      if (err) {
-        console.log('Error al eliminar la mascota ', err)
-        res.status(500).json({ "Error al eliminar la mascota": err });
-      }
-      else {
-        if (resultado.affectedRows > 0) {
-          res.json({ "Mascota eliminada correctamente ": resultado })
-        }
-        else {
-          res.status(404).json({ "No hay mascota registradas": resultado });
-        }
-      }
-    })
-  })
+app.delete('/Mascotas/Eliminar/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const [resultado] = await conexion.execute("DELETE FROM Mascota WHERE id = ?", [id]);
+    if (resultado.affectedRows > 0) {
+      res.json({ mensaje: "Mascota eliminada correctamente", resultado });
+    } else {
+      res.status(404).json({ mensaje: "No hay mascota registrada con ese ID" });
+    }
+  } catch (err) {
+    console.error('Error al eliminar mascota:', err);
+    res.status(500).json({ error: 'Error al eliminar mascota' });
+  }
 });
 
 // Obtener todas las especies
-app.get('/Especies/Listado', (req, res) => {
-  conexion.connect(function (err) {
-    if (err) throw err;
-    let especies = "SELECT * FROM Especie";
-    conexion.query(especies, (err, resultado) => {
-      if (err) throw err;
-      if (resultado.length > 0) {
-        res.json(resultado);
-      }
-      else {
-        res.json('No hay especies registradas');
-      }
-    })
-  })
+app.get('/Especies/Listado', async (req, res) => {
+  try {
+    const [especies] = await conexion.query("SELECT * FROM Especie");
+    if (especies.length > 0) {
+      res.json(especies);
+    } else {
+      res.json('No hay especies registradas');
+    }
+  } catch (err) {
+    console.error('Error al obtener especies:', err);
+    res.status(500).json({ error: 'Error al obtener especies' });
+  }
+});
+
+// Registrar especie
+app.post('/Especies/Registrar', async (req, res) => {
+  const { especie, imagen } = req.body;
+  try {
+    const sql = "INSERT INTO Especie (especie, imagen) VALUES (?, ?)";
+    const [resultado] = await conexion.execute(sql, [especie, imagen]);
+    res.status(201).json({ mensaje: "Especie ingresada correctamente", resultado });
+  } catch (err) {
+    console.error('Error al registrar especie:', err);
+    res.status(500).json({ error: 'Error al registrar especie' });
+  }
+});
+
+// Actualizar especie
+app.put('/Especies/Actualizar/:id', async (req, res) => {
+  const { id } = req.params;
+  const { especie, imagen } = req.body;
+  try {
+    const sql = "UPDATE Especie SET especie = ?, imagen = ? WHERE id = ?";
+    const [resultado] = await conexion.execute(sql, [especie, imagen, id]);
+    if (resultado.affectedRows > 0) {
+      res.json({ mensaje: "Especie actualizada correctamente", resultado });
+    } else {
+      res.status(404).json({ mensaje: "No hay especie registrada con ese ID" });
+    }
+  } catch (err) {
+    console.error('Error al actualizar especie:', err);
+    res.status(500).json({ error: 'Error al actualizar especie' });
+  }
+});
+
+// Eliminar especie
+app.delete('/Especies/Eliminar/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const [resultado] = await conexion.execute("DELETE FROM Especie WHERE id = ?", [id]);
+    if (resultado.affectedRows > 0) {
+      res.json({ mensaje: "Especie eliminada correctamente", resultado });
+    } else {
+      res.status(404).json({ mensaje: "No hay especie registrada con ese ID" });
+    }
+  } catch (err) {
+    console.error('Error al eliminar especie:', err);
+    res.status(500).json({ error: 'Error al eliminar especie' });
+  }
 });
 
 
-// Registrar Especie
-app.post('/Especies/Registrar', (req, res) => {
-  conexion.connect(function (err) {
-    if (err) throw err;
-    const { especie, imagen } = req.body;
-    let insercion = "INSERT INTO Especie (especie, imagen) VALUES (?, ?)";
-    conexion.query(insercion, [especie, imagen], (err, resultado) => {
-      if (err) throw err;
-      res.status(201).json({ "Mascota ingresada correctamente ": resultado });
-    })
-  })
-});
-
-// Actualizar Especie
-app.put('/Especies/Actualizar/:id', (req, res) => {
-  conexion.connect(function (err) {
-    if (err) throw err;
-    const { especie, imagen } = req.body;
-    let id = req.params.id;
-    let modificacion = "UPDATE Especie SET especie = ?, imagen = ? WHERE id = ?";
-    conexion.query(modificacion, [especie, imagen, id], (err, resultado) => {
-      if (err) {
-        console.log('Error al Modificar la especie ', err)
-        res.status(500).json({ "Error al actualizar la especie": err });
-      }
-      else {
-        if (resultado.affectedRows > 0) {
-          res.json({ "Especie actualizada correctamente ": resultado });
-        }
-        else {
-          res.status(404).json({ "No hay especies registradas": resultado });
-        }
-      }
-    })
-  })
-});
-
-// Eliminar Especie
-app.delete('/Especies/Eliminar/:id', (req, res) => {
-  conexion.connect(function (err) {
-    if (err) throw err;
-    let id = req.params.id;
-    let eliminacion = "DELETE FROM Especie WHERE id = ?";
-    conexion.query(eliminacion, [id], (err, resultado) => {
-      if (err) {
-        console.log('Error al Eliminar la especie ', err)
-        res.status(500).json({ "Error al eliminar la especie": err });
-      }
-      else {
-        if (resultado.affectedRows > 0) {
-          res.json({ "Especie eliminada correctamente ": resultado });
-        }
-        else {
-          res.status(404).json({ "No hay especies registradas": resultado });
-        }
-      }
-    })
-  })
-})
 
 // Obtener las razas dentro de la especie
-app.get('/Razas/Listado/:id', (req, res) => {
-  conexion.connect(function (err) {
-    if (err) throw err;
-    let id = req.params.id;
-    let razas = "SELECT raza, imagen FROM raza WHERE id_especie = ?";
-    conexion.query(razas, id, (err, resultado) => {
-      if (err) throw err;
-      if (resultado.length > 0) {
-        res.json(resultado);
-      }
-      else {
-        res.json('No hay razas registradas');
-      }
-    })
-  })
+app.get('/Razas/Listado/:id', async (req, res) => {
+  const connection = req.app.locals.connection;
+  const id = req.params.id;
+  try {
+    const [resultado] = await connection.execute(
+      "SELECT raza, imagen FROM raza WHERE id_especie = ?", [id]
+    );
+    if (resultado.length > 0) {
+      res.json(resultado);
+    } else {
+      res.json({ mensaje: 'No hay razas registradas' });
+    }
+  } catch (error) {
+    console.error('Error al obtener las razas:', error);
+    res.status(500).json({ error: 'Error al obtener las razas' });
+  }
 });
 
-// Obtener las razas dentro de la especie
-app.get('/Razas/info/:id', (req, res) => {
-  conexion.connect(function (err) {
-    if (err) throw err;
-    let id = req.params.id;
-    let consulta = "SELECT * FROM raza WHERE id = ?";
-    conexion.query(consulta, id, (err, resultado) => {
-      if (err) throw err;
-      if (resultado.length > 0) {
-        res.json(resultado)
-      }
-      else {
-        res.json('No hay informacion registrada de la raza')
-      }
-    })
-  })
+// Obtener info de una raza por ID
+app.get('/Razas/info/:id', async (req, res) => {
+  const connection = req.app.locals.connection;
+  const id = req.params.id;
+  try {
+    const [resultado] = await connection.execute(
+      "SELECT * FROM raza WHERE id = ?", [id]
+    );
+    if (resultado.length > 0) {
+      res.json(resultado[0]);
+    } else {
+      res.status(404).json({ mensaje: 'No hay información registrada de la raza' });
+    }
+  } catch (error) {
+    console.error('Error al obtener información de la raza:', error);
+    res.status(500).json({ error: 'Error al obtener información de la raza' });
+  }
 });
 
 // Agregar raza
-app.post('/Razas/Registar/:id', (req, res) => {
-  conexion.connect(function (err) {
-    if (err) throw err;
-    let id = req.params.id;
-    const { raza, descripcion, imagen } = req.body;
-    let insercion = "INSERT INTO raza (id_especie, raza, descripcion, imagen ) VALUES (?, ?, ?, ?)";
-    conexion.query(insercion, [id, raza, descripcion, imagen], (err, resultado) => {
-      if (err) throw err;
-      res.status(201).json({ "Raza creada correctamente": resultado })
-    })
-  })
+app.post('/Razas/Registrar/:id', async (req, res) => {
+  const connection = req.app.locals.connection;
+  const id = req.params.id;
+  const { raza, descripcion, imagen } = req.body;
+  try {
+    const [resultado] = await connection.execute(
+      "INSERT INTO raza (id_especie, raza, descripcion, imagen) VALUES (?, ?, ?, ?)",
+      [id, raza, descripcion, imagen]
+    );
+    res.status(201).json({ mensaje: 'Raza creada correctamente', resultado });
+  } catch (error) {
+    console.error('Error al registrar la raza:', error);
+    res.status(500).json({ error: 'Error al registrar la raza' });
+  }
 });
 
 // Actualizar raza
-app.put('/Razas/Actualizar/:id', (req, res) => {
-  conexion.connect(function (err) {
-    if (err) throw err;
-    let id = req.params.id;
-    const { raza, descripcion, imagen } = req.body;
-    let modificacion = "UPDATE raza SET raza = ?, descripcion = ?, imagen = ? WHERE id = ?";
-    conexion.query(modificacion, [raza, descripcion, imagen, id], (err, resultado) => {
-      if (err) {
-        console.log('Error al Modificar la raza ', err)
-        res.status(500).json({ "Error al actualizar la raza": err });
-      }
-      else {
-        if (resultado.affectedRows > 0) {
-          res.json({ "Raza actualizada correctamente ": resultado });
-        }
-        else {
-          res.status(404).json({ "No hay razas registradas": resultado });
-        }
-      }
-    })
-  })
+app.put('/Razas/Actualizar/:id', async (req, res) => {
+  const connection = req.app.locals.connection;
+  const id = req.params.id;
+  const { raza, descripcion, imagen } = req.body;
+  try {
+    const [resultado] = await connection.execute(
+      "UPDATE raza SET raza = ?, descripcion = ?, imagen = ? WHERE id = ?",
+      [raza, descripcion, imagen, id]
+    );
+    if (resultado.affectedRows > 0) {
+      res.json({ mensaje: 'Raza actualizada correctamente', resultado });
+    } else {
+      res.status(404).json({ mensaje: 'No se encontró la raza para actualizar' });
+    }
+  } catch (error) {
+    console.error('Error al actualizar la raza:', error);
+    res.status(500).json({ error: 'Error al actualizar la raza' });
+  }
 });
 
 // Eliminar raza
-app.delete('/Razas/Eliminar/:id', (req, res) => {
-  conexion.connect(function (err) {
-    if (err) throw err;
-    let id = req.params.id;
-    let eliminacion = "DELETE FROM raza WHERE id = ?";
-    conexion.query(eliminacion, [id], (err, resultado) => {
-      if (err) {
-        console.log('Error al Eliminar la raza ', err)
-        res.status(500).json({ "Error al eliminar la raza": err });
-      }
-      else {
-        if (resultado.affectedRows > 0) {
-          res.json({ "Raza eliminada correctamente ": resultado });
-        }
-        else {
-          res.status(404).json({ "No hay razas registradas": resultado });
-        }
-      }
-    })
-  })
+app.delete('/Razas/Eliminar/:id', async (req, res) => {
+  const connection = req.app.locals.connection;
+  const id = req.params.id;
+  try {
+    const [resultado] = await connection.execute(
+      "DELETE FROM raza WHERE id = ?", [id]
+    );
+    if (resultado.affectedRows > 0) {
+      res.json({ mensaje: 'Raza eliminada correctamente', resultado });
+    } else {
+      res.status(404).json({ mensaje: 'No se encontró la raza para eliminar' });
+    }
+  } catch (error) {
+    console.error('Error al eliminar la raza:', error);
+    res.status(500).json({ error: 'Error al eliminar la raza' });
+  }
 });
 
 
-
-/* ==========================
-*  Rutas de Gestion de enfermedades y citas
-* ========================== */
+// =======================
+// Rutas de Enfermedades
+// =======================
 
 // Obtener todas las enfermedades
-app.get('/Enfermedades/Listado', (req, res) => {
-  conexion.connect((err) => {
-    if (err) throw err;
-    const query = "SELECT * FROM Enfermedad";
-    conexion.query(query, (err, resultado) => {
-      if (err) throw err;
-      if (resultado.length > 0) {
-        res.json(resultado);
-      } else {
-        res.json({ mensaje: 'No hay enfermedades registradas' });
-      }
-    });
-  });
+app.get('/Enfermedades/Listado', async (req, res) => {
+  const connection = req.app.locals.connection;
+  try {
+    const [resultado] = await connection.execute("SELECT * FROM Enfermedad");
+    if (resultado.length > 0) {
+      res.json(resultado);
+    } else {
+      res.json({ mensaje: 'No hay enfermedades registradas' });
+    }
+  } catch (error) {
+    console.error('Error al obtener enfermedades:', error);
+    res.status(500).json({ error: 'Error al obtener enfermedades' });
+  }
 });
 
 // Registrar nueva enfermedad
-app.post('/Enfermedades/Registrar', (req, res) => {
-  conexion.connect((err) => {
-    if (err) throw err;
-    const { nombre, descripcion } = req.body;
-    const query = "INSERT INTO Enfermedad (nombre, descripcion) VALUES (?, ?)";
-    conexion.query(query, [nombre, descripcion], (err, resultado) => {
-      if (err) {
-        console.log('Error al registrar la enfermedad:', err);
-        res.status(500).json({ error: 'Error al registrar la enfermedad' });
-      } else {
-        res.status(201).json({ mensaje: 'Enfermedad registrada correctamente', resultado });
-      }
-    });
-  });
+app.post('/Enfermedades/Registrar', async (req, res) => {
+  const connection = req.app.locals.connection;
+  const { nombre, descripcion } = req.body;
+  try {
+    const [resultado] = await connection.execute(
+      "INSERT INTO Enfermedad (nombre, descripcion) VALUES (?, ?)",
+      [nombre, descripcion]
+    );
+    res.status(201).json({ mensaje: 'Enfermedad registrada correctamente', resultado });
+  } catch (error) {
+    console.error('Error al registrar la enfermedad:', error);
+    res.status(500).json({ error: 'Error al registrar la enfermedad' });
+  }
 });
 
 // Actualizar enfermedad
-app.put('/Enfermedades/Actualizar/:nombre', (req, res) => {
-  conexion.connect((err) => {
-    if (err) throw err;
-    const { descripcion } = req.body;
-    const nombre = req.params.nombre;
-    const query = "UPDATE Enfermedad SET descripcion = ? WHERE nombre = ?";
-    conexion.query(query, [descripcion, nombre], (err, resultado) => {
-      if (err) {
-        console.log('Error al modificar la enfermedad:', err);
-        res.status(500).json({ error: 'Error al actualizar la enfermedad' });
-      } else {
-        if (resultado.affectedRows > 0) {
-          res.json({ mensaje: 'Enfermedad actualizada correctamente', resultado });
-        } else {
-          res.status(404).json({ mensaje: 'No se encontró la enfermedad' });
-        }
-      }
-    });
-  });
+app.put('/Enfermedades/Actualizar/:nombre', async (req, res) => {
+  const connection = req.app.locals.connection;
+  const nombre = req.params.nombre;
+  const { descripcion } = req.body;
+  try {
+    const [resultado] = await connection.execute(
+      "UPDATE Enfermedad SET descripcion = ? WHERE nombre = ?",
+      [descripcion, nombre]
+    );
+    if (resultado.affectedRows > 0) {
+      res.json({ mensaje: 'Enfermedad actualizada correctamente', resultado });
+    } else {
+      res.status(404).json({ mensaje: 'No se encontró la enfermedad' });
+    }
+  } catch (error) {
+    console.error('Error al actualizar la enfermedad:', error);
+    res.status(500).json({ error: 'Error al actualizar la enfermedad' });
+  }
 });
 
 // Eliminar enfermedad
-app.delete('/Enfermedades/Eliminar/:nombre', (req, res) => {
-  conexion.connect((err) => {
-    if (err) throw err;
-    const nombre = req.params.nombre;
-    const query = "DELETE FROM Enfermedad WHERE nombre = ?";
-    conexion.query(query, [nombre], (err, resultado) => {
-      if (err) {
-        console.log('Error al eliminar la enfermedad:', err);
-        res.status(500).json({ error: 'Error al eliminar la enfermedad' });
-      } else {
-        if (resultado.affectedRows > 0) {
-          res.json({ mensaje: 'Enfermedad eliminada correctamente', resultado });
-        } else {
-          res.status(404).json({ mensaje: 'No se encontró la enfermedad' });
-        }
-      }
-    });
-  });
+app.delete('/Enfermedades/Eliminar/:nombre', async (req, res) => {
+  const connection = req.app.locals.connection;
+  const nombre = req.params.nombre;
+  try {
+    const [resultado] = await connection.execute(
+      "DELETE FROM Enfermedad WHERE nombre = ?", [nombre]
+    );
+    if (resultado.affectedRows > 0) {
+      res.json({ mensaje: 'Enfermedad eliminada correctamente', resultado });
+    } else {
+      res.status(404).json({ mensaje: 'No se encontró la enfermedad' });
+    }
+  } catch (error) {
+    console.error('Error al eliminar la enfermedad:', error);
+    res.status(500).json({ error: 'Error al eliminar la enfermedad' });
+  }
 });
 
-//Rutas de citas
+
+// =======================
+// Rutas de Citas
+// =======================
+
 // Obtener todas las citas
-app.get('/Citas/Listado', (req, res) => {
-  conexion.query('SELECT * FROM Citas', (err, resultado) => {
-    if (err) {
-      console.error('Error al obtener citas:', err);
-      return res.status(500).json({ error: 'Error al obtener las citas' });
-    }
+app.get('/Citas/Listado', async (req, res) => {
+  const connection = req.app.locals.connection;
+  try {
+    const [resultado] = await connection.execute('SELECT * FROM Citas');
     if (resultado.length > 0) {
       res.json(resultado);
     } else {
       res.json({ mensaje: 'No hay citas registradas' });
     }
-  });
+  } catch (error) {
+    console.error('Error al obtener citas:', error);
+    res.status(500).json({ error: 'Error al obtener citas' });
+  }
 });
 
 // Registrar nueva cita
-app.post('/Citas/Registrar', (req, res) => {
+app.post('/Citas/Registrar', async (req, res) => {
+  const connection = req.app.locals.connection;
   const { id_Mascota, id_cliente, id_Servicio, fecha, Descripcion } = req.body;
-  const query = `
-    INSERT INTO Citas (id_Mascota, id_cliente, id_Servicio, fecha, Descripcion)
-    VALUES (?, ?, ?, ?, ?)
-  `;
-  conexion.query(query, [id_Mascota, id_cliente, id_Servicio, fecha, Descripcion], (err, resultado) => {
-    if (err) {
-      console.error('Error al registrar cita:', err);
-      return res.status(500).json({ error: 'Error al registrar la cita' });
-    }
+  try {
+    const [resultado] = await connection.execute(
+      `INSERT INTO Citas (id_Mascota, id_cliente, id_Servicio, fecha, Descripcion)
+       VALUES (?, ?, ?, ?, ?)`,
+      [id_Mascota, id_cliente, id_Servicio, fecha, Descripcion]
+    );
     res.status(201).json({ mensaje: 'Cita registrada correctamente', resultado });
-  });
+  } catch (error) {
+    console.error('Error al registrar la cita:', error);
+    res.status(500).json({ error: 'Error al registrar la cita' });
+  }
 });
 
 // Obtener una cita por ID
-app.get('/Citas/:id', (req, res) => {
-  const { id } = req.params;
-  conexion.query('SELECT * FROM Citas WHERE id = ?', [id], (err, resultado) => {
-    if (err) {
-      console.error('Error al buscar la cita:', err);
-      return res.status(500).json({ error: 'Error al buscar la cita' });
-    }
+app.get('/Citas/:id', async (req, res) => {
+  const connection = req.app.locals.connection;
+  const id = req.params.id;
+  try {
+    const [resultado] = await connection.execute(
+      'SELECT * FROM Citas WHERE id = ?', [id]
+    );
     if (resultado.length > 0) {
       res.json(resultado[0]);
     } else {
       res.status(404).json({ mensaje: 'Cita no encontrada' });
     }
-  });
+  } catch (error) {
+    console.error('Error al buscar la cita:', error);
+    res.status(500).json({ error: 'Error al buscar la cita' });
+  }
 });
 
 // Actualizar una cita por ID
-app.put('/Citas/Actualizar/:id', (req, res) => {
-  const { id } = req.params;
+app.put('/Citas/Actualizar/:id', async (req, res) => {
+  const connection = req.app.locals.connection;
+  const id = req.params.id;
   const { id_Mascota, id_cliente, id_Servicio, fecha, Descripcion } = req.body;
-  const query = `
-    UPDATE Citas
-    SET id_Mascota = ?, id_cliente = ?, id_Servicio = ?, fecha = ?, Descripcion = ?
-    WHERE id = ?
-  `;
-  conexion.query(query, [id_Mascota, id_cliente, id_Servicio, fecha, Descripcion, id], (err, resultado) => {
-    if (err) {
-      console.error('Error al actualizar cita:', err);
-      return res.status(500).json({ error: 'Error al actualizar la cita' });
-    }
+  try {
+    const [resultado] = await connection.execute(
+      `UPDATE Citas SET id_Mascota = ?, id_cliente = ?, id_Servicio = ?, fecha = ?, Descripcion = ?
+       WHERE id = ?`,
+      [id_Mascota, id_cliente, id_Servicio, fecha, Descripcion, id]
+    );
     if (resultado.affectedRows > 0) {
       res.json({ mensaje: 'Cita actualizada correctamente', resultado });
     } else {
       res.status(404).json({ mensaje: 'Cita no encontrada para actualizar' });
     }
-  });
+  } catch (error) {
+    console.error('Error al actualizar cita:', error);
+    res.status(500).json({ error: 'Error al actualizar la cita' });
+  }
 });
 
 // Eliminar una cita por ID
-app.delete('/Citas/Eliminar/:id', (req, res) => {
-  const { id } = req.params;
-  conexion.query('DELETE FROM Citas WHERE id = ?', [id], (err, resultado) => {
-    if (err) {
-      console.error('Error al eliminar cita:', err);
-      return res.status(500).json({ error: 'Error al eliminar la cita' });
-    }
+app.delete('/Citas/Eliminar/:id', async (req, res) => {
+  const connection = req.app.locals.connection;
+  const id = req.params.id;
+  try {
+    const [resultado] = await connection.execute(
+      'DELETE FROM Citas WHERE id = ?', [id]
+    );
     if (resultado.affectedRows > 0) {
       res.json({ mensaje: 'Cita eliminada correctamente', resultado });
     } else {
       res.status(404).json({ mensaje: 'Cita no encontrada para eliminar' });
     }
-  });
+  } catch (error) {
+    console.error('Error al eliminar cita:', error);
+    res.status(500).json({ error: 'Error al eliminar la cita' });
+  }
 });
 
 
-/*========================
-*  Rutas de Gestion de recordatorios
-*=========================*/
+/* ========================
+*  Rutas de Gestión de Recordatorios
+* ======================== */
 
 // Obtener todas las alarmas de recordatorios
 app.get('/gestionRecordatorios', async (req, res) => {
   const connection = req.app.locals.connection;
   try {
     const [alertas] = await connection.execute(`
-            SELECT Recordatorios.id, Recordatorios.id_Mascota, Mascota.Nombre AS nombre_mascota,
-                   Recordatorios.id_cliente, Recordatorios.Fecha, Recordatorios.descripcion
-            FROM Alertas
-            JOIN Mascota ON Recordatorios.id_Mascota = Mascota.id
-        `);
+      SELECT Recordatorios.id, Recordatorios.id_Mascota, Mascota.Nombre AS nombre_mascota,
+             Recordatorios.id_cliente, Recordatorios.Fecha, Recordatorios.descripcion
+      FROM Recordatorios
+      JOIN Mascota ON Recordatorios.id_Mascota = Mascota.id
+    `);
     res.json(alertas);
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener las alertas' });
   }
 });
 
-// Guardar el nuevo recordatorio
+// Guardar nuevo recordatorio
 app.post('/recordatorios/guardar', async (req, res) => {
   const connection = req.app.locals.connection;
   const { cliente, mascota, fecha, descripcion } = req.body;
 
   try {
     await connection.execute(`
-            INSERT INTO Recordatorios (id_cliente, id_Mascota, Fecha, descripcion)
-            VALUES (?, ?, ?, ?)
-        `, [cliente, mascota, fecha, descripcion]);
+      INSERT INTO Recordatorios (id_cliente, id_Mascota, Fecha, descripcion)
+      VALUES (?, ?, ?, ?)
+    `, [cliente, mascota, fecha, descripcion]);
+
     res.status(201).json({ message: 'Recordatorio guardado correctamente' });
   } catch (error) {
     res.status(500).json({ error: 'Error al guardar el recordatorio' });
   }
 });
 
-// Modificar recordatorio
+// Modificar recordatorio existente
 app.put('/recordatorios/modificar/:id', async (req, res) => {
   const connection = req.app.locals.connection;
   const { id } = req.params;
@@ -700,10 +733,11 @@ app.put('/recordatorios/modificar/:id', async (req, res) => {
 
   try {
     await connection.execute(`
-            UPDATE Recordatorios
-            SET id_cliente = ?, id_Mascota = ?, Fecha = ?, descripcion = ?
-            WHERE id = ?
-        `, [cliente, mascota, fecha, descripcion, id]);
+      UPDATE Recordatorios
+      SET id_cliente = ?, id_Mascota = ?, Fecha = ?, descripcion = ?
+      WHERE id = ?
+    `, [cliente, mascota, fecha, descripcion, id]);
+
     res.json({ message: 'Recordatorio actualizado correctamente' });
   } catch (error) {
     res.status(500).json({ error: 'Error al modificar el recordatorio' });
@@ -716,15 +750,21 @@ app.get('/recordatorios/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
-    const [alertaRows] = await connection.execute("SELECT * FROM Recordatorios WHERE id = ?", [id]);
+    const [alertaRows] = await connection.execute(
+      "SELECT * FROM Recordatorios WHERE id = ?", [id]
+    );
+
     if (alertaRows.length === 0) {
-      return res.status(404).json({ error: 'Recordatorio no encontrada' });
+      return res.status(404).json({ error: 'Recordatorio no encontrado' });
     }
 
     const alerta = alertaRows[0];
-
-    const [clientes] = await connection.execute("SELECT n_documento FROM Usuarios WHERE id_rol = 2");
-    const [mascotas] = await connection.execute("SELECT id, Nombre FROM Mascota");
+    const [clientes] = await connection.execute(
+      "SELECT n_documento FROM Usuarios WHERE id_rol = 2"
+    );
+    const [mascotas] = await connection.execute(
+      "SELECT id, Nombre FROM Mascota"
+    );
 
     res.json({ alerta, clientes, mascotas });
   } catch (error) {

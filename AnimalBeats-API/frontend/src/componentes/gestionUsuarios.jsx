@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
-import OffcanvasMenu from "../components/menu";
+import OffcanvasMenu from "../componentes/menu";
+import '../css/usuarios.css'
 
 export default function GestionUsuarios() {
   const [usuarios, setUsuarios] = useState([]);
@@ -9,7 +10,7 @@ export default function GestionUsuarios() {
   useEffect(() => {
     fetch("http://localhost:3000/usuario/Listado")
       .then((res) => res.json())
-      .then((data) => setUsuarios(data))
+      .then((data) => setUsuarios(data.usuarios))
       .catch((err) => console.error("Error al cargar usuarios:", err));
   }, []);
 
@@ -24,7 +25,7 @@ export default function GestionUsuarios() {
     }).then((result) => {
       if (result.isConfirmed) {
         fetch(`http://localhost:3000/usuario/Suspender/${id}`, {
-          method: "DELETE",
+          method: "PUT",
         })
           .then((response) => {
             if (!response.ok) throw new Error("Error al suspender usuario");

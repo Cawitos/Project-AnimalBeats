@@ -24,16 +24,20 @@ const Login = ({ setUser }) => {
       setUser(data.usuario); 
       setMensaje(data.mensaje || "Inicio de sesión exitoso");
 
+       localStorage.setItem("token", data.token);
+
       // Redirigir según rol
-      setTimeout(() => {
-        if (data.rol === "admin") {
-          navigate("/admin");
-        } else if (data.rol === "veterinario") {
-          navigate("/veterinario");
-        } else {
-          navigate("/cliente");
-        }
-      }, 1000);
+            setTimeout(() => {
+              console.log("Rol recibido:", data.rol); // para verificar en consola
+            
+              if (data.rol === "admin") {
+                navigate("/admin");
+              } else if (data.rol === "veterinario") {
+                navigate("/veterinario");
+              } else {
+                navigate("/cliente");
+              }
+            }, 1000);
 
     } catch (error) {
       console.error(error);
