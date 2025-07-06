@@ -107,11 +107,11 @@ export default function GestionUsuarios() {
         </div>
       )}
 
-      <div className="text-center mt-4">
-        <Link to="/usuarios/crear" className="btn btn-danger btn-lg">
-          <i className="fa-solid fa-user-plus"></i> Crear usuario
-        </Link>
-      </div>
+          <div className="text-center mt-4">
+            <Link to="/usuarios/crear" className="btn btn-danger btn-lg">
+              <i className="fa-solid fa-user-plus"></i> Crear usuario
+            </Link>
+          </div>
     </div>
   );
 }

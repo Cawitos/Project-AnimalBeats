@@ -174,7 +174,7 @@ app.get('/usuario/:n_documento', async (req, res) => {
 
 // Crear usuario
 app.post('/usuario/Crear', async (req, res) => {
-  const { n_documento, nombre, correoelectronico, contrasena, id_documento, id_rol, estado } = req.body;
+  const { n_documento, nombre, correoelectronico, contrasena, id_documento, id_rol } = req.body;
 
   try {
     const hashedPassword = await bcrypt.hash(contrasena, 10);
@@ -183,6 +183,8 @@ app.post('/usuario/Crear', async (req, res) => {
       INSERT INTO Usuarios (n_documento, nombre, correoelectronico, contrasena, id_documento, id_rol, estado)
       VALUES (?, ?, ?, ?, ?, ?, ?)
     `;
+
+    const estado = 'activo'; // estado fijo
 
     const [resultado] = await conexion.execute(sqlInsert, [
       n_documento, nombre, correoelectronico, hashedPassword, id_documento, id_rol, estado,

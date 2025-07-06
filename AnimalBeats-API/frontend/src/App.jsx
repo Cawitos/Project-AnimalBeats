@@ -7,6 +7,7 @@ import Recordatorios from './componentes/gestionRecordatorios';
 import Enfermedades from './componentes/gestionEnfermedades'
 import GestionUsuarios from './componentes/gestionUsuarios';  
 import ConsultarU from './componentes/ConsultarU';
+import CrearUsuario from './componentes/CrearUsuario';
 import Admin from './componentes/admin';
 import './App.css'
 
@@ -28,6 +29,7 @@ function App() {
           <Route path='/admin' element={User?.rol == 1 ? <Admin /> : <Navigate to="/" /> }/> 
           <Route path="/gestionusuarios" element={User?.rol == 1 ? <GestionUsuarios /> : <Navigate to="/" />} />
           <Route path="/usuarios/:n_documento/consultar" element={User?.rol == 1 ? <ConsultarU /> : <Navigate to="/" />}/>
+          <Route path="/usuarios/crear" element={User?.rol === 1 ? <CrearUsuario /> : <Navigate to="/" />}/>
         </Routes>
       </BrowserRouter>
     </>
