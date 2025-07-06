@@ -44,7 +44,7 @@ export default function CrearUsuario() {
     try {
       const response = await axios.post('http://localhost:3000/usuario/Crear', formData);
       Swal.fire({
-        title: '¡Éxito!',
+        title: '¡Éxito!, Usuario Creado Correctamente',
         text: response.data.mensaje,
         icon: 'success',
         confirmButtonText: 'OK',

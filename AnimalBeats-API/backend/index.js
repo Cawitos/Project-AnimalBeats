@@ -144,6 +144,7 @@ app.get('/usuario/Listado', async (req, res) => {
     SELECT u.n_documento, u.nombre, u.correoelectronico, d.tipo AS tipo_documento, u.estado
     FROM Usuarios u
     LEFT JOIN Documento d ON u.id_documento = d.id
+    WHERE u.estado != 'Suspendido'
   `;
   try {
     const [resultado] = await conexion.query(sqlQuery);
@@ -199,8 +200,10 @@ app.post('/usuario/Crear', async (req, res) => {
 
 // Actualizar usuario
 app.put('/usuario/Actualizar/:n_documento', async (req, res) => {
-  const { n_documento } = req.params;
-  const { nombre, correoelectronico, id_documento, id_rol, estado } = req.body;
+  const { nombre, correoelectronico, id_documento, id_rol, n_documento_original } = req.body;
+
+
+  const estado = 'activo';
 
   const sqlUpdate = `
     UPDATE Usuarios
@@ -210,19 +213,21 @@ app.put('/usuario/Actualizar/:n_documento', async (req, res) => {
 
   try {
     const [resultado] = await conexion.execute(sqlUpdate, [
-      nombre, correoelectronico, id_documento, id_rol, estado, n_documento,
+      nombre, correoelectronico, id_documento, id_rol, estado, n_documento_original,
     ]);
+
 
     if (resultado.affectedRows > 0) {
       res.json({ mensaje: 'Usuario actualizado correctamente' });
     } else {
-      res.json('Usuario no encontrado');
+      res.status(404).json({ mensaje: 'Usuario no encontrado' });
     }
   } catch (err) {
     console.error('Error al actualizar usuario:', err);
     res.status(500).json({ error: 'Error al actualizar usuario' });
   }
 });
+
 
 // Suspender usuario
 app.put('/usuario/Suspender/:n_documento', async (req, res) => {
