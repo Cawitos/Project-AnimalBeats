@@ -526,26 +526,24 @@ app.delete('/Razas/Eliminar/:id', async (req, res) => {
 
 // Obtener todas las enfermedades
 app.get('/Enfermedades/Listado', async (req, res) => {
-  const connection = req.app.locals.connection;
   try {
-    const [resultado] = await connection.execute("SELECT * FROM Enfermedad");
+    const [resultado] = await conexion.execute("SELECT * FROM Enfermedad");
     if (resultado.length > 0) {
-      res.json(resultado);
-    } else {
-      res.json({ mensaje: 'No hay enfermedades registradas' });
+      return res.json(resultado);
     }
+    return res.json({ mensaje: 'No hay enfermedades registradas' });
   } catch (error) {
     console.error('Error al obtener enfermedades:', error);
-    res.status(500).json({ error: 'Error al obtener enfermedades' });
+    return res.status(500).json({ error: 'Error al obtener enfermedades' });
   }
 });
 
+
 // Registrar nueva enfermedad
 app.post('/Enfermedades/Registrar', async (req, res) => {
-  const connection = req.app.locals.connection;
   const { nombre, descripcion } = req.body;
   try {
-    const [resultado] = await connection.execute(
+    const [resultado] = await conexion.execute(
       "INSERT INTO Enfermedad (nombre, descripcion) VALUES (?, ?)",
       [nombre, descripcion]
     );
@@ -558,44 +556,42 @@ app.post('/Enfermedades/Registrar', async (req, res) => {
 
 // Actualizar enfermedad
 app.put('/Enfermedades/Actualizar/:nombre', async (req, res) => {
-  const connection = req.app.locals.connection;
   const nombre = req.params.nombre;
   const { descripcion } = req.body;
   try {
-    const [resultado] = await connection.execute(
+    const [resultado] = await conexion.execute(
       "UPDATE Enfermedad SET descripcion = ? WHERE nombre = ?",
       [descripcion, nombre]
     );
     if (resultado.affectedRows > 0) {
-      res.json({ mensaje: 'Enfermedad actualizada correctamente', resultado });
+      return res.json({ mensaje: 'Enfermedad actualizada correctamente', resultado });
     } else {
-      res.status(404).json({ mensaje: 'No se encontró la enfermedad' });
+      return res.status(404).json({ mensaje: 'No se encontró la enfermedad' });
     }
   } catch (error) {
     console.error('Error al actualizar la enfermedad:', error);
-    res.status(500).json({ error: 'Error al actualizar la enfermedad' });
+    return res.status(500).json({ error: 'Error al actualizar la enfermedad' });
   }
 });
 
 // Eliminar enfermedad
 app.delete('/Enfermedades/Eliminar/:nombre', async (req, res) => {
-  const connection = req.app.locals.connection;
   const nombre = req.params.nombre;
   try {
-    const [resultado] = await connection.execute(
-      "DELETE FROM Enfermedad WHERE nombre = ?", [nombre]
+    const [resultado] = await conexion.execute(
+      "DELETE FROM Enfermedad WHERE nombre = ?",
+      [nombre]
     );
     if (resultado.affectedRows > 0) {
-      res.json({ mensaje: 'Enfermedad eliminada correctamente', resultado });
+      return res.json({ mensaje: 'Enfermedad eliminada correctamente', resultado });
     } else {
-      res.status(404).json({ mensaje: 'No se encontró la enfermedad' });
+      return res.status(404).json({ mensaje: 'No se encontró la enfermedad' });
     }
   } catch (error) {
     console.error('Error al eliminar la enfermedad:', error);
-    res.status(500).json({ error: 'Error al eliminar la enfermedad' });
+    return res.status(500).json({ error: 'Error al eliminar la enfermedad' });
   }
 });
-
 
 // =======================
 // Rutas de Citas
@@ -603,9 +599,8 @@ app.delete('/Enfermedades/Eliminar/:nombre', async (req, res) => {
 
 // Obtener todas las citas
 app.get('/Citas/Listado', async (req, res) => {
-  const connection = req.app.locals.connection;
   try {
-    const [resultado] = await connection.execute('SELECT * FROM Citas');
+    const [resultado] = await conexion.execute('SELECT * FROM Citas');
     if (resultado.length > 0) {
       res.json(resultado);
     } else {
@@ -619,10 +614,9 @@ app.get('/Citas/Listado', async (req, res) => {
 
 // Registrar nueva cita
 app.post('/Citas/Registrar', async (req, res) => {
-  const connection = req.app.locals.connection;
   const { id_Mascota, id_cliente, id_Servicio, fecha, Descripcion } = req.body;
   try {
-    const [resultado] = await connection.execute(
+    const [resultado] = await conexion.execute(
       `INSERT INTO Citas (id_Mascota, id_cliente, id_Servicio, fecha, Descripcion)
        VALUES (?, ?, ?, ?, ?)`,
       [id_Mascota, id_cliente, id_Servicio, fecha, Descripcion]
@@ -636,10 +630,9 @@ app.post('/Citas/Registrar', async (req, res) => {
 
 // Obtener una cita por ID
 app.get('/Citas/:id', async (req, res) => {
-  const connection = req.app.locals.connection;
   const id = req.params.id;
   try {
-    const [resultado] = await connection.execute(
+    const [resultado] = await conexion.execute(
       'SELECT * FROM Citas WHERE id = ?', [id]
     );
     if (resultado.length > 0) {
@@ -655,11 +648,10 @@ app.get('/Citas/:id', async (req, res) => {
 
 // Actualizar una cita por ID
 app.put('/Citas/Actualizar/:id', async (req, res) => {
-  const connection = req.app.locals.connection;
   const id = req.params.id;
   const { id_Mascota, id_cliente, id_Servicio, fecha, Descripcion } = req.body;
   try {
-    const [resultado] = await connection.execute(
+    const [resultado] = await conexion.execute(
       `UPDATE Citas SET id_Mascota = ?, id_cliente = ?, id_Servicio = ?, fecha = ?, Descripcion = ?
        WHERE id = ?`,
       [id_Mascota, id_cliente, id_Servicio, fecha, Descripcion, id]
@@ -677,10 +669,9 @@ app.put('/Citas/Actualizar/:id', async (req, res) => {
 
 // Eliminar una cita por ID
 app.delete('/Citas/Eliminar/:id', async (req, res) => {
-  const connection = req.app.locals.connection;
   const id = req.params.id;
   try {
-    const [resultado] = await connection.execute(
+    const [resultado] = await conexion.execute(
       'DELETE FROM Citas WHERE id = ?', [id]
     );
     if (resultado.affectedRows > 0) {
@@ -694,6 +685,22 @@ app.delete('/Citas/Eliminar/:id', async (req, res) => {
   }
 });
 
+/* ========================
+*  Rutas de Servicios
+* ======================== */
+app.get('/servicios/Listado', async (req, res) => {
+  try {
+    const [resultado] = await conexion.execute('SELECT * FROM servicios');
+    if (resultado.length > 0) {
+      res.json(resultado);
+    } else {
+      res.json({ mensaje: 'No hay citas registradas' });
+    }
+  } catch (error) {
+    console.error('Error al obtener citas:', error);
+    res.status(500).json({ error: 'Error al obtener citas' });
+  }
+});
 
 /* ========================
 *  Rutas de Gestión de Recordatorios

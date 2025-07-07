@@ -11,6 +11,8 @@ import CrearUsuario from './componentes/CrearUsuario';
 import ModificarUsuarioPage from './componentes/ModificarUsuarioPage';
 import Admin from './componentes/admin';
 import './App.css'
+import GestionEnfermedades from './componentes/gestionEnfermedades';
+import GestionCitas from './componentes/Citas';
 
 function App() {
   const [User, setUser] = useState(null)
@@ -32,6 +34,9 @@ function App() {
           <Route path="/usuarios/:n_documento/consultar" element={User?.rol == 1 ? <ConsultarU /> : <Navigate to="/" />}/>
           <Route path="/usuarios/crear" element={User?.rol === 1 ? <CrearUsuario /> : <Navigate to="/" />}/>
        <Route path="/usuario/Actualizar/:n_documento" element={User?.rol === 1 ? <ModificarUsuarioPage /> : <Navigate to="/" />} />
+          
+          <Route path="/gestion_enfermedades" element={<GestionEnfermedades/>} />
+          <Route path="/gestion_citas" element={<GestionCitas/>} />
         </Routes>
       </BrowserRouter>
     </>
