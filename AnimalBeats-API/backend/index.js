@@ -249,6 +249,37 @@ app.put('/usuario/Suspender/:n_documento', async (req, res) => {
   }
 });
 
+//Ruta Tabla de Roles
+app.get('/roles/Listado', async (req, res) => {
+  const sqlQuery = `
+    SELECT id, rol
+    FROM Rol
+  `;
+  try {
+    const [resultado] = await conexion.query(sqlQuery);
+    res.json({ roles: resultado });
+  } catch (err) {
+    console.error('Error al obtener roles:', err);
+    res.status(500).json({ error: 'Error al obtener roles' });
+  }
+});
+
+//Ruta Crear Roles
+app.post('/roles/Crear', async (req, res) => {
+  const { rol } = req.body;
+  if (!rol || rol.trim() === '') {
+    return res.status(400).json({ error: 'El rol es obligatorio' });
+  }
+  try {
+    const sqlInsert = 'INSERT INTO Rol (rol) VALUES (?)';
+    const [resultado] = await conexion.query(sqlInsert, [rol.trim()]);
+    res.json({ message: 'Rol creado correctamente', id: resultado.insertId });
+  } catch (err) {
+    console.error('Error al crear rol:', err);
+    res.status(500).json({ error: 'Error al crear rol' });
+  }
+});
+
 // Dashboard de admin
 app.get('/admin/dashboard', async (req, res) => {
   try {

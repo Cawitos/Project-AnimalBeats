@@ -9,6 +9,7 @@ import GestionUsuarios from './componentes/gestionUsuarios';
 import ConsultarU from './componentes/ConsultarU';
 import CrearUsuario from './componentes/CrearUsuario';
 import ModificarUsuarioPage from './componentes/ModificarUsuarioPage';
+import EstadoRoles from './componentes/Estados-Roles';
 import Admin from './componentes/admin';
 import './App.css'
 import GestionEnfermedades from './componentes/gestionEnfermedades';
@@ -34,6 +35,7 @@ function App() {
           <Route path="/usuarios/:n_documento/consultar" element={User?.rol == 1 ? <ConsultarU /> : <Navigate to="/" />}/>
           <Route path="/usuarios/crear" element={User?.rol === 1 ? <CrearUsuario /> : <Navigate to="/" />}/>
        <Route path="/usuario/Actualizar/:n_documento" element={User?.rol === 1 ? <ModificarUsuarioPage /> : <Navigate to="/" />} />
+       <Route path="/estados-roles" element={User?.rol === 1 ? <EstadoRoles /> : <Navigate to="/" />} />
           
           <Route path="/gestion_enfermedades" element={<GestionEnfermedades/>} />
           <Route path="/gestion_citas" element={<GestionCitas/>} />
