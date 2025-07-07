@@ -18,7 +18,7 @@ let conexion;
     conexion = await mysql.createConnection({
       host: 'localhost',
       user: 'root',
-      password: 'Alejo19',
+      password: '',
       database: 'AnimalBeats',
     });
     console.log('Conexión a la base de datos exitosa');
@@ -738,7 +738,7 @@ app.get('/servicios/Listado', async (req, res) => {
 * ======================== */
 
 // Obtener todas las alarmas de recordatorios
-app.get('/gestionRecordatorios', async (req, res) => {
+app.get('/gestion_recordatorios', async (req, res) => {
   const connection = req.app.locals.connection;
   try {
     const [alertas] = await connection.execute(`

@@ -15,7 +15,6 @@ export default function ModificarUsuarioPage() {
         return res.json();
       })
       .then((data) => {
-        // Como tu endpoint responde con un string si no hay usuario, debemos manejarlo
         if (typeof data === "string") {
           setError(data);
         } else {
