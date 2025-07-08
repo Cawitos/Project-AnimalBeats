@@ -7,7 +7,7 @@ import Recordatorios from './componentes/gestionRecordatorios';
 import Enfermedades from './componentes/gestionEnfermedades'
 import GestionMascotas from './componentes/gestionMascotas'
 import GestionEspecies from './componentes/gestionEspecies'
-import GestionUsuarios from './componentes/gestionUsuarios';  
+import GestionUsuarios from './componentes/gestionUsuarios';
 import ConsultarU from './componentes/ConsultarU';
 import CrearUsuario from './componentes/CrearUsuario';
 import ModificarUsuarioPage from './componentes/ModificarUsuarioPage';
@@ -31,23 +31,25 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-           <Route path="/" element={!User ? (<Home />) : (
-    User.rol === '1' ? <Navigate to="/admin" /> :
-    User.rol === '2' ? <Navigate to="/cliente" /> :
-    User.rol === '3' ? <Navigate to="/veterinario" /> :
-    <Navigate to="/" />
-  )} />
+          <Route path="/" element={!User ? (<Home />) : (
+            User.rol === '1' ? <Navigate to="/admin" /> :
+              User.rol === '2' ? <Navigate to="/cliente" /> :
+                User.rol === '3' ? <Navigate to="/veterinario" /> :
+                  <Navigate to="/" />
+          )} />
           <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path='/registro' element={<Register setUser={setUser} />} />
-          <Route path='/admin' element={User?.rol == 1 ? <Admin /> : <Navigate to="/" /> }/> 
+          <Route path='/admin' element={User?.rol == 1 ? <Admin /> : <Navigate to="/" />} />
           <Route path="/gestionusuarios" element={User?.rol == 1 ? <GestionUsuarios /> : <Navigate to="/" />} />
-          <Route path="/usuarios/:n_documento/consultar" element={User?.rol == 1 ? <ConsultarU /> : <Navigate to="/" />}/>
-          <Route path="/usuarios/crear" element={User?.rol === 1 ? <CrearUsuario /> : <Navigate to="/" />}/>
+          <Route path="/usuarios/:n_documento/consultar" element={User?.rol == 1 ? <ConsultarU /> : <Navigate to="/" />} />
+          <Route path="/usuarios/crear" element={User?.rol === 1 ? <CrearUsuario /> : <Navigate to="/" />} />
+          <Route path="/usuario/Actualizar/:n_documento" element={User?.rol === 1 ? <ModificarUsuarioPage /> : <Navigate to="/" />} />
+          <Route path="/estados-roles" element={User?.rol === 1 ? <EstadoRoles /> : <Navigate to="/" />} />
 
           {/* Rutas gestion de Mascotas */}
-          <Route path='/Mascotas' element={!User ? <Navigate to="/" /> :<GestionMascotas />} />
+          <Route path='/Mascotas' element={!User ? <Navigate to="/" /> : <GestionMascotas />} />
           <Route path='/Mascotas/crear' element={!User ? <Navigate to="/" /> : <CrearMascota />} />
-          <Route path='/Mascotas/modificar/:id' element={!User ? <navigate to ="/" /> : <ModificarMascota />} />
+          <Route path='/Mascotas/modificar/:id' element={!User ? <navigate to="/" /> : <ModificarMascota />} />
           <Route path='/Especies' element={!User ? <Navigate to="/" /> : <GestionEspecies />} />
           <Route path='/Especies/crear' element={!User ? <Navigate to="/" /> : < CrearEspecie />} />
           <Route path='/Especies/modificar/:id' element={!User ? <Navigate to="/" /> : < ModificarEspecie />} />

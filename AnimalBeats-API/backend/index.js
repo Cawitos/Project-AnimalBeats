@@ -7,7 +7,7 @@ const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
 const puerto = 3000;
-const JWT_SECRET = 'tricamale'; 
+const JWT_SECRET = 'tricamale';
 
 const app = express();
 app.use(cors());
@@ -20,7 +20,7 @@ let conexion;
     conexion = await mysql.createConnection({
       host: 'localhost',
       user: 'root',
-      password: 'Holaoreo<3',
+      password: 'Alejo19',
       database: 'AnimalBeats',
     });
     app.locals.connection = conexion;  // <--- asignar aquí
@@ -541,21 +541,21 @@ app.use('/imagenes_razas', express.static('public/imagenes_razas'));
 
 // Conseguir las razas dentro de la especie
 app.get('/Razas/Listado/:id', async (req, res) => {
-      const id = req.params.id;
-      try {
-        const [resultado] = await conexion.execute(
-          "SELECT * FROM raza WHERE id_especie = ?", [id]
-        );
-        if (resultado.length > 0) {
-          res.json(resultado);
-        } else {
-          res.json({ mensaje: 'No hay razas registradas' });
-        }
-      } catch (error) {
-        console.error('Error al obtener las razas:', error);
-        res.status(500).json({ error: 'Error al obtener las razas' });
-      }
-    });
+  const id = req.params.id;
+  try {
+    const [resultado] = await conexion.execute(
+      "SELECT * FROM raza WHERE id_especie = ?", [id]
+    );
+    if (resultado.length > 0) {
+      res.json(resultado);
+    } else {
+      res.json({ mensaje: 'No hay razas registradas' });
+    }
+  } catch (error) {
+    console.error('Error al obtener las razas:', error);
+    res.status(500).json({ error: 'Error al obtener las razas' });
+  }
+});
 
 
 // Obtener info de una raza por ID
