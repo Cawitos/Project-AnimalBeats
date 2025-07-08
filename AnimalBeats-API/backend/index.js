@@ -4,8 +4,10 @@ const mysql = require('mysql2/promise');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const cors = require('cors');
+const multer = require('multer');
+const path = require('path');
 const puerto = 3000;
-const JWT_SECRET = 'Alejo192006'; 
+const JWT_SECRET = 'tricamale'; 
 
 const app = express();
 app.use(cors());
@@ -18,7 +20,7 @@ let conexion;
     conexion = await mysql.createConnection({
       host: 'localhost',
       user: 'root',
-      password: 'Alejo19',
+      password: '',
       database: 'AnimalBeats',
     });
     console.log('Conexión a la base de datos exitosa');
@@ -277,10 +279,21 @@ app.get('/admin/dashboard', async (req, res) => {
   }
 });
 
+/*-------------------------------
+* Rutas de Gestion de mascotas
+-------------------------------*/
+
+
 // Mostrar todas las mascotas registradas
 app.get('/mascotas', async (req, res) => {
   try {
-    const [mascotas] = await conexion.query("SELECT * FROM Mascota");
+    const [mascotas] = await conexion.query(`
+      SELECT M.id_cliente, M.id, M.nombre, E.Especie AS especie, R.Raza AS raza, M.fecha_nacimiento
+      FROM Mascota M
+      JOIN Especie E ON M.id_especie = E.id
+      JOIN Raza R ON M.id_raza = R.id
+      WHERE M.estado != 'Suspendido'
+    `);
     if (mascotas.length > 0) {
       res.json(mascotas);
     } else {
@@ -291,6 +304,7 @@ app.get('/mascotas', async (req, res) => {
     res.status(500).json({ error: 'Error al obtener mascotas' });
   }
 });
+
 
 // Mostrar una mascota en específico
 app.get('/Mascotas/:id', async (req, res) => {
@@ -310,10 +324,10 @@ app.get('/Mascotas/:id', async (req, res) => {
 
 // Registrar una mascota
 app.post('/Mascotas/Registro', async (req, res) => {
-  const { nombre, id_especie, id_raza, estado, fecha_nacimiento } = req.body;
+  const { nombre, id_especie, id_raza, estado, fecha_nacimiento, id_cliente } = req.body;
   try {
-    const sql = "INSERT INTO Mascota (nombre, id_especie, id_raza, estado, fecha_nacimiento) VALUES (?, ?, ?, ?, ?)";
-    const [resultado] = await conexion.execute(sql, [nombre, id_especie, id_raza, estado, fecha_nacimiento]);
+    const sql = "INSERT INTO Mascota (nombre, id_especie, id_raza, estado, fecha_nacimiento, id_cliente) VALUES (?, ?, ?, ?, ?, ?)";
+    const [resultado] = await conexion.execute(sql, [nombre, id_especie, id_raza, estado, fecha_nacimiento, id_cliente]);
     res.status(201).json({ mensaje: "Mascota ingresada correctamente", resultado });
   } catch (err) {
     console.error('Error al registrar mascota:', err);
@@ -340,10 +354,15 @@ app.put('/Mascotas/Actualizar/:id', async (req, res) => {
 });
 
 // Eliminar mascota
-app.delete('/Mascotas/Eliminar/:id', async (req, res) => {
+app.put('/Mascotas/Eliminar/:id', async (req, res) => {
   const { id } = req.params;
+  console.log('Solicitud para suspender mascota con id:', id);
   try {
-    const [resultado] = await conexion.execute("DELETE FROM Mascota WHERE id = ?", [id]);
+    const [resultado] = await conexion.execute(
+      "UPDATE Mascota SET estado = 'Suspendido' WHERE id = ?",
+      [id]
+    );
+    console.log('Resultado de la actualización:', resultado);
     if (resultado.affectedRows > 0) {
       res.json({ mensaje: "Mascota eliminada correctamente", resultado });
     } else {
@@ -354,6 +373,7 @@ app.delete('/Mascotas/Eliminar/:id', async (req, res) => {
     res.status(500).json({ error: 'Error al eliminar mascota' });
   }
 });
+
 
 // Obtener todas las especies
 app.get('/Especies/Listado', async (req, res) => {
@@ -370,12 +390,29 @@ app.get('/Especies/Listado', async (req, res) => {
   }
 });
 
+/* Guardar imagenes para las especies */
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/imagenes_especies'); // crea esta carpeta si no existe
+  },
+  filename: function (req, file, cb) {
+    // nombre único para el archivo
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ storage: storage });
+
+app.use('/imagenes_especies', express.static('public/imagenes_especies'));
+
 // Registrar especie
-app.post('/Especies/Registrar', async (req, res) => {
-  const { especie, imagen } = req.body;
+app.post('/Especies/Crear', upload.single('imagen'), async (req, res) => {
+  const { Especie } = req.body;
+  const imagen = req.file ? req.file.filename : null; // nombre del archivo guardado
+
   try {
     const sql = "INSERT INTO Especie (especie, imagen) VALUES (?, ?)";
-    const [resultado] = await conexion.execute(sql, [especie, imagen]);
+    const [resultado] = await conexion.execute(sql, [Especie, imagen]);
     res.status(201).json({ mensaje: "Especie ingresada correctamente", resultado });
   } catch (err) {
     console.error('Error al registrar especie:', err);
@@ -383,17 +420,50 @@ app.post('/Especies/Registrar', async (req, res) => {
   }
 });
 
-// Actualizar especie
-app.put('/Especies/Actualizar/:id', async (req, res) => {
+app.get('/Especies/:id', async (req, res) => {
   const { id } = req.params;
-  const { especie, imagen } = req.body;
   try {
-    const sql = "UPDATE Especie SET especie = ?, imagen = ? WHERE id = ?";
-    const [resultado] = await conexion.execute(sql, [especie, imagen, id]);
-    if (resultado.affectedRows > 0) {
-      res.json({ mensaje: "Especie actualizada correctamente", resultado });
+    const [rows] = await conexion.query("SELECT * FROM Especie WHERE id = ?", [id]);
+    if (rows.length > 0) {
+      res.json(rows[0]); // devuelve el primer objeto
     } else {
-      res.status(404).json({ mensaje: "No hay especie registrada con ese ID" });
+      res.status(404).json({ mensaje: 'Especie no encontrada' });
+    }
+  } catch (err) {
+    console.error('Error al obtener especie:', err);
+    res.status(500).json({ error: 'Error al obtener especie' });
+  }
+});
+
+// Actualizar especie con posible imagen nueva
+app.put('/Especies/Actualizar/:id', upload.single('imagen'), async (req, res) => {
+  const { id } = req.params;
+  const especie = req.body.Especie || req.body.especie; // según cómo envíes el campo
+  let imagen = null;
+
+  if (req.file) {
+    imagen = req.file.filename;
+  }
+
+  try {
+    if (imagen) {
+      // Actualiza nombre y imagen
+      const sql = "UPDATE Especie SET especie = ?, imagen = ? WHERE id = ?";
+      const [resultado] = await conexion.execute(sql, [especie, imagen, id]);
+      if (resultado.affectedRows > 0) {
+        res.json({ mensaje: "Especie actualizada correctamente", resultado });
+      } else {
+        res.status(404).json({ mensaje: "No hay especie registrada con ese ID" });
+      }
+    } else {
+      // Actualiza solo nombre si no hay imagen nueva
+      const sql = "UPDATE Especie SET especie = ? WHERE id = ?";
+      const [resultado] = await conexion.execute(sql, [especie, id]);
+      if (resultado.affectedRows > 0) {
+        res.json({ mensaje: "Especie actualizada correctamente", resultado });
+      } else {
+        res.status(404).json({ mensaje: "No hay especie registrada con ese ID" });
+      }
     }
   } catch (err) {
     console.error('Error al actualizar especie:', err);
@@ -417,81 +487,106 @@ app.delete('/Especies/Eliminar/:id', async (req, res) => {
   }
 });
 
-
-
-// Obtener las razas dentro de la especie
-app.get('/Razas/Listado/:id', async (req, res) => {
-  const connection = req.app.locals.connection;
-  const id = req.params.id;
-  try {
-    const [resultado] = await connection.execute(
-      "SELECT raza, imagen FROM raza WHERE id_especie = ?", [id]
-    );
-    if (resultado.length > 0) {
-      res.json(resultado);
-    } else {
-      res.json({ mensaje: 'No hay razas registradas' });
-    }
-  } catch (error) {
-    console.error('Error al obtener las razas:', error);
-    res.status(500).json({ error: 'Error al obtener las razas' });
+// Guardar imagenes de las razas
+const storageRazas = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/imagenes_razas'); // carpeta para imágenes de razas
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname)); // nombre único
   }
 });
 
+const uploadRazas = multer({ storage: storageRazas });
+
+// Servir imágenes estáticas de razas
+app.use('/imagenes_razas', express.static('public/imagenes_razas'));
+
+// Conseguir las razas dentro de la especie
+app.get('/Razas/Listado/:id', async (req, res) => {
+      const id = req.params.id;
+      try {
+        const [resultado] = await conexion.execute(
+          "SELECT * FROM raza WHERE id_especie = ?", [id]
+        );
+        if (resultado.length > 0) {
+          res.json(resultado);
+        } else {
+          res.json({ mensaje: 'No hay razas registradas' });
+        }
+      } catch (error) {
+        console.error('Error al obtener las razas:', error);
+        res.status(500).json({ error: 'Error al obtener las razas' });
+      }
+    });
+
+
 // Obtener info de una raza por ID
-app.get('/Razas/info/:id', async (req, res) => {
-  const connection = req.app.locals.connection;
-  const id = req.params.id;
+app.get('/Razas/:id', async (req, res) => {
+  const { id } = req.params;
   try {
-    const [resultado] = await connection.execute(
-      "SELECT * FROM raza WHERE id = ?", [id]
-    );
-    if (resultado.length > 0) {
-      res.json(resultado[0]);
+    const [rows] = await conexion.query("SELECT * FROM raza WHERE id = ?", [id]);
+    if (rows.length > 0) {
+      res.json(rows[0]);
     } else {
-      res.status(404).json({ mensaje: 'No hay información registrada de la raza' });
+      res.status(404).json({ mensaje: 'Raza no encontrada' });
     }
-  } catch (error) {
-    console.error('Error al obtener información de la raza:', error);
-    res.status(500).json({ error: 'Error al obtener información de la raza' });
+  } catch (err) {
+    console.error('Error al obtener raza:', err);
+    res.status(500).json({ error: 'Error al obtener raza' });
   }
 });
 
 // Agregar raza
-app.post('/Razas/Registrar/:id', async (req, res) => {
-  const connection = req.app.locals.connection;
-  const id = req.params.id;
-  const { raza, descripcion, imagen } = req.body;
+app.post('/Razas/Crear/:id', uploadRazas.single('imagen'), async (req, res) => {
+  const { id } = req.params;
+  const { raza, descripcion } = req.body;
+  const imagen = req.file ? req.file.filename : null;
+
   try {
-    const [resultado] = await connection.execute(
-      "INSERT INTO raza (id_especie, raza, descripcion, imagen) VALUES (?, ?, ?, ?)",
-      [id, raza, descripcion, imagen]
-    );
-    res.status(201).json({ mensaje: 'Raza creada correctamente', resultado });
-  } catch (error) {
-    console.error('Error al registrar la raza:', error);
-    res.status(500).json({ error: 'Error al registrar la raza' });
+    const sql = "INSERT INTO raza (raza, descripcion, imagen, id_especie) VALUES (?, ?, ?, ?)";
+    const [resultado] = await conexion.execute(sql, [raza, descripcion, imagen, id]);
+    res.status(201).json({ mensaje: "Raza ingresada correctamente", resultado });
+  } catch (err) {
+    console.error('Error al registrar raza:', err);
+    res.status(500).json({ error: 'Error al registrar raza' });
   }
 });
 
-// Actualizar raza
-app.put('/Razas/Actualizar/:id', async (req, res) => {
-  const connection = req.app.locals.connection;
-  const id = req.params.id;
-  const { raza, descripcion, imagen } = req.body;
+
+// Actualizar raza con posible imagen nueva
+app.put('/Razas/Actualizar/:id', uploadRazas.single('imagen'), async (req, res) => {
+  const { id } = req.params;
+  const { raza, descripcion } = req.body;
+  let imagen = null;
+
+  if (req.file) {
+    imagen = req.file.filename;
+  }
+
   try {
-    const [resultado] = await connection.execute(
-      "UPDATE raza SET raza = ?, descripcion = ?, imagen = ? WHERE id = ?",
-      [raza, descripcion, imagen, id]
-    );
-    if (resultado.affectedRows > 0) {
-      res.json({ mensaje: 'Raza actualizada correctamente', resultado });
+    if (imagen) {
+      // Actualiza todos los campos incluyendo imagen
+      const sql = "UPDATE raza SET raza = ?, descripcion = ?, imagen = ? WHERE id = ?";
+      const [resultado] = await conexion.execute(sql, [raza, descripcion, imagen, id]);
+      if (resultado.affectedRows > 0) {
+        res.json({ mensaje: "Raza actualizada correctamente", resultado });
+      } else {
+        res.status(404).json({ mensaje: "No hay raza registrada con ese ID" });
+      }
     } else {
-      res.status(404).json({ mensaje: 'No se encontró la raza para actualizar' });
+      // Actualiza sin cambiar imagen
+      const sql = "UPDATE raza SET raza = ?, descripcion = ? WHERE id = ?";
+      const [resultado] = await conexion.execute(sql, [raza, descripcion, id]);
+      if (resultado.affectedRows > 0) {
+        res.json({ mensaje: "Raza actualizada correctamente", resultado });
+      } else {
+        res.status(404).json({ mensaje: "No hay raza registrada con ese ID" });
+      }
     }
-  } catch (error) {
-    console.error('Error al actualizar la raza:', error);
-    res.status(500).json({ error: 'Error al actualizar la raza' });
+  } catch (err) {
+    console.error('Error al actualizar raza:', err);
+    res.status(500).json({ error: 'Error al actualizar raza' });
   }
 });
 

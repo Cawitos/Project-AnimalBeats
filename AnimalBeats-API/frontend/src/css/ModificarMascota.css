@@ -1,0 +1,201 @@
+:root {
+  --blanco: #FDF7FA;
+  --rojo: #DF2935;
+  --negro: #07090F;
+  --gris: #E6E8E6;
+  --verde: #4CAF50;
+}
+
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html, #root {
+  height: 100%;
+  background-color: var(--blanco);
+  font-family: 'Arial', sans-serif;
+  color: var(--negro);
+}
+
+/* Contenedor principal */
+.mod-mascota-contenedor-dashboard {
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: var(--blanco);
+}
+
+.mod-mascota-contenido-principal {
+  width: 100%;
+  max-width: 600px;
+}
+
+/* Contenedor del formulario */
+.mod-mascota-contenedor-formulario {
+  background-color: var(--blanco);
+  padding: 30px 25px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto 80px;
+}
+
+/* Título */
+.mod-mascota-contenido-principal h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: var(--rojo);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+/* Formulario */
+.mod-mascota-form {
+  width: 100%;
+}
+
+/* Espaciado entre campos */
+.mod-mascota-mb-3 {
+  margin-bottom: 20px;
+}
+
+/* Labels */
+.mod-mascota-form-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--negro);
+}
+
+/* Inputs y selects */
+.mod-mascota-form-control,
+.mod-mascota-form-select {
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 16px;
+  border: 2px solid var(--rojo);
+  border-radius: 12px;
+  outline: none;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+  font-family: inherit;
+  background-color: var(--blanco);
+  color: var(--negro);
+  appearance: none;
+  cursor: pointer;
+}
+
+/* Opciones del select */
+.mod-mascota-form-select option {
+  background-color: var(--blanco);
+  color: var(--negro);
+}
+
+/* Select deshabilitado */
+.mod-mascota-form-select:disabled {
+  background-color: var(--gris);
+  color: var(--negro);
+  cursor: not-allowed;
+}
+
+/* Foco para inputs y selects */
+.mod-mascota-form-control:focus,
+.mod-mascota-form-select:focus {
+  border-color: var(--negro);
+  box-shadow: 0 0 6px var(--negro);
+}
+
+/* Flecha personalizada para select */
+.mod-mascota-form-select {
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--negro) 50%),
+    linear-gradient(135deg, var(--negro) 50%, transparent 50%),
+    linear-gradient(to right, var(--gris), var(--gris));
+  background-position:
+    calc(100% - 20px) calc(1em + 2px),
+    calc(100% - 15px) calc(1em + 2px),
+    100% 0;
+  background-size: 5px 5px, 5px 5px, 1px 1.5em;
+  background-repeat: no-repeat;
+}
+
+/* Botón submit */
+.mod-mascota-btn-primary {
+  width: 100%;
+  padding: 12px 0;
+  background-color: var(--rojo);
+  border: none;
+  border-radius: 12px;
+  color: var(--blanco);
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mod-mascota-btn-primary:hover:not(:disabled) {
+  background-color: var(--negro);
+  box-shadow: 0 0 12px var(--negro);
+}
+
+.mod-mascota-btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Botón link para volver */
+.mod-mascota-btn-secondary-wrapper {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.mod-mascota-btn-secondary {
+  color: var(--rojo);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  font-family: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  user-select: none;
+  display: inline-block;
+}
+
+.mod-mascota-btn-secondary:hover {
+  color: var(--negro);
+  text-decoration: underline;
+}
+
+/* Mensaje de error */
+.mod-mascota-error {
+  margin-bottom: 20px;
+  font-weight: 600;
+  color: var(--rojo);
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .mod-mascota-contenedor-formulario {
+    margin: 30px 15px 50px;
+    padding: 20px 15px;
+  }
+
+  .mod-mascota-contenido-principal h1 {
+    font-size: 26px;
+  }
+
+  .mod-mascota-btn-primary {
+    font-size: 16px;
+  }
+}

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../css/menu.css'
 
 export default function OffcanvasMenu() {
   const [showOffcanvas, setShowOffcanvas] = useState(false);
@@ -20,7 +21,7 @@ export default function OffcanvasMenu() {
         aria-controls="offcanvasNavbar"
         aria-label="Toggle navigation"
       >
-        <span className="navbar-toggler-icon">/*</span>MENU
+        <span className="navbar-toggler-icon"></span>MENU
       </button>
 
       <div
@@ -65,9 +66,9 @@ export default function OffcanvasMenu() {
               <Dropdown
                 title="Gestion de Mascotas"
                 links={[
-                  { path: '/mascotas', label: 'Mascotas' },
+                  { path: '/Mascotas', label: 'Mascotas' },
                   { path: '/citas', label: 'Citas' },
-                  { path: '/especies-razas', label: 'Especies y Razas' },
+                  { path: '/Especies', label: 'Especies y Razas' },
                   { path: '/enfermedades', label: 'Enfermedades' },
                 ]}
                 onLinkClick={handleNavigate}

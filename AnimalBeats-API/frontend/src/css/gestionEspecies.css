@@ -1,0 +1,281 @@
+:root {
+  --blanco: #FDF7FA;
+  --rojo: #DF2935;
+  --negro: #07090F;
+  --gris: #E6E8E6;
+  --verde: #4CAF50;
+}
+
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+body, html, #root {
+  height: 100%;
+  min-height: 85vh;
+  background-color: var(--blanco) !important;
+  color: var(--negro) !important;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Contenedor principal */
+.gestion-especies-container {
+  width: 100vw;
+  height: 100%;
+  background-color: var(--blanco) !important;
+  display: flex;
+  overflow: hidden; /* Evita scroll inesperado */
+}
+
+/* Menú lateral específico para gestión de especies */
+.gestion-especies-menu-lateral {
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin-top: 10px;
+  width: 200px;           /* ancho fijo */
+  height: 100vh;          /* toda la altura de la ventana */
+  background-color: var(--blanco);
+  border: none;
+  box-shadow: none;
+  overflow-y: auto;       /* scroll vertical si contenido excede */
+  z-index: 1000;
+}
+
+.gestion-especies-dashboard {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 30px 40px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.gestion-especies-consulta {
+  padding-left: 40px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 80px;
+  box-sizing: border-box;
+  
+}
+
+/* Navbar */
+.gestion-especies-navbar {
+  width: 90%;
+  margin-bottom: 25px;
+  background-color: var(--gris) !important;
+  border-radius: 10px;
+  padding: 10px 20px;
+  box-sizing: border-box;
+}
+
+.gestion-especies-navbar .navbar-brand {
+  font-weight: bold;
+  font-size: 28px; /* antes 22px */
+  color: var(--rojo) !important;
+}
+
+
+.busqueda-especies {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+
+/* Formulario de búsqueda */
+.gestion-especies-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-end; /* alinea contenido a la derecha */
+  margin-top: 15px;
+}
+
+
+.gestion-especies-form .form-control {
+  margin-top: 15px;
+  border: 2px solid var(--rojo) !important;
+  border-radius: 12px !important;
+  padding: 8px 12px !important;
+  font-size: 16px;
+  width: 250px; 
+  height: 42px;
+  box-sizing: border-box;
+}
+
+.gestion-especies-form .form-control:focus {
+  border-color: var(--negro) !important;
+  box-shadow: none !important;
+}
+
+.gestion-especies-form .btn-primary {
+  border: 2px solid var(--rojo) !important;
+  background-color: var(--rojo) !important;
+  color: var(--blanco) !important;
+  border-radius: 12px !important;
+  padding: 8px 20px !important;
+  font-weight: 600;
+  cursor: pointer;
+  height: 42px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.gestion-especies-form .btn-primary:hover {
+  background-color: var(--negro) !important;
+  border-color: var(--negro) !important;
+  box-shadow: 0 0 10px var(--negro) !important;
+}
+.gestion-especies-form .btn-primary {
+  padding: 8px 16px !important;  /* antes 8px 20px */
+  font-size: 14px;               /* más pequeño */
+  height: 42px;
+  min-width: 100px;              /* controla ancho mínimo */
+}
+
+
+/* Contenedor de tarjetas */
+.gestion-especies-row {
+  width: 95%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+/* Tarjeta especie */
+.gestion-especies-card {
+  flex: 0 1 calc((100% / 3) - 13.33px);
+  max-width: 540px;
+  border: 1px solid var(--gris) !important;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  background-color: var(--blanco) !important;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: row;
+}
+
+.gestion-especies-card:hover {
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+/* Imagen dentro de la tarjeta */
+.gestion-especies-card .col-md-4 {
+  flex: 0 0 40%;
+  max-width: 40%;
+}
+
+.gestion-especies-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px 0 0 12px;
+}
+
+/* Contenido de la tarjeta */
+.gestion-especies-card .col-md-8 {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.gestion-especies-card-body h1.gestion-especies-card-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: var(--negro) !important;
+  text-transform: uppercase;
+}
+
+/* Botones dentro de la tarjeta */
+.gestion-especies-card-body .btn {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  border: 2px solid var(--rojo) !important;
+  background-color: transparent !important;
+  color: var(--rojo) !important;
+  border-radius: 12px !important;
+  padding: 8px 18px !important;
+  font-weight: 600;
+  font-size: 14px;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease !important;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.gestion-especies-card-body .btn:hover {
+  background-color: var(--rojo) !important;
+  color: var(--blanco) !important;
+  box-shadow: 0 0 8px var(--rojo) !important;
+}
+
+/* Mensaje cuando no hay especies */
+.gestion-especies-consulta > p {
+  font-size: 18px;
+  color: var(--rojo) !important;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 40px;
+}
+
+/* Contenedor para botón crear especie */
+.gestion-especies-crear {
+  width: 300px;
+  margin-right: 100px;
+  position: fixed;
+  bottom: 70px;
+  z-index: 1000;
+  text-align: center;
+}
+
+.gestion-especies-crear .btn-primary {
+  padding: 7px 30px !important;
+  font-size: 16px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .gestion-especies-row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .gestion-especies-card {
+    max-width: 100%;
+    flex-direction: column;
+  }
+
+  .gestion-especies-card .col-md-4,
+  .gestion-especies-card .col-md-8 {
+    max-width: 100%;
+    flex: none;
+  }
+
+  .gestion-especies-card img {
+    border-radius: 12px 12px 0 0;
+    height: 200px;
+  }
+
+  .gestion-especies-card-body {
+    padding: 15px;
+  }
+
+  .gestion-especies-form {
+    max-width: 100%;
+  }
+}

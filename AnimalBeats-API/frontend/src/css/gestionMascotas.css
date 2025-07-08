@@ -1,0 +1,216 @@
+:root {
+  --blanco: #FDF7FA;
+  --rojo: #DF2935;
+  --negro: #07090F;
+  --gris: #E6E8E6;
+  --verde: #4CAF50;
+}
+
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html, #root {
+  width: 2100px;
+  height: 100%;
+  background-color: var(--blanco) !important;
+  color: var(--negro) !important;
+  font-family: 'Arial', sans-serif;
+  overflow-x: hidden; /* Evita scroll horizontal */
+}
+
+/* Menú lateral fijo */
+.gestion-mascotas-menu-lateral {
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin-top: 10px;
+  width: 200px;           /* ancho fijo */
+  height: 100vh;          /* toda la altura de la ventana */
+  background-color: var(--blanco) !important;
+  border: none;
+  box-shadow: none;
+  overflow-y: auto;       /* scroll vertical si contenido excede */
+  z-index: 1000;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Contenido principal con margen para no quedar debajo del menú */
+.gestion-mascotas-contenido-principal {
+  margin-top: 20px;
+  margin-right: 200px;
+  min-height: 100vh;
+  background-color: var(--blanco) !important;
+  overflow-y: visible;
+}
+
+/* Ajustes para título y mensajes */
+.gestion-mascotas-contenido-principal h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 25px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--rojo) !important;
+  text-align: center;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.gestion-mascotas-contenido-principal p {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--negro) !important;
+  margin-bottom: 20px;
+  text-align: center;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Contenedor tabla con scroll horizontal */
+.gestion-mascotas-contenedor-tabla {
+  max-width: 1200px;
+  overflow-x: auto;
+  border: 1px solid var(--gris) !important;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  background-color: var(--blanco) !important;
+  margin: 0 auto;
+}
+
+/* Tabla */
+.gestion-mascotas-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+  color: var(--negro) !important;
+  min-width: 800px;
+}
+
+.gestion-mascotas-tabla thead {
+  background-color: var(--rojo) !important;
+  color: var(--blanco) !important;
+  text-transform: uppercase;
+}
+
+.gestion-mascotas-tabla th,
+.gestion-mascotas-tabla td {
+  padding: 12px 15px;
+  border-bottom: 1px solid var(--gris) !important;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.gestion-mascotas-tabla tbody tr:hover {
+  background-color: var(--gris) !important;
+  cursor: pointer;
+}
+
+.gestion-mascotas-tabla tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Botones de acción */
+.gestion-mascotas-btn-icon {
+  border: 2px solid var(--rojo) !important;
+  background-color: transparent !important;
+  color: var(--rojo) !important;
+  padding: 6px 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.gestion-mascotas-btn-icon:hover {
+  background-color: var(--rojo) !important;
+  color: var(--blanco) !important;
+  box-shadow: 0 0 8px var(--rojo) !important;
+}
+
+.gestion-mascotas-btn-icon:focus-visible {
+  outline: 3px solid var(--verde) !important;
+  outline-offset: 2px;
+}
+/* Contenedor para el botón crear mascota */
+.gestion-mascotas-crear {
+  width: 300px;
+  position: fixed;
+  bottom: 70px;
+  right: 30px; /* Lo puedes ajustar para que quede a la derecha */
+  z-index: 1000;
+  text-align: center;
+}
+
+/* Botón crear mascota */
+.gestion-mascotas-crear .btn-primary {
+  width: 100%;
+  padding: 12px 0;
+  background-color: var(--rojo);
+  border: none;
+  border-radius: 12px;
+  color: var(--blanco);
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gestion-mascotas-crear .btn-primary:hover {
+  background-color: var(--negro);
+  box-shadow: 0 0 12px var(--negro);
+}
+
+/* Responsive: ajustar posición y tamaño */
+@media (max-width: 768px) {
+  .gestion-mascotas-crear {
+    width: 90%;
+    bottom: 20px;
+    right: 5%;
+  }
+}
+
+/* Responsive: menú arriba y contenido sin margen */
+@media (max-width: 768px) {
+  .gestion-mascotas-menu-lateral {
+    position: relative;
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid var(--gris) !important;
+  }
+
+  .gestion-mascotas-contenido-principal {
+    margin-left: 0;
+    padding: 20px 15px;
+  }
+
+  .gestion-mascotas-tabla {
+    min-width: 600px;
+    font-size: 0.9rem;
+  }
+
+  .gestion-mascotas-btn-icon {
+    padding: 5px 10px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .gestion-mascotas-tabla {
+    min-width: 500px;
+  }
+
+  .gestion-mascotas-btn-icon {
+    padding: 4px 8px;
+    font-size: 0.8rem;
+  }
+}

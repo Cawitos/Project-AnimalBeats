@@ -5,11 +5,20 @@ import Login from './componentes/login';
 import Register from './componentes/register';
 import Recordatorios from './componentes/gestionRecordatorios';
 import Enfermedades from './componentes/gestionEnfermedades'
+import GestionMascotas from './componentes/gestionMascotas'
+import GestionEspecies from './componentes/gestionEspecies'
 import GestionUsuarios from './componentes/gestionUsuarios';  
 import ConsultarU from './componentes/ConsultarU';
 import CrearUsuario from './componentes/CrearUsuario';
 import Admin from './componentes/admin';
 import './App.css'
+import CrearEspecie from './componentes/CrearEspecie';
+import ModificarEspecie from './componentes/ModificarEspecie';
+import GestionRazas from './componentes/gestionRazas';
+import CrearRaza from './componentes/CrearRaza';
+import CrearMascota from './componentes/CrearMascota';
+import ModificarMascota from './componentes/ModificarMascota';
+import ModificarRaza from './componentes/ModificarRaza';
 
 function App() {
   const [User, setUser] = useState(null)
@@ -30,6 +39,18 @@ function App() {
           <Route path="/gestionusuarios" element={User?.rol == 1 ? <GestionUsuarios /> : <Navigate to="/" />} />
           <Route path="/usuarios/:n_documento/consultar" element={User?.rol == 1 ? <ConsultarU /> : <Navigate to="/" />}/>
           <Route path="/usuarios/crear" element={User?.rol === 1 ? <CrearUsuario /> : <Navigate to="/" />}/>
+
+          {/* Rutas gestion de Mascotas */}
+          <Route path='/Mascotas' element={!User ? <Navigate to="/" /> :<GestionMascotas />} />
+          <Route path='/Mascotas/crear' element={!User ? <Navigate to="/" /> : <CrearMascota />} />
+          <Route path='/Mascotas/modificar/:id' element={!User ? <navigate to ="/" /> : <ModificarMascota />} />
+          <Route path='/Especies' element={!User ? <Navigate to="/" /> : <GestionEspecies />} />
+          <Route path='/Especies/crear' element={!User ? <Navigate to="/" /> : < CrearEspecie />} />
+          <Route path='/Especies/modificar/:id' element={!User ? <Navigate to="/" /> : < ModificarEspecie />} />
+          <Route path='/Razas/:id' element={!User ? <Navigate to="/" /> : <GestionRazas />} />
+          <Route path="/Razas/crear/:id" element={!User ? <Navigate to="/" /> : <CrearRaza />} />
+          <Route path='/Razas/modificar/:id_especie/:id_raza' element={!User ? <navigate to="/" /> : <ModificarRaza />} />
+          
         </Routes>
       </BrowserRouter>
     </>

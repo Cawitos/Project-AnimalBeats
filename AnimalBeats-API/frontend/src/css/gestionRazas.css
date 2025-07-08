@@ -1,0 +1,367 @@
+:root {
+  --blanco: #FDF7FA;
+  --rojo: #DF2935;
+  --negro: #07090F;
+  --gris: #E6E8E6;
+  --verde: #4CAF50;
+}
+
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html, #root {
+  height: 100%;
+  min-height: 85vh;
+  background-color: var(--blanco) !important;
+  color: var(--negro) !important;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Contenedor principal */
+.gestion-razas-container {
+  width: 100vw;
+  height: 100%;
+  background-color: var(--blanco) !important;
+  display: flex;
+  overflow: hidden; /* Evita scroll inesperado */
+}
+
+/* Menú lateral */
+.gestion-especies-menu-lateral {
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin-top: 10px;
+  width: 200px;           /* ancho fijo */
+  height: 100vh;          /* toda la altura de la ventana */
+  background-color: var(--blanco);
+  border: none;
+  box-shadow: none;
+  overflow-y: auto;       /* scroll vertical si contenido excede */
+  z-index: 1000;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Contenido principal */
+.gestion-razas-dashboard {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 30px 40px 30px;
+  margin-left: 200px; /* para no quedar debajo del menú lateral */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+/* Consulta y listado */
+.gestion-razas-consulta {
+    margin-right: 100px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 80px;
+  box-sizing: border-box;
+}
+
+/* Navbar */
+.gestion-razas-navbar {
+  width: 90%;
+  margin-bottom: 25px;
+  background-color: var(--gris) !important;
+  border-radius: 10px;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.gestion-razas-navbar-brand {
+  font-weight: bold;
+  font-size: 28px;
+  color: var(--rojo) !important;
+}
+
+/* Formulario de búsqueda */
+.gestion-razas-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 15px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.gestion-razas-input {
+  width: 250px;
+  padding: 8px 12px;
+  font-size: 16px;
+  height: 42px;
+  border: 2px solid var(--rojo);
+  border-radius: 12px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.gestion-razas-input:focus {
+  border-color: var(--negro);
+  outline: none;
+}
+
+.gestion-razas-boton {
+  padding: 8px 16px;
+  font-size: 14px;
+  height: 42px;
+  min-width: 100px;
+  border: 2px solid var(--rojo);
+  background-color: var(--rojo);
+  color: var(--blanco);
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gestion-razas-boton:hover {
+  background-color: var(--negro);
+  border-color: var(--negro);
+  box-shadow: 0 0 10px var(--negro);
+}
+
+/* Contenedor de tarjetas */
+.gestion-razas-row {
+  width: 95%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+/* Tarjeta raza */
+.gestion-razas-card {
+  flex: 0 1 calc((100% / 3) - 13.33px);
+  max-width: 540px;
+  border: 1px solid var(--gris);
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  background-color: var(--blanco);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: row;
+}
+
+.gestion-razas-card:hover {
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+/* Imagen dentro de la tarjeta */
+.gestion-razas-card .col-md-4 {
+  flex: 0 0 40%;
+  max-width: 40%;
+}
+
+.gestion-razas-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px 0 0 12px;
+}
+
+/* Contenido de la tarjeta */
+.gestion-razas-card .col-md-8 {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.gestion-razas-card-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: var(--negro);
+  text-transform: uppercase;
+}
+
+.gestion-razas-card-text {
+  margin-bottom: 15px;
+  color: var(--negro);
+  font-size: 14px;
+}
+
+/* Botones dentro de la tarjeta */
+.gestion-razas-card .btn {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  border-radius: 12px;
+  padding: 8px 18px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gestion-razas-card .btn-primary {
+  border: 2px solid var(--rojo);
+  background-color: transparent;
+  color: var(--rojo);
+}
+
+.gestion-razas-card .btn-primary:hover {
+  background-color: var(--rojo);
+  color: var(--blanco);
+  box-shadow: 0 0 8px var(--rojo);
+}
+
+.gestion-razas-btn-eliminar {
+  border: 2px solid #dc3545;
+  background-color: transparent;
+  color: #dc3545;
+}
+
+.gestion-razas-btn-eliminar:hover {
+  background-color: #dc3545;
+  color: white;
+  box-shadow: 0 0 8px #dc3545;
+}
+
+/* Mensaje cuando no hay resultados */
+.gestion-razas-sin-resultados {
+  font-size: 18px;
+  color: var(--rojo);
+  font-weight: 600;
+  text-align: center;
+  margin-top: 40px;
+}
+
+/* Contenedor para botones Crear y Regresar */
+.gestion-razas-crear {
+  width: 320px;
+  margin-right: 100px;
+  position: fixed;
+  bottom: 70px;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-right: 20px;
+  box-sizing: border-box;
+}
+
+.gestion-razas-crear .btn-primary,
+.gestion-razas-crear .btn-secondary {
+  padding: 7px 30px;
+  font-size: 16px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gestion-razas-crear .btn-primary {
+  border: 2px solid var(--rojo);
+  background-color: var(--rojo);
+  color: var(--blanco);
+}
+
+.gestion-razas-crear .btn-primary:hover {
+  background-color: var(--negro);
+  border-color: var(--negro);
+  box-shadow: 0 0 10px var(--negro);
+}
+
+.gestion-razas-crear .btn-secondary {
+  border: 2px solid var(--negro);
+  background-color: transparent;
+  color: var(--negro);
+}
+
+.gestion-razas-crear .btn-secondary:hover {
+  background-color: var(--negro);
+  color: var(--blanco);
+  box-shadow: 0 0 10px var(--negro);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .gestion-razas-container {
+    flex-direction: column;
+  }
+
+  .gestion-razas-container > *:first-child {
+    flex: none;
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--gris);
+  }
+
+  .gestion-razas-dashboard {
+    margin-left: 0;
+    padding: 20px 15px;
+  }
+
+  .gestion-razas-row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .gestion-razas-card {
+    max-width: 100%;
+    flex-direction: column;
+  }
+
+  .gestion-razas-card .col-md-4,
+  .gestion-razas-card .col-md-8 {
+    max-width: 100%;
+    flex: none;
+  }
+
+  .gestion-razas-card img {
+    border-radius: 12px 12px 0 0;
+    height: 200px;
+  }
+
+  .gestion-razas-card-body {
+    padding: 15px;
+  }
+
+  .gestion-razas-form {
+    max-width: 100%;
+  }
+
+  .gestion-razas-crear {
+    position: static;
+    width: 100%;
+    margin: 20px 0 0;
+    justify-content: center;
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .gestion-razas-card img {
+    height: 150px;
+  }
+
+  .gestion-razas-crear .btn-primary,
+  .gestion-razas-crear .btn-secondary {
+    padding: 7px 20px;
+    font-size: 14px;
+  }
+}

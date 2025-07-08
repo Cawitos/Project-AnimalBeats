@@ -1,0 +1,158 @@
+:root {
+    --blanco: #FDF7FA;
+    --rojo: #DF2935;
+    --negro: #07090F;
+    --gris: #E6E8E6;
+    --verde: #4CAF50;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: var(--blanco) !important;
+    color: var(--negro) !important;
+}
+
+.contenedor-dashboard {
+    flex-direction: row;
+    max-height: 80vh;
+    padding-top: 50px;
+    display: flex;
+    overflow: hidden;
+}
+
+.animalbeats {
+    text-align: center;
+    display: flex;
+    transition: all 0.5s ease;
+    text-decoration: none !important;
+    color: var(--negro) !important;
+}
+
+.animalbeats img {
+    width: 80px;
+    height: 80px;
+    margin-left: 5px;
+}
+
+.animalbeats span {
+    font-weight: bold;
+    padding: 15px;
+    font-size: 25px;
+    text-transform: uppercase;
+    color: var(--negro) !important;
+}
+
+.btn-primary {
+    border-color: var(--rojo) !important;
+    background-color: var(--rojo) !important;
+    color: var(--blanco) !important;
+}
+
+.offcanvas-header a {
+    text-decoration: none !important;
+    color: var(--negro) !important;
+}
+
+.offcanvas-body {
+    list-style: none !important;
+    padding-left: 0 !important;
+}
+
+.offcanvas-body li {
+    list-style: none !important;
+    margin-bottom: 12px !important; /* separación entre elementos */
+}
+
+/* Botones y links del menú con borde rojo, padding cómodo y estilo limpio */
+.offcanvas-body li button,
+.offcanvas-body li a,
+.nav-link.btn.btn-link,
+.dropdown-item {
+    border: 2px solid var(--rojo) !important;
+    border-radius: 12px !important;
+    padding: 10px 20px !important; /* espacio interno */
+    background-color: transparent !important;
+    color: var(--negro) !important;
+    font-size: 16px !important;
+    width: 100% !important;
+    text-align: left !important;
+    cursor: pointer !important;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease !important;
+    box-shadow: none !important;
+}
+
+/* Hover: fondo rojo, texto blanco, sombra suave */
+.offcanvas-body li button:hover,
+.offcanvas-body li a:hover,
+.nav-link.btn.btn-link:hover,
+.dropdown-item:hover {
+    background-color: var(--rojo) !important;
+    color: var(--blanco) !important;
+    box-shadow: 0 0 8px var(--rojo) !important;
+    border-color: var(--rojo) !important;
+}
+
+/* Dropdown toggle activo con borde, fondo blanco y sombra */
+.nav-link.dropdown-toggle[aria-expanded="true"] {
+    background-color: var(--blanco) !important;
+    color: var(--rojo) !important;
+    border-radius: 15px !important;
+    border: 2px solid var(--rojo) !important;
+    fill: var(--rojo) !important;
+    box-shadow: 0 0 8px var(--rojo) !important;
+}
+
+.dropdown-menu {
+    margin-left: 30px !important;
+    width: 80% !important;
+    border-radius: 5px !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important;
+    background-color: var(--blanco) !important;
+    padding: 10px 0 !important;
+    border: 1px solid var(--gris) !important;
+}
+
+.dropdown-menu li {
+    padding: 0 20px !important;
+    width: 100% !important;
+}
+
+.dropdown-divider {
+    border-top: 1px solid var(--gris) !important;
+    margin: 5px 0 !important;
+}
+
+.navbar-toggler-icon {
+    color: var(--negro) !important;
+}
+
+.navbar-toggler {
+    border: 2px solid var(--rojo) !important;
+    border-radius: 8px !important;
+    padding: 8px 16px !important;
+    font-weight: bold !important;
+    background-color: transparent !important;
+    color: var(--negro) !important;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease !important;
+    box-shadow: none !important;
+    cursor: pointer !important;
+}
+
+.navbar-toggler:hover {
+    background-color: var(--rojo) !important;
+    color: var(--blanco) !important;
+    border-color: var(--rojo) !important;
+    box-shadow: 0 0 10px var(--rojo) !important;
+}
+
+.btn-primary:hover {
+    background-color: var(--negro) !important;
+    border-color: var(--negro) !important;
+    color: var(--blanco) !important;
+}

@@ -1,0 +1,204 @@
+:root {
+  --blanco: #FDF7FA;
+  --rojo: #DF2935;
+  --negro: #07090F;
+  --gris: #E6E8E6;
+  --verde: #4CAF50;
+}
+
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html, #root {
+  height: 100%;
+  background-color: var(--blanco);
+  font-family: 'Arial', sans-serif;
+  color: var(--negro);
+}
+
+/* Contenedor principal */
+.crear-mascota-contenedor-dashboard {
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20;
+  margin-right: 200px;
+  background-color: var(--blanco);
+}
+
+.crear-mascota-contenido-principal {
+  width: 100%;
+  max-width: 600px;
+}
+
+/* Contenedor del formulario */
+.crear-mascota-contenedor-formulario {
+  background-color: var(--blanco);
+  padding: 30px 25px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto 80px;
+}
+
+/* Título */
+.crear-mascota-titulo {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: var(--rojo);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+/* Formulario */
+.crear-mascota-form {
+  width: 100%;
+}
+
+/* Espaciado entre campos */
+.crear-mascota-mb-3 {
+  margin-bottom: 20px;
+}
+
+/* Labels */
+.crear-mascota-form-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--negro);
+}
+
+/* Inputs y selects */
+.crear-mascota-form-control,
+.crear-mascota-form-select {
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 16px;
+  border: 2px solid var(--rojo);
+  border-radius: 12px;
+  outline: none;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+  font-family: inherit;
+  background-color: var(--blanco);
+  color: var(--negro);
+  appearance: none;
+  cursor: pointer;
+}
+
+/* Opciones del select */
+.crear-mascota-form-select option {
+  background-color: var(--blanco);
+  color: var(--negro);
+}
+
+/* Select deshabilitado */
+.crear-mascota-form-select:disabled {
+  background-color: var(--gris);
+  color: var(--negro);
+  cursor: not-allowed;
+}
+
+/* Foco para inputs y selects */
+.crear-mascota-form-control:focus,
+.crear-mascota-form-select:focus {
+  border-color: var(--negro);
+  box-shadow: 0 0 6px var(--negro);
+}
+
+/* Flecha personalizada para select */
+.crear-mascota-form-select {
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--negro) 50%),
+    linear-gradient(135deg, var(--negro) 50%, transparent 50%),
+    linear-gradient(to right, var(--gris), var(--gris));
+  background-position:
+    calc(100% - 20px) calc(1em + 2px),
+    calc(100% - 15px) calc(1em + 2px),
+    100% 0;
+  background-size: 5px 5px, 5px 5px, 1px 1.5em;
+  background-repeat: no-repeat;
+}
+
+/* Botón submit */
+.crear-mascota-btn-primary {
+  width: 100%;
+  padding: 12px 0;
+  background-color: var(--rojo);
+  border: none;
+  border-radius: 12px;
+  color: var(--blanco);
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.crear-mascota-btn-primary:hover:not(:disabled) {
+  background-color: var(--negro);
+  box-shadow: 0 0 12px var(--negro);
+}
+
+.crear-mascota-btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.crear-mascota-btn-secondary-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start; /* Alinea a la izquierda */
+}
+
+/* Link volver */
+.crear-mascota-btn-secondary {
+  display: inline-block;
+  text-align: left;
+  color: var(--rojo);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  user-select: none;
+}
+
+.crear-mascota-btn-secondary:hover {
+  color: var(--negro);
+  text-decoration: underline;
+}
+
+/* Mensaje de error */
+.crear-mascota-error {
+  margin-bottom: 20px;
+  font-weight: 600;
+  color: var(--rojo);
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .crear-mascota-contenedor-formulario {
+    margin: 30px 15px 50px;
+    padding: 20px 15px;
+  }
+
+  .crear-mascota-titulo {
+    font-size: 26px;
+  }
+
+  .crear-mascota-btn-primary {
+    font-size: 16px;
+  }
+}
