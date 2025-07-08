@@ -77,6 +77,24 @@ export default function OffcanvasMenu() {
 
             <li className="nav-item">
               <button
+              className="nav-link btn btn-link"
+              onClick={() => handleNavigate('/gestion_enfermedades')}
+              >
+              Gestion Enfermedades
+              </button>
+            </li>
+
+            <li className="nav-item">
+              <button
+              className="nav-link btn btn-link"
+              onClick={() => handleNavigate('/gestion_citas')}
+              >
+              Gestion Citas
+              </button>
+            </li>
+            
+            <li className="nav-item">
+              <button
                 className="nav-link btn btn-link"
                 onClick={() => handleNavigate('/consultas')}
               >
@@ -87,7 +105,7 @@ export default function OffcanvasMenu() {
             <li className="nav-item">
               <button
                 className="nav-link btn btn-link"
-                onClick={() => handleNavigate('/gestionRecordatorios')}
+                onClick={() => handleNavigate('/gestion_recordatorios')}
               >
                 Recordatorios
               </button>

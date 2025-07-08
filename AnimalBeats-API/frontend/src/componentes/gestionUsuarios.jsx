@@ -82,7 +82,7 @@ export default function GestionUsuarios() {
                   </td>
                   <td>
                     <Link
-                      to={`/usuarios/${u.n_documento}/modificar`}
+                      to={`/usuario/Actualizar/${u.n_documento}`}
                       className="text-danger"
                     >
                       <i className="fa-solid fa-pen"></i>

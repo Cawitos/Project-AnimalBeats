@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import OffcanvasMenu from './menu';
 
 function GestionRecordatorios() {
   const [recordatorio, setRecordatorio] = useState([]);
@@ -46,8 +47,7 @@ function GestionRecordatorios() {
 
   return (
     <div className="contenedor-dashboard container mt-5">
-      {/* Asegúrate que el componente <OffcanvasMenu /> esté definido o comenta esta línea */}
-      {/* <OffcanvasMenu /> */}
+      {<OffcanvasMenu /> }
       <h4 className="mb-4">Gestión de Recordatorios</h4>
       <table className="table table-striped-columns">
         <thead>
