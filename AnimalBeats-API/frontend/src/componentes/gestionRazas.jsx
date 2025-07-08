@@ -44,32 +44,33 @@ const GestionRazas = () => {
   }, [id]);
 
   const eliminarRaza = async (idRaza) => {
-    const result = await Swal.fire({
-      title: "¿Estás seguro?",
-      text: "Esta raza será eliminada permanentemente.",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Sí, eliminar",
-      cancelButtonText: "Cancelar",
-    });
+  const result = await Swal.fire({
+    title: "¿Estás seguro?",
+    text: "Esta raza será eliminada permanentemente.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Sí, eliminar",
+    cancelButtonText: "Cancelar",
+  });
 
-    if (result.isConfirmed) {
-      try {
-        const respuesta = await axios.delete(`http://localhost:3000/Razas/Eliminar/${id}`);
-        const datos = respuesta.data;
+  if (result.isConfirmed) {
+    try {
+      const respuesta = await axios.delete(`http://localhost:3000/Razas/Eliminar/${idRaza}`);
+      const datos = respuesta.data;
 
-        if (typeof datos === 'string') {
-          Swal.fire('Error al eliminar la raza', datos, 'error');
-        } else {
-          setRazas(prev => prev.filter(raza => raza.id !== idRaza));
-          Swal.fire('¡Eliminada!', 'La raza ha sido eliminada con éxito.', 'success');
-        }
-      } catch (error) {
-        console.error(error);
-        Swal.fire("Error", "No se pudo eliminar la raza.", "error");
+      if (datos.mensaje && datos.mensaje.toLowerCase().includes('error')) {
+        Swal.fire('Error al eliminar la raza', datos.mensaje, 'error');
+      } else {
+        setRazas(prev => prev.filter(raza => raza.id !== idRaza));
+        Swal.fire('¡Eliminada!', 'La raza ha sido eliminada con éxito.', 'success');
       }
+    } catch (error) {
+      console.error(error);
+      Swal.fire("Error", "No se pudo eliminar la raza.", "error");
     }
-  };
+  }
+};
+
 
   const razasFiltradas = Array.isArray(razas)
     ? razas.filter(raza =>
@@ -82,8 +83,8 @@ const GestionRazas = () => {
   return (
     <div className="gestion-razas-container">
       <nav className="gestion-especies-menu-lateral">
-              <OffcanvasMenu />
-            </nav>
+        <OffcanvasMenu />
+      </nav>
       <div className="gestion-razas-dashboard">
         <main className="gestion-razas-consulta">
           <nav className="gestion-razas-navbar bg-body-tertiary">
@@ -159,3 +160,4 @@ const GestionRazas = () => {
 };
 
 export default GestionRazas;
+

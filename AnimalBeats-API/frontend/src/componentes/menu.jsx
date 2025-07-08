@@ -67,9 +67,7 @@ export default function OffcanvasMenu() {
                 title="Gestion de Mascotas"
                 links={[
                   { path: '/Mascotas', label: 'Mascotas' },
-                  { path: '/citas', label: 'Citas' },
                   { path: '/Especies', label: 'Especies y Razas' },
-                  { path: '/enfermedades', label: 'Enfermedades' },
                 ]}
                 onLinkClick={handleNavigate}
               />

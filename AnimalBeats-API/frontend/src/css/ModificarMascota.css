@@ -153,8 +153,7 @@ body, html, #root {
 
 /* Botón link para volver */
 .mod-mascota-btn-secondary-wrapper {
-  margin-top: 15px;
-  text-align: center;
+  text-align: left;
 }
 
 .mod-mascota-btn-secondary {
