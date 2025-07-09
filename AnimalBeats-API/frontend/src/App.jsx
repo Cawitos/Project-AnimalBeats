@@ -4,9 +4,8 @@ import Home from './componentes/Home';
 import Login from './componentes/login';
 import Register from './componentes/register';
 import Recordatorios from './componentes/gestionRecordatorios';
-import Enfermedades from './componentes/gestionEnfermedades'
-import GestionMascotas from './componentes/gestionMascotas'
-import GestionEspecies from './componentes/gestionEspecies'
+import GestionMascotas from './componentes/gestionMascotas';
+import GestionEspecies from './componentes/gestionEspecies';
 import GestionUsuarios from './componentes/gestionUsuarios';
 import ConsultarU from './componentes/ConsultarU';
 import CrearUsuario from './componentes/CrearUsuario';
@@ -59,6 +58,8 @@ function App() {
           <Route path='/Razas/:id' element={!User ? <Navigate to="/" /> : <GestionRazas />} />
           <Route path="/Razas/crear/:id" element={!User ? <Navigate to="/" /> : <CrearRaza />} />
           <Route path='/Razas/modificar/:id_especie/:id_raza' element={!User ? <navigate to="/" /> : <ModificarRaza />} />
+          <Route path="/gestion_enfermedades" element={!User ? <Navigate to="/" />:<GestionEnfermedades /> } />
+          <Route path="/gestion_citas" element={!User? <Navigate to="/" />:<GestionCitas /> } />
         </Routes>
       </BrowserRouter>
     </>

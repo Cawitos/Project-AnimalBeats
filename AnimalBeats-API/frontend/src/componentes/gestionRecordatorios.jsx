@@ -63,8 +63,9 @@ function GestionRecordatorios() {
 
   return (
     <div className="gestion-recordatorios-container">
-      <OffcanvasMenu />
-
+        <div className="gestion-recordatorio-menu-lateral">
+         <OffcanvasMenu />
+        </div>
       <h4 className="gestion-recordatorios-title">Gestión de Recordatorios</h4>
 
       <table className="gestion-recordatorios-table">
