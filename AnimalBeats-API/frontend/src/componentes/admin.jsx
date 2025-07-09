@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import OffcanvasMenu from "./menu";
+import '../css/dashboard.css'
 
 export default function AdminDashboard() {
   const [dashboardData, setDashboardData] = useState(null);
@@ -30,7 +31,9 @@ export default function AdminDashboard() {
 
   return (
     <>
-      <OffcanvasMenu />
+      <div className="admin-dashboard-menu-lateral">
+              <OffcanvasMenu />
+      </div>
 
       <div className="admin-dashboard-container">
         <main className="admin-dashboard-main">

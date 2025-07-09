@@ -1,0 +1,169 @@
+:root {
+  --blanco: #FDF7FA;
+  --rojo: #DF2935;
+  --negro: #07090F;
+  --gris: #E6E8E6;
+  --verde: #4CAF50;
+}
+
+.admin-dashboard-menu-lateral {
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin-top: 10px;
+  width: 200px;           /* ancho fijo */
+  height: 100vh;          /* toda la altura de la ventana */
+  background-color: var(--blanco) !important;
+  border: none;
+  box-shadow: none;
+  overflow-y: auto;       /* scroll vertical si contenido excede */
+  z-index: 1000;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Contenedor principal */
+.admin-dashboard-container {
+  margin-left: 160px; /* espacio para el menú offcanvas */
+  padding: 60px 80px; /* aumentado padding para más espacio */
+  min-height: 100vh;
+  background-color: var(--blanco);
+  box-sizing: border-box;
+  transition: margin-left 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .admin-dashboard-container {
+    margin-left: 0;
+    padding: 30px 20px;
+  }
+}
+
+/* Panel principal */
+.admin-dashboard-main {
+  max-width: 1600px; /* aumentado ancho máximo */
+  margin: 0 auto;
+  display: flex;
+  gap: 50px; /* más espacio entre columnas */
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Perfil de usuario */
+.admin-dashboard-profile {
+  background-color: var(--blanco);
+  border-radius: 15px;
+  padding: 40px 50px; /* más padding */
+  box-shadow: 0 4px 15px rgba(7, 9, 15, 0.1);
+  flex: 1 1 450px; /* ocupa más espacio */
+  min-width: 400px;
+  color: var(--negro);
+  text-align: center;
+}
+
+.admin-dashboard-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--rojo);
+  margin-bottom: 20px;
+}
+
+.admin-dashboard-subtitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--negro);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.admin-dashboard-subtitle svg {
+  fill: var(--rojo);
+}
+
+.admin-dashboard-label {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--negro);
+  display: block;
+  margin: 8px 0;
+}
+
+/* Estadísticas generales */
+.admin-dashboard-stats {
+  background-color: var(--blanco);
+  border-radius: 15px;
+  padding: 40px 50px; /* más padding */
+  box-shadow: 0 4px 15px rgba(7, 9, 15, 0.1);
+  flex: 2 1 800px; /* ocupa más espacio */
+  min-width: 400px;
+  color: var(--negro);
+}
+
+.admin-dashboard-stats-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.admin-dashboard-stat-item {
+  background-color: var(--rojo);
+  border-radius: 15px;
+  color: var(--blanco);
+  flex: 1 1 180px;
+  min-width: 160px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 4px 12px rgba(223, 41, 53, 0.4);
+  transition: background-color 0.3s ease;
+  cursor: default;
+}
+
+.admin-dashboard-stat-item:hover {
+  background-color: #b22228; /* rojo oscuro */
+}
+
+.admin-dashboard-stat-icon svg {
+  width: 40px;
+  height: 40px;
+  fill: var(--blanco);
+}
+
+.admin-dashboard-stat-info {
+  flex-grow: 1;
+}
+
+.admin-dashboard-stat-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.admin-dashboard-stat-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* Mensajes de carga y error */
+.admin-dashboard-loading,
+.admin-dashboard-error {
+  margin-top: 100px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--rojo);
+  text-align: center;
+}
+
+.admin-dashboard-error {
+  color: var(--rojo);
+}
+

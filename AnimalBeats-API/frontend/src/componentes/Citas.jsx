@@ -205,19 +205,21 @@ function GestionCitas() {
     };
 
     return (
-        <div className="container py-5">
-            <div className="menu">
+        <div className="citas-container py-5">
+            <div className="citas-menu">
                 <OffcanvasMenu />
             </div>
-            <div className="mb-4 text-center">
-                <h2 className="fw-bold">Gestión de Citas</h2>
-                <h5 className="text-muted">{modoEdicion ? 'Editar Cita' : 'Registrar Nueva Cita'}</h5>
+            <div className="citas-header mb-4 text-center">
+                <h2 className="citas-title fw-bold">Gestión de Citas</h2>
+                <h5 className="citas-subtitle text-muted">
+                    {modoEdicion ? 'Editar Cita' : 'Registrar Nueva Cita'}
+                </h5>
             </div>
-            <div className="row g-3 mb-4">
-                <div className="col-md-4">
-                    <label className="form-label">Mascota</label>
+            <div className="citas-form row g-3 mb-4">
+                <div className="citas-form-group col-md-4">
+                    <label className="citas-label form-label">Mascota</label>
                     <select
-                        className="form-select"
+                        className="citas-select form-select"
                         name="id_Mascota"
                         value={form.id_Mascota}
                         onChange={handleChange}
@@ -228,10 +230,10 @@ function GestionCitas() {
                         ))}
                     </select>
                 </div>
-                <div className="col-md-4">
-                    <label className="form-label">Servicio</label>
+                <div className="citas-form-group col-md-4">
+                    <label className="citas-label form-label">Servicio</label>
                     <select
-                        className="form-select"
+                        className="citas-select form-select"
                         name="id_Servicio"
                         value={form.id_Servicio}
                         onChange={handleChange}
@@ -242,20 +244,20 @@ function GestionCitas() {
                         ))}
                     </select>
                 </div>
-                <div className="col-md-4">
-                    <label className="form-label">Fecha</label>
+                <div className="citas-form-group col-md-4">
+                    <label className="citas-label form-label">Fecha</label>
                     <input
                         type="date"
-                        className="form-control"
+                        className="citas-input form-control"
                         name="fecha"
                         value={form.fecha}
                         onChange={handleChange}
                     />
                 </div>
-                <div className="col-md-12">
-                    <label className="form-label">Descripción</label>
+                <div className="citas-form-group col-md-12">
+                    <label className="citas-label form-label">Descripción</label>
                     <textarea
-                        className="form-control"
+                        className="citas-textarea form-control"
                         rows="1"
                         name="Descripcion"
                         value={form.Descripcion}
@@ -263,43 +265,42 @@ function GestionCitas() {
                     />
                 </div>
             </div>
-            <div className="text-center mb-5">
+            <div className="citas-actions text-center mb-5">
                 {modoEdicion ? (
-                    <div className="btn-group">
-                        <button className="btn btn-outline-success" onClick={guardarEdicion}>Guardar Cambios</button>
-                        <button className="btn btn-outline-secondary" onClick={cancelarEdicion}>Cancelar</button>
+                    <div className="citas-btn-group btn-group">
+                        <button className="citas-btn-save btn btn-outline-success" onClick={guardarEdicion}>Guardar Cambios</button>
+                        <button className="citas-btn-cancel btn btn-outline-secondary" onClick={cancelarEdicion}>Cancelar</button>
                     </div>
                 ) : (
-                    <button className="btn btn-success px-4" onClick={guardar}>Registrar</button>
+                    <button className="citas-btn-register btn btn-success px-4" onClick={guardar}>Registrar</button>
                 )}
             </div>
-            <div>
-                <h4 className="mb-3">Listado de Citas</h4>
+            <div className="citas-listado">
+                <h4 className="citas-listado-titulo mb-3">Listado de Citas</h4>
                 {citas.length > 0 ? (
-                    <div className="list-group">
-                        <p className="text-muted">Total de Citas: {citas.length}</p>
+                    <div className="citas-list list-group">
+                        <p className="citas-total text-muted">Total de Citas: {citas.length}</p>
                         {citas.map((cita) => (
-                            
                             <div
                                 key={cita.id_Mascota}
-                                className="list-group-item mb-3 rounded shadow-sm border d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 p-3"
+                                className="citas-item list-group-item mb-3 rounded shadow-sm border d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 p-3"
                             >
-                                <div className="d-flex flex-column flex-md-row flex-wrap gap-3">
+                                <div className="citas-item-info d-flex flex-column flex-md-row flex-wrap gap-3">
                                     <span><strong>Mascota:</strong> {mascotas.find((m) => m.id === cita.id_Mascota)?.nombre || cita.id_Mascota}</span>
                                     <span><strong>Cliente:</strong> {usuarios.find(u => u.id === cita.id_cliente)?.nombre || cita.id_cliente}</span>
                                     <span><strong>Servicio:</strong> {servicios.find((s) => s.id === cita.id_Servicio)?.servicio || cita.id_Servicio}</span>
                                     <span><strong>Fecha:</strong> {cita.fecha}</span>
                                     <span><strong>Descripción:</strong> {cita.Descripcion}</span>
                                 </div>
-                                <div className="btn-group">
-                                    <button className="btn btn-outline-info btn-sm" onClick={() => editar(cita)}>Modificar</button>
-                                    <button className="btn btn-outline-danger btn-sm" onClick={() => eliminar(cita.id)}>Eliminar</button>
+                                <div className="citas-item-btns btn-group">
+                                    <button className="citas-btn-modificar btn btn-outline-info btn-sm" onClick={() => editar(cita)}>Modificar</button>
+                                    <button className="citas-btn-eliminar btn btn-outline-danger btn-sm" onClick={() => eliminar(cita.id)}>Eliminar</button>
                                 </div>
                             </div>
                         ))}
                     </div>
                 ) : (
-                    <div className="alert alert-info">No hay citas registradas.</div>
+                    <div className="citas-alert alert alert-info">No hay citas registradas.</div>
                 )}
             </div>
         </div>
