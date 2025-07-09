@@ -7,7 +7,7 @@
 }
 
 /* Contenedor principal centrado */
-.login-container {
+.ab-login-container {
   min-height: 80vh; /* o 100vh para ocupar toda la altura visible */
   display: flex;
   justify-content: center; /* centra horizontalmente */
@@ -18,7 +18,7 @@
 }
 
 /* Card del formulario */
-.login-card {
+.ab-login-card {
   background-color: var(--blanco);
   border-radius: 15px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
@@ -30,14 +30,14 @@
 }
 
 /* Título centrado */
-.login-card h3 {
+.ab-login-title {
   font-weight: 700;
   margin-bottom: 30px;
   color: var(--rojo);
 }
 
 /* Labels */
-.form-label {
+.ab-form-label {
   font-weight: 600;
   color: var(--negro);
   margin-bottom: 8px;
@@ -45,28 +45,35 @@
 }
 
 /* Inputs */
-.form-control {
+.ab-form-input {
   width: 100%;
   padding: 12px 15px;
   border: 2px solid var(--gris);
   border-radius: 10px;
   font-size: 16px;
+  background-color: var(--blanco);
   color: var(--negro);
   transition: border-color 0.3s ease;
 }
 
-.form-control::placeholder {
+.ab-form-input::placeholder {
   color: var(--gris);
 }
 
-.form-control:focus {
-  outline: none;
-  border-color: var(--rojo);
-  box-shadow: 0 0 8px var(--rojo);
+/* ESTILO FOCUS PARA TODOS LOS INPUTS (incluido el de email) */
+.ab-form-input:focus {
+  outline: none; /* Esto elimina el contorno predeterminado del navegador (que a menudo es gris) */
+  border-color: var(--rojo); /* Establece el color del borde en rojo */
+  box-shadow: 0 0 8px var(--rojo); /* Añade una sombra roja */
+}
+
+/* Wrapper para botón */
+.ab-form-button-wrapper {
+  margin-top: 20px;
 }
 
 /* Botón */
-.btn-danger {
+.ab-btn-danger {
   background-color: var(--rojo);
   border: none;
   padding: 12px;
@@ -79,15 +86,15 @@
   color: var(--blanco);
 }
 
-.btn-danger:hover,
-.btn-danger:focus {
+.ab-btn-danger:hover,
+.ab-btn-danger:focus {
   background-color: #b22228; /* rojo oscuro */
   transform: scale(1.05);
   outline: none;
 }
 
 /* Mensaje de alerta */
-.alert {
+.ab-alert {
   background-color: var(--gris);
   color: var(--negro);
   padding: 12px 20px;
@@ -101,11 +108,11 @@
 
 /* Responsive */
 @media (max-width: 480px) {
-  .login-card {
+  .ab-login-card {
     padding: 30px 20px;
   }
 
-  .btn-danger {
+  .ab-btn-danger {
     font-size: 16px;
     padding: 10px;
   }

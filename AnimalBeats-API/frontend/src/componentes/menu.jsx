@@ -68,36 +68,11 @@ export default function OffcanvasMenu() {
                 links={[
                   { path: '/Mascotas', label: 'Mascotas' },
                   { path: '/Especies', label: 'Especies y Razas' },
+                  { path: '/gestion_enfermedades', label: 'Gestion enfermedades'},
+                  { path: '/gestion_citas', label: 'Citas'}
                 ]}
                 onLinkClick={handleNavigate}
               />
-            </li>
-
-            <li className="nav-item">
-              <button
-                className="nav-link btn btn-link"
-                onClick={() => handleNavigate('/gestion_enfermedades')}
-              >
-                Gestion Enfermedades
-              </button>
-            </li>
-
-            <li className="nav-item">
-              <button
-                className="nav-link btn btn-link"
-                onClick={() => handleNavigate('/gestion_citas')}
-              >
-                Gestion Citas
-              </button>
-            </li>
-
-            <li className="nav-item">
-              <button
-                className="nav-link btn btn-link"
-                onClick={() => handleNavigate('/consultas')}
-              >
-                Consultas
-              </button>
             </li>
 
             <li className="nav-item">
