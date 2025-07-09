@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import OffcanvasMenu from './menu';
+import '../css/GestionRecordatorios.css'
 
 function GestionRecordatorios() {
   const [recordatorio, setRecordatorio] = useState([]);

@@ -1,0 +1,261 @@
+:root {
+  --blanco: #FDF7FA;
+  --rojo: #DF2935;
+  --negro: #07090F;
+  --gris: #E6E8E6;
+  --verde: #4CAF50;
+}
+
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html, #root {
+  width: 2100px;
+  height: 100%;
+  background-color: var(--blanco) !important;
+  color: var(--negro) !important;
+  font-family: 'Arial', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Contenedor principal */
+.gestion-recordatorios-container {
+  margin-left: 220px; /* espacio para menú lateral */
+  padding: 20px 40px;
+  min-height: 100vh;
+  background-color: var(--blanco) !important;
+}
+
+/* Menú lateral */
+.gestion-recordatorio-menu-lateral {
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin-top: 10px;
+  width: 200px;
+  height: 100vh;
+  background-color: var(--blanco) !important;
+  box-shadow: none;
+  overflow-y: auto;
+  z-index: 1000;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Título principal */
+.gestion-recordatorios-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 25px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--rojo) !important;
+  text-align: center;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Tabla de recordatorios */
+.gestion-recordatorios-table {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 40px auto;
+  border-collapse: collapse;
+  font-size: 1rem;
+  color: var(--negro) !important;
+  min-width: 800px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: var(--blanco);
+}
+
+.gestion-recordatorios-table thead {
+  background-color: var(--rojo) !important;
+  color: var(--blanco) !important;
+  text-transform: uppercase;
+}
+
+.gestion-recordatorios-table th,
+.gestion-recordatorios-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid var(--gris) !important;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.gestion-recordatorios-table tbody tr:hover {
+  background-color: var(--gris) !important;
+  cursor: pointer;
+}
+
+.gestion-recordatorios-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Botones de acción */
+.gestion-recordatorios-btn-editar,
+.gestion-recordatorios-btn-eliminar {
+  border: 2px solid var(--rojo) !important;
+  background-color: transparent !important;
+  color: var(--rojo) !important;
+  padding: 6px 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  margin-right: 8px;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.gestion-recordatorios-btn-editar:hover {
+  background-color: var(--rojo) !important;
+  color: var(--blanco) !important;
+  box-shadow: 0 0 8px var(--rojo) !important;
+  border-color: var(--rojo) !important;
+}
+
+
+.gestion-recordatorios-btn-eliminar:hover {
+  background-color: var(--rojo) !important;
+  color: var(--blanco) !important;
+  box-shadow: 0 0 8px var(--rojo) !important;
+}
+
+.gestion-recordatorios-btn-editar:focus-visible,
+.gestion-recordatorios-btn-eliminar:focus-visible {
+  outline: 3px solid var(--verde) !important;
+  outline-offset: 2px;
+}
+
+/* Formulario */
+.gestion-recordatorios-form-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: var(--rojo);
+  text-align: center;
+}
+
+.gestion-recordatorios-form {
+  max-width: 1200px;
+  margin: 0 auto 50px auto;
+  background-color: var(--blanco);
+  padding: 20px 30px;
+  border: 1px solid var(--gris);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.gestion-recordatorios-form-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.gestion-recordatorios-form-group {
+  flex: 1 1 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.gestion-recordatorios-form-group label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--negro);
+}
+
+.gestion-recordatorios-form-group input {
+  padding: 10px 12px;
+  border: 1.5px solid var(--gris);
+  color: var(--negro)!important;
+  background-color: var(--blanco)!important;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.gestion-recordatorios-form-group input:focus {
+  border-color: var(--rojo);
+  outline: none;
+}
+
+/* Botón guardar/actualizar */
+.gestion-recordatorios-btn-guardar {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  margin: 20px auto;
+  padding: 12px 0;
+  background-color: var(--rojo);
+  border: none;
+  border-radius: 12px;
+  color: var(--blanco);
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gestion-recordatorios-btn-guardar:hover {
+  background-color: var(--negro);
+  box-shadow: 0 0 12px var(--negro);
+}
+
+.gestion-recordatorios-btn-guardar:focus-visible {
+  outline: 3px solid var(--verde);
+  outline-offset: 2px;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .gestion-recordatorios-container {
+    margin-left: 0;
+    padding: 20px 15px;
+  }
+
+  .gestion-recordatorios-table {
+    min-width: 600px;
+  }
+
+  .gestion-recordatorios-form-row {
+    flex-direction: column;
+  }
+
+  .gestion-recordatorios-form-group {
+    flex: 1 1 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .gestion-recordatorios-table {
+    min-width: 500px;
+    font-size: 0.9rem;
+  }
+
+  .gestion-recordatorios-btn-editar,
+  .gestion-recordatorios-btn-eliminar {
+    padding: 5px 10px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .gestion-recordatorios-table {
+    min-width: 400px;
+  }
+
+  .gestion-recordatorios-btn-editar,
+  .gestion-recordatorios-btn-eliminar {
+    padding: 4px 8px;
+    font-size: 0.8rem;
+  }
+}
