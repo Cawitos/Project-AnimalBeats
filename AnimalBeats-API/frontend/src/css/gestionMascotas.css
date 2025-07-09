@@ -42,7 +42,7 @@ body, html, #root {
 /* Contenido principal con margen para no quedar debajo del menú */
 .gestion-mascotas-contenido-principal {
   margin-top: 20px;
-  margin-right: 200px;
+  margin-right: 10px;
   min-height: 100vh;
   background-color: var(--blanco) !important;
   overflow-y: visible;
