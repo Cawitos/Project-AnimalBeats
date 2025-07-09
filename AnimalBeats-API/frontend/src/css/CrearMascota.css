@@ -27,7 +27,7 @@ body, html, #root {
   justify-content: center;
   align-items: center;
   padding: 20;
-  margin-right: 200px;
+  margin-right: 10px;
   background-color: var(--blanco);
 }
 

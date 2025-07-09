@@ -23,11 +23,14 @@ import CrearMascota from './componentes/CrearMascota';
 import ModificarMascota from './componentes/ModificarMascota';
 import ModificarRaza from './componentes/ModificarRaza';
 
+import { UserContext } from './context/UserContext'; 
+
 function App() {
   const [User, setUser] = useState(null)
 
   return (
     <>
+      <UserContext.Provider value={{ User, setUser }}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={!User ? (<Home />) : (
@@ -51,17 +54,18 @@ function App() {
           {/* Rutas gestion de Mascotas */}
           <Route path='/Mascotas' element={!User ? <Navigate to="/" /> : <GestionMascotas />} />
           <Route path='/Mascotas/crear' element={!User ? <Navigate to="/" /> : <CrearMascota />} />
-          <Route path='/Mascotas/modificar/:id' element={!User ? <navigate to="/" /> : <ModificarMascota />} />
+          <Route path='/Mascotas/modificar/:id' element={!User ? <Navigate to="/" /> : <ModificarMascota />} />
           <Route path='/Especies' element={!User ? <Navigate to="/" /> : <GestionEspecies />} />
           <Route path='/Especies/crear' element={!User ? <Navigate to="/" /> : < CrearEspecie />} />
           <Route path='/Especies/modificar/:id' element={!User ? <Navigate to="/" /> : < ModificarEspecie />} />
           <Route path='/Razas/:id' element={!User ? <Navigate to="/" /> : <GestionRazas />} />
           <Route path="/Razas/crear/:id" element={!User ? <Navigate to="/" /> : <CrearRaza />} />
-          <Route path='/Razas/modificar/:id_especie/:id_raza' element={!User ? <navigate to="/" /> : <ModificarRaza />} />
-          <Route path="/gestion_enfermedades" element={!User ? <Navigate to="/" />:<GestionEnfermedades /> } />
-          <Route path="/gestion_citas" element={!User? <Navigate to="/" />:<GestionCitas /> } />
+          <Route path='/Razas/modificar/:id_especie/:id_raza' element={!User ? <Navigate to="/" /> : <ModificarRaza />} />
+          <Route path="/gestion_enfermedades" element={!User ? <Navigate to="/" /> : <GestionEnfermedades />} />
+          <Route path="/gestion_citas" element={!User ? <Navigate to="/" /> : <GestionCitas />} />
         </Routes>
       </BrowserRouter>
+    </UserContext.Provider>
     </>
   )
 }
