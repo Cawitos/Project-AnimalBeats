@@ -834,7 +834,7 @@ app.get('/servicios/Listado', async (req, res) => {
 * ======================== */
 
 // Obtener todas las alarmas de recordatorios
-app.get('/gestion_recordatorios', async (req, res) => {
+app.get('/recordatorios', async (req, res) => {
   const connection = req.app.locals.connection;
   try {
     const [alertas] = await connection.execute(`

@@ -5,10 +5,12 @@ import OffcanvasMenu from './menu';
 function GestionRecordatorios() {
   const [recordatorio, setRecordatorio] = useState([]);
   const [form, setForm] = useState({ cliente: '', mascota: '', fecha: '', descripcion: '' });
+  const [modoEditar, setModoEditar] = useState(false);
+  const [idEditar, setIdEditar] = useState(null);
 
   const fetchRecordatorios = async () => {
     try {
-      const res = await axios.get('http://localhost:3000/api/gestionRecordatorios');
+      const res = await axios.get('http://localhost:3000/recordatorios');
       setRecordatorio(res.data);
     } catch (error) {
       console.error('Error al obtener recordatorios:', error);
@@ -18,11 +20,17 @@ function GestionRecordatorios() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:3000/api/recordatorios/guardar', form);
+      if (modoEditar) {
+        await axios.put(`http://localhost:3000/recordatorios/modificar/${idEditar}`, form);
+      } else {
+        await axios.post('http://localhost:3000/recordatorios/guardar', form);
+      }
       fetchRecordatorios();
       setForm({ cliente: '', mascota: '', fecha: '', descripcion: '' });
+      setModoEditar(false);
+      setIdEditar(null);
     } catch (error) {
-      console.error('Error al guardar recordatorio:', error);
+      console.error('Error al guardar/modificar recordatorio:', error);
     }
   };
 
@@ -31,11 +39,22 @@ function GestionRecordatorios() {
     if (!confirmacion) return;
 
     try {
-      await axios.delete(`http://localhost:3000/api/recordatorios/eliminar/${id}`);
+      await axios.delete(`http://localhost:3000/recordatorios/eliminar/${id}`);
       fetchRecordatorios();
     } catch (error) {
       console.error('Error al eliminar recordatorio:', error);
     }
+  };
+
+  const cargarParaEditar = (r) => {
+    setForm({
+      cliente: r.id_cliente,
+      mascota: r.id_Mascota,
+      fecha: r.Fecha.split('T')[0], // formato yyyy-mm-dd
+      descripcion: r.descripcion,
+    });
+    setModoEditar(true);
+    setIdEditar(r.id);
   };
 
   useEffect(() => {
@@ -67,6 +86,12 @@ function GestionRecordatorios() {
               <td>{r.descripcion}</td>
               <td>
                 <button
+                  onClick={() => cargarParaEditar(r)}
+                  className="gestion-recordatorios-btn-editar"
+                >
+                  Modificar
+                </button>
+                <button
                   onClick={() => eliminarRecordatorio(r.id)}
                   className="gestion-recordatorios-btn-eliminar"
                 >
@@ -78,7 +103,9 @@ function GestionRecordatorios() {
         </tbody>
       </table>
 
-      <h5 className="gestion-recordatorios-form-title">Crear nuevo Recordatorio</h5>
+      <h5 className="gestion-recordatorios-form-title">
+        {modoEditar ? 'Modificar Recordatorio' : 'Crear nuevo Recordatorio'}
+      </h5>
       <form onSubmit={handleSubmit} className="gestion-recordatorios-form">
         <div className="gestion-recordatorios-form-row">
           <div className="gestion-recordatorios-form-group">
@@ -118,7 +145,9 @@ function GestionRecordatorios() {
             required
           />
         </div>
-        <button type="submit" className="gestion-recordatorios-btn-guardar">Guardar Recordatorio</button>
+        <button type="submit" className="gestion-recordatorios-btn-guardar">
+          {modoEditar ? 'Actualizar Recordatorio' : 'Guardar Recordatorio'}
+        </button>
       </form>
     </div>
   );
