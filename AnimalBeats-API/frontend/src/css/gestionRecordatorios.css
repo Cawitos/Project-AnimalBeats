@@ -116,11 +116,12 @@ body, html, #root {
 }
 
 .gestion-recordatorios-btn-editar:hover {
-  background-color: var(--verde) !important;
+  background-color: var(--rojo) !important;
   color: var(--blanco) !important;
-  border-color: var(--verde) !important;
-  box-shadow: 0 0 8px var(--verde) !important;
+  box-shadow: 0 0 8px var(--rojo) !important;
+  border-color: var(--rojo) !important;
 }
+
 
 .gestion-recordatorios-btn-eliminar:hover {
   background-color: var(--rojo) !important;
