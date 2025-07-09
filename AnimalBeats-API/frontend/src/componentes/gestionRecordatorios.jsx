@@ -46,10 +46,13 @@ function GestionRecordatorios() {
   }, []);
 
   return (
-    <div className="contenedor-dashboard container mt-5">
-      {<OffcanvasMenu /> }
-      <h4 className="mb-4">Gestión de Recordatorios</h4>
-      <table className="table table-striped-columns">
+    <div className="recordatorios-container">
+      {/* Asegúrate que el componente <OffcanvasMenu /> esté definido */}
+      <OffcanvasMenu />
+
+      <h4 className="recordatorios-title">Gestión de Recordatorios</h4>
+
+      <table className="recordatorios-table">
         <thead>
           <tr>
             <th>Cliente</th>
@@ -67,7 +70,10 @@ function GestionRecordatorios() {
               <td>{new Date(r.Fecha).toLocaleDateString()}</td>
               <td>{r.descripcion}</td>
               <td>
-                <button onClick={() => eliminarRecordatorio(r.id)} className="btn btn-sm btn-danger me-2">
+                <button
+                  onClick={() => eliminarRecordatorio(r.id)}
+                  className="btn-eliminar"
+                >
                   Eliminar
                 </button>
               </td>
@@ -76,51 +82,47 @@ function GestionRecordatorios() {
         </tbody>
       </table>
 
-      <h5 className="mt-4">Crear nuevo Recordatorio</h5>
-      <form onSubmit={handleSubmit} className="mb-5">
-        <div className="row">
-          <div className="col-md-4 mb-3">
-            <label className="form-label">N° Documento del Cliente</label>
+      <h5 className="form-title">Crear nuevo Recordatorio</h5>
+      <form onSubmit={handleSubmit} className="recordatorio-form">
+        <div className="form-row">
+          <div className="form-group">
+            <label>N° Documento del Cliente</label>
             <input
               type="text"
-              className="form-control"
               value={form.cliente}
               onChange={e => setForm({ ...form, cliente: e.target.value })}
               required
             />
           </div>
-          <div className="col-md-4 mb-3">
-            <label className="form-label">ID Mascota</label>
+          <div className="form-group">
+            <label>ID Mascota</label>
             <input
               type="number"
-              className="form-control"
               value={form.mascota}
               onChange={e => setForm({ ...form, mascota: e.target.value })}
               required
             />
           </div>
-          <div className="col-md-4 mb-3">
-            <label className="form-label">Fecha</label>
+          <div className="form-group">
+            <label>Fecha</label>
             <input
               type="date"
-              className="form-control"
               value={form.fecha}
               onChange={e => setForm({ ...form, fecha: e.target.value })}
               required
             />
           </div>
         </div>
-        <div className="mb-3">
-          <label className="form-label">Descripción</label>
+        <div className="form-group">
+          <label>Descripción</label>
           <input
             type="text"
-            className="form-control"
             value={form.descripcion}
             onChange={e => setForm({ ...form, descripcion: e.target.value })}
             required
           />
         </div>
-        <button type="submit" className="btn btn-success">Guardar Recordatorio</button>
+        <button type="submit" className="btn-guardar">Guardar Recordatorio</button>
       </form>
     </div>
   );
