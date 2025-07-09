@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import OffcanvasMenu from './menu';
+import '../css/estado-rol.css'
 
 export default function EstadoRoles() {
   const [roles, setRoles] = useState([]);
@@ -42,6 +44,9 @@ export default function EstadoRoles() {
 
   return (
     <div className="estado-roles-container p-4">
+      <nav className="estado-roles-menu-lateral">
+              <OffcanvasMenu />
+      </nav>
       <h2 className="estado-roles-title text-xl font-bold mb-2">Tabla de Roles</h2>
       <table className="estado-roles-tabla border w-full mb-12">
         <thead>
