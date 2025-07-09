@@ -71,13 +71,16 @@ body, html, #root {
   font-weight: 700;
   color: var(--rojo);
   text-align: center;
+  margin-left: 400px;
   margin-bottom: 40px;
   text-transform: uppercase;
   letter-spacing: 2px;
 }
 
+
 /* Tabla responsiva */
 .gestion-usuarios-tabla-responsive {
+  margin-left: 300px;
   overflow-x: auto;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);

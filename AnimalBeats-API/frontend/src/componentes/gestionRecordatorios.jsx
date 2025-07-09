@@ -35,17 +35,27 @@ function GestionRecordatorios() {
     }
   };
 
-  const eliminarRecordatorio = async (id) => {
-    const confirmacion = window.confirm('¿Estás seguro de que quieres eliminar este recordatorio?');
-    if (!confirmacion) return;
-
-    try {
-      await axios.delete(`http://localhost:3000/recordatorios/eliminar/${id}`);
-      fetchRecordatorios();
-    } catch (error) {
-      console.error('Error al eliminar recordatorio:', error);
+  const eliminarRecordatorio = (id) => {
+  Swal.fire({
+    title: '¿Estás seguro de que quieres eliminar este recordatorio?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Sí, eliminar',
+    cancelButtonText: 'Cancelar',
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      try {
+        await axios.delete(`http://localhost:3000/recordatorios/eliminar/${id}`);
+        fetchRecordatorios();
+        Swal.fire('¡Eliminado!', 'El recordatorio ha sido eliminado.', 'success');
+      } catch (error) {
+        console.error('Error al eliminar recordatorio:', error);
+        Swal.fire('Error', 'No se pudo eliminar el recordatorio. Intenta nuevamente.', 'error');
+      }
     }
-  };
+  });
+};
+
 
   const cargarParaEditar = (r) => {
     setForm({
