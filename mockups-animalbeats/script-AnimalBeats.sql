@@ -80,4 +80,3 @@ Create table Recordatorios(
 INSERT INTO Documento (tipo) VALUES ('C.C'), ('T.I'), ('C.E');
 INSERT INTO Rol (rol) VALUES ('admin'), ('cliente'), ('veterinario');
 insert into Servicios (servicio) values ('Consulta Generla'), ('Urgencias'), ('Baño y peluqueria'), ('Vacunaciones'), ('Cardiologia'), ('Nutricional');
-select * from usuarios;
