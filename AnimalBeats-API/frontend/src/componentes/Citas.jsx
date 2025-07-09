@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import OffcanvasMenu from './menu';
+import '../css/citas.css'
 
 function GestionCitas() {
     const [citas, setCitas] = useState([]);

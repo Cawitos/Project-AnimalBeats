@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import OffcanvasMenu from './menu';
+import '../css/enfermedades.css'
 
 function GestionEnfermedades() {
     const [enfermedades, setEnfermedades] = useState([]);
@@ -140,7 +141,7 @@ function GestionEnfermedades() {
 
     return (
         <div className="ge-container py-5">
-            <div className="ge-menu">
+            <div className="gestion-enfermedades-menu-lateral">
                 <OffcanvasMenu />
             </div>
 
