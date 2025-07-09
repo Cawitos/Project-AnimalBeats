@@ -35,7 +35,7 @@ export default function OffcanvasMenu() {
           <h5 className="offcanvas-title" id="offcanvasNavbarLabel">
             <button
               className="btn btn-link animalbeats p-0"
-              onClick={() => handleNavigate('/dashboard')}
+              onClick={() => handleNavigate('/admin')}
             >
               <span className="nav-logo">AnimalBeats</span>
             </button>
@@ -54,7 +54,7 @@ export default function OffcanvasMenu() {
               <Dropdown
                 title="Gestion de usuarios"
                 links={[
-                    // Alejandro toca ajustar los paths de los links para que sean correctos a sus rutas
+                  // Alejandro toca ajustar los paths de los links para que sean correctos a sus rutas
                   { path: '/gestionusuarios', label: 'Usuarios' },
                   { path: '/estados-roles', label: 'Estados y roles' },
                 ]}
@@ -75,22 +75,22 @@ export default function OffcanvasMenu() {
 
             <li className="nav-item">
               <button
-              className="nav-link btn btn-link"
-              onClick={() => handleNavigate('/gestion_enfermedades')}
+                className="nav-link btn btn-link"
+                onClick={() => handleNavigate('/gestion_enfermedades')}
               >
-              Gestion Enfermedades
+                Gestion Enfermedades
               </button>
             </li>
 
             <li className="nav-item">
               <button
-              className="nav-link btn btn-link"
-              onClick={() => handleNavigate('/gestion_citas')}
+                className="nav-link btn btn-link"
+                onClick={() => handleNavigate('/gestion_citas')}
               >
-              Gestion Citas
+                Gestion Citas
               </button>
             </li>
-            
+
             <li className="nav-item">
               <button
                 className="nav-link btn btn-link"

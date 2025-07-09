@@ -20,7 +20,7 @@ let conexion;
     conexion = await mysql.createConnection({
       host: 'localhost',
       user: 'root',
-      password: 'Alejo19',
+      password: '',
       database: 'AnimalBeats',
     });
     app.locals.connection = conexion;  // <--- asignar aquí
