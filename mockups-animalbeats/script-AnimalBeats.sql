@@ -57,6 +57,7 @@ Create table Servicios(
     servicio varchar(200)
 );
 Create table Citas(
+	id INT auto_increment primary key,
     id_Mascota int not null,
 	id_cliente varchar(10) not null,
 	id_Servicio int not null,
@@ -70,7 +71,7 @@ Create table Recordatorios(
 	id INT AUTO_INCREMENT PRIMARY KEY,
     id_Mascota int not null,
 	id_cliente varchar(10) not null,
-    fecha date not null,
+    fecha datetime not null,
     descripcion TEXT not null,
     foreign key (id_cliente) references Usuarios(n_documento) on delete cascade,
 	foreign key (id_Mascota) references Mascota(id) on delete cascade
@@ -79,3 +80,4 @@ Create table Recordatorios(
 INSERT INTO Documento (tipo) VALUES ('C.C'), ('T.I'), ('C.E');
 INSERT INTO Rol (rol) VALUES ('admin'), ('cliente'), ('veterinario');
 insert into Servicios (servicio) values ('Consulta Generla'), ('Urgencias'), ('Baño y peluqueria'), ('Vacunaciones'), ('Cardiologia'), ('Nutricional');
+select * from recordatorios;

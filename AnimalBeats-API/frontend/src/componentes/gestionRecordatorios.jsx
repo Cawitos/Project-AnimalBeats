@@ -61,7 +61,7 @@ function GestionRecordatorios() {
     setForm({
       cliente: r.id_cliente,
       mascota: r.id_Mascota,
-      fecha: r.Fecha.split('T')[0], // formato yyyy-mm-dd
+      fecha: new Date(r.Fecha).toISOString().slice(0, 16),  // formato para input datetime-local
       descripcion: r.descripcion,
     });
     setModoEditar(true);
@@ -94,7 +94,7 @@ function GestionRecordatorios() {
             <tr key={r.id}>
               <td>{r.id_cliente}</td>
               <td>{r.id_Mascota}</td>
-              <td>{new Date(r.Fecha).toLocaleDateString()}</td>
+              <td>{new Date(r.Fecha).toLocaleString()}</td>
               <td>{r.descripcion}</td>
               <td>
                 <button
@@ -141,7 +141,7 @@ function GestionRecordatorios() {
           <div className="gestion-recordatorios-form-group">
             <label>Fecha</label>
             <input
-              type="date"
+              type="datetime-local"
               value={form.fecha}
               onChange={e => setForm({ ...form, fecha: e.target.value })}
               required
