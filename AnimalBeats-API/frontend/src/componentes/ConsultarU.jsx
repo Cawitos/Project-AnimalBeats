@@ -10,7 +10,7 @@ function ConsultarU() {
   useEffect(() => {
     fetch(`http://localhost:3000/usuario/${n_documento}`)
       .then(res => res.json())
-      .then(data => { 
+      .then(data => {
         setUsuario(data);
         setLoading(false);
       })
@@ -22,27 +22,27 @@ function ConsultarU() {
 
   const volver = () => navigate(-1);
 
-  if (loading) return <p className="text-center mt-5">Cargando usuario...</p>;
+  if (loading) return <p className="consultar-u-loading text-center mt-5">Cargando usuario...</p>;
   if (!usuario || usuario === 'Usuario no encontrado')
-    return <p className="text-center mt-5">Usuario no encontrado.</p>;
+    return <p className="consultar-u-error text-center mt-5">Usuario no encontrado.</p>;
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100">
-      <div className="card shadow p-4" style={{ width: '28rem' }}>
-        <h3 className="text-center mb-4">Usuario {usuario.n_documento}</h3>
-        <ul className="list-group list-group-flush">
-          <li className="list-group-item">
+    <div className="consultar-u-wrapper d-flex justify-content-center align-items-center vh-100">
+      <div className="consultar-u-card card shadow p-4" style={{ width: '28rem' }}>
+        <h3 className="consultar-u-title text-center mb-4">Usuario {usuario.n_documento}</h3>
+        <ul className="consultar-u-list list-group list-group-flush">
+          <li className="consultar-u-item list-group-item">
             <b>Nombre:</b> {usuario.nombre}
           </li>
-          <li className="list-group-item">
+          <li className="consultar-u-item list-group-item">
             <b>Tipo de documento:</b> {usuario.tipo_documento}
           </li>
-          <li className="list-group-item">
+          <li className="consultar-u-item list-group-item">
             <b>Correo:</b> {usuario.correoelectronico}
           </li>
         </ul>
-        <div className="mt-4 text-center">
-          <button className="btn btn-danger" onClick={volver}>
+        <div className="consultar-u-actions mt-4 text-center">
+          <button className="consultar-u-button btn btn-danger" onClick={volver}>
             Volver
           </button>
         </div>

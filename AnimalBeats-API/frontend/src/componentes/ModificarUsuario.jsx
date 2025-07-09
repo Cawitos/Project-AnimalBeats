@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
 const ModificarUsuario = ({ usuario }) => {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const [nDocumento, setNDocumento] = useState("");
   const [nombre, setNombre] = useState("");
@@ -38,10 +38,10 @@ const ModificarUsuario = ({ usuario }) => {
         usuario.id_rol === 1
           ? "admin"
           : usuario.id_rol === 2
-          ? "cliente"
-          : usuario.id_rol === 3
-          ? "veterinario"
-          : ""
+            ? "cliente"
+            : usuario.id_rol === 3
+              ? "veterinario"
+              : ""
       );
       setIdDocumento(usuario.id_documento || "");
     }
@@ -77,7 +77,7 @@ const ModificarUsuario = ({ usuario }) => {
           text: data.mensaje || "Los datos del usuario se actualizaron correctamente.",
           confirmButtonText: "OK",
         });
-        navigate("/gestionusuarios"); 
+        navigate("/gestionusuarios");
       } else {
         Swal.fire({
           icon: "error",
@@ -96,17 +96,17 @@ const ModificarUsuario = ({ usuario }) => {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100">
-      <div className="card shadow p-4" style={{ width: "400px" }}>
-        <h3 className="text-center mb-4">Modificar Usuario</h3>
+    <div className="ab-modificar-container">
+      <div className="ab-modificar-card">
+        <h3 className="ab-modificar-title">Modificar Usuario</h3>
         <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label htmlFor="n_documento" className="form-label">
+          <div className="ab-form-group">
+            <label htmlFor="n_documento" className="ab-form-label">
               Número de Documento
             </label>
             <input
               type="number"
-              className="form-control"
+              className="ab-form-input"
               id="n_documento"
               value={nDocumento}
               onChange={(e) => setNDocumento(e.target.value)}
@@ -114,13 +114,13 @@ const ModificarUsuario = ({ usuario }) => {
             />
           </div>
 
-          <div className="mb-3">
-            <label htmlFor="nombre" className="form-label">
+          <div className="ab-form-group">
+            <label htmlFor="nombre" className="ab-form-label">
               Nombre
             </label>
             <input
               type="text"
-              className="form-control"
+              className="ab-form-input"
               id="nombre"
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
@@ -128,13 +128,13 @@ const ModificarUsuario = ({ usuario }) => {
             />
           </div>
 
-          <div className="mb-3">
-            <label htmlFor="correoelectronico" className="form-label">
+          <div className="ab-form-group">
+            <label htmlFor="correoelectronico" className="ab-form-label">
               Correo Electrónico
             </label>
             <input
               type="email"
-              className="form-control"
+              className="ab-form-input"
               id="correoelectronico"
               value={correoelectronico}
               onChange={(e) => setCorreoElectronico(e.target.value)}
@@ -142,12 +142,12 @@ const ModificarUsuario = ({ usuario }) => {
             />
           </div>
 
-          <div className="mb-3">
-            <label htmlFor="id_documento" className="form-label">
+          <div className="ab-form-group">
+            <label htmlFor="id_documento" className="ab-form-label">
               Tipo de Documento
             </label>
             <select
-              className="form-select"
+              className="ab-form-select"
               id="id_documento"
               value={idDocumento}
               onChange={(e) => setIdDocumento(e.target.value)}
@@ -162,12 +162,12 @@ const ModificarUsuario = ({ usuario }) => {
             </select>
           </div>
 
-          <div className="mb-3">
-            <label htmlFor="rol" className="form-label">
+          <div className="ab-form-group">
+            <label htmlFor="rol" className="ab-form-label">
               Rol
             </label>
             <select
-              className="form-select"
+              className="ab-form-select"
               id="rol"
               value={rol}
               onChange={(e) => setRol(e.target.value)}
@@ -180,7 +180,7 @@ const ModificarUsuario = ({ usuario }) => {
             </select>
           </div>
 
-          <button type="submit" className="btn btn-danger w-100">
+          <button type="submit" className="ab-btn ab-btn-danger">
             Guardar Cambios
           </button>
         </form>

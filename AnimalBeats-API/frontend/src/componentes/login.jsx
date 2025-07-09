@@ -21,23 +21,21 @@ const Login = ({ setUser }) => {
 
       const data = response.data;
 
-      setUser(data.usuario); 
+      setUser(data.usuario);
       setMensaje(data.mensaje || "Inicio de sesión exitoso");
 
-       localStorage.setItem("token", data.token);
+      localStorage.setItem("token", data.token);
 
-      // Redirigir según rol
-            setTimeout(() => {
-              console.log("Rol recibido:", data.rol); // para verificar en consola
-            
-              if (data.rol === "admin") {
-                navigate("/admin");
-              } else if (data.rol === "veterinario") {
-                navigate("/veterinario");
-              } else {
-                navigate("/cliente");
-              }
-            }, 1000);
+      setTimeout(() => {
+        console.log("Rol recibido:", data.rol);
+        if (data.rol === "admin") {
+          navigate("/admin");
+        } else if (data.rol === "veterinario") {
+          navigate("/veterinario");
+        } else {
+          navigate("/cliente");
+        }
+      }, 1000);
 
     } catch (error) {
       console.error(error);
@@ -46,21 +44,21 @@ const Login = ({ setUser }) => {
   };
 
   return (
-    <div className="login-container">
-      <div className="row justify-content-center">
-        <div className="col-md-6">
-          <div className="card shadow">
-            <div className="login-card">
-              <h3 className="text-center mb-4">Iniciar Sesión</h3>
+    <div className="ab-login-container">
+      <div className="ab-login-row">
+        <div className="ab-login-col">
+          <div className="ab-login-card">
+            <div className="ab-login-card-body">
+              <h3 className="ab-login-title">Iniciar Sesión</h3>
 
               <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                  <label htmlFor="email" className="form-label">
+                <div className="ab-form-group">
+                  <label htmlFor="email" className="ab-form-label">
                     Correo Electrónico
                   </label>
                   <input
                     type="email"
-                    className="form-control"
+                    className="ab-form-input"
                     id="email"
                     value={correoelectronico}
                     onChange={(e) => setCorreo(e.target.value)}
@@ -69,13 +67,13 @@ const Login = ({ setUser }) => {
                   />
                 </div>
 
-                <div className="mb-3">
-                  <label htmlFor="password" className="form-label">
+                <div className="ab-form-group">
+                  <label htmlFor="password" className="ab-form-label">
                     Contraseña
                   </label>
                   <input
                     type="password"
-                    className="form-control"
+                    className="ab-form-input"
                     id="password"
                     value={contrasena}
                     onChange={(e) => setContrasena(e.target.value)}
@@ -83,15 +81,15 @@ const Login = ({ setUser }) => {
                   />
                 </div>
 
-                <div className="d-grid">
-                  <button type="submit" className="btn btn-danger">
+                <div className="ab-form-button-wrapper">
+                  <button type="submit" className="ab-btn ab-btn-danger">
                     Iniciar Sesión
                   </button>
                 </div>
               </form>
 
               {mensaje && (
-                <div className="alert alert-info text-center mt-3">
+                <div className="ab-alert ab-alert-info">
                   {mensaje}
                 </div>
               )}

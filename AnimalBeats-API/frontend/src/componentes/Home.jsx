@@ -7,38 +7,38 @@ const Home = () => {
   return (
     <div>
       {/* Navbar fijo */}
-      <div className="menu">
-        <div className="c1">
+      <div className="ab-menu">
+        <div className="ab-menu-logo">
           <img src="./public/img/logo.png" alt="Logo AnimalBeats" />
         </div>
-        <div className="c2">
+        <div className="ab-menu-buttons">
           <button onClick={() => navigate('/#menu')}>INICIO</button>
           <button id="contact-btn">CONTACTENOS</button>
-          <button className="btn" onClick={() => navigate('/login')}>LOGIN</button>
-          <button className="btn-registrarse" onClick={() => navigate('/registro')}>REGISTRARSE</button>
+          <button className="ab-btn-login" onClick={() => navigate('/login')}>LOGIN</button>
+          <button className="ab-btn-register" onClick={() => navigate('/registro')}>REGISTRARSE</button>
         </div>
       </div>
 
       {/* Slider de publicidad */}
-      <div className="publicidad">
+      <div className="ab-slider">
         <ul>
           <li>
             <img src="./public/img/banner_perro.jpg" alt="Perro feliz en veterinaria" />
-            <div className="texto1">
+            <div className="ab-slide-text1">
               <h2>Cuidando de tus mascotas, nuestra pasión sin límites.</h2>
               <p>En nuestra veterinaria, tu mascota es parte de nuestra familia...</p>
             </div>
           </li>
           <li>
             <img src="./public/img/banner_perrogato.png" alt="Perro y gato juntos" />
-            <div className="texto2">
+            <div className="ab-slide-text2">
               <h2>Salud y felicidad, juntos en cada latido.</h2>
               <p>Creemos que cada latido cuenta. Ofrecemos servicios...</p>
             </div>
           </li>
           <li>
             <img src="./public/img/banner_gato.jpg" alt="Gato recibiendo cuidado" />
-            <div className="texto3">
+            <div className="ab-slide-text3">
               <h2>Juntos por la salud y alegría de tus compañeros peludos.</h2>
               <p>La salud de tus mascotas es una responsabilidad compartida...</p>
             </div>
@@ -47,28 +47,28 @@ const Home = () => {
       </div>
 
       {/* Información de servicios */}
-      <section className="informacion">
-        <div className="servicios">
+      <section className="ab-info">
+        <div className="ab-info-main">
           <nav><h1>¿Qué ofrecemos?</h1></nav>
           <p>En AnimalBeats, nos dedicamos a brindar el mejor cuidado...</p>
         </div>
 
-        <div className="s1">
+        <div className="ab-service-1">
           <nav><h1>Medicina Preventiva</h1></nav>
           <p>La prevención es clave para mantener a tu mascota saludable...</p>
         </div>
 
-        <div className="s2">
+        <div className="ab-service-2">
           <nav><h1>Consulta y Diagnóstico</h1></nav>
           <p>Realizamos evaluaciones clínicas exhaustivas...</p>
         </div>
 
-        <div className="s3">
+        <div className="ab-service-3">
           <nav><h1>Peluquería y Estética</h1></nav>
           <p>Mantenemos a tus mascotas limpias y bien cuidadas...</p>
         </div>
 
-        <div className="s4">
+        <div className="ab-service-4">
           <nav><h1>Transporte y Guardería</h1></nav>
           <p>Ofrecemos servicios seguros de transporte...</p>
         </div>
@@ -76,8 +76,8 @@ const Home = () => {
 
       {/* Footer */}
       <footer>
-        <div className="atencion">
-          <div className="botones-container">
+        <div className="ab-footer-help">
+          <div className="ab-footer-buttons">
             <button className="btn btn-danger mb-2" data-bs-toggle="offcanvas" data-bs-target="#ubicacionSidebar">
               ¿Dónde nos ubicamos?
             </button>
@@ -99,7 +99,7 @@ const Home = () => {
           <div className="offcanvas-body">
             <iframe
               title="Ubicación Clínica Veterinaria"
-              src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15904.316557121381!2d-74.0990538!3d4.7562667!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f845d48b9fd41%3A0x109fccc1ecd013dd!2sClinica%20Veterinaria%20Vetpoly!5e0!3m2!1ses-419!2sco!4v1733365569970!5m2!1ses-419!2sco"
+              src="https://www.google.com/maps/embed?pb=..."
               width="100%"
               height="250"
               style={{ border: 0 }}

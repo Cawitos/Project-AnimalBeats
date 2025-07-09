@@ -15,7 +15,6 @@ export default function CrearUsuario() {
     id_rol: '',
   });
 
-  // Obtiene los tipos de documento al montar el componente
   useEffect(() => {
     const obtenerTiposDocumento = async () => {
       try {
@@ -49,7 +48,7 @@ export default function CrearUsuario() {
         icon: 'success',
         confirmButtonText: 'OK',
       }).then(() => {
-        navigate('/gestionusuarios'); // Redirige al confirmar
+        navigate('/gestionusuarios');
       });
     } catch (error) {
       console.error(error);
@@ -63,14 +62,14 @@ export default function CrearUsuario() {
   };
 
   return (
-    <div className="container mt-5">
-      <div className="card mx-auto shadow p-4" style={{ maxWidth: '500px' }}>
-        <h3 className="text-center mb-4">Crear Usuario</h3>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label htmlFor="id_documento" className="form-label">Tipo de documento</label>
+    <div className="crear-usuario-container container mt-5">
+      <div className="crear-usuario-card card mx-auto shadow p-4" style={{ maxWidth: '500px' }}>
+        <h3 className="crear-usuario-title text-center mb-4">Crear Usuario</h3>
+        <form className="crear-usuario-form" onSubmit={handleSubmit}>
+          <div className="crear-usuario-field mb-3">
+            <label htmlFor="id_documento" className="crear-usuario-label form-label">Tipo de documento</label>
             <select
-              className="form-select"
+              className="crear-usuario-select form-select"
               name="id_documento"
               id="id_documento"
               required
@@ -84,11 +83,11 @@ export default function CrearUsuario() {
             </select>
           </div>
 
-          <div className="mb-3">
-            <label htmlFor="n_documento" className="form-label">Número de documento</label>
+          <div className="crear-usuario-field mb-3">
+            <label htmlFor="n_documento" className="crear-usuario-label form-label">Número de documento</label>
             <input
               type="number"
-              className="form-control"
+              className="crear-usuario-input form-control"
               name="n_documento"
               id="n_documento"
               required
@@ -97,11 +96,11 @@ export default function CrearUsuario() {
             />
           </div>
 
-          <div className="mb-3">
-            <label htmlFor="nombre" className="form-label">Nombre completo</label>
+          <div className="crear-usuario-field mb-3">
+            <label htmlFor="nombre" className="crear-usuario-label form-label">Nombre completo</label>
             <input
               type="text"
-              className="form-control"
+              className="crear-usuario-input form-control"
               name="nombre"
               id="nombre"
               required
@@ -110,11 +109,11 @@ export default function CrearUsuario() {
             />
           </div>
 
-          <div className="mb-3">
-            <label htmlFor="correoelectronico" className="form-label">Correo electrónico</label>
+          <div className="crear-usuario-field mb-3">
+            <label htmlFor="correoelectronico" className="crear-usuario-label form-label">Correo electrónico</label>
             <input
               type="email"
-              className="form-control"
+              className="crear-usuario-input form-control"
               name="correoelectronico"
               id="correoelectronico"
               required
@@ -123,11 +122,11 @@ export default function CrearUsuario() {
             />
           </div>
 
-          <div className="mb-3">
-            <label htmlFor="contrasena" className="form-label">Contraseña</label>
+          <div className="crear-usuario-field mb-3">
+            <label htmlFor="contrasena" className="crear-usuario-label form-label">Contraseña</label>
             <input
               type="password"
-              className="form-control"
+              className="crear-usuario-input form-control"
               name="contrasena"
               id="contrasena"
               required
@@ -136,10 +135,10 @@ export default function CrearUsuario() {
             />
           </div>
 
-          <div className="mb-3">
-            <label htmlFor="id_rol" className="form-label">Rol</label>
+          <div className="crear-usuario-field mb-3">
+            <label htmlFor="id_rol" className="crear-usuario-label form-label">Rol</label>
             <select
-              className="form-select"
+              className="crear-usuario-select form-select"
               name="id_rol"
               id="id_rol"
               required
@@ -153,8 +152,8 @@ export default function CrearUsuario() {
             </select>
           </div>
 
-          <div className="text-center mt-4">
-            <button type="submit" className="btn btn-danger">Registrar Usuario</button>
+          <div className="crear-usuario-actions text-center mt-4">
+            <button type="submit" className="crear-usuario-button btn btn-danger">Registrar Usuario</button>
           </div>
         </form>
       </div>

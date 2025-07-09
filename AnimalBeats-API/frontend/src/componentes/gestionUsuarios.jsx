@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import OffcanvasMenu from "../componentes/menu";
-import '../css/usuarios.css'
+import '../css/usuarios.css';
 
 export default function GestionUsuarios() {
   const [usuarios, setUsuarios] = useState([]);
@@ -49,14 +49,16 @@ export default function GestionUsuarios() {
   };
 
   return (
-    <div className="container py-5 mt-5">
+    <div className="gestion-usuarios-container container py-5 mt-5">
       <OffcanvasMenu />
-      <h1 className="text-center mb-4">Gestión de usuarios</h1>
+      <h1 className="gestion-usuarios-title text-center mb-4">
+        Gestión de usuarios
+      </h1>
 
       {usuarios.length > 0 ? (
-        <div className="table-responsive">
-          <table className="table table-striped">
-            <thead className="table-dark">
+        <div className="gestion-usuarios-tabla-responsive table-responsive">
+          <table className="gestion-usuarios-tabla table table-striped">
+            <thead className="gestion-usuarios-thead table-dark">
               <tr>
                 <th>Nombre</th>
                 <th>Código</th>
@@ -66,7 +68,7 @@ export default function GestionUsuarios() {
                 <th>Suspender</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="gestion-usuarios-tbody">
               {usuarios.map((u) => (
                 <tr key={u.n_documento}>
                   <td>{u.nombre}</td>
@@ -75,7 +77,7 @@ export default function GestionUsuarios() {
                   <td>
                     <Link
                       to={`/usuarios/${u.n_documento}/consultar`}
-                      className="text-danger"
+                      className="gestion-usuarios-icon text-danger"
                     >
                       <i className="fa-solid fa-eye"></i>
                     </Link>
@@ -83,14 +85,14 @@ export default function GestionUsuarios() {
                   <td>
                     <Link
                       to={`/usuario/Actualizar/${u.n_documento}`}
-                      className="text-danger"
+                      className="gestion-usuarios-icon text-danger"
                     >
                       <i className="fa-solid fa-pen"></i>
                     </Link>
                   </td>
                   <td>
                     <button
-                      className="btn btn-outline-danger btn-sm"
+                      className="gestion-usuarios-btn btn btn-outline-danger btn-sm"
                       onClick={() => suspenderUsuario(u.n_documento)}
                     >
                       <i className="fa-solid fa-user-lock"></i>
@@ -102,16 +104,19 @@ export default function GestionUsuarios() {
           </table>
         </div>
       ) : (
-        <div className="alert alert-warning text-center" role="alert">
+        <div
+          className="gestion-usuarios-alert alert alert-warning text-center"
+          role="alert"
+        >
           No hay usuarios registrados actualmente.
         </div>
       )}
 
-          <div className="text-center mt-4">
-            <Link to="/usuarios/crear" className="btn btn-danger btn-lg">
-              <i className="fa-solid fa-user-plus"></i> Crear usuario
-            </Link>
-          </div>
+      <div className="gestion-usuarios-crear text-center mt-4">
+        <Link to="/usuarios/crear" className="gestion-usuarios-crear-btn btn btn-danger btn-lg">
+          <i className="fa-solid fa-user-plus"></i> Crear usuario
+        </Link>
+      </div>
     </div>
   );
 }
