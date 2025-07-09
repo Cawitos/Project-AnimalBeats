@@ -6,7 +6,6 @@ function GestionRecordatorios() {
   const [recordatorio, setRecordatorio] = useState([]);
   const [form, setForm] = useState({ cliente: '', mascota: '', fecha: '', descripcion: '' });
 
-  // Obtener todos los recordatorios
   const fetchRecordatorios = async () => {
     try {
       const res = await axios.get('http://localhost:3000/api/gestionRecordatorios');
@@ -16,7 +15,6 @@ function GestionRecordatorios() {
     }
   };
 
-  // Guardar nuevo recordatorio
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -28,7 +26,6 @@ function GestionRecordatorios() {
     }
   };
 
-  // Eliminar recordatorio
   const eliminarRecordatorio = async (id) => {
     const confirmacion = window.confirm('¿Estás seguro de que quieres eliminar este recordatorio?');
     if (!confirmacion) return;
@@ -46,13 +43,12 @@ function GestionRecordatorios() {
   }, []);
 
   return (
-    <div className="recordatorios-container">
-      {/* Asegúrate que el componente <OffcanvasMenu /> esté definido */}
+    <div className="gestion-recordatorios-container">
       <OffcanvasMenu />
 
-      <h4 className="recordatorios-title">Gestión de Recordatorios</h4>
+      <h4 className="gestion-recordatorios-title">Gestión de Recordatorios</h4>
 
-      <table className="recordatorios-table">
+      <table className="gestion-recordatorios-table">
         <thead>
           <tr>
             <th>Cliente</th>
@@ -72,7 +68,7 @@ function GestionRecordatorios() {
               <td>
                 <button
                   onClick={() => eliminarRecordatorio(r.id)}
-                  className="btn-eliminar"
+                  className="gestion-recordatorios-btn-eliminar"
                 >
                   Eliminar
                 </button>
@@ -82,10 +78,10 @@ function GestionRecordatorios() {
         </tbody>
       </table>
 
-      <h5 className="form-title">Crear nuevo Recordatorio</h5>
-      <form onSubmit={handleSubmit} className="recordatorio-form">
-        <div className="form-row">
-          <div className="form-group">
+      <h5 className="gestion-recordatorios-form-title">Crear nuevo Recordatorio</h5>
+      <form onSubmit={handleSubmit} className="gestion-recordatorios-form">
+        <div className="gestion-recordatorios-form-row">
+          <div className="gestion-recordatorios-form-group">
             <label>N° Documento del Cliente</label>
             <input
               type="text"
@@ -94,7 +90,7 @@ function GestionRecordatorios() {
               required
             />
           </div>
-          <div className="form-group">
+          <div className="gestion-recordatorios-form-group">
             <label>ID Mascota</label>
             <input
               type="number"
@@ -103,7 +99,7 @@ function GestionRecordatorios() {
               required
             />
           </div>
-          <div className="form-group">
+          <div className="gestion-recordatorios-form-group">
             <label>Fecha</label>
             <input
               type="date"
@@ -113,7 +109,7 @@ function GestionRecordatorios() {
             />
           </div>
         </div>
-        <div className="form-group">
+        <div className="gestion-recordatorios-form-group">
           <label>Descripción</label>
           <input
             type="text"
@@ -122,7 +118,7 @@ function GestionRecordatorios() {
             required
           />
         </div>
-        <button type="submit" className="btn-guardar">Guardar Recordatorio</button>
+        <button type="submit" className="gestion-recordatorios-btn-guardar">Guardar Recordatorio</button>
       </form>
     </div>
   );

@@ -11,10 +11,10 @@ function GestionEnfermedades() {
 
     const fetchEnfermedades = async () => {
         try {
-        const res = await axios.get('http://localhost:3000/Enfermedades/Listado');
-        setEnfermedades(res.data);
+            const res = await axios.get('http://localhost:3000/Enfermedades/Listado');
+            setEnfermedades(res.data);
         } catch (err) {
-        console.error('Error al cargar enfermedades', err);
+            console.error('Error al cargar enfermedades', err);
         }
     };
 
@@ -139,23 +139,23 @@ function GestionEnfermedades() {
     };
 
     return (
-        <div className="container py-5">
-            <div className="menu">
+        <div className="ge-container py-5">
+            <div className="ge-menu">
                 <OffcanvasMenu />
             </div>
 
-            <div className="text-center mb-4">
-                <h2 className="fw-bold">Gestión de Enfermedades</h2>
-                <h5 className="text-muted">{modoEdicion ? 'Editar Enfermedad' : 'Registrar Nueva Enfermedad'}</h5>
+            <div className="ge-header text-center mb-4">
+                <h2 className="ge-title fw-bold">Gestión de Enfermedades</h2>
+                <h5 className="ge-subtitle text-muted">{modoEdicion ? 'Editar Enfermedad' : 'Registrar Nueva Enfermedad'}</h5>
             </div>
 
-            <div className="row g-3 mb-4">
-                <div className="col-md-6">
-                    <label className="form-label">Nombre</label>
+            <div className="ge-form row g-3 mb-4">
+                <div className="ge-input-col col-md-6">
+                    <label className="ge-label form-label">Nombre</label>
                     <input
                         type="text"
                         name="nombre"
-                        className="form-control"
+                        className="ge-input form-control"
                         value={form.nombre}
                         onChange={handleChange}
                         disabled={modoEdicion}
@@ -163,11 +163,11 @@ function GestionEnfermedades() {
                     />
                 </div>
 
-                <div className="col-md-6">
-                    <label className="form-label">Descripción</label>
+                <div className="ge-textarea-col col-md-6">
+                    <label className="ge-label form-label">Descripción</label>
                     <textarea
                         name="descripcion"
-                        className="form-control"
+                        className="ge-textarea form-control"
                         style={{ height: '100px' }}
                         rows="1"
                         value={form.descripcion}
@@ -177,48 +177,48 @@ function GestionEnfermedades() {
                 </div>
             </div>
 
-            <div className="text-center mb-5">
+            <div className="ge-btns text-center mb-5">
                 {modoEdicion ? (
-                    <div className="btn-group">
-                        <button className="btn btn-outline-success px-4" onClick={guardarEdicion}>
+                    <div className="ge-edit-group btn-group">
+                        <button className="ge-btn-save btn btn-outline-success px-4" onClick={guardarEdicion}>
                             Guardar Cambios
                         </button>
-                        <button className="btn btn-outline-secondary px-4" onClick={cancelarEdicion}>
+                        <button className="ge-btn-cancel btn btn-outline-secondary px-4" onClick={cancelarEdicion}>
                             Cancelar Edición
                         </button>
                     </div>
                 ) : (
-                    <button className="btn btn-success px-5" onClick={guardar}>
+                    <button className="ge-btn-register btn btn-success px-5" onClick={guardar}>
                         Registrar
                     </button>
                 )}
             </div>
 
-            <div>
-                <h4 className="mb-3">Listado de Enfermedades</h4>
+            <div className="ge-listado">
+                <h4 className="ge-list-title mb-3">Listado de Enfermedades</h4>
                 {enfermedades.length > 0 ? (
                     <>
-                        <p className="text-muted">Total: {enfermedades.length}</p>
-                        <div className="list-group">
+                        <p className="ge-total text-muted">Total: {enfermedades.length}</p>
+                        <div className="ge-list list-group">
                             {enfermedades.map((enfermedad) => (
                                 <div
                                     key={enfermedad.nombre}
-                                    className="list-group-item border rounded mb-3 shadow-sm p-3 d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3"
+                                    className="ge-item list-group-item border rounded mb-3 shadow-sm p-3 d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3"
                                 >
-                                    <div className="d-flex flex-column flex-md-row gap-4 flex-grow-1">
-                                        <strong>{enfermedad.nombre}</strong>
-                                        <span className="text-muted">{enfermedad.descripcion}</span>
+                                    <div className="ge-info d-flex flex-column flex-md-row gap-4 flex-grow-1">
+                                        <strong className="ge-name">{enfermedad.nombre}</strong>
+                                        <span className="ge-description text-muted">{enfermedad.descripcion}</span>
                                     </div>
-                                    <div className="btn-group">
-                                        <button className="btn btn-outline-info btn-sm" onClick={() => editar(enfermedad)}>Modificar</button>
-                                        <button className="btn btn-outline-danger btn-sm" onClick={() => eliminar(enfermedad.nombre)}>Eliminar</button>
+                                    <div className="ge-actions btn-group">
+                                        <button className="ge-btn-edit btn btn-outline-info btn-sm" onClick={() => editar(enfermedad)}>Modificar</button>
+                                        <button className="ge-btn-delete btn btn-outline-danger btn-sm" onClick={() => eliminar(enfermedad.nombre)}>Eliminar</button>
                                     </div>
                                 </div>
                             ))}
                         </div>
                     </>
                 ) : (
-                    <div className="alert alert-info" role="alert">
+                    <div className="ge-alert alert alert-info" role="alert">
                         <strong>Información:</strong> Actualmente no hay enfermedades registradas.
                     </div>
                 )}

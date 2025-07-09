@@ -40,15 +40,15 @@ const Register = () => {
                 contrasena: ''
             });
 
-setTimeout(() => {
-  if (data.rol == 1) {  // Admin
-    navigate("/admin");
-  } else if (data.rol == 2) {  // Veterinario
-    navigate("/veterinario");
-  } else {
-    navigate("/cliente");
-  }
-}, 1000);
+            setTimeout(() => {
+                if (data.rol == 1) {  // Admin
+                    navigate("/admin");
+                } else if (data.rol == 2) {  // Veterinario
+                    navigate("/veterinario");
+                } else {
+                    navigate("/cliente");
+                }
+            }, 1000);
 
         } catch (error) {
             console.error(error);
