@@ -55,6 +55,10 @@ app.post('/registro', async (req, res) => {
     return res.status(400).json({ mensaje: 'Faltan campos' });
   }
 
+  if (contrasena.length < 8) {
+    return res.status(400).json({ mensaje: 'La contraseña debe tener al menos 8 caracteres' });
+  }
+
   try {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(contrasena, salt);

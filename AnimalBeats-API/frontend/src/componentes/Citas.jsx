@@ -69,7 +69,7 @@ function GestionCitas() {
             const data = Array.isArray(res.data)
                 ? res.data.map((cita) => ({
                     ...cita,
-                    fecha: cita.fecha.split('T')[0]
+                    fecha: new Date(cita.fecha).toISOString().slice(0, 16) // para datetime-local
                 }))
                 : [];
             setCitas(data);
@@ -248,11 +248,12 @@ function GestionCitas() {
                 <div className="citas-form-group col-md-4">
                     <label className="citas-label form-label">Fecha</label>
                     <input
-                        type="date"
-                        className="citas-input form-control"
-                        name="fecha"
-                        value={form.fecha}
-                        onChange={handleChange}
+                    type="datetime-local"
+                    className="citas-input form-control"
+                    name="fecha"
+                    value={form.fecha}
+                    onChange={handleChange}
+                    required
                     />
                 </div>
                 <div className="citas-form-group col-md-12">
