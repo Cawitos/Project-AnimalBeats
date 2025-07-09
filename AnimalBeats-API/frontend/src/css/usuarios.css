@@ -1,62 +1,198 @@
-.perfil{
-    margin-left: -90px;
-    display: flex;
+:root {
+  --blanco: #FDF7FA;
+  --rojo: #DF2935;
+  --negro: #07090F;
+  --gris: #E6E8E6;
+  --verde: #4CAF50;
 }
-.contenedor-perfil {
-    margin-left: 210px;
-    margin-top: 95px;
-    font-family: 'Arial', sans-serif;
-    width: 400px;
-    height: 310px;
-    padding: 20px;
-    border: 2px solid var(--gris);
-    border-radius: 10px;
-    background-color: var(--blanco);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-.contenedor-perfil h1{
-    text-align: center;
+
+body, html, #root {
+  width: 100%;
+  height: 100%;
+  background-color: var(--blanco);
+  color: var(--negro);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow-x: hidden;
 }
-.contenedor-perfil svg{
-    margin-left: 10px;
+
+/* Menú lateral fijo */
+.gestion-usuarios-menu-lateral {
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin-top: 10px;
+  width: 200px;
+  height: 100vh;
+  background-color: var(--blanco);
+  border: none;
+  box-shadow: none;
+  overflow-y: auto;
+  z-index: 1000;
+  padding: 20px;
+  box-sizing: border-box;
 }
-.estadisticas{
-    margin-left: 10px;
-    margin-top: 95px;
-    font-family: 'Arial', sans-serif;
-    width: 1210px;
-    height: 310px;
-    padding: 20px;
-    border: 2px solid var(--gris);
-    border-radius: 10px;
-    background-color: var(--blanco);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+/* Contenedor principal */
+.gestion-usuarios-container {
+  margin-left: 220px; /* espacio para el menú lateral */
+  padding: 40px 30px;
+  min-height: 100vh;
+  background-color: var(--blanco);
+  box-sizing: border-box;
+  transition: margin-left 0.3s ease;
 }
-.estadisticas ul{
-    list-style: none;
-    margin-top: 100px;
-    display: flex;
-    justify-content: space-between;
+
+/* Responsive para dispositivos móviles */
+@media (max-width: 768px) {
+  .gestion-usuarios-container {
+    margin-left: 0;
+    padding: 20px 15px;
+  }
+
+  .gestion-usuarios-menu-lateral {
+    position: relative;
     width: 100%;
+    height: auto;
+    margin-top: 0;
+    border-bottom: 1px solid var(--gris);
+  }
 }
-.estadisticas ul li{
-    padding: 0 10px;
-    display: flex;
+
+/* Título principal */
+.gestion-usuarios-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--rojo);
+  text-align: center;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
-.stats{
-    background-color: var(--rojo);
-    width: 50px;
-    height: 50px;
-    border-radius: 15px;
+
+/* Tabla responsiva */
+.gestion-usuarios-tabla-responsive {
+  overflow-x: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  background-color: var(--blanco);
+  padding: 10px;
 }
-.stats svg{
-    margin-left: 5px;
-    margin-top: 5px;
+
+/* Tabla */
+.gestion-usuarios-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+  color: var(--negro);
+  min-width: 700px;
 }
-.info{
-    margin-left: 10px;
-    text-align: center;
+
+.gestion-usuarios-thead {
+  background-color: var(--rojo);
+  color: var(--blanco);
+  text-transform: uppercase;
+  font-weight: 700;
 }
-.info p{
-    font-size: 20px;
+
+.gestion-usuarios-thead th {
+  padding: 12px 15px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.gestion-usuarios-tbody td {
+  padding: 12px 15px;
+  border-bottom: 1px solid var(--gris);
+  vertical-align: middle;
+}
+
+.gestion-usuarios-tbody tr:hover {
+  background-color: var(--gris);
+  cursor: pointer;
+}
+
+/* Iconos de acción */
+.gestion-usuarios-icon {
+  font-size: 1.2rem;
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+
+.gestion-usuarios-icon.text-danger:hover {
+  color: #b22228; /* rojo oscuro */
+}
+
+/* Botón suspender */
+.gestion-usuarios-btn {
+  border: 2px solid var(--rojo);
+  background-color: transparent;
+  color: var(--rojo);
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gestion-usuarios-btn:hover {
+  background-color: var(--rojo);
+  color: var(--blanco);
+  box-shadow: 0 0 8px var(--rojo);
+}
+
+.gestion-usuarios-btn:focus-visible {
+  outline: 3px solid var(--verde);
+  outline-offset: 2px;
+}
+
+/* Contenedor botón crear usuario */
+.gestion-usuarios-crear {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.gestion-usuarios-crear-btn {
+  background-color: var(--rojo);
+  border: none;
+  color: var(--blanco);
+  font-size: 1.2rem;
+  font-weight: 700;
+  padding: 12px 24px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.gestion-usuarios-crear-btn:hover {
+  background-color: #b22228;
+  box-shadow: 0 0 12px #b22228;
+}
+
+/* Mensaje alerta cuando no hay usuarios */
+.gestion-usuarios-alert {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #856404;
+  background-color: #fff3cd;
+  border: 1px solid #ffeeba;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 600px;
+  margin: 40px auto;
+  text-align: center;
 }

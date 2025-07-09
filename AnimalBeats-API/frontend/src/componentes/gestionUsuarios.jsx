@@ -50,7 +50,9 @@ export default function GestionUsuarios() {
 
   return (
     <div className="gestion-usuarios-container container py-5 mt-5">
-      <OffcanvasMenu />
+      <div className="gestion-usuarios-menu-lateral">
+        <OffcanvasMenu />
+      </div>
       <h1 className="gestion-usuarios-title text-center mb-4">
         Gestión de usuarios
       </h1>

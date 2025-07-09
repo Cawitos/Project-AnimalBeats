@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
+
 function ConsultarU() {
   const { n_documento } = useParams();
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ function ConsultarU() {
     return <p className="consultar-u-error text-center mt-5">Usuario no encontrado.</p>;
 
   return (
-    <div className="consultar-u-wrapper d-flex justify-content-center align-items-center vh-100">
+    <div className="consultar-u-wrapper d-flex justify-content-center align-items-center vh-90">
       <div className="consultar-u-card card shadow p-4" style={{ width: '28rem' }}>
         <h3 className="consultar-u-title text-center mb-4">Usuario {usuario.n_documento}</h3>
         <ul className="consultar-u-list list-group list-group-flush">

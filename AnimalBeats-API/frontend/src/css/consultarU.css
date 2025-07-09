@@ -1,0 +1,122 @@
+:root {
+  --blanco: #FDF7FA;
+  --rojo: #DF2935;
+  --negro: #07090F;
+  --gris: #E6E8E6;
+  --verde: #4CAF50;
+}
+
+/* Contenedor principal centrado y altura completa */
+.consultar-u-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  background-color: var(--blanco);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Tarjeta */
+.consultar-u-card {
+  background-color: var(--blanco);
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  padding: 30px 25px;
+  width: 100%;
+  max-width: 28rem; /* 448px */
+  color: var(--negro);
+  box-sizing: border-box;
+}
+
+/* Título */
+.consultar-u-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--rojo);
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* Lista de detalles */
+.consultar-u-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 8px rgba(0,0,0,0.05);
+  background-color: var(--gris);
+}
+
+.consultar-u-item {
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--blanco);
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--negro);
+}
+
+.consultar-u-item:last-child {
+  border-bottom: none;
+}
+
+/* Botón Volver */
+.consultar-u-actions {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.consultar-u-button {
+  background-color: var(--rojo);
+  border: none;
+  color: var(--blanco);
+  padding: 12px 30px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  min-width: 120px;
+}
+
+.consultar-u-button:hover,
+.consultar-u-button:focus {
+  background-color: #b22228;
+  outline: none;
+  transform: scale(1.05);
+}
+
+/* Mensajes de carga y error */
+.consultar-u-loading,
+.consultar-u-error {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--rojo);
+  text-align: center;
+  margin-top: 100px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .consultar-u-card {
+    max-width: 90%;
+    padding: 25px 20px;
+  }
+
+  .consultar-u-title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+
+  .consultar-u-item {
+    font-size: 1rem;
+    padding: 12px 15px;
+  }
+
+  .consultar-u-button {
+    font-size: 1rem;
+    padding: 10px 25px;
+    min-width: 100px;
+  }
+}
