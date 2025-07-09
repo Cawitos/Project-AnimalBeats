@@ -1,15 +1,23 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../css/menu.css'
+import { UserContext } from '../context/UserContext'; // Ajusta la ruta según tu estructura
+import '../css/menu.css';
 
 export default function OffcanvasMenu() {
   const [showOffcanvas, setShowOffcanvas] = useState(false);
   const navigate = useNavigate();
+  const { setUser } = useContext(UserContext);
 
   // Función para navegar y cerrar el menú
   const handleNavigate = (path) => {
     navigate(path);
     setShowOffcanvas(false);
+  };
+
+  // Función para cerrar sesión
+  const handleLogout = () => {
+    setUser(null);       // Actualiza el usuario a null
+    handleNavigate('/'); // Navega a la página de inicio o login
   };
 
   return (
@@ -54,7 +62,6 @@ export default function OffcanvasMenu() {
               <Dropdown
                 title="Gestion de usuarios"
                 links={[
-                  // Alejandro toca ajustar los paths de los links para que sean correctos a sus rutas
                   { path: '/gestionusuarios', label: 'Usuarios' },
                   { path: '/estados-roles', label: 'Estados y roles' },
                 ]}
@@ -68,9 +75,8 @@ export default function OffcanvasMenu() {
                 links={[
                   { path: '/Mascotas', label: 'Mascotas' },
                   { path: '/Especies', label: 'Especies y Razas' },
-                  { path: '/gestion_enfermedades', label: 'Enfermedades'},
-                  { path: '/gestion_citas', label: 'Citas'}
-
+                  { path: '/gestion_enfermedades', label: 'Enfermedades' },
+                  { path: '/gestion_citas', label: 'Citas' },
                 ]}
                 onLinkClick={handleNavigate}
               />
@@ -88,7 +94,7 @@ export default function OffcanvasMenu() {
             <li className="nav-item">
               <button
                 className="nav-link btn btn-link"
-                onClick={() => handleNavigate('/')}
+                onClick={handleLogout}
               >
                 Salir
               </button>
