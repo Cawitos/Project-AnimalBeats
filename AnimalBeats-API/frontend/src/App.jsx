@@ -22,6 +22,7 @@ import CrearRaza from './componentes/CrearRaza';
 import CrearMascota from './componentes/CrearMascota';
 import ModificarMascota from './componentes/ModificarMascota';
 import ModificarRaza from './componentes/ModificarRaza';
+import Historial from './componentes/Historial';
 
 import { UserContext } from './context/UserContext'; 
 
@@ -55,6 +56,7 @@ function App() {
           <Route path='/Mascotas' element={!User ? <Navigate to="/" /> : <GestionMascotas />} />
           <Route path='/Mascotas/crear' element={!User ? <Navigate to="/" /> : <CrearMascota />} />
           <Route path='/Mascotas/modificar/:id' element={!User ? <Navigate to="/" /> : <ModificarMascota />} />
+          <Route path='/Mascotas/historial/:id' element={!User ? <Navigate to="/" /> : <Historial />} />
           <Route path='/Especies' element={!User ? <Navigate to="/" /> : <GestionEspecies />} />
           <Route path='/Especies/crear' element={!User ? <Navigate to="/" /> : < CrearEspecie />} />
           <Route path='/Especies/modificar/:id' element={!User ? <Navigate to="/" /> : < ModificarEspecie />} />

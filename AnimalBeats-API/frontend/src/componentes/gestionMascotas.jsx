@@ -100,7 +100,7 @@ export default function GestionMascotas() {
                     <td>
                       {/* Enlace para historial: Asume una ruta como /Mascotas/:id/historial */}
                       <Link
-                        to={`/Mascotas/${mascota.id}/historial`}
+                        to={`/Mascotas/historial/${mascota.id}`}
                         aria-label={`Ver historial de ${mascota.nombre}`}
                         className="gestion-mascotas-btn-icon" // Puedes reutilizar esta clase o crear una nueva para links
                       >

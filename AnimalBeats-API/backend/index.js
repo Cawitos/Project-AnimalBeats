@@ -20,7 +20,7 @@ let conexion;
     conexion = await mysql.createConnection({
       host: 'localhost',
       user: 'root',
-      password: '',
+      password: 'Holaoreo<3',
       database: 'AnimalBeats',
     });
     app.locals.connection = conexion;  // <--- asignar aquí
@@ -351,7 +351,7 @@ app.get('/mascotas', async (req, res) => {
 app.get('/Mascotas/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const [resultado] = await conexion.execute("SELECT * FROM Mascota WHERE id = ?", [id]);
+    const [resultado] = await conexion.execute("SELECT M.id, M.nombre, M.fecha_nacimiento, U.nombre as cliente, E.especie, R.raza FROM Mascota M join Usuarios U on M.id_cliente = U.n_documento JOIN Especie E ON M.id_especie = E.id JOIN Raza R ON M.id_raza = R.id WHERE M.id = ?", [id]);
     if (resultado.length > 0) {
       res.json(resultado[0]);
     } else {
@@ -414,6 +414,40 @@ app.put('/Mascotas/Eliminar/:id', async (req, res) => {
     res.status(500).json({ error: 'Error al eliminar mascota' });
   }
 });
+
+
+  // Necesario para el historial
+  app.get('/Citas/mascota/:id', async (req, res) => {
+    const id = req.params.id;
+    try {
+      const [resultado] = await conexion.execute(
+        'SELECT C.*, S.servicio FROM Citas C join Servicios S on S.id = C.id_servicio WHERE C.id_mascota = ?', [id]
+      );
+      if (resultado.length > 0) {
+        res.json(resultado[0]);
+      } else {
+        res.status(404).json({ mensaje: 'Cita no encontrada' });
+      }
+    } catch (error) {
+      console.error('Error al buscar la cita:', error);
+      res.status(500).json({ error: 'Error al buscar la cita' });
+    }
+  });
+
+  app.get('/recordatorio/mascota/:id', async (req, res) => {
+    const id = req.params.id;
+    try {
+      const [resultado] = await conexion.execute('select fecha, descripcion from recordatorios where id_mascota = ?', [id]);
+      if (resultado.length > 0) {
+        res.json(resultado);
+        } else {
+          res.status(404).json({ mensaje: 'No hay recordatorios para esta mascota'})
+        }
+        }catch (error) {
+          console.error('Error al buscar recordatorio:', error);
+          res.status(500).json({ error: 'Error al buscar recordatorio' });
+        }
+  });
 
 
 // Obtener todas las especies

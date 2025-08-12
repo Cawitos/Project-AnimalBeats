@@ -33,7 +33,7 @@ const GestionRazas = () => {
           setError(null);
         } else {
           setRazas([]);
-          setError('Datos recibidos en formato inesperado');
+          setError('No hay razas registrada');
         }
       } catch (error) {
         setError('Error al conectar con el servidor');

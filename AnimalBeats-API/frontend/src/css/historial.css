@@ -1,0 +1,216 @@
+:root {
+  --blanco: #FDF7FA;
+  --rojo: #DF2935;
+  --negro: #07090F;
+  --gris: #E6E8E6;
+  --verde: #4CAF50;
+}
+
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html, #root {
+  width: 2100px;
+  height: 100%;
+  background-color: var(--blanco) !important;
+  color: var(--negro) !important;
+  font-family: 'Arial', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Menú lateral fijo */
+.gestion-mascotas-menu-lateral,
+.historial-menu-lateral {
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin-top: 10px;
+  width: 200px;
+  height: 100vh;
+  background-color: var(--blanco) !important;
+  border: none;
+  box-shadow: none;
+  overflow-y: auto;
+  z-index: 1000;
+  padding: 20px;
+}
+
+/* Contenido principal */
+.historial-contenido-principal {
+  margin-top: 20px;
+  margin-right: 10px;
+  min-height: 100vh;
+  background-color: var(--blanco) !important;
+  overflow-y: visible;
+  padding: 20px;
+}
+
+/* Título principal */
+.historial-contenido-principal h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 25px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--rojo) !important;
+  text-align: center;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Subtítulos */
+.historial-contenido-principal h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: var(--negro) !important;
+  border-bottom: 3px solid var(--rojo);
+  padding-bottom: 5px;
+  text-transform: uppercase;
+}
+
+/* Mensajes de texto */
+.historial-contenido-principal p {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--negro) !important;
+  margin-bottom: 20px;
+  text-align: center;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Contenedor de tabla */
+.historial-tabla-container {
+  max-width: 100%;
+  min-height: 250px; /* altura mínima para uniformidad */
+  overflow-x: auto;
+  border: 1px solid var(--gris) !important;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  background-color: var(--blanco) !important;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Tabla general */
+.historial-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+  color: var(--negro) !important;
+  min-width: 600px;
+}
+
+.historial-tabla thead {
+  background-color: var(--rojo) !important;
+  color: var(--blanco) !important;
+  text-transform: uppercase;
+}
+
+.historial-tabla th,
+.historial-tabla td {
+  padding: 12px 15px;
+  border-bottom: 1px solid var(--gris) !important;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.historial-tabla tbody tr:hover {
+  background-color: var(--gris) !important;
+}
+
+.historial-tabla tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Ajuste para uniformidad entre tablas */
+.historial-tabla-container .historial-tabla {
+  flex: 1;
+}
+
+.historial-botones {
+  width: 320px;
+  margin-right: 100px;
+  position: fixed;
+  bottom: 70px;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-right: 20px;
+  box-sizing: border-box;
+}
+
+.historial-botones .btn-primary,
+.historial-botones .btn-secondary {
+  padding: 7px 30px;
+  font-size: 16px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.historial-botones .btn-primary {
+  border: 2px solid var(--rojo);
+  background-color: var(--rojo);
+  color: var(--blanco);
+}
+
+.historial-botones .btn-primary:hover {
+  background-color: var(--negro);
+  border-color: var(--negro);
+  box-shadow: 0 0 10px var(--negro);
+}
+
+.historial-botones .btn-secondary {
+  border: 2px solid var(--negro);
+  background-color: transparent;
+  color: var(--negro);
+}
+
+.historial-botones .btn-secondary:hover {
+  background-color: var(--negro);
+  color: var(--blanco);
+  box-shadow: 0 0 10px var(--negro);
+}
+
+
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  .historial-contenido-principal {
+    margin-left: 0;
+    padding: 20px 15px;
+  }
+
+  .historial-tabla {
+    min-width: 500px;
+    font-size: 0.9rem;
+  }
+
+  .historial-botones {
+    position: static;
+    width: 100%;
+    margin: 20px 0 0;
+    justify-content: center;
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .historial-tabla {
+    min-width: 400px;
+  }
+}
