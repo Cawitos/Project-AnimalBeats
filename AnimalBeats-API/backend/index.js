@@ -887,6 +887,22 @@ app.get('/recordatorios', async (req, res) => {
   }
 });
 
+//conseguir mascotas para mostrar dependiendo el id del dueño al crear un recordatorio
+app.get('/Mascota/recordatorio/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const [resultado] = await conexion.execute("SELECT M.id, M.nombre FROM Mascota M WHERE M.id_cliente = ?", [id]);
+    if (resultado.length > 0) {
+      res.json(resultado[0]);
+    } else {
+      res.status(404).json('No hay mascota registrada para ese ID');
+    }
+  } catch (err) {
+    console.error('Error al obtener mascota:', err);
+    res.status(500).json({ error: 'Error al obtener mascota' });
+  }
+});
+
 // Guardar nuevo recordatorio
 app.post('/recordatorios/guardar', async (req, res) => {
   const connection = req.app.locals.connection;

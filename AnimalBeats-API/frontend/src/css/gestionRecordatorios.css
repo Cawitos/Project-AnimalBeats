@@ -215,6 +215,29 @@ body, html, #root {
   outline-offset: 2px;
 }
 
+.gestion-recordatorios-form-group select {
+  padding: 10px 12px;
+  border: 1.5px solid var(--gris);
+  color: var(--negro) !important;
+  background-color: var(--blanco) !important;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  /* Para que seleccione estéticamente igual que input */
+}
+
+.gestion-recordatorios-form-group select:focus {
+  border-color: var(--rojo);
+  outline: none;
+  box-shadow: 0 0 4px var(--rojo);
+}
+
+/* Si quieres que la opción disabled se vea diferente */
+.gestion-recordatorios-form-group select option:disabled {
+  color: #999;
+}
+
+
 /* Responsive */
 @media (max-width: 1200px) {
   .gestion-recordatorios-container {
