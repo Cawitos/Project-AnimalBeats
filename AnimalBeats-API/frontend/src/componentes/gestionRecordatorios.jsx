@@ -1,13 +1,26 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import Swal from "sweetalert2";
 import OffcanvasMenu from './menu';
-import '../css/GestionRecordatorios.css'
+import '../css/GestionRecordatorios.css';
 
 function GestionRecordatorios() {
   const [recordatorio, setRecordatorio] = useState([]);
   const [form, setForm] = useState({ cliente: '', mascota: '', fecha: '', descripcion: '' });
   const [modoEditar, setModoEditar] = useState(false);
   const [idEditar, setIdEditar] = useState(null);
+  const [minFecha, setMinFecha] = useState('');
+
+  // Calcular fecha mínima al cargar
+  useEffect(() => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    setMinFecha(`${year}-${month}-${day}T${hours}:${minutes}`);
+  }, []);
 
   const fetchRecordatorios = async () => {
     try {
@@ -20,6 +33,13 @@ function GestionRecordatorios() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validar que la fecha sea mayor o igual a la fecha mínima
+    if (new Date(form.fecha) < new Date(minFecha)) {
+      Swal.fire('Fecha inválida', 'La fecha y hora no pueden ser anteriores a la actual.', 'error');
+      return;
+    }
+
     try {
       if (modoEditar) {
         await axios.put(`http://localhost:3000/recordatorios/modificar/${idEditar}`, form);
@@ -36,32 +56,31 @@ function GestionRecordatorios() {
   };
 
   const eliminarRecordatorio = (id) => {
-  Swal.fire({
-    title: '¿Estás seguro de que quieres eliminar este recordatorio?',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonText: 'Sí, eliminar',
-    cancelButtonText: 'Cancelar',
-  }).then(async (result) => {
-    if (result.isConfirmed) {
-      try {
-        await axios.delete(`http://localhost:3000/recordatorios/eliminar/${id}`);
-        fetchRecordatorios();
-        Swal.fire('¡Eliminado!', 'El recordatorio ha sido eliminado.', 'success');
-      } catch (error) {
-        console.error('Error al eliminar recordatorio:', error);
-        Swal.fire('Error', 'No se pudo eliminar el recordatorio. Intenta nuevamente.', 'error');
+    Swal.fire({
+      title: '¿Estás seguro de que quieres eliminar este recordatorio?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axios.delete(`http://localhost:3000/recordatorios/eliminar/${id}`);
+          fetchRecordatorios();
+          Swal.fire('¡Eliminado!', 'El recordatorio ha sido eliminado.', 'success');
+        } catch (error) {
+          console.error('Error al eliminar recordatorio:', error);
+          Swal.fire('Error', 'No se pudo eliminar el recordatorio. Intenta nuevamente.', 'error');
+        }
       }
-    }
-  });
-};
-
+    });
+  };
 
   const cargarParaEditar = (r) => {
     setForm({
       cliente: r.id_cliente,
       mascota: r.id_Mascota,
-      fecha: new Date(r.Fecha).toISOString().slice(0, 16),  // formato para input datetime-local
+      fecha: new Date(r.Fecha).toISOString().slice(0, 16),
       descripcion: r.descripcion,
     });
     setModoEditar(true);
@@ -74,9 +93,9 @@ function GestionRecordatorios() {
 
   return (
     <div className="gestion-recordatorios-container">
-        <div className="gestion-recordatorio-menu-lateral">
-         <OffcanvasMenu />
-        </div>
+      <div className="gestion-recordatorio-menu-lateral">
+        <OffcanvasMenu />
+      </div>
       <h4 className="gestion-recordatorios-title">Gestión de Recordatorios</h4>
 
       <table className="gestion-recordatorios-table">
@@ -142,6 +161,7 @@ function GestionRecordatorios() {
             <label>Fecha</label>
             <input
               type="datetime-local"
+              min={minFecha} // restricción directa
               value={form.fecha}
               onChange={e => setForm({ ...form, fecha: e.target.value })}
               required
