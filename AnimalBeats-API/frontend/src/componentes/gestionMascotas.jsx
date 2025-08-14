@@ -1,17 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import Swal from "sweetalert2";
-import { Link } from "react-router-dom"; // Asegúrate de importar Link
+import { Link } from "react-router-dom";
 import OffcanvasMenu from "./menu";
 import "../css/gestionMascotas.css";
+import { UserContext } from "../context/UserContext";
 
 export default function GestionMascotas() {
   const [mascotas, setMascotas] = useState([]);
   const [error, setError] = useState(null);
+  const { User } = useContext(UserContext);
 
   useEffect(() => {
-    fetch("http://localhost:3000/mascotas")
-      .then((res) => res.json())
-      .then((data) => {
+    const fetchMascotas = async () => {
+      try {
+        const res = await fetch("http://localhost:3000/mascotas");
+        const data = await res.json();
+
         if (typeof data === "string") {
           setMascotas([]);
           setError(data);
@@ -19,11 +23,13 @@ export default function GestionMascotas() {
           setMascotas(data);
           setError(null);
         }
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error("Error al cargar mascotas:", err);
         setError("Error al conectar con el servidor");
-      });
+      }
+    };
+
+    fetchMascotas();
   }, []);
 
   const suspenderMascota = (id, nombre) => {
@@ -76,7 +82,10 @@ export default function GestionMascotas() {
         )}
         {mascotas.length > 0 && (
           <div className="gestion-mascotas-contenedor-tabla">
-            <table className="gestion-mascotas-tabla" id="gestion-mascotas-tabla">
+            <table
+              className="gestion-mascotas-tabla"
+              id="gestion-mascotas-tabla"
+            >
               <thead>
                 <tr>
                   <th>Código dueño</th>
@@ -85,8 +94,8 @@ export default function GestionMascotas() {
                   <th>Raza</th>
                   <th>Edad</th>
                   <th>Historial</th>
-                  <th>Modificar</th>
-                  <th>Suspender</th>
+                  {User !== 2 && <th>Modificar</th>}
+                  {User !== 2 && <th>Suspender</th>}
                 </tr>
               </thead>
               <tbody>
@@ -98,47 +107,57 @@ export default function GestionMascotas() {
                     <td>{mascota.raza}</td>
                     <td>{new Date(mascota.fecha_nacimiento).toLocaleDateString()}</td>
                     <td>
-                      {/* Enlace para historial: Asume una ruta como /Mascotas/:id/historial */}
                       <Link
                         to={`/Mascotas/historial/${mascota.id}`}
                         aria-label={`Ver historial de ${mascota.nombre}`}
-                        className="gestion-mascotas-btn-icon" // Puedes reutilizar esta clase o crear una nueva para links
+                        className="gestion-mascotas-btn-icon"
                       >
                         Historial
                       </Link>
                     </td>
-                    <td>
-                      {/* Enlace para modificar: Asume la ruta /Mascotas/modificar/:id */}
-                      <Link
-                        to={`/Mascotas/modificar/${mascota.id}`}
-                        aria-label={`Modificar ${mascota.nombre}`}
-                        className="gestion-mascotas-btn-icon" // Puedes reutilizar esta clase
-                      >
-                        Modificar
-                      </Link>
-                    </td>
-                    <td>
-                      <button
-                        onClick={() => suspenderMascota(mascota.id, mascota.nombre)}
-                        aria-label={`Suspender ${mascota.nombre}`}
-                        className="gestion-mascotas-btn-icon"
-                      >
-                        Suspender
-                      </button>
-                    </td>
+                    {User !== 2 ? (
+                      <>
+                        <td>
+                          <Link
+                            to={`/Mascotas/modificar/${mascota.id}`}
+                            aria-label={`Modificar ${mascota.nombre}`}
+                            className="gestion-mascotas-btn-icon"
+                          >
+                            Modificar
+                          </Link>
+                        </td>
+                        <td>
+                          <button
+                            onClick={() => suspenderMascota(mascota.id, mascota.nombre)}
+                            aria-label={`Suspender ${mascota.nombre}`}
+                            className="gestion-mascotas-btn-icon"
+                          >
+                            Suspender
+                          </button>
+                        </td>
+                      </>
+                    ) : (
+                      <>
+                        <td></td>
+                        <td></td>
+                      </>
+                    )}
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
         )}
-        <div className="gestion-mascotas-crear">
-          <Link to="/Mascotas/crear" className="btn btn-primary">
-            Crear Mascota
-          </Link>
-        </div>
+        {User !== 2 && (
+          <div className="gestion-mascotas-crear">
+            <Link to="/Mascotas/crear" className="btn btn-primary">
+              Crear Mascota
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );
 }
+
 

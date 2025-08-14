@@ -10,9 +10,18 @@ function GestionRecordatorios() {
   const [modoEditar, setModoEditar] = useState(false);
   const [idEditar, setIdEditar] = useState(null);
   const [minFecha, setMinFecha] = useState('');
-  const [mascotasCliente, setMascotasCliente] = useState([]); // Lista de mascotas del cliente
+  const [mascotasCliente, setMascotasCliente] = useState([]);
 
-  // Calcular fecha mínima al cargar
+  // Formatear fecha UTC a local compatible con input datetime-local
+  const formatDateLocalForInput = (dateStr) => {
+    if (!dateStr) return '';
+    const date = new Date(dateStr);
+    const offset = date.getTimezoneOffset();
+    const localDate = new Date(date.getTime() - offset * 60000);
+    return localDate.toISOString().slice(0, 16);
+  };
+
+  // Calcular fecha y hora mínima al cargar (para limitar input datetime-local)
   useEffect(() => {
     const now = new Date();
     const year = now.getFullYear();
@@ -33,10 +42,10 @@ function GestionRecordatorios() {
     }
   };
 
-  // Maneja el cambio en el input de cliente y carga sus mascotas
+  // Cambia cliente y carga sus mascotas
   const handleClienteChange = async (e) => {
     const clienteId = e.target.value;
-    setForm(prev => ({ ...prev, cliente: clienteId, mascota: '' })); // limpia mascota al cambiar cliente
+    setForm(prev => ({ ...prev, cliente: clienteId, mascota: '' })); // limpiar mascota al cambiar cliente
 
     if (clienteId.trim().length < 10) {
       setMascotasCliente([]);
@@ -44,9 +53,7 @@ function GestionRecordatorios() {
     }
 
     try {
-      // Consulta mascotas del cliente
       const res = await axios.get(`http://localhost:3000/Mascota/recordatorio/${clienteId}`);
-      // Asume devuelve array de mascotas; si no, normaliza para que sea array
       if (Array.isArray(res.data)) {
         setMascotasCliente(res.data);
       } else {
@@ -59,32 +66,34 @@ function GestionRecordatorios() {
     }
   };
 
-  // Maneja el cambio en el select de mascota
+  // Cambia mascota seleccionada
   const handleMascotaChange = (e) => {
     setForm(prev => ({ ...prev, mascota: e.target.value }));
   };
 
-  // Guardar o modificar recordatorio al enviar el formulario
+  // Guardar o modificar recordatorio
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validar la fecha: no puede ser anterior al momento actual
-    if (new Date(form.fecha) < new Date(minFecha)) {
-      Swal.fire('Fecha inválida', 'La fecha y hora no pueden ser anteriores a la actual.', 'error');
-      return;
-    }
 
     if (!form.mascota) {
       Swal.fire('Mascota no seleccionada', 'Por favor, selecciona una mascota para continuar.', 'warning');
       return;
     }
 
+    if (new Date(form.fecha) < new Date(minFecha)) {
+      Swal.fire('Fecha inválida', 'La fecha y hora no pueden ser anteriores a la actual.', 'error');
+      return;
+    }
+
     try {
+      // Enviar la fecha tal cual viene del input datetime-local
+      const dataToSend = { ...form, fecha: form.fecha };
+
       if (modoEditar) {
-        await axios.put(`http://localhost:3000/recordatorios/modificar/${idEditar}`, form);
+        await axios.put(`http://localhost:3000/recordatorios/modificar/${idEditar}`, dataToSend);
         Swal.fire('Actualizado', 'El recordatorio ha sido actualizado correctamente.', 'success');
       } else {
-        await axios.post('http://localhost:3000/recordatorios/guardar', form);
+        await axios.post('http://localhost:3000/recordatorios/guardar', dataToSend);
         Swal.fire('Guardado', 'El recordatorio ha sido guardado correctamente.', 'success');
       }
       fetchRecordatorios();
@@ -120,17 +129,18 @@ function GestionRecordatorios() {
     });
   };
 
-  // Cargar datos para editar un recordatorio (incluye cargar mascotas del cliente)
+  // Cargar datos para editar un recordatorio
   const cargarParaEditar = async (r) => {
     setForm({
       cliente: r.id_cliente,
       mascota: r.id_Mascota,
-      fecha: new Date(r.Fecha).toISOString().slice(0, 16),
+      fecha: formatDateLocalForInput(r.Fecha), // fecha formateada localmente para input
       descripcion: r.descripcion,
     });
     setModoEditar(true);
     setIdEditar(r.id);
 
+    // Cargar mascotas del cliente para el select
     if (r.id_cliente) {
       try {
         const res = await axios.get(`http://localhost:3000/Mascota/recordatorio/${r.id_cliente}`);
@@ -202,7 +212,7 @@ function GestionRecordatorios() {
 
       <form onSubmit={handleSubmit} className="gestion-recordatorios-form">
         <div className="gestion-recordatorios-form-row">
-          {/* Documento del cliente */}
+
           <div className="gestion-recordatorios-form-group">
             <label>N° Documento del Cliente</label>
             <input
@@ -213,7 +223,6 @@ function GestionRecordatorios() {
             />
           </div>
 
-          {/* Selector de mascota (dependiente del cliente) */}
           <div className="gestion-recordatorios-form-group">
             <label>Seleccione Mascota</label>
             <select
@@ -233,7 +242,6 @@ function GestionRecordatorios() {
             </select>
           </div>
 
-          {/* Fecha */}
           <div className="gestion-recordatorios-form-group">
             <label>Fecha</label>
             <input
@@ -246,7 +254,6 @@ function GestionRecordatorios() {
           </div>
         </div>
 
-        {/* Descripción */}
         <div className="gestion-recordatorios-form-group">
           <label>Descripción</label>
           <input

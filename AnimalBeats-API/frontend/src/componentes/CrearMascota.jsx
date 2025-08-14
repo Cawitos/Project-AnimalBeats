@@ -5,6 +5,17 @@ import Swal from "sweetalert2";
 import "../css/CrearMascota.css";
 
 const CrearMascota = () => {
+  // Función para obtener fecha actual formateada en 'YYYY-MM-DD'
+  const obtenerFechaActual = () => {
+    const hoy = new Date();
+    const año = hoy.getFullYear();
+    const mes = String(hoy.getMonth() + 1).padStart(2, "0");
+    const dia = String(hoy.getDate()).padStart(2, "0");
+    return `${año}-${mes}-${dia}`;
+  };
+
+  const fechaActual = obtenerFechaActual();
+
   const [especies, setEspecies] = useState([]);
   const [razas, setRazas] = useState([]);
   const [idEspecieSeleccionada, setIdEspecieSeleccionada] = useState("");
@@ -92,7 +103,6 @@ const CrearMascota = () => {
     e.preventDefault();
     setError(null);
 
-    // Mapea formData a la estructura que espera el backend
     const mascotaData = {
       nombre: formData.nombreM,
       id_especie: formData.especieM,
@@ -209,6 +219,7 @@ const CrearMascota = () => {
                 name="edadM"
                 value={formData.edadM}
                 onChange={handleChange}
+                max={fechaActual}
                 required
               />
             </div>
@@ -246,4 +257,3 @@ const CrearMascota = () => {
 };
 
 export default CrearMascota;
-

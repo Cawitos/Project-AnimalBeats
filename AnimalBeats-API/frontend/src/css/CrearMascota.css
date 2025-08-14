@@ -187,6 +187,48 @@ body, html, #root {
   text-align: center;
 }
 
+/* Mejoras visuales para input[type="date"] */
+.crear-mascota-form-control[type="date"] {
+  padding: 12px 15px;           /* Más espacio interno para mejor look */
+  font-size: 16px;              /* Tamaño de texto consistente */
+  border-radius: 12px;          /* Bordes redondeados */
+  border: 2px solid var(--rojo);
+  background-color: var(--blanco);
+  color: var(--negro);
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  appearance: none;             /* Para eliminar estilos por defecto */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: relative;
+}
+
+/* Foco */
+.crear-mascota-form-control[type="date"]:focus {
+  border-color: var(--negro);
+  box-shadow: 0 0 6px var(--negro);
+}
+
+/* Agregar ícono de calendario con SVG o flecha usando background */
+/* Solo para navegadores modernos, mejora visual sin JS */
+.crear-mascota-form-control[type="date"]::-webkit-inner-spin-button,
+.crear-mascota-form-control[type="date"]::-webkit-clear-button {
+  display: none;
+}
+
+.crear-mascota-form-control[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(25%) sepia(100%) saturate(700%) hue-rotate(340deg);
+}
+
+/* Alternativamente, un pequeño padding right para evitar solapamiento con el botón de calendario */
+.crear-mascota-form-control[type="date"] {
+  padding-right: 40px;  /* Da espacio para el botón calendario nativo */
+}
+
+
+
 /* Responsive */
 @media (max-width: 480px) {
   .crear-mascota-contenedor-formulario {
