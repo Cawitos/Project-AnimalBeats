@@ -13,6 +13,7 @@ import ModificarUsuarioPage from './componentes/ModificarUsuarioPage';
 import EstadoRoles from './componentes/Estados-Roles';
 import Admin from './componentes/admin';
 import Cliente from './componentes/cliente';
+import Veterinario from './componentes/veterinario';
 import './App.css'
 import GestionEnfermedades from './componentes/gestionEnfermedades';
 import GestionCitas from './componentes/Citas';
@@ -45,6 +46,7 @@ function App() {
             <Route path='/registro' element={<Register setUser={setUser} />} />
             <Route path='/admin' element={User?.rol == 1 ? <Admin /> : <Navigate to="/" />} />
             <Route path="/cliente" element={User?.rol === 2 ? <Cliente /> : <Navigate to="/" />} />
+            <Route path="/veterinario" element={User?.rol === 3 ? <Veterinario /> : <Navigate to="/" />} />
             <Route path="/gestionusuarios" element={User?.rol == 1 ? <GestionUsuarios /> : <Navigate to="/" />} />
             <Route path="/usuarios/:n_documento/consultar" element={User?.rol == 1 ? <ConsultarU /> : <Navigate to="/" />} />
             <Route path="/usuarios/crear" element={User?.rol === 1 ? <CrearUsuario /> : <Navigate to="/" />} />

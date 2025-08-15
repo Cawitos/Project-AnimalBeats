@@ -352,7 +352,7 @@ app.get('/cliente/dashboard/:n_documento', async (req, res) => {
       [n_documento]
     );
 
-    // 3. Obtener mascotas registradas
+    // Obtener mascotas registradas
     const [mascotas] = await conexion.execute(
       `SELECT m.id, m.nombre, e.Especie, r.Raza, m.fecha_nacimiento, m.estado
        FROM Mascota m
@@ -377,6 +377,65 @@ app.get('/cliente/dashboard/:n_documento', async (req, res) => {
     res.status(500).json({ error: "Error interno del servidor" });
   }
 });
+
+//Dashboard del veterinario
+app.get('/veterinario/dashboard/:n_documento', async (req, res) => {
+  try {
+    const { n_documento } = req.params;
+    console.log("Dashboard veterinario solicitado para:", n_documento);
+
+    // Datos del veterinario
+    const [veterinarioRows] = await conexion.execute(
+      "SELECT nombre, correoelectronico FROM usuarios WHERE n_documento = ? AND id_rol = 3",
+      [n_documento]
+    );
+
+    if (veterinarioRows.length === 0) {
+      console.log("No se encontró veterinario con ese documento");
+      return res.status(404).json({ error: "No se encontró el veterinario" });
+    }
+
+    // Obtener todas las mascotas
+    const [mascotas] = await conexion.execute(
+      `SELECT m.id, m.nombre, e.Especie, r.Raza, m.fecha_nacimiento, m.estado
+       FROM Mascota m
+       INNER JOIN Especie e ON m.id_Especie = e.id
+       INNER JOIN Raza r ON m.id_Raza = r.id`
+    );
+
+    // Obtener todas las citas
+    const [citasPendientes] = await conexion.execute(
+      `SELECT c.id_Mascota, m.nombre AS nombre_mascota, s.servicio, c.fecha, c.Descripcion
+       FROM Citas c
+       INNER JOIN Mascota m ON c.id_Mascota = m.id
+       INNER JOIN Servicios s ON c.id_Servicio = s.id
+       ORDER BY c.fecha ASC`
+    );
+
+    // Estadísticas generales
+    const stats = {
+      mascotas_agregadas: mascotas.length,
+      citas_pendientes: citasPendientes.length
+    };
+
+    // Respuesta
+    res.json({
+      usuario: {
+        nombre: veterinarioRows[0].nombre,
+        correo: veterinarioRows[0].correoelectronico,
+        mascotas: mascotas.length
+      },
+      stats,
+      mascotas,
+      citas_pendientes: citasPendientes
+    });
+
+  } catch (error) {
+    console.error("Error en /veterinario/dashboard:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+});
+
 
 
 /*-------------------------------
