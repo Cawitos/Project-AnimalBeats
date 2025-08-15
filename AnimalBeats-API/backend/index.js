@@ -112,7 +112,9 @@ app.post('/login', async (req, res) => {
 
     const usuario = resultados[0];
     const esCorrecta = await bcrypt.compare(contrasena, usuario.contrasena);
-    if (!esCorrecta) return res.status(401).json({ mensaje: 'Contraseña incorrecta' });
+    if (!esCorrecta) {
+      return res.status(401).json({ mensaje: 'Contraseña incorrecta' });
+    }
 
     let rolTexto;
     switch (usuario.id_rol) {
@@ -123,18 +125,21 @@ app.post('/login', async (req, res) => {
     }
 
     const payload = {
-      id: usuario.id,
+      n_documento: usuario.n_documento,
       nombre: usuario.nombre,
       rol: usuario.id_rol
     };
 
-    // Generar el token, válido por 1 hora
     const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' });
 
-    // Enviar solo esta respuesta
     res.json({
       mensaje: 'Inicio de sesión exitoso',
-      usuario: { id: usuario.id, nombre: usuario.nombre, rol: usuario.id_rol },
+      usuario: {
+        n_documento: usuario.n_documento,
+        nombre: usuario.nombre,
+        correoelectronico: usuario.correoelectronico,
+        rol: usuario.id_rol
+      },
       rol: rolTexto,
       token
     });
@@ -144,6 +149,7 @@ app.post('/login', async (req, res) => {
     res.status(500).json({ mensaje: 'Error interno al iniciar sesión' });
   }
 });
+
 
 // Listar usuarios
 app.get('/usuario/Listado', async (req, res) => {
@@ -319,6 +325,59 @@ app.get('/admin/dashboard', async (req, res) => {
     res.status(500).json({ error: "Error interno del servidor" });
   }
 });
+
+//Dashboard del cliente
+app.get('/cliente/dashboard/:n_documento', async (req, res) => {
+  try {
+    const { n_documento } = req.params;
+
+    //Obtener datos del cliente
+    const [clienteRows] = await conexion.execute(
+      "SELECT nombre, correoelectronico FROM usuarios WHERE n_documento = ? AND id_rol = 2",
+      [n_documento]
+    );
+
+    if (clienteRows.length === 0) {
+      return res.status(404).json({ error: "No se encontró el cliente" });
+    }
+
+    //Obtener citas pendientes (fecha despues de hoy)
+    const [citasPendientes] = await conexion.execute(
+      `SELECT c.id_Mascota, m.nombre AS nombre_mascota, s.servicio, c.fecha, c.Descripcion
+       FROM Citas c
+       INNER JOIN Mascota m ON c.id_Mascota = m.id
+       INNER JOIN Servicios s ON c.id_Servicio = s.id
+       WHERE c.id_cliente = ? AND c.fecha >= CURDATE()
+       ORDER BY c.fecha ASC`,
+      [n_documento]
+    );
+
+    // 3. Obtener mascotas registradas
+    const [mascotas] = await conexion.execute(
+      `SELECT m.id, m.nombre, e.Especie, r.Raza, m.fecha_nacimiento, m.estado
+       FROM Mascota m
+       INNER JOIN Especie e ON m.id_Especie = e.id
+       INNER JOIN Raza r ON m.id_Raza = r.id
+       WHERE m.id_cliente = ?`,
+      [n_documento]
+    );
+
+    // Respuesta
+    res.json({
+      usuario: {
+        nombre: clienteRows[0].nombre,
+        correo: clienteRows[0].correoelectronico,
+      },
+      citas_pendientes: citasPendientes,
+      mascotas: mascotas,
+    });
+
+  } catch (error) {
+    console.error("Error en /cliente/dashboard:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+});
+
 
 /*-------------------------------
 * Rutas de Gestion de mascotas

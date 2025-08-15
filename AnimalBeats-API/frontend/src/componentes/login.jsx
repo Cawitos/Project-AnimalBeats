@@ -21,13 +21,25 @@ const Login = ({ setUser }) => {
 
       const data = response.data;
 
-      setUser(data.usuario);
-      setMensaje(data.mensaje || "Inicio de sesión exitoso");
+      // Guardar en el contexto los datos completos del usuario
+      setUser({
+        rol: data.usuario.rol,
+        n_documento: data.usuario.n_documento,
+        nombre: data.usuario.nombre,
+        correo: data.usuario.correoelectronico
+      });
 
+      // Guardar en localStorage para usar en el dashboard
       localStorage.setItem("token", data.token);
+      localStorage.setItem("rol", data.usuario.rol);
+      localStorage.setItem("n_documento", data.usuario.n_documento);
+
+      setMensaje(data.mensaje || "Inicio de sesión exitoso");
 
       setTimeout(() => {
         console.log("Rol recibido:", data.usuario.rol);
+        console.log("Documento recibido:", data.usuario.n_documento);
+
         if (data.usuario.rol === 1) {
           navigate("/admin");
         } else if (data.usuario.rol === 3) {

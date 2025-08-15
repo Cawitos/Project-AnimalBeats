@@ -12,6 +12,7 @@ import CrearUsuario from './componentes/CrearUsuario';
 import ModificarUsuarioPage from './componentes/ModificarUsuarioPage';
 import EstadoRoles from './componentes/Estados-Roles';
 import Admin from './componentes/admin';
+import Cliente from './componentes/cliente';
 import './App.css'
 import GestionEnfermedades from './componentes/gestionEnfermedades';
 import GestionCitas from './componentes/Citas';
@@ -24,7 +25,7 @@ import ModificarMascota from './componentes/ModificarMascota';
 import ModificarRaza from './componentes/ModificarRaza';
 import Historial from './componentes/Historial';
 
-import { UserContext } from './context/UserContext'; 
+import { UserContext } from './context/UserContext';
 
 function App() {
   const [User, setUser] = useState(null)
@@ -32,42 +33,43 @@ function App() {
   return (
     <>
       <UserContext.Provider value={{ User, setUser }}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={!User ? (<Home />) : (
-            User.rol === '1' ? <Navigate to="/admin" /> :
-              User.rol === '2' ? <Navigate to="/cliente" /> :
-                User.rol === '3' ? <Navigate to="/veterinario" /> :
-                  <Navigate to="/" />
-          )} />
-          <Route path="/login" element={<Login setUser={setUser} />} />
-          <Route path='/registro' element={<Register setUser={setUser} />} />
-          <Route path='/admin' element={User?.rol == 1 ? <Admin /> : <Navigate to="/" />} />
-          <Route path="/gestionusuarios" element={User?.rol == 1 ? <GestionUsuarios /> : <Navigate to="/" />} />
-          <Route path="/usuarios/:n_documento/consultar" element={User?.rol == 1 ? <ConsultarU /> : <Navigate to="/" />} />
-          <Route path="/usuarios/crear" element={User?.rol === 1 ? <CrearUsuario /> : <Navigate to="/" />} />
-          <Route path="/usuario/Actualizar/:n_documento" element={User?.rol === 1 ? <ModificarUsuarioPage /> : <Navigate to="/" />} />
-          <Route path="/estados-roles" element={User?.rol === 1 ? <EstadoRoles /> : <Navigate to="/" />} />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={!User ? (<Home />) : (
+              User.rol === '1' ? <Navigate to="/admin" /> :
+                User.rol === '2' ? <Navigate to="/cliente" /> :
+                  User.rol === '3' ? <Navigate to="/veterinario" /> :
+                    <Navigate to="/" />
+            )} />
+            <Route path="/login" element={<Login setUser={setUser} />} />
+            <Route path='/registro' element={<Register setUser={setUser} />} />
+            <Route path='/admin' element={User?.rol == 1 ? <Admin /> : <Navigate to="/" />} />
+            <Route path="/cliente" element={User?.rol === 2 ? <Cliente /> : <Navigate to="/" />} />
+            <Route path="/gestionusuarios" element={User?.rol == 1 ? <GestionUsuarios /> : <Navigate to="/" />} />
+            <Route path="/usuarios/:n_documento/consultar" element={User?.rol == 1 ? <ConsultarU /> : <Navigate to="/" />} />
+            <Route path="/usuarios/crear" element={User?.rol === 1 ? <CrearUsuario /> : <Navigate to="/" />} />
+            <Route path="/usuario/Actualizar/:n_documento" element={User?.rol === 1 ? <ModificarUsuarioPage /> : <Navigate to="/" />} />
+            <Route path="/estados-roles" element={User?.rol === 1 ? <EstadoRoles /> : <Navigate to="/" />} />
 
-          {/* Rutas recordatorios */}
-          <Route path="/recordatorios" element={User?.rol === 1 ? <Recordatorios /> : <Navigate to="/" />} />
+            {/* Rutas recordatorios */}
+            <Route path="/recordatorios" element={User?.rol === 1 ? <Recordatorios /> : <Navigate to="/" />} />
 
-          {/* Rutas gestion de Mascotas */}
-          <Route path='/Mascotas' element={!User ? <Navigate to="/" /> : <GestionMascotas />} />
-          <Route path='/Mascotas/crear' element={!User ? <Navigate to="/" /> : <CrearMascota />} />
-          <Route path='/Mascotas/modificar/:id' element={!User ? <Navigate to="/" /> : <ModificarMascota />} />
-          <Route path='/Mascotas/historial/:id' element={!User ? <Navigate to="/" /> : <Historial />} />
-          <Route path='/Especies' element={!User ? <Navigate to="/" /> : <GestionEspecies />} />
-          <Route path='/Especies/crear' element={!User ? <Navigate to="/" /> : < CrearEspecie />} />
-          <Route path='/Especies/modificar/:id' element={!User ? <Navigate to="/" /> : < ModificarEspecie />} />
-          <Route path='/Razas/:id' element={!User ? <Navigate to="/" /> : <GestionRazas />} />
-          <Route path="/Razas/crear/:id" element={!User ? <Navigate to="/" /> : <CrearRaza />} />
-          <Route path='/Razas/modificar/:id_especie/:id_raza' element={!User ? <Navigate to="/" /> : <ModificarRaza />} />
-          <Route path="/gestion_enfermedades" element={!User ? <Navigate to="/" /> : <GestionEnfermedades />} />
-          <Route path="/gestion_citas" element={!User ? <Navigate to="/" /> : <GestionCitas />} />
-        </Routes>
-      </BrowserRouter>
-    </UserContext.Provider>
+            {/* Rutas gestion de Mascotas */}
+            <Route path='/Mascotas' element={!User ? <Navigate to="/" /> : <GestionMascotas />} />
+            <Route path='/Mascotas/crear' element={!User ? <Navigate to="/" /> : <CrearMascota />} />
+            <Route path='/Mascotas/modificar/:id' element={!User ? <Navigate to="/" /> : <ModificarMascota />} />
+            <Route path='/Mascotas/historial/:id' element={!User ? <Navigate to="/" /> : <Historial />} />
+            <Route path='/Especies' element={!User ? <Navigate to="/" /> : <GestionEspecies />} />
+            <Route path='/Especies/crear' element={!User ? <Navigate to="/" /> : < CrearEspecie />} />
+            <Route path='/Especies/modificar/:id' element={!User ? <Navigate to="/" /> : < ModificarEspecie />} />
+            <Route path='/Razas/:id' element={!User ? <Navigate to="/" /> : <GestionRazas />} />
+            <Route path="/Razas/crear/:id" element={!User ? <Navigate to="/" /> : <CrearRaza />} />
+            <Route path='/Razas/modificar/:id_especie/:id_raza' element={!User ? <Navigate to="/" /> : <ModificarRaza />} />
+            <Route path="/gestion_enfermedades" element={!User ? <Navigate to="/" /> : <GestionEnfermedades />} />
+            <Route path="/gestion_citas" element={!User ? <Navigate to="/" /> : <GestionCitas />} />
+          </Routes>
+        </BrowserRouter>
+      </UserContext.Provider>
     </>
   )
 }
