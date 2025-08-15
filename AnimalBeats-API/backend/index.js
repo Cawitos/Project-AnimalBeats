@@ -20,7 +20,7 @@ let conexion;
     conexion = await mysql.createConnection({
       host: 'localhost',
       user: 'root',
-      password: 'Holaoreo<3',
+      password: 'Alejo19',
       database: 'AnimalBeats',
     });
     app.locals.connection = conexion;  // <--- asignar aquí
@@ -416,38 +416,38 @@ app.put('/Mascotas/Eliminar/:id', async (req, res) => {
 });
 
 
-  // Necesario para el historial
-  app.get('/Citas/mascota/:id', async (req, res) => {
-    const id = req.params.id;
-    try {
-      const [resultado] = await conexion.execute(
-        'SELECT C.*, S.servicio FROM Citas C join Servicios S on S.id = C.id_servicio WHERE C.id_mascota = ?', [id]
-      );
-      if (resultado.length > 0) {
-        res.json(resultado);
-      } else {
-        res.status(404).json({ mensaje: 'Cita no encontrada' });
-      }
-    } catch (error) {
-      console.error('Error al buscar la cita:', error);
-      res.status(500).json({ error: 'Error al buscar la cita' });
+// Necesario para el historial
+app.get('/Citas/mascota/:id', async (req, res) => {
+  const id = req.params.id;
+  try {
+    const [resultado] = await conexion.execute(
+      'SELECT C.*, S.servicio FROM Citas C join Servicios S on S.id = C.id_servicio WHERE C.id_mascota = ?', [id]
+    );
+    if (resultado.length > 0) {
+      res.json(resultado);
+    } else {
+      res.status(404).json({ mensaje: 'Cita no encontrada' });
     }
-  });
+  } catch (error) {
+    console.error('Error al buscar la cita:', error);
+    res.status(500).json({ error: 'Error al buscar la cita' });
+  }
+});
 
-  app.get('/recordatorio/mascota/:id', async (req, res) => {
-    const id = req.params.id;
-    try {
-      const [resultado] = await conexion.execute('select fecha, descripcion from recordatorios where id_mascota = ?', [id]);
-      if (resultado.length > 0) {
-        res.json(resultado);
-        } else {
-          res.status(404).json({ mensaje: 'No hay recordatorios para esta mascota'})
-        }
-        }catch (error) {
-          console.error('Error al buscar recordatorio:', error);
-          res.status(500).json({ error: 'Error al buscar recordatorio' });
-        }
-  });
+app.get('/recordatorio/mascota/:id', async (req, res) => {
+  const id = req.params.id;
+  try {
+    const [resultado] = await conexion.execute('select fecha, descripcion from recordatorios where id_mascota = ?', [id]);
+    if (resultado.length > 0) {
+      res.json(resultado);
+    } else {
+      res.status(404).json({ mensaje: 'No hay recordatorios para esta mascota' })
+    }
+  } catch (error) {
+    console.error('Error al buscar recordatorio:', error);
+    res.status(500).json({ error: 'Error al buscar recordatorio' });
+  }
+});
 
 
 // Obtener todas las especies

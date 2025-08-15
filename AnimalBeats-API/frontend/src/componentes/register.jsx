@@ -41,13 +41,7 @@ const Register = () => {
             });
 
             setTimeout(() => {
-                if (data.rol == 1) {  // Admin
-                    navigate("/admin");
-                } else if (data.rol == 2) {  // Veterinario
-                    navigate("/veterinario");
-                } else {
-                    navigate("/cliente");
-                }
+                navigate("/login");
             }, 1000);
 
         } catch (error) {

@@ -27,10 +27,10 @@ const Login = ({ setUser }) => {
       localStorage.setItem("token", data.token);
 
       setTimeout(() => {
-        console.log("Rol recibido:", data.rol);
-        if (data.rol === "admin") {
+        console.log("Rol recibido:", data.usuario.rol);
+        if (data.usuario.rol === 1) {
           navigate("/admin");
-        } else if (data.rol === "veterinario") {
+        } else if (data.usuario.rol === 3) {
           navigate("/veterinario");
         } else {
           navigate("/cliente");
