@@ -184,7 +184,7 @@ function GestionRecordatorios() {
           {recordatorio.map(r => (
             <tr key={r.id}>
               <td>{r.id_cliente}</td>
-              <td>{r.id_Mascota}</td>
+              <td>{r.nombre_mascota}</td>
               <td>{new Date(r.Fecha).toLocaleString()}</td>
               <td>{r.descripcion}</td>
               <td>
