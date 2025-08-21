@@ -8,7 +8,7 @@ import { UserContext } from "../context/UserContext";
 export default function GestionMascotas() {
   const [mascotas, setMascotas] = useState([]);
   const [error, setError] = useState(null);
-  const { User } = useContext(UserContext);
+  const { User, setUser } = useContext(UserContext);
 
   useEffect(() => {
     const fetchMascotas = async () => {
@@ -48,7 +48,6 @@ export default function GestionMascotas() {
           .then((response) => {
             if (!response.ok) throw new Error("Error al suspender mascota");
 
-            // Actualiza el estado removiendo la mascota suspendida
             setMascotas((prev) => prev.filter((m) => m.id !== id));
 
             Swal.fire(
@@ -69,6 +68,16 @@ export default function GestionMascotas() {
     });
   };
 
+  const mascotasFiltradas = () => {
+    if (User.rol === 2) {
+      return mascotas.filter((mascota) => mascota.id_cliente === User.id);
+    } else {
+      return mascotas;
+    }
+  };
+
+  const mascotasMostradas = mascotasFiltradas();
+
   return (
     <div className="gestion-mascotas-container">
       <div className="gestion-mascotas-menu-lateral">
@@ -77,15 +86,14 @@ export default function GestionMascotas() {
       <div className="gestion-mascotas-contenido-principal">
         <h1 className="gestion-mascotas-titulo">Gestión de Mascotas</h1>
         {error && <p className="gestion-mascotas-error">{error}</p>}
-        {!error && mascotas.length === 0 && (
+
+        {!error && mascotasMostradas.length === 0 && (
           <p className="gestion-mascotas-no-data">No hay mascotas registradas.</p>
         )}
-        {mascotas.length > 0 && (
+
+        {mascotasMostradas.length > 0 && (
           <div className="gestion-mascotas-contenedor-tabla">
-            <table
-              className="gestion-mascotas-tabla"
-              id="gestion-mascotas-tabla"
-            >
+            <table className="gestion-mascotas-tabla" id="gestion-mascotas-tabla">
               <thead>
                 <tr>
                   <th>Código dueño</th>
@@ -94,12 +102,12 @@ export default function GestionMascotas() {
                   <th>Raza</th>
                   <th>Edad</th>
                   <th>Historial</th>
-                  {User !== 2 && <th>Modificar</th>}
-                  {User !== 2 && <th>Suspender</th>}
+                  {User.rol !== 2 && <th>Modificar</th>}
+                  {User.rol !== 2 && <th>Suspender</th>}
                 </tr>
               </thead>
               <tbody>
-                {mascotas.map((mascota) => (
+                {mascotasMostradas.map((mascota) => (
                   <tr key={mascota.id}>
                     <td>{mascota.id_cliente}</td>
                     <td>{mascota.nombre}</td>
@@ -115,7 +123,7 @@ export default function GestionMascotas() {
                         Historial
                       </Link>
                     </td>
-                    {User !== 2 ? (
+                    {User.rol !== 2 && (
                       <>
                         <td>
                           <Link
@@ -136,11 +144,6 @@ export default function GestionMascotas() {
                           </button>
                         </td>
                       </>
-                    ) : (
-                      <>
-                        <td></td>
-                        <td></td>
-                      </>
                     )}
                   </tr>
                 ))}
@@ -148,7 +151,8 @@ export default function GestionMascotas() {
             </table>
           </div>
         )}
-        {User !== 2 && (
+
+        {User.rol !== 2 && (
           <div className="gestion-mascotas-crear">
             <Link to="/Mascotas/crear" className="btn btn-primary">
               Crear Mascota
@@ -159,5 +163,3 @@ export default function GestionMascotas() {
     </div>
   );
 }
-
-

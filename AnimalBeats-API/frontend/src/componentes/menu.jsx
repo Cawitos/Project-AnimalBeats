@@ -6,7 +6,7 @@ import '../css/menu.css';
 export default function OffcanvasMenu() {
   const [showOffcanvas, setShowOffcanvas] = useState(false);
   const navigate = useNavigate();
-  const { setUser } = useContext(UserContext);
+  const { User, setUser } = useContext(UserContext);
 
   // Función para navegar y cerrar el menú
   const handleNavigate = (path) => {
@@ -58,6 +58,7 @@ export default function OffcanvasMenu() {
 
         <div className="offcanvas-body">
           <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
+             {User && User.rol === 1 && (
             <li className="nav-item dropdown">
               <Dropdown
                 title="Gestion de usuarios"
@@ -68,6 +69,7 @@ export default function OffcanvasMenu() {
                 onLinkClick={handleNavigate}
               />
             </li>
+             )}
 
             <li className="nav-item dropdown">
               <Dropdown

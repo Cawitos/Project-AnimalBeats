@@ -1,14 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import Swal from "sweetalert2";
 import axios from 'axios';
 import OffcanvasMenu from "./menu";
 import { Link } from "react-router-dom";
 import '../css/gestionEspecies.css'
+import { UserContext } from "../context/UserContext";
 
 const gestionEspecies = () => {
   const [especies, setEspecies] = useState([]);
   const [error, setError] = useState(null);
   const [busqueda, setBusqueda] = useState('');
+  const { User, setUser } = useContext(UserContext);
 
   useEffect(() => {
     const obtenerEspecies = async () => {
@@ -115,15 +117,22 @@ const gestionEspecies = () => {
                     <Link to={`/Razas/${especie.id}`} className="btn btn-primary">
                       Más info
                     </Link>
-                    <Link to={`/Especies/modificar/${especie.id}`} className="btn btn-primary ms-2">
-                      Modificar
-                    </Link>
-                    <button
-                      onClick={() => eliminarEspecie(especie.id)}
-                      className="btn btn-primary ms-2"
-                    >
-                      Eliminar
-                    </button>
+
+                    {User.rol !== 2 && (
+                      <>
+                        <Link to={`/Especies/modificar/${especie.id}`} className="btn btn-primary ms-2">
+                          Modificar
+                        </Link>
+                        <button
+                          onClick={() => eliminarEspecie(especie.id)}
+                          className="btn btn-primary ms-2"
+                        >
+                          Eliminar
+                        </button>
+                      </>
+                    )}
+
+                    
                   </div>
                 </div>
               </div>
@@ -135,9 +144,14 @@ const gestionEspecies = () => {
       </div>
     </main>
     <div className="gestion-especies-crear">
+
+      {User.rol !== 2 &&(
+        <>
       <Link to="/Especies/crear" className="btn btn-primary">
         Crear especie
       </Link>
+      </>
+    )}
     </div>
   </div>
 </div>

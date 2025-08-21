@@ -1,16 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState, useContext } from "react";
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import OffcanvasMenu from './menu';
 import { Link, useParams } from 'react-router-dom';
 import '../css/gestionRazas.css';
+import { UserContext } from "../context/UserContext";
+
+
 
 const GestionRazas = () => {
   const { id } = useParams();
   const [razas, setRazas] = useState([]);
   const [error, setError] = useState(null);
   const [busqueda, setBusqueda] = useState('');
-
+  const { User, setUser } = useContext(UserContext);
+  
   useEffect(() => {
     const obtenerRazas = async () => {
       try {
@@ -120,6 +124,9 @@ const GestionRazas = () => {
                       <div className="gestion-razas-card-body card-body">
                         <h1 className="gestion-razas-card-title card-title">{raza.Raza}</h1>
                         <p className="gestion-razas-card-text card-text">Descripción: {raza.descripcion}</p>
+
+                        {User.rol !== 2 &&(
+                        <>
                         <Link to={`/Razas/modificar/${id}/${raza.id}`} className="btn btn-primary">
                           Modificar
                         </Link>
@@ -129,6 +136,8 @@ const GestionRazas = () => {
                         >
                           Eliminar
                         </button>
+                        </>         
+                        )}
                       </div>
                     </div>
                   </div>
@@ -146,9 +155,16 @@ const GestionRazas = () => {
               <Link to="/Especies" className="btn btn-secondary me-2">
                 Regresar
               </Link>
+
+              {User.rol !== 2 &&(
+                <>
               <Link to={`/Razas/crear/${id}`} className="btn btn-primary">
                 Crear raza
               </Link>
+                </>
+              )}
+
+
             </>
           ) : (
             <p>Cargando...</p>
