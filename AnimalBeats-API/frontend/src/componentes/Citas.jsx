@@ -9,11 +9,14 @@ function GestionCitas() {
     const [usuarios, setUsuarios] = useState([]);
     const [mascotas, setMascotas] = useState([]);
     const [servicios, setServicios] = useState([]);
+    const [minFecha, setMinFecha] = useState('');
+    const [veterinarios, setVeterinarios] = useState([]);
     const [form, setForm] = useState({
         id: '',
         id_Mascota: '',
         id_cliente: '',
         id_Servicio: '',
+        id_veterinario:'',
         fecha: '',
         Descripcion: ''
     });
@@ -78,11 +81,32 @@ function GestionCitas() {
             setCitas([]);
         }
     };
+    const fetchVeterinarios = async () => {
+    try {
+        const res = await axios.get('http://localhost:3000/usuario/Listado');
+        const users = res.data.usuarios || [];
+        const vets = users.filter(u => Number(u.id_rol) === 3);
+        setVeterinarios(vets);
+    } catch (err) {
+        console.error('Error al cargar veterinarios', err);
+        setVeterinarios([]);
+    }
+    };
+    useEffect(() => {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        setMinFecha(`${year}-${month}-${day}T${hours}:${minutes}`);
+    }, []);
 
     useEffect(() => {
         fetchUsuarios();
         fetchMascotas();
         fetchServicios();
+        fetchVeterinarios();
         fetchCitas();
     }, []);
 
@@ -100,38 +124,30 @@ function GestionCitas() {
             setForm((prev) => ({ ...prev, [name]: value }));
         }
     };
-
     const guardar = async () => {
-        const { id_Mascota, id_cliente, id_Servicio, fecha } = form;
-        if (!id_Mascota || !id_cliente || !id_Servicio || !fecha) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Campos obligatorios vacíos',
-                text: 'Por favor, completa todos los campos obligatorios.'
-            });
-            return;
-        }
-        try {
-            await axios.post('http://localhost:3000/Citas/Registrar', form);
-            fetchCitas();
-            setForm({ id: '', id_Mascota: '', id_cliente: '', id_Servicio: '', fecha: '', Descripcion: '' });
-            Swal.fire({
-                icon: 'success',
-                title: 'Registrado',
-                text: 'La cita fue registrada correctamente.',
-                timer: 2000,
-                showConfirmButton: false
-            });
-        } catch (err) {
-            console.error('Error al registrar cita', err);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Ocurrió un error al registrar la cita.'
-            });
-        }
-    };
+    const { id_Mascota, id_cliente, id_Servicio, id_veterinario, fecha } = form;
 
+    if (!id_Mascota || !id_cliente || !id_Servicio || !id_veterinario || !fecha) {
+        Swal.fire('Campos obligatorios vacíos', 'Por favor, completa todos los campos.', 'warning');
+        return;
+    }
+
+    if (new Date(fecha) < new Date(minFecha)) {
+        Swal.fire('Fecha inválida', 'No puedes registrar una cita en el pasado.', 'error');
+        return;
+    }
+
+    try {
+        await axios.post('http://localhost:3000/Citas/Registrar', form);
+        fetchCitas();
+        setForm({ id: '', id_Mascota: '', id_cliente: '', id_Servicio: '', id_veterinario: '', fecha: '', Descripcion: '' });
+        Swal.fire('Registrado', 'La cita fue registrada correctamente.', 'success');
+    } catch (err) {
+        console.error('Error al registrar cita', err);
+        Swal.fire('Error', 'Ocurrió un error al registrar la cita.', 'error');
+    }
+    };
+    
     const editar = (cita) => {
         setModoEdicion(true);
         setForm(cita);
@@ -252,6 +268,7 @@ function GestionCitas() {
                     className="citas-input form-control"
                     name="fecha"
                     value={form.fecha}
+                    min={minFecha}                     
                     onChange={handleChange}
                     required
                     />
@@ -266,6 +283,21 @@ function GestionCitas() {
                         onChange={handleChange}
                     />
                 </div>
+                <div className="citas-form-group col-md-4">
+                    <label className="citas-label form-label">Veterinario</label>
+                    <select
+                        className="citas-select form-select"
+                        name="id_veterinario"
+                        value={form.id_veterinario}
+                        onChange={handleChange}
+                    >
+                        <option value="">Seleccione un veterinario</option>
+                        {veterinarios.map((v) => (
+                            <option key={v.n_documento} value={v.n_documento}>{v.nombre}</option>
+                        ))}
+                    </select>
+                </div>
+
             </div>
             <div className="citas-actions text-center mb-5">
                 {modoEdicion ? (
@@ -291,6 +323,7 @@ function GestionCitas() {
                                     <span><strong>Mascota:</strong> {mascotas.find((m) => m.id === cita.id_Mascota)?.nombre || cita.id_Mascota}</span>
                                     <span><strong>Cliente:</strong> {usuarios.find(u => u.id === cita.id_cliente)?.nombre || cita.id_cliente}</span>
                                     <span><strong>Servicio:</strong> {servicios.find((s) => s.id === cita.id_Servicio)?.servicio || cita.id_Servicio}</span>
+                                    <span><strong>Veterinario:</strong> {veterinarios.find(v => v.n_documento === cita.id_veterinario)?.nombre || cita.id_veterinario}</span>
                                     <span><strong>Fecha:</strong> {cita.fecha}</span>
                                     <span><strong>Descripción:</strong> {cita.Descripcion}</span>
                                 </div>

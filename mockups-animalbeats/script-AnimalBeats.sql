@@ -61,11 +61,13 @@ Create table Citas(
     id_Mascota int not null,
 	id_cliente varchar(10) not null,
 	id_Servicio int not null,
+    id_veterinario varchar(10) not null,
     fecha datetime not null,
     Descripcion varchar(255),
     foreign key (id_Mascota) references Mascota(id) on delete cascade,
     foreign key (id_cliente) references Usuarios(n_documento) on delete cascade,
-    foreign key (id_Servicio) references Servicios(id) on delete cascade
+    foreign key (id_Servicio) references Servicios(id) on delete cascade,
+    foreign key (id_veterinario) references Usuarios(n_documento) on delete cascade
 );
 Create table Recordatorios(
 	id INT AUTO_INCREMENT PRIMARY KEY,
@@ -80,3 +82,4 @@ Create table Recordatorios(
 INSERT INTO Documento (tipo) VALUES ('C.C'), ('T.I'), ('C.E');
 INSERT INTO Rol (rol) VALUES ('admin'), ('cliente'), ('veterinario');
 insert into Servicios (servicio) values ('Consulta Generla'), ('Urgencias'), ('Baño y peluqueria'), ('Vacunaciones'), ('Cardiologia'), ('Nutricional');
+select * from Usuarios;

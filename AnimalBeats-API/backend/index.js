@@ -20,7 +20,7 @@ let conexion;
     conexion = await mysql.createConnection({
       host: 'localhost',
       user: 'root',
-      password: 'Holaoreo<3',
+      password: '',
       database: 'AnimalBeats',
     });
     app.locals.connection = conexion;  // <--- asignar aquí
@@ -154,7 +154,8 @@ app.post('/login', async (req, res) => {
 // Listar usuarios
 app.get('/usuario/Listado', async (req, res) => {
   const sqlQuery = `
-    SELECT u.n_documento, u.nombre, u.correoelectronico, d.tipo AS tipo_documento, u.estado
+    SELECT u.n_documento, u.nombre, u.correoelectronico, 
+           d.tipo AS tipo_documento, u.estado, u.id_rol
     FROM Usuarios u
     LEFT JOIN Documento d ON u.id_documento = d.id
     WHERE u.estado != 'Suspendido'
@@ -881,9 +882,30 @@ app.delete('/Enfermedades/Eliminar/:nombre', async (req, res) => {
 // =======================
 
 // Obtener todas las citas
+// Obtener todas las citas con info del cliente, mascota y veterinario
 app.get('/Citas/Listado', async (req, res) => {
   try {
-    const [resultado] = await conexion.execute('SELECT * FROM Citas');
+    const [resultado] = await conexion.execute(`
+      SELECT 
+        C.id,
+        C.id_Mascota,
+        M.nombre AS nombre_mascota,
+        C.id_cliente,
+        UC.nombre AS nombre_cliente,
+        C.id_Servicio,
+        S.nombre AS nombre_servicio,
+        C.id_veterinario,
+        UV.nombre AS nombre_veterinario,
+        C.fecha,
+        C.Descripcion
+      FROM Citas C
+      INNER JOIN Mascota M ON C.id_Mascota = M.id
+      INNER JOIN Usuarios UC ON C.id_cliente = UC.n_documento
+      INNER JOIN Servicios S ON C.id_Servicio = S.id
+      INNER JOIN Usuarios UV ON C.id_veterinario = UV.n_documento
+      ORDER BY C.fecha DESC
+    `);
+
     if (resultado.length > 0) {
       res.json(resultado);
     } else {
@@ -895,14 +917,15 @@ app.get('/Citas/Listado', async (req, res) => {
   }
 });
 
+
 // Registrar nueva cita
 app.post('/Citas/Registrar', async (req, res) => {
-  const { id_Mascota, id_cliente, id_Servicio, fecha, Descripcion } = req.body;
+  const { id_Mascota, id_cliente, id_Servicio, id_veterinario, fecha, Descripcion } = req.body;
   try {
     const [resultado] = await conexion.execute(
-      `INSERT INTO Citas (id_Mascota, id_cliente, id_Servicio, fecha, Descripcion)
-       VALUES (?, ?, ?, ?, ?)`,
-      [id_Mascota, id_cliente, id_Servicio, fecha, Descripcion]
+      `INSERT INTO Citas (id_Mascota, id_cliente, id_Servicio, id_veterinario, fecha, Descripcion)
+       VALUES (?, ?, ?, ?, ?, ?)`,
+      [id_Mascota, id_cliente, id_Servicio, id_veterinario, fecha, Descripcion]
     );
     res.status(201).json({ mensaje: 'Cita registrada correctamente', resultado });
   } catch (error) {
@@ -912,12 +935,31 @@ app.post('/Citas/Registrar', async (req, res) => {
 });
 
 // Obtener una cita por ID
+// Obtener una cita por ID con info detallada
 app.get('/Citas/:id', async (req, res) => {
   const id = req.params.id;
   try {
-    const [resultado] = await conexion.execute(
-      'SELECT * FROM Citas WHERE id = ?', [id]
-    );
+    const [resultado] = await conexion.execute(`
+      SELECT 
+        C.id,
+        C.id_Mascota,
+        M.nombre AS nombre_mascota,
+        C.id_cliente,
+        UC.nombre AS nombre_cliente,
+        C.id_Servicio,
+        S.nombre AS nombre_servicio,
+        C.id_veterinario,
+        UV.nombre AS nombre_veterinario,
+        C.fecha,
+        C.Descripcion
+      FROM Citas C
+      INNER JOIN Mascota M ON C.id_Mascota = M.id
+      INNER JOIN Usuarios UC ON C.id_cliente = UC.n_documento
+      INNER JOIN Servicios S ON C.id_Servicio = S.id
+      INNER JOIN Usuarios UV ON C.id_veterinario = UV.n_documento
+      WHERE C.id = ?
+    `, [id]);
+
     if (resultado.length > 0) {
       res.json(resultado[0]);
     } else {
@@ -929,15 +971,17 @@ app.get('/Citas/:id', async (req, res) => {
   }
 });
 
+
 // Actualizar una cita por ID
 app.put('/Citas/Actualizar/:id', async (req, res) => {
   const id = req.params.id;
-  const { id_Mascota, id_cliente, id_Servicio, fecha, Descripcion } = req.body;
+  const { id_Mascota, id_cliente, id_Servicio, id_veterinario, fecha, Descripcion } = req.body;
   try {
     const [resultado] = await conexion.execute(
-      `UPDATE Citas SET id_Mascota = ?, id_cliente = ?, id_Servicio = ?, fecha = ?, Descripcion = ?
+      `UPDATE Citas 
+       SET id_Mascota = ?, id_cliente = ?, id_Servicio = ?, id_veterinario = ?, fecha = ?, Descripcion = ?
        WHERE id = ?`,
-      [id_Mascota, id_cliente, id_Servicio, fecha, Descripcion, id]
+      [id_Mascota, id_cliente, id_Servicio, id_veterinario, fecha, Descripcion, id]
     );
     if (resultado.affectedRows > 0) {
       res.json({ mensaje: 'Cita actualizada correctamente', resultado });
