@@ -54,7 +54,7 @@ function App() {
             <Route path="/estados-roles" element={User?.rol === 1 ? <EstadoRoles /> : <Navigate to="/" />} />
 
             {/* Rutas recordatorios */}
-            <Route path="/recordatorios" element={User?.rol === 1 ? <Recordatorios /> : <Navigate to="/" />} />
+            <Route path="/recordatorios" element={User?.rol !== 2 ? <Recordatorios /> : <Navigate to="/" />} />
 
             {/* Rutas gestion de Mascotas */}
             <Route path='/Mascotas' element={!User ? <Navigate to="/" /> : <GestionMascotas />} />

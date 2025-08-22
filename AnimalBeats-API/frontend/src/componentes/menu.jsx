@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../context/UserContext'; // Ajusta la ruta según tu estructura
+import { UserContext } from '../context/UserContext';
 import '../css/menu.css';
 
 export default function OffcanvasMenu() {
@@ -8,16 +8,24 @@ export default function OffcanvasMenu() {
   const navigate = useNavigate();
   const { User, setUser } = useContext(UserContext);
 
-  // Función para navegar y cerrar el menú
   const handleNavigate = (path) => {
-    navigate(path);
+    if (path) {
+      navigate(path);
+    } else {
+      if (User.rol === 1) {
+        navigate('/admin');
+      } else if (User.rol === 3) {
+        navigate('/veterinario');
+      } else {
+        navigate('/cliente');
+      }
+    }
     setShowOffcanvas(false);
   };
 
-  // Función para cerrar sesión
   const handleLogout = () => {
-    setUser(null);       // Actualiza el usuario a null
-    handleNavigate('/'); // Navega a la página de inicio o login
+    setUser(null);
+    handleNavigate('/');
   };
 
   return (
@@ -43,7 +51,7 @@ export default function OffcanvasMenu() {
           <h5 className="offcanvas-title" id="offcanvasNavbarLabel">
             <button
               className="btn btn-link animalbeats p-0"
-              onClick={() => handleNavigate('/admin')}
+              onClick={() => handleNavigate()}
             >
               <span className="nav-logo">AnimalBeats</span>
             </button>
@@ -58,18 +66,18 @@ export default function OffcanvasMenu() {
 
         <div className="offcanvas-body">
           <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
-             {User && User.rol === 1 && (
-            <li className="nav-item dropdown">
-              <Dropdown
-                title="Gestion de usuarios"
-                links={[
-                  { path: '/gestionusuarios', label: 'Usuarios' },
-                  { path: '/estados-roles', label: 'Estados y roles' },
-                ]}
-                onLinkClick={handleNavigate}
-              />
-            </li>
-             )}
+            {User && User.rol === 1 && (
+              <li className="nav-item dropdown">
+                <Dropdown
+                  title="Gestion de usuarios"
+                  links={[
+                    { path: '/gestionusuarios', label: 'Usuarios' },
+                    { path: '/estados-roles', label: 'Estados y roles' },
+                  ]}
+                  onLinkClick={handleNavigate}
+                />
+              </li>
+            )}
 
             <li className="nav-item dropdown">
               <Dropdown
@@ -84,14 +92,16 @@ export default function OffcanvasMenu() {
               />
             </li>
 
-            <li className="nav-item">
-              <button
-                className="nav-link btn btn-link"
-                onClick={() => handleNavigate('/recordatorios')}
-              >
-                Recordatorios
-              </button>
-            </li>
+            {User?.rol !== 2 && (
+              <li className="nav-item">
+                <button
+                  className="nav-link btn btn-link"
+                  onClick={() => handleNavigate('/recordatorios')}
+                >
+                  Recordatorios
+                </button>
+              </li>
+            )}
 
             <li className="nav-item">
               <button
@@ -128,7 +138,7 @@ function Dropdown({ title, links, onLinkClick }) {
               className="dropdown-item btn btn-link"
               onClick={() => {
                 onLinkClick(path);
-                setOpen(false); // cierra dropdown al click
+                setOpen(false);
               }}
             >
               {label}
