@@ -1,0 +1,1 @@
+En esta carpeta se trabajara el desplegable movil del proyecto ANIMALBEATS basandose en un framework hecho en flutter
