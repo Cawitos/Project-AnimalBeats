@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'login_registro.dart'; // Importa tus pantallas de login y registro
+import 'gestion_mascotas.dart';
 
 void main() {
   runApp(const AnimalBeatsApp());
@@ -63,7 +64,7 @@ class IndexPage extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => LoginPage()),
+                          MaterialPageRoute(builder: (context) => GestionMascotas()),
                         );
                       },
                       child: const Text("Login",

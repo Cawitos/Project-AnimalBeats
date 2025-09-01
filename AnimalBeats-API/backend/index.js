@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const mysql = require('mysql2/promise');
@@ -6,8 +8,9 @@ const bcrypt = require('bcrypt');
 const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
-const puerto = 3000;
-const JWT_SECRET = 'tricamale';
+const JWT_SECRET = process.env.JWT_SECRET;
+
+
 
 const app = express();
 app.use(cors());
@@ -17,19 +20,24 @@ app.use(bodyParser.json());
 let conexion;
 (async () => {
   try {
-    conexion = await mysql.createConnection({
-      host: 'localhost',
-      user: 'root',
-      password: '',
-      database: 'AnimalBeats',
+    conexion = await mysql.createPool({
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASS,
+      database: process.env.DB_NAME,
+      port: process.env.DB_PORT,
+      waitForConnections: true,
+      connectionLimit: 10,
+      queueLimit: 0
     });
-    app.locals.connection = conexion;  // <--- asignar aquí
+    app.locals.connection = conexion;
     console.log('Conexión a la base de datos exitosa');
   } catch (error) {
     console.error('Error al conectar a la base de datos:', error);
     process.exit(1);
   }
 })();
+
 
 // Headers de la API
 app.use((req, res, next) => {
@@ -38,10 +46,8 @@ app.use((req, res, next) => {
   next();
 });
 
-// Rutas de la API
-app.listen(puerto, () => {
-  console.log('Servidor escuchando en el puerto:', puerto);
-});
+
+
 
 /* ==========================
 *  Rutas de gestión de usuarios
@@ -1169,4 +1175,10 @@ app.delete('/recordatorios/eliminar/:id', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'Error al eliminar el recordatorio' });
   }
+});
+
+// Rutas de la API
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Servidor escuchando en el puerto: ${PORT}`);
 });
