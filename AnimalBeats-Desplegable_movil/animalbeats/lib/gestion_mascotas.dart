@@ -5,6 +5,9 @@ import 'package:http/http.dart' as http;
 // 🎨 Color principal rojo
 const Color rojo = Color(0xFFDF2935);
 
+// URL base de tu backend en Railway
+const String baseUrl = "https://animalbeats-backend-production.up.railway.app";
+
 class GestionMascotas extends StatefulWidget {
   const GestionMascotas({super.key});
 
@@ -42,7 +45,7 @@ class _GestionMascotasState extends State<GestionMascotas> {
     });
 
     try {
-      final res = await http.get(Uri.parse("http://localhost:3000/mascotas"));
+      final res = await http.get(Uri.parse("$baseUrl/mascotas"));
       if (res.statusCode == 200) {
         final data = json.decode(res.body);
         if (data is List) {
@@ -74,7 +77,7 @@ class _GestionMascotasState extends State<GestionMascotas> {
   Future<void> _crearMascota() async {
     try {
       final res = await http.post(
-        Uri.parse("http://localhost:3000/Mascotas/Crear"),
+        Uri.parse("$baseUrl/Mascotas/Crear"),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
           "nombre": _nombreCtrl.text,
@@ -111,8 +114,7 @@ class _GestionMascotasState extends State<GestionMascotas> {
   // 📌 GET: Historial de mascota
   Future<void> _fetchHistorial(int id) async {
     try {
-      final res =
-          await http.get(Uri.parse("http://localhost:3000/Mascotas/historial/$id"));
+      final res = await http.get(Uri.parse("$baseUrl/Mascotas/historial/$id"));
       if (res.statusCode == 200) {
         setState(() {
           _historialData = json.decode(res.body);
@@ -191,7 +193,8 @@ class _GestionMascotasState extends State<GestionMascotas> {
       padding: const EdgeInsets.all(10),
       children: _mascotas.map((m) {
         return Card(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           elevation: 4,
           child: ListTile(
             title: Text(m["nombre"]),
