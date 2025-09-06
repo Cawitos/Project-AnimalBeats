@@ -269,7 +269,7 @@ class _GestionMascotasState extends State<GestionMascotas> {
   Future<void> _suspenderMascota(int idMascota, String nombre) async {
     try {
       final res = await http.put(
-        Uri.parse("$baseUrl/Mascotas/Suspender/$idMascota"),
+        Uri.parse("$baseUrl/Mascotas/Eliminar/$idMascota"),
         headers: {"Content-Type": "application/json"},
       );
       if (res.statusCode == 200) {
@@ -413,7 +413,29 @@ Widget build(BuildContext context) {
                 ),
                 IconButton(
                   icon: const Icon(Icons.delete, color: Colors.red),
-                  onPressed: () => _suspenderMascota(m["id"], m["nombre"]),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text("Confirmar eliminación"),
+                        content: Text("¿Seguro que deseas suspender a la mascota \"${m["nombre"]}\"?"),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context), // Cierra sin hacer nada
+                            child: const Text("Cancelar", style: TextStyle(color: Colors.black),),
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(backgroundColor: rojo, foregroundColor: Colors.white,),
+                            onPressed: () {
+                              Navigator.pop(context); // Cierra el diálogo
+                              _suspenderMascota(m["id"], m["nombre"]); // Llama a suspender
+                            },
+                            child: const Text("Sí, suspender"),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
