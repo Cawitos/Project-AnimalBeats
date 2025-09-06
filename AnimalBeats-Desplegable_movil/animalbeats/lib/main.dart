@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'login_registro.dart'; // Importa tus pantallas de login y registro
-import 'gestion_mascotas.dart';
+
 
 void main() {
   runApp(const AnimalBeatsApp());

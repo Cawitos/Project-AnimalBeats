@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'menu.dart';
 import 'package:http/http.dart' as http;
 
 const String apiUrl = "https://animalbeats-backend-production.up.railway.app";
@@ -46,9 +47,13 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
   @override
   Widget build(BuildContext context) {
+
+    int userRole = 1;
+
     if (loading) {
       return Scaffold(
         appBar: AppBar(title: const Text("Dashboard Admin")),
+
         body: const Center(child: CircularProgressIndicator()),
       );
     }
@@ -70,6 +75,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         title: const Text("Dashboard Admin"),
         backgroundColor: Colors.red,
       ),
+      drawer: OffcanvasMenu(userRole: userRole),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
