@@ -234,7 +234,17 @@ class _LoginPageState extends State<LoginPage> {
 
       if (response.statusCode == 200) {
         final usuario = data['usuario'];
-        final rol = usuario['rol']; // viene directo del backend (1,2,3)
+        final rol = usuario['rol'];
+        final estado = usuario['estado'];
+
+        if (estado == "Suspendido") {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+                content: Text(
+                    "Tu cuenta está suspendida. Contacta al administrador.")),
+          );
+          return; // 👈 Detiene el login
+        }
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Bienvenido ${usuario['nombre']}")),

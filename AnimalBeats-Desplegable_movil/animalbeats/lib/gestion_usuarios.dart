@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'consultar_usuario.dart';
+import 'crear_usuario.dart';
+import 'modificar_usuario.dart';
 
 const String apiUrl = "https://animalbeats-backend-production.up.railway.app";
 
@@ -56,22 +59,27 @@ class _GestionUsuariosPageState extends State<GestionUsuariosPage> {
     }
   }
 
-  Future<void> _suspenderUsuario(String documento) async {
+  Future<void> _cambiarEstadoUsuario(
+      String documento, String estadoActual) async {
+    final accion = estadoActual == "Activo" ? "Suspender" : "Reactivar";
+    final nuevoEstado = estadoActual == "Activo" ? "Suspendido" : "Activo";
+
     final confirmar = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text("¿Estás seguro?"),
-        content: const Text(
-            "Este usuario será suspendido y no podrá iniciar sesión."),
+        title: Text("¿Estás seguro?"),
+        content: Text("Este usuario será $accion."),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
             child: const Text("Cancelar"),
           ),
           ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+            style: ElevatedButton.styleFrom(
+                backgroundColor:
+                    estadoActual == "Activo" ? Colors.red : Colors.green),
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text("Sí, suspender"),
+            child: Text("Sí, $accion"),
           ),
         ],
       ),
@@ -80,19 +88,27 @@ class _GestionUsuariosPageState extends State<GestionUsuariosPage> {
     if (confirmar != true) return;
 
     try {
-      final response =
-          await http.put(Uri.parse("$apiUrl/usuario/Suspender/$documento"));
+      final endpoint = estadoActual == "Activo"
+          ? "$apiUrl/usuario/Suspender/$documento"
+          : "$apiUrl/usuario/Reactivar/$documento";
+
+      final response = await http.put(Uri.parse(endpoint));
 
       if (response.statusCode == 200) {
         setState(() {
-          usuarios.removeWhere((u) => u["n_documento"].toString() == documento);
+          usuarios = usuarios.map((u) {
+            if (u["n_documento"].toString() == documento) {
+              u["estado"] = nuevoEstado; // 👈 actualiza el estado
+            }
+            return u;
+          }).toList();
         });
 
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Usuario suspendido exitosamente")),
+          SnackBar(content: Text("Usuario $accion correctamente")),
         );
       } else {
-        throw Exception("Error al suspender usuario");
+        throw Exception("Error al $accion usuario");
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -143,12 +159,60 @@ class _GestionUsuariosPageState extends State<GestionUsuariosPage> {
                   child: ListTile(
                     title: Text(u["nombre"] ?? ""),
                     subtitle: Text(
-                        "${u["tipo_documento"]} - ${u["n_documento"]}\n${u["correoelectronico"]}"),
+                      "${u["tipo_documento"]} - ${u["n_documento"]}\n${u["correoelectronico"]}\nEstado: ${u["estado"]}",
+                    ),
                     isThreeLine: true,
-                    trailing: IconButton(
-                      icon: const Icon(Icons.lock_outline, color: Colors.red),
-                      onPressed: () =>
-                          _suspenderUsuario(u["n_documento"].toString()),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // 👁 Botón consultar
+                        IconButton(
+                          icon: const Icon(Icons.remove_red_eye,
+                              color: Colors.blue),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ConsultarUsuarioPage(
+                                    documento: u["n_documento"].toString()),
+                              ),
+                            );
+                          },
+                        ),
+
+                        // ✏️ Botón actualizar
+                        IconButton(
+                          icon: const Icon(Icons.edit, color: Colors.orange),
+                          onPressed: () async {
+                            final actualizado = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                    ModificarUsuarioPage(usuario: u),
+                              ),
+                            );
+
+                            if (actualizado == true) {
+                              _fetchUsuarios(); // recarga la lista al volver
+                            }
+                          },
+                        ),
+                        // 🔒 Botón suspender/reactivar
+                        IconButton(
+                          icon: Icon(
+                            u["estado"] == "Activo"
+                                ? Icons.lock_outline
+                                : Icons.lock_open,
+                            color: u["estado"] == "Activo"
+                                ? Colors.red
+                                : Colors.green,
+                          ),
+                          onPressed: () => _cambiarEstadoUsuario(
+                            u["n_documento"].toString(),
+                            u["estado"],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 );
@@ -156,8 +220,15 @@ class _GestionUsuariosPageState extends State<GestionUsuariosPage> {
             ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.red,
-        onPressed: () {
-          // Aquí luego hacemos la vista de crear usuario
+        onPressed: () async {
+          final result = await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const CrearUsuarioPage()),
+          );
+
+          if (result == true) {
+            _fetchUsuarios(); // 👈 refresca la lista al volver
+          }
         },
         child: const Icon(Icons.person_add),
       ),
