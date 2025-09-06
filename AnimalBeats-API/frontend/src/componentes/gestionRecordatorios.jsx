@@ -3,6 +3,10 @@ import axios from 'axios';
 import Swal from "sweetalert2";
 import OffcanvasMenu from './menu';
 import '../css/GestionRecordatorios.css';
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+import logo from "../assets/logo.png";
+
 
 function GestionRecordatorios() {
   const [recordatorio, setRecordatorio] = useState([]);
@@ -35,7 +39,7 @@ function GestionRecordatorios() {
   // Obtener todos los recordatorios
   const fetchRecordatorios = async () => {
     try {
-      const res = await axios.get('http://localhost:3000/recordatorios');
+      const res = await axios.get('https://animalbeats-backend-production.up.railway.app/recordatorios');
       setRecordatorio(res.data);
     } catch (error) {
       console.error('Error al obtener recordatorios:', error);
@@ -53,7 +57,7 @@ function GestionRecordatorios() {
     }
 
     try {
-      const res = await axios.get(`http://localhost:3000/Mascota/recordatorio/${clienteId}`);
+      const res = await axios.get(`https://animalbeats-backend-production.up.railway.app/Mascota/recordatorio/${clienteId}`);
       if (Array.isArray(res.data)) {
         setMascotasCliente(res.data);
       } else {
@@ -90,10 +94,10 @@ function GestionRecordatorios() {
       const dataToSend = { ...form, fecha: form.fecha };
 
       if (modoEditar) {
-        await axios.put(`http://localhost:3000/recordatorios/modificar/${idEditar}`, dataToSend);
+        await axios.put(`https://animalbeats-backend-production.up.railway.app/recordatorios/modificar/${idEditar}`, dataToSend);
         Swal.fire('Actualizado', 'El recordatorio ha sido actualizado correctamente.', 'success');
       } else {
-        await axios.post('http://localhost:3000/recordatorios/guardar', dataToSend);
+        await axios.post('https://animalbeats-backend-production.up.railway.app/recordatorios/guardar', dataToSend);
         Swal.fire('Guardado', 'El recordatorio ha sido guardado correctamente.', 'success');
       }
       fetchRecordatorios();
@@ -118,7 +122,7 @@ function GestionRecordatorios() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:3000/recordatorios/eliminar/${id}`);
+          await axios.delete(`https://animalbeats-backend-production.up.railway.app/recordatorios/eliminar/${id}`);
           fetchRecordatorios();
           Swal.fire('¡Eliminado!', 'El recordatorio ha sido eliminado.', 'success');
         } catch (error) {
@@ -140,10 +144,10 @@ function GestionRecordatorios() {
     setModoEditar(true);
     setIdEditar(r.id);
 
-    // Cargar mascotas del cliente para el select
+  // Cargar mascotas del cliente para el select
     if (r.id_cliente) {
       try {
-        const res = await axios.get(`http://localhost:3000/Mascota/recordatorio/${r.id_cliente}`);
+        const res = await axios.get(`https://animalbeats-backend-production.up.railway.app/Mascota/recordatorio/${r.id_cliente}`);
         if (Array.isArray(res.data)) {
           setMascotasCliente(res.data);
         } else {
@@ -157,6 +161,100 @@ function GestionRecordatorios() {
     }
   };
 
+// Descargar todos los recordatorios
+const descargarTodosPDF = () => {
+  try {
+    const doc = new jsPDF();
+
+    // Logo
+    doc.addImage(logo, "PNG", 15, 10, 25, 25);
+
+    // Título y fecha/hora
+    const fechaHora = new Date().toLocaleString();
+    doc.setFontSize(18);
+    doc.text("Reporte de Recordatorios (Activos)", 50, 20);
+    doc.setFontSize(11);
+    doc.text(`Fecha y Hora: ${fechaHora}`, 50, 30);
+
+    let startY = 40;
+
+    // Tabla con todos los recordatorios
+    const data = recordatorio.map(r => [
+      r.id_cliente || "-",
+      r.nombre_mascota || "-",
+      new Date(r.Fecha).toLocaleString() || "-",
+      r.descripcion || "-"
+    ]);
+
+    autoTable(doc, {
+      startY,
+      head: [["Cliente", "Mascota", "Fecha", "Descripción"]],
+      body: data,
+      theme: "grid",
+      styles: {
+        lineColor: [223, 41, 53], // Rojo AnimalBeats
+        lineWidth: 0.5,
+        fontSize: 10
+      },
+      headStyles: {
+        fillColor: [223, 41, 53],
+        textColor: 255
+      },
+      alternateRowStyles: {
+        fillColor: [245, 245, 245]
+      }
+    });
+
+    doc.save("recordatorios_todos.pdf");
+  } catch (error) {
+    console.error("Error al generar PDF de recordatorios:", error);
+  }
+};
+
+// Descargar un recordatorio en específico
+const descargarUnoPDF = (r) => {
+  try {
+    const doc = new jsPDF();
+
+    // Logo
+    doc.addImage(logo, "PNG", 15, 10, 25, 25);
+
+    // Título y fecha/hora
+    const fechaHora = new Date().toLocaleString();
+    doc.setFontSize(18);
+    doc.text("Reporte de Recordatorio", 50, 20);
+    doc.setFontSize(11);
+    doc.text(`Fecha y Hora: ${fechaHora}`, 50, 30);
+
+    let startY = 40;
+
+    // Tabla con la info del recordatorio
+    autoTable(doc, {
+      startY,
+      body: [
+        ["Cliente", r.id_cliente || "-"],
+        ["Mascota", r.nombre_mascota || "-"],
+        ["Fecha", new Date(r.Fecha).toLocaleString() || "-"],
+        ["Descripción", r.descripcion || "-"]
+      ],
+      theme: "grid",
+      styles: {
+        lineColor: [223, 41, 53],
+        lineWidth: 0.5,
+        fontSize: 11
+      },
+      headStyles: {
+        fillColor: [223, 41, 53],
+        textColor: 255
+      }
+    });
+
+    doc.save(`recordatorio_${r.id}.pdf`);
+  } catch (error) {
+    console.error("Error al generar PDF individual:", error);
+  }
+};
+
   // Al cargar el componente, obtener recordatorios
   useEffect(() => {
     fetchRecordatorios();
@@ -169,7 +267,14 @@ function GestionRecordatorios() {
       </div>
 
       <h4 className="gestion-recordatorios-title">Gestión de Recordatorios</h4>
-
+      <div className="gestion-recordatorios-btn-container">
+        <button 
+          onClick={descargarTodosPDF} 
+          className="gestion-recordatorios-btn-pdf"
+        >
+          Descargar todos en PDF
+        </button>
+      </div>
       <table className="gestion-recordatorios-table">
         <thead>
           <tr>
@@ -199,6 +304,12 @@ function GestionRecordatorios() {
                   className="gestion-recordatorios-btn-eliminar"
                 >
                   Eliminar
+                </button>
+                <button
+                  onClick={() => descargarUnoPDF(r)}
+                  className="gestion-recordatorios-btn-pdf"
+                >
+                  PDF
                 </button>
               </td>
             </tr>

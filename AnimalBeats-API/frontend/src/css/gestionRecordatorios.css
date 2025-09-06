@@ -282,3 +282,25 @@ body, html, #root {
     font-size: 0.8rem;
   }
 }
+.gestion-recordatorios-btn-container {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.gestion-recordatorios-btn-pdf {
+  border: 2px solid var(--rojo);
+  background-color: transparent;
+  color: var(--rojo);
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.gestion-recordatorios-btn-pdf:hover {
+  background-color: var(--rojo);
+  color: var(--blanco);
+  box-shadow: 0 0 8px var(--rojo);
+}

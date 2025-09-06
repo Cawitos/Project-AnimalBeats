@@ -21,10 +21,10 @@ let conexion;
 (async () => {
   try {
     conexion = await mysql.createPool({
-      host: process.env.DB_HOST || localhost,
-      user: process.env.DB_USER || root,
+      host: process.env.DB_HOST || "localhost",
+      user: process.env.DB_USER || "root",
       password: process.env.DB_PASS || '',
-      database: process.env.DB_NAME || AnimalBeats,
+      database: process.env.DB_NAME || "AnimalBeats",
       port: process.env.DB_PORT || 3000,
       waitForConnections: true,
       connectionLimit: 10,
