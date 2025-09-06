@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'admin.dart';
 import 'gestion_mascotas.dart';
 import 'main.dart';
+import 'gestion_usuarios.dart';
 
 class OffcanvasMenu extends StatefulWidget {
   final int userRole;
@@ -32,7 +33,8 @@ class _OffcanvasMenuState extends State<OffcanvasMenu> {
                     if (widget.userRole == 1) {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const AdminDashboard()),
+                        MaterialPageRoute(
+                            builder: (context) => const AdminDashboard()),
                       );
                     } else if (widget.userRole == 3) {
                       // Navigator.push(
@@ -70,15 +72,17 @@ class _OffcanvasMenuState extends State<OffcanvasMenu> {
                   ListTile(
                     leading: const Icon(Icons.person, color: Colors.black54),
                     title: const Text('Usuarios'),
-                    // onTap: () {
-                    //   Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(builder: (context) => const GestionUsuariosPage()),
-                    //   );
-                    // },
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const GestionUsuariosPage()),
+                      );
+                    },
                   ),
                   ListTile(
-                    leading: const Icon(Icons.admin_panel_settings, color: Colors.black54),
+                    leading: const Icon(Icons.admin_panel_settings,
+                        color: Colors.black54),
                     title: const Text('Estados y roles'),
                     // onTap: () {
                     //   Navigator.push(
@@ -102,7 +106,10 @@ class _OffcanvasMenuState extends State<OffcanvasMenu> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => GestionMascotas(userRole: widget.userRole),),
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            GestionMascotas(userRole: widget.userRole),
+                      ),
                     );
                   },
                 ),
@@ -127,7 +134,8 @@ class _OffcanvasMenuState extends State<OffcanvasMenu> {
                   // },
                 ),
                 ListTile(
-                  leading: const Icon(Icons.calendar_today, color: Colors.black54),
+                  leading:
+                      const Icon(Icons.calendar_today, color: Colors.black54),
                   title: const Text('Citas'),
                   // onTap: () {
                   //   Navigator.push(
@@ -158,7 +166,8 @@ class _OffcanvasMenuState extends State<OffcanvasMenu> {
               onTap: () {
                 Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => const AnimalBeatsApp()),
+                  MaterialPageRoute(
+                      builder: (context) => const AnimalBeatsApp()),
                   (route) => false,
                 );
               },

@@ -233,16 +233,30 @@ class _LoginPageState extends State<LoginPage> {
       final data = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
+        final usuario = data['usuario'];
+        final rol = usuario['rol']; // viene directo del backend (1,2,3)
+
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Bienvenido ${data['usuario']['nombre']}")),
+          SnackBar(content: Text("Bienvenido ${usuario['nombre']}")),
         );
 
-        // Aquí podrías guardar el token en memoria segura (ej: shared_preferences)
-        // y redirigir al Home o Dashboard:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const AdminDashboard()),
-        );
+        if (rol == 1) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const AdminDashboard()),
+          );
+        } else if (rol == 3) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const VeterinarioDashboard()),
+          );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const ClienteDashboard()),
+          );
+        }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(data["mensaje"] ?? "Error al iniciar sesión")),
@@ -258,47 +272,47 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Iniciar Sesión")),
+      appBar: AppBar(title: const Text("Iniciar Sesión")),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
           elevation: 4,
           child: Padding(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Form(
               key: _formKey,
               child: ListView(
                 children: [
-                  Text(
+                  const Text(
                     "Iniciar Sesión",
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   TextFormField(
                     controller: correoCtrl,
                     decoration:
-                        InputDecoration(labelText: "Correo Electrónico"),
+                        const InputDecoration(labelText: "Correo Electrónico"),
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) =>
                         value!.isEmpty ? "Campo requerido" : null,
                   ),
                   TextFormField(
                     controller: contrasenaCtrl,
-                    decoration: InputDecoration(labelText: "Contraseña"),
+                    decoration: const InputDecoration(labelText: "Contraseña"),
                     obscureText: true,
                     validator: (value) =>
                         value!.isEmpty ? "Campo requerido" : null,
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
                       foregroundColor: Colors.white,
                     ),
-                    child: Text("Iniciar Sesión"),
+                    child: const Text("Iniciar Sesión"),
                     onPressed: _login,
                   ),
                 ],
@@ -307,6 +321,31 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
+    );
+  }
+}
+
+// ---------------------- DASHBOARDS ----------------------
+class ClienteDashboard extends StatelessWidget {
+  const ClienteDashboard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Dashboard Cliente")),
+      body: const Center(child: Text("Bienvenido Cliente")),
+    );
+  }
+}
+
+class VeterinarioDashboard extends StatelessWidget {
+  const VeterinarioDashboard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Dashboard Veterinario")),
+      body: const Center(child: Text("Bienvenido Veterinario")),
     );
   }
 }
