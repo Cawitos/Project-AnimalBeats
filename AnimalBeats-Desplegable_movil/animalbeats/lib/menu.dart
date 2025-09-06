@@ -5,10 +5,12 @@ import 'admin.dart';
 import 'gestion_mascotas.dart';
 import 'main.dart';
 import 'gestion_usuarios.dart';
+import 'gestion_recordatorios.dart';
 
 class OffcanvasMenu extends StatefulWidget {
   final int userRole;
-  const OffcanvasMenu({super.key, required this.userRole});
+  final String? nDocumento;
+  const OffcanvasMenu({super.key, required this.userRole, this.nDocumento});
 
   @override
   State<OffcanvasMenu> createState() => _OffcanvasMenuState();
@@ -147,16 +149,21 @@ class _OffcanvasMenuState extends State<OffcanvasMenu> {
               ],
             ),
             if (widget.userRole != 2)
-              ListTile(
-                leading: const Icon(Icons.alarm, color: Color(0xFFDF2935)),
-                title: const Text('Recordatorios'),
-                // onTap: () {
-                //   Navigator.push(
-                //     context,
-                //     MaterialPageRoute(builder: (context) => const RecordatoriosPage()),
-                //   );
-                // },
-              ),
+            ListTile(
+              leading: const Icon(Icons.alarm, color: Color(0xFFDF2935)),
+              title: const Text('Recordatorios'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => GestionRecordatorios(
+                      userRole: widget.userRole,
+                      nDocumento: widget.nDocumento,
+                    ),
+                  ),
+                );
+              },
+            ),
             ListTile(
               leading: const Icon(Icons.logout, color: Colors.redAccent),
               title: const Text(

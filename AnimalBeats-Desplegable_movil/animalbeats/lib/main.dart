@@ -116,7 +116,6 @@ class IndexPage extends StatelessWidget {
                         physics: const NeverScrollableScrollPhysics(),
                         crossAxisSpacing: 16,
                         mainAxisSpacing: 16,
-                        childAspectRatio: 4 / 3,
                         children: const [
                           _CardServicios(),
                           _CardImportancia(),
@@ -154,8 +153,6 @@ class IndexPage extends StatelessWidget {
   }
 }
 
-// ================== CARDS ==================
-
 class _CardServicios extends StatelessWidget {
   const _CardServicios();
 
@@ -167,8 +164,8 @@ class _CardServicios extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
+          mainAxisSize: MainAxisSize.min, // <- importante
           children: [
-            // Imagen principal
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Image.asset(
@@ -178,18 +175,12 @@ class _CardServicios extends StatelessWidget {
                 height: 150,
               ),
             ),
-
             const SizedBox(height: 12),
-
-            // Título
             const Text(
               "Servicios",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-
             const SizedBox(height: 6),
-
-            // Descripción
             const Text(
               "Agenda de citas, recordatorios de vacunas, historial de mascotas y alertas automáticas para veterinarios.",
               textAlign: TextAlign.center,
@@ -200,7 +191,6 @@ class _CardServicios extends StatelessWidget {
     );
   }
 }
-
 
 class _CardImportancia extends StatelessWidget {
   const _CardImportancia();
@@ -213,6 +203,7 @@ class _CardImportancia extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
+          mainAxisSize: MainAxisSize.min, // <- evita overflow
           children: [
             const Icon(Icons.info_outline, size: 48, color: Colors.blueAccent),
             const SizedBox(height: 12),
@@ -221,16 +212,9 @@ class _CardImportancia extends StatelessWidget {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 6),
-            Expanded(
-              child: Container(
-                width: double.infinity,
-                alignment: Alignment.topCenter,
-                padding: const EdgeInsets.only(top: 8),
-                child: const Text(
-                  "AnimalBeats es un sistema administraivo para las veterinarias, el impacto que tiene es llevar un mejor orden en los clientes y mascotas que interactuen con la veterinaria.",
-                  textAlign: TextAlign.center,
-                ),
-              ),
+            const Text(
+              "AnimalBeats es un sistema administrativo para las veterinarias, el impacto que tiene es llevar un mejor orden en los clientes y mascotas que interactúan con la veterinaria.",
+              textAlign: TextAlign.center,
             ),
           ],
         ),
@@ -250,6 +234,7 @@ class _CardNovedades extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             const Icon(Icons.campaign, size: 48, color: Colors.orange),
             const SizedBox(height: 12),
@@ -258,11 +243,9 @@ class _CardNovedades extends StatelessWidget {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 6),
-            const Expanded(
-              child: Text(
-                "Próximas funciones, eventos, lanzamientos o testimonios. Podemos cambiar esta card cuando lo definas.",
-                textAlign: TextAlign.center,
-              ),
+            const Text(
+              "Próximas funciones, eventos, lanzamientos o testimonios. Podemos cambiar esta card cuando lo definas.",
+              textAlign: TextAlign.center,
             ),
           ],
         ),
@@ -270,6 +253,7 @@ class _CardNovedades extends StatelessWidget {
     );
   }
 }
+
 
 // ================== SLIDER ==================
 class ImageSlider extends StatefulWidget {
