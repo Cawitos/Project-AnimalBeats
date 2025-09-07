@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'menu.dart';
 
 const Color rojo = Color(0xFFDF2935);
@@ -140,54 +141,92 @@ Future<void> _eliminarRecordatorio(int id) async {
 
   // ---------------- PDF ----------------
   Future<void> _descargarTodosPDF() async {
-    final pdf = pw.Document();
-    pdf.addPage(
-      pw.Page(
-        build: (pw.Context context) {
-          return pw.Column(
-            crossAxisAlignment: pw.CrossAxisAlignment.start,
-            children: [
-              pw.Text(
-            "AnimalBeats - Recordatorios",
-                style: pw.TextStyle(
-                  fontSize: 22,
-                  fontWeight: pw.FontWeight.bold,
-                  color: PdfColors.red,
-                ),
-              ),
-              pw.SizedBox(height: 20),
-              for (var r in _recordatorios)
-                pw.Container(
-                  margin: const pw.EdgeInsets.only(bottom: 12),
-                  padding: const pw.EdgeInsets.all(10),
-                  decoration: pw.BoxDecoration(
-                    border: pw.Border.all(color: PdfColors.grey),
-                    borderRadius: pw.BorderRadius.circular(6),
-                    color: PdfColors.grey100, // fondo del bloque
-                  ),
-                  child: pw.Column(
-                    crossAxisAlignment: pw.CrossAxisAlignment.start,
-                    children: [
-                      pw.Text(
-                        "Mascota: ${r['nombre_mascota'] ?? '-'}",
-                        style: pw.TextStyle(
-                          fontSize: 16,
-                          fontWeight: pw.FontWeight.bold,
-                          color: PdfColors.blue800,
-                        ),
+  final pdf = pw.Document();
+
+  // Fecha y hora actuales
+  final now = DateTime.now();
+  final fechaHora =
+      "${now.day}/${now.month}/${now.year} ${now.hour}:${now.minute.toString().padLeft(2, '0')}";
+
+  final logo = pw.MemoryImage(
+  (await rootBundle.load('img/logo.png')).buffer.asUint8List(),
+  );
+
+  pdf.addPage(
+    pw.Page(
+      margin: const pw.EdgeInsets.all(24),
+      build: (pw.Context context) {
+        return pw.Column(
+          crossAxisAlignment: pw.CrossAxisAlignment.start,
+          children: [
+            // Header con logo y título
+            pw.Row(
+              crossAxisAlignment: pw.CrossAxisAlignment.center,
+              children: [
+                pw.Image(logo, width: 50, height: 50),
+                pw.SizedBox(width: 20),
+                pw.Column(
+                  crossAxisAlignment: pw.CrossAxisAlignment.start,
+                  children: [
+                    pw.Text(
+                      "Reporte de Recordatorios (Activos)",
+                      style: pw.TextStyle(
+                        fontSize: 18,
+                        fontWeight: pw.FontWeight.bold,
+                        color: PdfColors.red,
                       ),
-                      pw.Text("Fecha: ${r['Fecha']}"),
-                      pw.Text("Descripción: ${r['descripcion']}"),
-                    ],
-                  ),
+                    ),
+                    pw.Text(
+                      "Fecha y Hora: $fechaHora",
+                      style: const pw.TextStyle(fontSize: 11),
+                    ),
+                  ],
                 ),
-            ],
-          );
-        },
-      ),
-    );
-    await Printing.layoutPdf(onLayout: (format) => pdf.save());
-  }
+              ],
+            ),
+            pw.SizedBox(height: 30),
+
+            // Tabla con todos los recordatorios
+            pw.TableHelper.fromTextArray(
+              headers: ["Cliente", "Mascota", "Fecha", "Descripción"],
+              data: _recordatorios.map((r) {
+                return [
+                  r['id_cliente']?.toString() ?? "-",
+                  r['nombre_mascota'] ?? "-",
+                  r['Fecha'] ?? "-",
+                  r['descripcion'] ?? "-"
+                ];
+              }).toList(),
+              headerStyle: pw.TextStyle(
+                fontWeight: pw.FontWeight.bold,
+                color: PdfColors.white,
+              ),
+              headerDecoration: const pw.BoxDecoration(
+                color: PdfColor.fromInt(0xFFDF2935), // rojo AnimalBeats
+              ),
+              cellStyle: const pw.TextStyle(fontSize: 10),
+              cellAlignments: {
+                0: pw.Alignment.centerLeft,
+                1: pw.Alignment.centerLeft,
+                2: pw.Alignment.center,
+                3: pw.Alignment.centerLeft,
+              },
+              oddRowDecoration:
+                  const pw.BoxDecoration(color: PdfColors.grey100),
+              border: pw.TableBorder.all(
+                color: PdfColor.fromInt(0xFFDF2935),
+                width: 0.5,
+              ),
+            ),
+          ],
+        );
+      },
+    ),
+  );
+
+  await Printing.layoutPdf(onLayout: (format) => pdf.save());
+}
+
 
   // ---------------- Helpers ----------------
   void _cargarParaEditar(dynamic r) {
