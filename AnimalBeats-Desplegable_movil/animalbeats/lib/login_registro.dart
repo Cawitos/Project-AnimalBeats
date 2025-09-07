@@ -240,12 +240,24 @@ class _LoginPageState extends State<LoginPage> {
         if (estado == "Suspendido") {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-                content: Text(
-                    "Tu cuenta está suspendida. Contacta al administrador.")),
+              content:
+                  Text("Tu cuenta está suspendida. Contacta al administrador."),
+            ),
           );
-          return; // 👈 Detiene el login
+          return; // ❌ No deja entrar
         }
 
+        if (estado == "Pendiente") {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                  "Tu cuenta está en estado pendiente. Intenta más tarde."),
+            ),
+          );
+          return; // ❌ No deja entrar
+        }
+
+        // ✅ Solo si está Activo
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Bienvenido ${usuario['nombre']}")),
         );
