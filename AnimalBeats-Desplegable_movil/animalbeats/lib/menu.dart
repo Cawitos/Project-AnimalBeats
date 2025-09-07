@@ -6,6 +6,7 @@ import 'gestion_mascotas.dart';
 import 'main.dart';
 import 'gestion_usuarios.dart';
 import 'gestion_recordatorios.dart';
+import 'Roles.dart';
 
 class OffcanvasMenu extends StatefulWidget {
   final int userRole;
@@ -85,13 +86,14 @@ class _OffcanvasMenuState extends State<OffcanvasMenu> {
                   ListTile(
                     leading: const Icon(Icons.admin_panel_settings,
                         color: Colors.black54),
-                    title: const Text('Estados y roles'),
-                    // onTap: () {
-                    //   Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(builder: (context) => const EstadosRolesPage()),
-                    //   );
-                    // },
+                    title: const Text('Roles'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const EstadoRolesPage()),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -149,21 +151,21 @@ class _OffcanvasMenuState extends State<OffcanvasMenu> {
               ],
             ),
             if (widget.userRole != 2)
-            ListTile(
-              leading: const Icon(Icons.alarm, color: Color(0xFFDF2935)),
-              title: const Text('Recordatorios'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => GestionRecordatorios(
-                      userRole: widget.userRole,
-                      nDocumento: widget.nDocumento,
+              ListTile(
+                leading: const Icon(Icons.alarm, color: Color(0xFFDF2935)),
+                title: const Text('Recordatorios'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => GestionRecordatorios(
+                        userRole: widget.userRole,
+                        nDocumento: widget.nDocumento,
+                      ),
                     ),
-                  ),
-                );
-              },
-            ),
+                  );
+                },
+              ),
             ListTile(
               leading: const Icon(Icons.logout, color: Colors.redAccent),
               title: const Text(
