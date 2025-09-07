@@ -84,6 +84,10 @@ class _OffcanvasMenuState extends State<OffcanvasMenu> {
                     },
                   ),
                   ListTile(
+                    leading: const Icon(Icons.medical_services, color: Colors.black54),
+                    title: const Text('Veterinarios'),
+                  ),
+                  ListTile(
                     leading: const Icon(Icons.admin_panel_settings,
                         color: Colors.black54),
                     title: const Text('Roles'),
