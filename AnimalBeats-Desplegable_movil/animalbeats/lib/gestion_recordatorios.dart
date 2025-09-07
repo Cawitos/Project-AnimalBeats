@@ -54,9 +54,9 @@ class _GestionRecordatoriosState extends State<GestionRecordatorios> {
       _error = null;
     });
     try {
-      String url = "$baseUrl/Recordatorios";
+      String url = "$baseUrl/recordatorios";
       if (widget.userRole == 2) {
-        url = "$baseUrl/Recordatorios/${widget.nDocumento}";
+        url = "$baseUrl/recordatorios/${widget.nDocumento}";
       }
       final res = await http.get(Uri.parse(url));
       if (res.statusCode == 200) {
@@ -79,62 +79,64 @@ class _GestionRecordatoriosState extends State<GestionRecordatorios> {
     });
   }
 
-  // ---------------- API: Crear/Editar ----------------
-  Future<void> _guardarRecordatorio() async {
-    if (!_formKey.currentState!.validate()) return;
+Future<void> _guardarRecordatorio() async {
+  if (!_formKey.currentState!.validate()) return;
 
-    final data = {
-      "id_cliente": widget.userRole == 2 ? widget.nDocumento : _clienteCtrl.text,
-      "id_mascota": _mascotaCtrl.text,
-      "fecha": _fechaCtrl.text,
-      "descripcion": _descripcionCtrl.text,
-    };
+  final data = {
+    "cliente": widget.userRole == 2 ? widget.nDocumento : _clienteCtrl.text,
+    "mascota": _mascotaCtrl.text,
+    "fecha": _fechaCtrl.text,
+    "descripcion": _descripcionCtrl.text,
+  };
+  try {
+    final res = _idEditar == null
+        ? await http.post(
+            Uri.parse('$baseUrl/recordatorios/guardar'),
+            headers: {"Content-Type": "application/json"},
+            body: json.encode(data),
+          )
+        : await http.put(
+            Uri.parse('$baseUrl/recordatorios/modificar/$_idEditar'),
+            headers: {"Content-Type": "application/json"},
+            body: json.encode(data),
+          );
 
-    try {
-      final res = _idEditar == null
-          ? await http.post(
-              Uri.parse('$baseUrl/Recordatorios/Registro'),
-              headers: {"Content-Type": "application/json"},
-              body: json.encode(data),
-            )
-          : await http.put(
-              Uri.parse('$baseUrl/Recordatorios/Modificar/$_idEditar'),
-              headers: {"Content-Type": "application/json"},
-              body: json.encode(data),
-            );
-
-      if (res.statusCode == 200 || res.statusCode == 201) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(_idEditar == null
-                ? "Recordatorio creado ✅"
-                : "Recordatorio actualizado ✅")));
-        _resetForm();
-        setState(() => _currentView = 0);
-        _fetchRecordatorios();
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Error: ${res.statusCode}")));
-      }
-    } catch (_) {
+    if (res.statusCode == 200 || res.statusCode == 201) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(_idEditar == null
+              ? "Recordatorio creado ✅"
+              : "Recordatorio actualizado ✅")));
+      _resetForm();
+      setState(() => _currentView = 0);
+      _fetchRecordatorios();
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Error de conexión ❌")));
+          SnackBar(content: Text("Error: ${res.statusCode}")));
     }
+  } catch (_) {
+    ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Error de conexión ❌")));
   }
+}
 
-  // ---------------- API: Eliminar ----------------
-  Future<void> _eliminarRecordatorio(int id) async {
-    try {
-      final res = await http.delete(Uri.parse('$baseUrl/Recordatorios/Eliminar/$id'));
-      if (res.statusCode == 200) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Recordatorio eliminado ✅")));
-        _fetchRecordatorios();
-      }
-    } catch (_) {
+// ---------------- API: Eliminar ----------------
+Future<void> _eliminarRecordatorio(int id) async {
+  try {
+    final res =
+        await http.delete(Uri.parse('$baseUrl/recordatorios/eliminar/$id'));
+    if (res.statusCode == 200) {
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Error de conexión ❌")));
+          const SnackBar(content: Text("Recordatorio eliminado ✅")));
+      _fetchRecordatorios();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Error: ${res.statusCode}")));
     }
+  } catch (_) {
+    ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Error de conexión ❌")));
   }
+}
 
   // ---------------- PDF ----------------
   Future<void> _descargarTodosPDF() async {
@@ -275,60 +277,119 @@ class _GestionRecordatoriosState extends State<GestionRecordatorios> {
       }).toList(),
     );
   }
+List<dynamic> _mascotasCliente = [];
 
-  Widget _formRecordatorio() {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Form(
-        key: _formKey,
-        child: ListView(
-          children: [
-            if (widget.userRole != 2)
-              TextFormField(
-                controller: _clienteCtrl,
-                decoration: const InputDecoration(labelText: "Documento Cliente"),
-                validator: (val) => val == null || val.isEmpty ? "Ingrese el cliente" : null,
-              ),
-            TextFormField(
-              controller: _mascotaCtrl,
-              decoration: const InputDecoration(labelText: "ID Mascota"),
-              validator: (val) => val == null || val.isEmpty ? "Ingrese la mascota" : null,
-            ),
-            TextFormField(
-              controller: _fechaCtrl,
-              decoration: const InputDecoration(labelText: "Fecha (YYYY-MM-DD HH:mm)"),
-              validator: (val) {
-                if (val == null || val.isEmpty) return "Ingrese la fecha";
-                if (_minFecha != null && val.compareTo(_minFecha!) < 0) {
-                  return "La fecha no puede ser anterior a ahora";
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: _descripcionCtrl,
-              decoration: const InputDecoration(labelText: "Descripción"),
-              validator: (val) => val == null || val.isEmpty ? "Ingrese la descripción" : null,
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _guardarRecordatorio,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: rojo,            // color de fondo
-                foregroundColor: Colors.white,    // color del texto/ícono
-                textStyle: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              child: const Text("Crear Recordatorio"),
-            ),
-          ],
-        ),
-      ),
-    );
+Future<void> _cargarMascotasCliente(String clienteId) async {
+  if (clienteId.isEmpty) {
+    setState(() => _mascotasCliente = []);
+    return;
+  }
+  try {
+    final res = await http.get(Uri.parse('$baseUrl/Mascota/recordatorio/$clienteId'));
+    if (res.statusCode == 200) {
+      final data = json.decode(res.body);
+      setState(() {
+        _mascotasCliente = data is List ? data : [data];
+      });
+    } else {
+      setState(() => _mascotasCliente = []);
+    }
+  } catch (_) {
+    setState(() => _mascotasCliente = []);
   }
 }
+
+// Para abrir calendario + hora
+Future<void> _seleccionarFechaHora() async {
+  final DateTime? fecha = await showDatePicker(
+    context: context,
+    initialDate: DateTime.now(),
+    firstDate: DateTime.now(),
+    lastDate: DateTime(2100),
+  );
+  if (fecha != null) {
+    final TimeOfDay? hora = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+    if (hora != null) {
+      final dt = DateTime(fecha.year, fecha.month, fecha.day, hora.hour, hora.minute);
+      _fechaCtrl.text = DateFormat("yyyy-MM-dd HH:mm:ss").format(dt);
+    }
+  }
+}
+
+Widget _formRecordatorio() {
+  return Padding(
+    padding: const EdgeInsets.all(16.0),
+    child: Form(
+      key: _formKey,
+      child: ListView(
+        children: [
+          if (widget.userRole != 2) ...[
+            TextFormField(
+              controller: _clienteCtrl,
+              decoration: const InputDecoration(labelText: "Documento Cliente"),
+              validator: (val) => val == null || val.isEmpty ? "Ingrese el cliente" : null,
+              onChanged: (val) {
+                if (val.length >= 5) {
+                  _cargarMascotasCliente(val);
+                } else {
+                  setState(() => _mascotasCliente = []);
+                }
+              },
+            ),
+          ],
+
+          DropdownButtonFormField<String>(
+            value: _mascotasCliente.any((m) => m['id'].toString() == _mascotaCtrl.text)
+                ? _mascotaCtrl.text
+                : null,
+            decoration: const InputDecoration(labelText: "Seleccione Mascota"),
+            items: _mascotasCliente.map<DropdownMenuItem<String>>((mascota) {
+              return DropdownMenuItem<String>(
+                value: mascota['id'].toString(),
+                child: Text(mascota['nombre'] ?? "Sin nombre"),
+              );
+            }).toList(),
+            onChanged: (val) {
+              setState(() {
+                _mascotaCtrl.text = val ?? "";
+              });
+            },
+            validator: (val) => val == null || val.isEmpty ? "Seleccione una mascota" : null,
+          ),
+
+          TextFormField(
+            controller: _fechaCtrl,
+            readOnly: true,
+            decoration: const InputDecoration(labelText: "Fecha y Hora"),
+            onTap: _seleccionarFechaHora,
+            validator: (val) {
+              if (val == null || val.isEmpty) return "Ingrese la fecha";
+              if (_minFecha != null && val.compareTo(_minFecha!) < 0) {
+                return "La fecha no puede ser anterior a ahora";
+              }
+              return null;
+            },
+          ),
+
+          TextFormField(
+            controller: _descripcionCtrl,
+            decoration: const InputDecoration(labelText: "Descripción"),
+            validator: (val) => val == null || val.isEmpty ? "Ingrese la descripción" : null,
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: _guardarRecordatorio,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: rojo,
+              foregroundColor: Colors.white,
+            ),
+            child: Text(_idEditar == null ? "Guardar Recordatorio" : "Actualizar Recordatorio"),
+          ),
+        ],
+      ),
+    ),
+  );
+}}
