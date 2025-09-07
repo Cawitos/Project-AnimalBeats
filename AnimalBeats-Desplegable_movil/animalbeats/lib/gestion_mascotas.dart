@@ -1,6 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:pdf/widgets.dart' as pw;
+import 'package:pdf/pdf.dart';
+import 'package:printing/printing.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'menu.dart';
 
 // 🔴 Color rojo principal
@@ -158,22 +162,6 @@ class _GestionMascotasState extends State<GestionMascotas> {
   }
 
   // ---------------- Helpers ----------------
-  void _onEspecieChange(String? value) {
-    if (value == null) return;
-    setState(() {
-      _especieSeleccionada = value;
-      _razaSeleccionada = null;
-      _razas = [];
-    });
-  }
-
-  void _onRazaChange(String? value) {
-    if (value == null) return;
-    setState(() {
-      _razaSeleccionada = value;
-    });
-  }
-
   Future<void> _seleccionarFecha(BuildContext context) async {
     final picked = await showDatePicker(
       context: context,
@@ -289,7 +277,7 @@ class _GestionMascotasState extends State<GestionMascotas> {
     }
   }
 
-  // ---------------- API: Historial ----------------
+  // ---------------- API: Historial (corregido) ----------------
   Future<void> _fetchHistorial(int idMascota) async {
     setState(() {
       _historialId = idMascota;
@@ -297,20 +285,46 @@ class _GestionMascotasState extends State<GestionMascotas> {
     });
 
     try {
-      final res = await http.get(Uri.parse("$baseUrl/Mascotas/Historial/$idMascota"));
-      if (res.statusCode == 200) {
-        final data = json.decode(res.body);
-        setState(() {
-          _historialData = data;
-        });
-      } else {
-        setState(() {
-          _historialData = {};
-        });
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("No se encontró historial ❌")),
-        );
+      // 1. Mascota
+      final resMascota = await http.get(Uri.parse("$baseUrl/Mascotas/$idMascota"));
+      Map<String, dynamic> mascota = {};
+      if (resMascota.statusCode == 200) {
+        final data = json.decode(resMascota.body);
+        if (data is Map<String, dynamic>) {
+          mascota = {
+            "id": data["id"],
+            "nombre": data["nombre"],
+            "fecha_nacimiento": data["fecha_nacimiento"],
+            "especie": data["especie"],
+            "raza": data["raza"],
+            "cliente": data["cliente"],
+          };
+        }
       }
+
+      // 2. Citas
+      final resCitas = await http.get(Uri.parse("$baseUrl/Citas/mascota/$idMascota"));
+      List<Map<String, dynamic>> citas = [];
+      if (resCitas.statusCode == 200) {
+        final data = json.decode(resCitas.body);
+        if (data is List) citas = List<Map<String, dynamic>>.from(data);
+      }
+
+      // 3. Recordatorios
+      final resRecordatorios = await http.get(Uri.parse("$baseUrl/recordatorio/mascota/$idMascota"));
+      List<Map<String, dynamic>> recordatorios = [];
+      if (resRecordatorios.statusCode == 200) {
+        final data = json.decode(resRecordatorios.body);
+        if (data is List) recordatorios = List<Map<String, dynamic>>.from(data);
+      }
+
+      setState(() {
+        _historialData = {
+          "mascota": mascota,
+          "citas": citas,
+          "recordatorios": recordatorios,
+        };
+      });
     } catch (e) {
       setState(() {
         _historialData = {};
@@ -321,39 +335,143 @@ class _GestionMascotasState extends State<GestionMascotas> {
     }
   }
 
+  // ---------------- PDF: Descargar ----------------
+    // ---------------- PDF: Descargar con logo, estilos y hora ----------------
+  Future<void> _descargarHistorialPDF(
+      Map<String, dynamic> mascota,
+      List<Map<String, dynamic>> recordatorios,
+      List<Map<String, dynamic>> citas) async {
+    final pdf = pw.Document();
+
+    // 📌 Logo (puedes cambiar la URL por tu propio logo en assets)
+    final logo = pw.MemoryImage(
+  (await rootBundle.load('img/logo.png')).buffer.asUint8List(),
+  );
+
+    final fechaHoraDescarga = DateTime.now();
+
+    pdf.addPage(
+      pw.MultiPage(
+        margin: const pw.EdgeInsets.all(24),
+        build: (context) => [
+          // 🔴 Encabezado con logo
+          pw.Row(
+            mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+            children: [
+              pw.Image(logo, height: 60),
+              pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.end,
+                children: [
+                  pw.Text("Historial Médico",
+                      style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold)),
+                  pw.Text(
+                      "Descargado el: ${fechaHoraDescarga.toLocal().toString().split('.')[0]}",
+                      style: const pw.TextStyle(fontSize: 10)),
+                ],
+              ),
+            ],
+          ),
+          pw.Divider(),
+
+          pw.SizedBox(height: 10),
+          pw.Text("Información de la Mascota",
+              style: pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold)),
+          pw.SizedBox(height: 5),
+
+          // 🔴 Tabla mascota
+          pw.Table.fromTextArray(
+            border: pw.TableBorder.all(color: PdfColors.red, width: 1),
+            headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold, color: PdfColors.white),
+            headerDecoration: const pw.BoxDecoration(color: PdfColors.red),
+            cellAlignment: pw.Alignment.centerLeft,
+            headerHeight: 25,
+            cellHeight: 25,
+            headers: ["ID", "Nombre", "Nacimiento", "Especie", "Raza", "Tutor"],
+            data: [
+              [
+                mascota["id"] ?? "-",
+                mascota["nombre"] ?? "-",
+                mascota["fecha_nacimiento"] ?? "-",
+                mascota["especie"] ?? "-",
+                mascota["raza"] ?? "-",
+                mascota["cliente"] ?? "-"
+              ]
+            ],
+          ),
+
+          pw.SizedBox(height: 20),
+          pw.Text("Recordatorios",
+              style: pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold)),
+          pw.SizedBox(height: 5),
+
+          recordatorios.isNotEmpty
+              ? pw.Table.fromTextArray(
+                  border: pw.TableBorder.all(color: PdfColors.grey700, width: 1),
+                  headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold, color: PdfColors.white),
+                  headerDecoration: const pw.BoxDecoration(color: PdfColors.red),
+                  cellAlignment: pw.Alignment.centerLeft,
+                  headers: ["Fecha", "Descripción"],
+                  data: recordatorios
+                      .map((r) => [r["fecha"] ?? "-", r["descripcion"] ?? "-"])
+                      .toList(),
+                )
+              : pw.Text("No hay recordatorios registrados."),
+
+          pw.SizedBox(height: 20),
+          pw.Text("Citas",
+              style: pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold)),
+          pw.SizedBox(height: 5),
+
+          citas.isNotEmpty
+              ? pw.Table.fromTextArray(
+                  border: pw.TableBorder.all(color: PdfColors.grey700, width: 1),
+                  headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold, color: PdfColors.white),
+                  headerDecoration: const pw.BoxDecoration(color: PdfColors.red),
+                  cellAlignment: pw.Alignment.centerLeft,
+                  headers: ["Fecha", "Hora", "Servicio"],
+                  data: citas.map((c) =>
+                      [c["fecha"] ?? "-", c["hora"] ?? "-", c["servicio"] ?? "-"]).toList(),
+                )
+              : pw.Text("No hay citas registradas."),
+        ],
+      ),
+    );
+
+    await Printing.layoutPdf(
+      onLayout: (format) async => pdf.save(),
+    );
+  }
+
+
   // ---------------- UI Principal ----------------
   @override
-Widget build(BuildContext context) {
-  // El BottomNavigationBar tiene 3 ítems (índices 0,1,2)
-  // La vista de modificar mascota es el índice 3, que no está en el menú inferior
-  // Por eso cuando _currentView es 3, BottomNavigationBar muestra índice 0 para evitar error
+  Widget build(BuildContext context) {
+    int bottomNavIndex = (_currentView >= 0 && _currentView <= 2) ? _currentView : 0;
 
-  int bottomNavIndex = (_currentView >= 0 && _currentView <= 2) ? _currentView : 0;
-
-  return Scaffold(
-    appBar: AppBar(
-      title: const Text("Gestión de Mascotas"),
-      backgroundColor: rojo,
-    ),
-    drawer: OffcanvasMenu(userRole: widget.userRole),
-    body: _getCurrentView(),
-    bottomNavigationBar: BottomNavigationBar(
-      currentIndex: bottomNavIndex,
-      selectedItemColor: rojo,
-      onTap: (index) {
-        setState(() {
-          _currentView = index; // Solo va de 0 a 2 cuando se usa BottomNavigationBar
-        });
-        if (index == 0) _fetchMascotas();
-      },
-      items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.pets), label: "Consultar"),
-        BottomNavigationBarItem(icon: Icon(Icons.add), label: "Crear"),
-        BottomNavigationBarItem(icon: Icon(Icons.history), label: "Historial"),
-      ],
-    ),
-  );
-}
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Gestión de Mascotas"),
+        backgroundColor: rojo,
+      ),
+      drawer: OffcanvasMenu(userRole: widget.userRole),
+      body: _getCurrentView(),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: bottomNavIndex,
+        selectedItemColor: rojo,
+        onTap: (index) {
+          setState(() {
+            _currentView = index;
+          });
+          if (index == 0) _fetchMascotas();
+        },
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.pets), label: "Consultar"),
+          BottomNavigationBarItem(icon: Icon(Icons.add), label: "Crear"),
+          BottomNavigationBarItem(icon: Icon(Icons.history), label: "Historial"),
+        ],
+      ),
+    );
+  }
 
   // ---------------- Vistas ----------------
   Widget _getCurrentView() {
@@ -374,10 +492,7 @@ Widget build(BuildContext context) {
   Widget _consultarMascotas() {
     if (_cargando) return const Center(child: CircularProgressIndicator());
     if (_error != null) return Center(child: Text(_error!));
-
-    if (_mascotas.isEmpty) {
-      return const Center(child: Text("No hay mascotas registradas."));
-    }
+    if (_mascotas.isEmpty) return const Center(child: Text("No hay mascotas registradas."));
 
     return ListView(
       padding: const EdgeInsets.all(10),
@@ -417,18 +532,18 @@ Widget build(BuildContext context) {
                     showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
-                        title: const Text("Confirmar eliminación"),
+                        title: const Text("Confirmar suspensión"),
                         content: Text("¿Seguro que deseas suspender a la mascota \"${m["nombre"]}\"?"),
                         actions: [
                           TextButton(
-                            onPressed: () => Navigator.pop(context), // Cierra sin hacer nada
-                            child: const Text("Cancelar", style: TextStyle(color: Colors.black),),
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text("Cancelar", style: TextStyle(color: Colors.black)),
                           ),
                           ElevatedButton(
-                            style: ElevatedButton.styleFrom(backgroundColor: rojo, foregroundColor: Colors.white,),
+                            style: ElevatedButton.styleFrom(backgroundColor: rojo, foregroundColor: Colors.white),
                             onPressed: () {
-                              Navigator.pop(context); // Cierra el diálogo
-                              _suspenderMascota(m["id"], m["nombre"]); // Llama a suspender
+                              Navigator.pop(context);
+                              _suspenderMascota(m["id"], m["nombre"]);
                             },
                             child: const Text("Sí, suspender"),
                           ),
@@ -462,8 +577,7 @@ Widget build(BuildContext context) {
               value: _especieSeleccionada,
               decoration: const InputDecoration(labelText: "Especie"),
               items: _especies.map((e) {
-                return DropdownMenuItem(
-                    value: e['id'].toString(), child: Text(e['Especie']));
+                return DropdownMenuItem(value: e['id'].toString(), child: Text(e['Especie']));
               }).toList(),
               onChanged: (val) {
                 setState(() {
@@ -481,39 +595,31 @@ Widget build(BuildContext context) {
               value: _razaSeleccionada,
               decoration: const InputDecoration(labelText: "Raza"),
               items: _razas.map((r) {
-                return DropdownMenuItem(
-                    value: r['id'].toString(), child: Text(r['Raza']));
+                return DropdownMenuItem(value: r['id'].toString(), child: Text(r['raza']));
               }).toList(),
-              onChanged: (val) {
-                setState(() {
-                  _razaSeleccionada = val;
-                });
-              },
+              onChanged: (val) => setState(() => _razaSeleccionada = val),
               validator: (val) => val == null ? "Seleccione una raza" : null,
               isExpanded: true,
-              disabledHint: const Text("Seleccione una especie primero"),
             ),
+            const SizedBox(height: 10),
             ListTile(
-              contentPadding: EdgeInsets.zero,
-              title: const Text("Fecha de Nacimiento"),
-              subtitle: Text(_fechaNacimiento == null
-                  ? "Seleccionar fecha"
-                  : _fechaNacimiento!.toLocal().toString().split(' ')[0]),
-              trailing: IconButton(
-                icon: const Icon(Icons.calendar_today),
-                onPressed: () => _seleccionarFecha(context),
+              title: Text(
+                _fechaNacimiento == null
+                    ? "Seleccione fecha de nacimiento"
+                    : "Fecha: ${_fechaNacimiento!.toLocal().toIso8601String().split('T').first}",
               ),
+              trailing: const Icon(Icons.calendar_today),
+              onTap: () => _seleccionarFecha(context),
             ),
             TextFormField(
               controller: _nDocumentoCtrl,
-              decoration: const InputDecoration(labelText: "Código dueño"),
-              validator: (val) =>
-                  val == null || val.isEmpty ? "Ingrese el código del dueño" : null,
+              decoration: const InputDecoration(labelText: "Documento del dueño"),
+              validator: (val) => val == null || val.isEmpty ? "Ingrese documento" : null,
             ),
             const SizedBox(height: 20),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: rojo, foregroundColor: Colors.white),
               onPressed: _crearMascota,
-              style: ElevatedButton.styleFrom(backgroundColor: rojo),
               child: const Text("Crear Mascota"),
             ),
           ],
@@ -523,101 +629,94 @@ Widget build(BuildContext context) {
   }
 
   Widget _modificarMascotaForm() {
-  return Padding(
-    padding: const EdgeInsets.all(16.0),
-    child: Form(
-      key: _modificarFormKey,
-      child: Column(
-        children: [
-          TextFormField(
-            controller: _modNombreCtrl,
-            decoration: const InputDecoration(labelText: "Nombre"),
-            validator: (val) =>
-                val == null || val.trim().isEmpty ? "Ingrese el nombre" : null,
-          ),
-          DropdownButtonFormField<String>(
-            decoration: const InputDecoration(labelText: "Estado"),
-            value: _modEstado,
-            items: const [
-              DropdownMenuItem(value: "Activo", child: Text("Activo")),
-              DropdownMenuItem(value: "Suspendido", child: Text("Suspendido")),
-            ],
-            onChanged: (value) {
-              if (value != null) setState(() => _modEstado = value);
-            },
-          ),
-          const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: _modificarMascota,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white, // texto blanco
-            ),
-            child: const Text("Guardar Cambios"),
-          ),
-          const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              setState(() {
-                _currentView = 0;
-              });
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.grey,
-              foregroundColor: Colors.black, // texto negro
-              shadowColor: Colors.transparent,
-              elevation: 0,
-            ),
-            child: const Text("Cancelar"),
-          ),
-        ],
-      ),
-    ),
-  );
-}
-
-
-  Widget _historialMascota() {
-    if (_historialId == null) {
-      return const Center(
-          child: Text("Selecciona una mascota para ver su historial"));
-    }
-    if (_historialData == null) {
-      return const Center(child: CircularProgressIndicator());
-    }
-    if (_historialData!.isEmpty) {
-      return const Center(child: Text("No hay historial para esta mascota"));
-    }
+    if (_modId == null) return const Center(child: Text("Seleccione una mascota para modificar"));
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: ListView(
-        children: [
-          Text("Historial de Mascota ID: $_historialId",
-              style:
-                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 10),
-          ..._historialData!.entries.map((entry) {
-            return Card(
-              margin: const EdgeInsets.symmetric(vertical: 8),
-              child: ListTile(
-                title: Text(entry.key),
-                subtitle: Text(entry.value.toString()),
-              ),
-            );
-          }).toList(),
-          const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              setState(() {
-                _currentView = 0;
-              });
-            },
-            style: ElevatedButton.styleFrom(backgroundColor: rojo),
-            child: const Text("Volver"),
-          ),
-        ],
+      child: Form(
+        key: _modificarFormKey,
+        child: Column(
+          children: [
+            TextFormField(
+              controller: _modNombreCtrl,
+              decoration: const InputDecoration(labelText: "Nombre de Mascota"),
+              validator: (val) => val == null || val.isEmpty ? "Ingrese el nombre" : null,
+            ),
+            const SizedBox(height: 10),
+            DropdownButtonFormField<String>(
+              value: _modEstado,
+              decoration: const InputDecoration(labelText: "Estado"),
+              items: ["Activo", "Inactivo"].map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+              onChanged: (val) => setState(() => _modEstado = val ?? "Activo"),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: rojo, foregroundColor: Colors.white),
+              onPressed: _modificarMascota,
+              child: const Text("Guardar cambios"),
+            ),
+          ],
+        ),
       ),
+    );
+  }
+
+  Widget _historialMascota() {
+    if (_historialData == null) {
+      return const Center(child: Text("Selecciona una mascota para ver su historial"));
+    }
+
+    final mascota = _historialData?["mascota"] ?? {};
+    final recordatorios = List<Map<String, dynamic>>.from(_historialData?["recordatorios"] ?? []);
+    final citas = List<Map<String, dynamic>>.from(_historialData?["citas"] ?? []);
+
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        Text("Historial de ${mascota["nombre"] ?? "Mascota"}",
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        const SizedBox(height: 10),
+
+        Card(
+          child: ListTile(
+            title: Text("ID: ${mascota["id"] ?? "-"} - ${mascota["nombre"] ?? "-"}"),
+            subtitle: Text(
+              "Nacimiento: ${mascota["fecha_nacimiento"] ?? "-"}\n"
+              "Especie: ${mascota["especie"] ?? "-"}\n"
+              "Raza: ${mascota["raza"] ?? "-"}\n"
+              "Tutor: ${mascota["cliente"] ?? "-"}",
+            ),
+          ),
+        ),
+
+        const SizedBox(height: 20),
+        const Text("📌 Recordatorios", style: TextStyle(fontWeight: FontWeight.bold)),
+        ...recordatorios.map((r) => Card(
+              child: ListTile(
+                title: Text(r["descripcion"] ?? "-"),
+                subtitle: Text("Fecha: ${r["fecha"] ?? "-"}"),
+              ),
+            )),
+        if (recordatorios.isEmpty) const Text("No hay recordatorios"),
+
+        const SizedBox(height: 20),
+        const Text("📌 Citas", style: TextStyle(fontWeight: FontWeight.bold)),
+        ...citas.map((c) => Card(
+              child: ListTile(
+                title: Text(c["servicio"] ?? "-"),
+                subtitle: Text("Fecha: ${c["fecha"] ?? "-"} - Hora: ${c["hora"] ?? "-"}"),
+              ),
+            )),
+        if (citas.isEmpty) const Text("No hay citas"),
+
+        const SizedBox(height: 20),
+        ElevatedButton.icon(
+          onPressed: () => _descargarHistorialPDF(mascota, recordatorios, citas),
+          icon: const Icon(Icons.download, color: Colors.white),
+          label: const Text("Descargar Historial PDF"),
+          style: ElevatedButton.styleFrom(backgroundColor: rojo, foregroundColor: Colors.white),
+        ),
+      ],
     );
   }
 }

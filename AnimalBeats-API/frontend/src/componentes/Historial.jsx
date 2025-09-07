@@ -312,7 +312,7 @@ const Historial = () => {
                       <td>{mascotaInfo.raza}</td>
                     </tr>
                     <tr>
-                      <th>Dueño</th>
+                      <th>tutor</th>
                       <td>{mascotaInfo.cliente}</td>
                     </tr>
                   </tbody>
