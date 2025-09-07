@@ -43,9 +43,11 @@ class _GestionMascotasState extends State<GestionMascotas> {
   int? _modId;
 
   // Historial
+  // ignore: unused_field
   int? _historialId;
   Map<String, dynamic>? _historialData;
 
+  // ignore: unused_field
   String? _errorCrear;
 
   @override

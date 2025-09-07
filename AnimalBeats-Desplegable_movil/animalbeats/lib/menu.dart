@@ -6,11 +6,13 @@ import 'gestion_mascotas.dart';
 import 'main.dart';
 import 'gestion_usuarios.dart';
 import 'gestion_recordatorios.dart';
-import 'Roles.dart';
+import 'roles.dart';
+import 'especies.dart';
 
 class OffcanvasMenu extends StatefulWidget {
-  final int userRole;
-  final String? nDocumento;
+  final int userRole;        // 👈 ahora viene de login (usuario['rol'])
+  final String? nDocumento;  // 👈 ahora viene de login (usuario['n_documento'])
+
   const OffcanvasMenu({super.key, required this.userRole, this.nDocumento});
 
   @override
@@ -26,13 +28,14 @@ class _OffcanvasMenuState extends State<OffcanvasMenu> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
+            // ---------- HEADER CON LOGO ----------
             DrawerHeader(
               decoration: const BoxDecoration(
                 color: Color(0xFFDF2935), // Rojo principal
               ),
               child: Center(
-                child: TextButton(
-                  onPressed: () {
+                child: GestureDetector(
+                  onTap: () {
                     if (widget.userRole == 1) {
                       Navigator.push(
                         context,
@@ -40,30 +43,27 @@ class _OffcanvasMenuState extends State<OffcanvasMenu> {
                             builder: (context) => const AdminDashboard()),
                       );
                     } else if (widget.userRole == 3) {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => const VeterinarioPage()),
-                      // );
+                      // Aquí luego enlazas VeterinarioDashboard
                     } else {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => const ClientePage()),
-                      // );
+                      // Aquí luego enlazas ClienteDashboard
                     }
                     Navigator.pop(context);
                   },
-                  child: const Text(
-                    'AnimalBeats',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1.2,
-                    ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'img/logo.png', // 👈 tu logo
+                        height: 80,
+                      ),
+                      const SizedBox(height: 10),
+                    ],
                   ),
                 ),
               ),
             ),
+
+            // ---------- GESTIÓN DE USUARIOS ----------
             if (widget.userRole == 1)
               ExpansionTile(
                 leading: const Icon(Icons.group, color: Color(0xFFDF2935)),
@@ -97,6 +97,8 @@ class _OffcanvasMenuState extends State<OffcanvasMenu> {
                   ),
                 ],
               ),
+
+            // ---------- GESTIÓN DE MASCOTAS ----------
             ExpansionTile(
               leading: const Icon(Icons.pets, color: Color(0xFFDF2935)),
               title: const Text(
@@ -111,8 +113,10 @@ class _OffcanvasMenuState extends State<OffcanvasMenu> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            GestionMascotas(userRole: widget.userRole),
+                        builder: (context) => GestionMascotas(
+                          userRole: widget.userRole,
+                          
+                        ),
                       ),
                     );
                   },
@@ -120,37 +124,35 @@ class _OffcanvasMenuState extends State<OffcanvasMenu> {
                 ListTile(
                   leading: const Icon(Icons.category, color: Colors.black54),
                   title: const Text('Especies y Razas'),
-                  // onTap: () {
-                  //   Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(builder: (context) => const EspeciesPage()),
-                  //   );
-                  // },
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EspeciesPage(
+                          userRole: widget.userRole,
+                          nDocumento: widget.nDocumento,
+                        ),
+                      ),
+                    );
+                  },
                 ),
+
                 ListTile(
                   leading: const Icon(Icons.healing, color: Colors.black54),
                   title: const Text('Enfermedades'),
-                  // onTap: () {
-                  //   Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(builder: (context) => const EnfermedadesPage()),
-                  //   );
-                  // },
+                  // Aquí luego puedes enlazar EnfermedadesPage
                 ),
                 ListTile(
                   leading:
                       const Icon(Icons.calendar_today, color: Colors.black54),
                   title: const Text('Citas'),
-                  // onTap: () {
-                  //   Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(builder: (context) => const CitasPage()),
-                  //   );
-                  // },
+                  // Aquí luego puedes enlazar CitasPage
                 ),
               ],
             ),
-            if (widget.userRole != 2)
+
+            // ---------- RECORDATORIOS ----------
+            if (widget.userRole != 2) // 👈 solo admin y veterinario
               ListTile(
                 leading: const Icon(Icons.alarm, color: Color(0xFFDF2935)),
                 title: const Text('Recordatorios'),
@@ -160,12 +162,14 @@ class _OffcanvasMenuState extends State<OffcanvasMenu> {
                     MaterialPageRoute(
                       builder: (context) => GestionRecordatorios(
                         userRole: widget.userRole,
-                        nDocumento: widget.nDocumento,
+                        nDocumento: widget.nDocumento, // 👈 se pasa también
                       ),
                     ),
                   );
                 },
               ),
+
+            // ---------- SALIR ----------
             ListTile(
               leading: const Icon(Icons.logout, color: Colors.redAccent),
               title: const Text(
