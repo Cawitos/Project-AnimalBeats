@@ -109,16 +109,59 @@ class _ConsultarUsuarioPageState extends State<ConsultarUsuarioPage> {
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(16),
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.red,
-            padding: const EdgeInsets.symmetric(vertical: 14),
-          ),
-          onPressed: () => Navigator.pop(context),
-          child: const Text(
-            "Volver",
-            style: TextStyle(fontSize: 18, color: Colors.white),
-          ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.orange,
+                padding: const EdgeInsets.symmetric(vertical: 14),
+              ),
+              onPressed: () async {
+                try {
+                  final response = await http.put(
+                    Uri.parse(
+                        "$apiUrl/usuario/Pendiente/${usuario!["n_documento"]}"),
+                  );
+
+                  if (response.statusCode == 200) {
+                    final data = jsonDecode(response.body);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content:
+                              Text(data["mensaje"] ?? "Usuario en pendiente")),
+                    );
+                    Navigator.pop(context, true); // 🔄 Recargar al volver
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                          content: Text("Error al cambiar a pendiente")),
+                    );
+                  }
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Error: $e")),
+                  );
+                }
+              },
+              child: const Text(
+                "Poner en Pendiente",
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              ),
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+                padding: const EdgeInsets.symmetric(vertical: 14),
+              ),
+              onPressed: () => Navigator.pop(context),
+              child: const Text(
+                "Volver",
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              ),
+            ),
+          ],
         ),
       ),
     );
