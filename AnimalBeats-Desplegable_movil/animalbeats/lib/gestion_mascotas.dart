@@ -7,9 +7,9 @@ import 'package:printing/printing.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'menu.dart';
 
-// 🔴 Color rojo principal
+//Color rojo principal
 const Color rojo = Color(0xFFDF2935);
-// 🌐 URL backend
+//URL backend
 const String baseUrl = "https://animalbeats-backend-production.up.railway.app";
 
 class GestionMascotas extends StatefulWidget {
@@ -279,7 +279,7 @@ class _GestionMascotasState extends State<GestionMascotas> {
     }
   }
 
-  // ---------------- API: Historial (corregido) ----------------
+  // ---------------- API: Historial ----------------
   Future<void> _fetchHistorial(int idMascota) async {
     setState(() {
       _historialId = idMascota;
@@ -338,14 +338,12 @@ class _GestionMascotasState extends State<GestionMascotas> {
   }
 
   // ---------------- PDF: Descargar ----------------
-    // ---------------- PDF: Descargar con logo, estilos y hora ----------------
   Future<void> _descargarHistorialPDF(
       Map<String, dynamic> mascota,
       List<Map<String, dynamic>> recordatorios,
       List<Map<String, dynamic>> citas) async {
     final pdf = pw.Document();
 
-    // 📌 Logo (puedes cambiar la URL por tu propio logo en assets)
     final logo = pw.MemoryImage(
   (await rootBundle.load('img/logo.png')).buffer.asUint8List(),
   );
@@ -356,7 +354,7 @@ class _GestionMascotasState extends State<GestionMascotas> {
       pw.MultiPage(
         margin: const pw.EdgeInsets.all(24),
         build: (context) => [
-          // 🔴 Encabezado con logo
+          //Encabezado con logo
           pw.Row(
             mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
             children: [
@@ -380,7 +378,7 @@ class _GestionMascotasState extends State<GestionMascotas> {
               style: pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold)),
           pw.SizedBox(height: 5),
 
-          // 🔴 Tabla mascota
+          //Tabla mascota
           pw.Table.fromTextArray(
             border: pw.TableBorder.all(color: PdfColors.red, width: 1),
             headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold, color: PdfColors.white),

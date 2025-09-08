@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'admin.dart';
 
-// URL de tu backend en Railway
 const String apiUrl = "https://animalbeats-backend-production.up.railway.app";
 
 void main() {

@@ -31,7 +31,7 @@ class _EspeciesPageState extends State<EspeciesPage> {
   final TextEditingController _nombreController = TextEditingController();
   File? _imagen;
   int? _editId;
-  String? _imagenExistente; // 👈 para imagen del backend
+  String? _imagenExistente; 
 
   @override
   void initState() {
@@ -134,7 +134,7 @@ class _EspeciesPageState extends State<EspeciesPage> {
     if (especie != null) {
       _editId = especie["id"];
       _nombreController.text = especie["Especie"] ?? "";
-      _imagenExistente = especie["imagen"]; // 👈 guardamos imagen del backend
+      _imagenExistente = especie["imagen"]; 
       _imagen = null; // para que no se confunda con imagen nueva
     } else {
       _editId = null;

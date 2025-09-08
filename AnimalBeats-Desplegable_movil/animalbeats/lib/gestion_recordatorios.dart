@@ -161,21 +161,14 @@ Future<void> _eliminarRecordatorio(int id) async {
           children: [
             // Header con logo y título
             pw.Row(
-              crossAxisAlignment: pw.CrossAxisAlignment.center,
-              children: [
-                pw.Image(logo, width: 50, height: 50),
-                pw.SizedBox(width: 20),
-                pw.Column(
-                  crossAxisAlignment: pw.CrossAxisAlignment.start,
-                  children: [
-                    pw.Text(
-                      "Reporte de Recordatorios (Activos)",
-                      style: pw.TextStyle(
-                        fontSize: 18,
-                        fontWeight: pw.FontWeight.bold,
-                        color: PdfColors.red,
-                      ),
-                    ),
+            mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+            children: [
+              pw.Image(logo, height: 60),
+              pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.end,
+                children: [
+                  pw.Text("Reporte de Recordatorios activos",
+                      style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold)),
                     pw.Text(
                       "Fecha y Hora: $fechaHora",
                       style: const pw.TextStyle(fontSize: 11),

@@ -31,7 +31,7 @@ class _GestionUsuariosPageState extends State<GestionUsuariosPage> {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        print("Respuesta JSON: $data"); // 👈 Para debug
+        print("Respuesta JSON: $data"); 
 
         setState(() {
           if (data is List) {

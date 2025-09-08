@@ -11,8 +11,8 @@ import 'especies.dart';
 import 'pagina_veterinarios.dart';
 
 class OffcanvasMenu extends StatefulWidget {
-  final int userRole; // 👈 ahora viene de login (usuario['rol'])
-  final String? nDocumento; // 👈 ahora viene de login (usuario['n_documento'])
+  final int userRole; 
+  final String? nDocumento;
 
   const OffcanvasMenu({super.key, required this.userRole, this.nDocumento});
 
@@ -54,7 +54,7 @@ class _OffcanvasMenuState extends State<OffcanvasMenu> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(
-                        'img/logo.png', // 👈 tu logo
+                        'img/logo.png', 
                         height: 80,
                       ),
                       const SizedBox(height: 10),
@@ -173,7 +173,7 @@ class _OffcanvasMenuState extends State<OffcanvasMenu> {
                     MaterialPageRoute(
                       builder: (context) => GestionRecordatorios(
                         userRole: widget.userRole,
-                        nDocumento: widget.nDocumento, // 👈 se pasa también
+                        nDocumento: widget.nDocumento, 
                       ),
                     ),
                   );
