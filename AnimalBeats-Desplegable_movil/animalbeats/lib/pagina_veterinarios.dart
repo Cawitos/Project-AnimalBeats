@@ -36,22 +36,27 @@ class _VeterinariosPageState extends State<VeterinariosPage> {
     }
   }
 
+  /// Ahora llama al backend (borrado lógico) y refresca la lista
   Future<void> _eliminarVeterinario(int id) async {
     try {
       final response =
           await http.delete(Uri.parse("$baseUrl/veterinarios/$id"));
+
       if (response.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Veterinario eliminado")),
         );
-        _cargarVeterinarios();
+        _cargarVeterinarios(); // recarga lista filtrando activos
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Error al eliminar veterinario")),
+          SnackBar(content: Text("Error al eliminar: ${response.body}")),
         );
       }
     } catch (e) {
       print("Error eliminando veterinario: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Error al conectar con el servidor")),
+      );
     }
   }
 
@@ -125,15 +130,18 @@ class _VeterinariosPageState extends State<VeterinariosPage> {
       itemCount: veterinarios.length,
       itemBuilder: (context, index) {
         final vet = veterinarios[index];
+        final String? imagenUrl = vet["imagen_url"];
+
         return Card(
           margin: const EdgeInsets.all(10),
           child: ListTile(
-            leading: vet["imagen_url"] != null
-                ? Image.network(vet["imagen_url"],
+            leading: (imagenUrl != null && imagenUrl.isNotEmpty)
+                ? Image.network(imagenUrl,
                     width: 50, height: 50, fit: BoxFit.cover)
                 : const Icon(Icons.person, size: 50),
-            title: Text(vet["nombre_completo"]),
-            subtitle: Text("Especialidad: ${vet["estudios_especialidad"]}"),
+            title: Text(vet["nombre_completo"] ?? "Sin nombre"),
+            subtitle:
+                Text("Especialidad: ${vet["estudios_especialidad"] ?? "N/A"}"),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -158,23 +166,25 @@ class _VeterinariosPageState extends State<VeterinariosPage> {
   }
 
   void _mostrarDetalle(dynamic vet) {
+    final String? imagenUrl = vet["imagen_url"];
+
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text(vet["nombre_completo"]),
+          title: Text(vet["nombre_completo"] ?? "Sin nombre"),
           content: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                vet["imagen_url"] != null
-                    ? Image.network(vet["imagen_url"], height: 150)
+                (imagenUrl != null && imagenUrl.isNotEmpty)
+                    ? Image.network(imagenUrl, height: 150)
                     : const Icon(Icons.person, size: 100),
                 const SizedBox(height: 10),
-                Text("Estudios: ${vet["estudios_especialidad"]}"),
-                Text("Edad: ${vet["edad"]}"),
-                Text("Altura: ${vet["altura"]} m"),
-                Text("Experiencia: ${vet["anios_experiencia"]} años"),
+                Text("Estudios: ${vet["estudios_especialidad"] ?? "N/A"}"),
+                Text("Edad: ${vet["edad"] ?? "N/A"}"),
+                Text("Altura: ${vet["altura"] ?? "N/A"} m"),
+                Text("Experiencia: ${vet["anios_experiencia"] ?? "N/A"} años"),
               ],
             ),
           ),

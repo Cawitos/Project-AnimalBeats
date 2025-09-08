@@ -88,7 +88,7 @@ class _AgregarVeterinarioPageState extends State<AgregarVeterinarioPage> {
 
   Widget _mostrarImagen() {
     if (imagenSeleccionada == null) {
-      return const Text("Ninguna imagen seleccionada");
+      return const SizedBox.shrink();
     }
 
     if (kIsWeb) {
