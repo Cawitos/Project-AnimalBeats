@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'admin.dart';
 
 // URL de tu backend en Railway
@@ -64,6 +63,7 @@ class _RegistroPageState extends State<RegistroPage> {
   Future<void> _registrarUsuario() async {
     if (!_formKey.currentState!.validate()) return;
 
+    // Validación de confirmación de contraseña
     if (contrasenaCtrl.text != confirmarContrasenaCtrl.text) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Las contraseñas no coinciden")),
@@ -90,6 +90,7 @@ class _RegistroPageState extends State<RegistroPage> {
           SnackBar(content: Text("Usuario registrado exitosamente")),
         );
 
+        //Redirigir a LoginPage
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => LoginPage()),
@@ -124,9 +125,9 @@ class _RegistroPageState extends State<RegistroPage> {
               child: ListView(
                 children: [
                   Text("Registro de Usuario",
-                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
                   SizedBox(height: 16),
-
                   DropdownButtonFormField<String>(
                     decoration: InputDecoration(labelText: "Tipo de Documento"),
                     value: tipoDocumento,
@@ -140,30 +141,28 @@ class _RegistroPageState extends State<RegistroPage> {
                     validator: (value) =>
                         value == null ? "Selecciona un tipo" : null,
                   ),
-
                   TextFormField(
                     controller: documentoCtrl,
-                    decoration: InputDecoration(labelText: "Número de Documento"),
+                    decoration:
+                        InputDecoration(labelText: "Número de Documento"),
                     keyboardType: TextInputType.number,
                     validator: (value) =>
                         value!.isEmpty ? "Campo requerido" : null,
                   ),
-
                   TextFormField(
                     controller: nombreCtrl,
                     decoration: InputDecoration(labelText: "Nombre Completo"),
                     validator: (value) =>
                         value!.isEmpty ? "Campo requerido" : null,
                   ),
-
                   TextFormField(
                     controller: correoCtrl,
-                    decoration: InputDecoration(labelText: "Correo Electrónico"),
+                    decoration:
+                        InputDecoration(labelText: "Correo Electrónico"),
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) =>
                         value!.isEmpty ? "Campo requerido" : null,
                   ),
-
                   TextFormField(
                     controller: contrasenaCtrl,
                     decoration: InputDecoration(labelText: "Contraseña"),
@@ -171,17 +170,15 @@ class _RegistroPageState extends State<RegistroPage> {
                     validator: (value) =>
                         value!.isEmpty ? "Campo requerido" : null,
                   ),
-
                   TextFormField(
                     controller: confirmarContrasenaCtrl,
-                    decoration: InputDecoration(labelText: "Confirmar Contraseña"),
+                    decoration:
+                        InputDecoration(labelText: "Confirmar Contraseña"),
                     obscureText: true,
                     validator: (value) =>
                         value!.isEmpty ? "Campo requerido" : null,
                   ),
-
                   SizedBox(height: 20),
-
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
@@ -228,16 +225,30 @@ class _LoginPageState extends State<LoginPage> {
 
       if (response.statusCode == 200) {
         final usuario = data['usuario'];
-        final rol = usuario['rol']; // entero: 1,2,3
-        final nDocumento = usuario['n_documento'];
-        final token = data['token'];
+        final rol = usuario['rol'];
+        final estado = usuario['estado'];
 
-        // Guardar en SharedPreferences
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('nDocumento', nDocumento);
-        await prefs.setInt('idRol', rol);
-        await prefs.setString('token', token);
+        if (estado == "Suspendido") {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content:
+                  Text("Tu cuenta está suspendida. Contacta al administrador."),
+            ),
+          );
+          return; // No deja entrar
+        }
 
+        if (estado == "Pendiente") {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                  "Tu cuenta está en estado pendiente. Intenta más tarde."),
+            ),
+          );
+          return; // No deja entrar
+        }
+
+        // ✅ Solo si está Activo
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Bienvenido ${usuario['nombre']}")),
         );
@@ -250,7 +261,8 @@ class _LoginPageState extends State<LoginPage> {
         } else if (rol == 3) {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => const VeterinarioDashboard()),
+            MaterialPageRoute(
+                builder: (context) => const VeterinarioDashboard()),
           );
         } else {
           Navigator.pushReplacement(

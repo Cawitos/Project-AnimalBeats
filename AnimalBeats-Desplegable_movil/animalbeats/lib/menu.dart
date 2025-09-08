@@ -8,10 +8,11 @@ import 'gestion_usuarios.dart';
 import 'gestion_recordatorios.dart';
 import 'roles.dart';
 import 'especies.dart';
+import 'pagina_veterinarios.dart';
 
 class OffcanvasMenu extends StatefulWidget {
-  final int userRole;        // 👈 ahora viene de login (usuario['rol'])
-  final String? nDocumento;  // 👈 ahora viene de login (usuario['n_documento'])
+  final int userRole; // 👈 ahora viene de login (usuario['rol'])
+  final String? nDocumento; // 👈 ahora viene de login (usuario['n_documento'])
 
   const OffcanvasMenu({super.key, required this.userRole, this.nDocumento});
 
@@ -84,8 +85,16 @@ class _OffcanvasMenuState extends State<OffcanvasMenu> {
                     },
                   ),
                   ListTile(
-                    leading: const Icon(Icons.medical_services, color: Colors.black54),
+                    leading: const Icon(Icons.medical_services,
+                        color: Colors.black54),
                     title: const Text('Veterinarios'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => VeterinariosPage()),
+                      );
+                    },
                   ),
                   ListTile(
                     leading: const Icon(Icons.admin_panel_settings,
@@ -119,7 +128,6 @@ class _OffcanvasMenuState extends State<OffcanvasMenu> {
                       MaterialPageRoute(
                         builder: (context) => GestionMascotas(
                           userRole: widget.userRole,
-                          
                         ),
                       ),
                     );
@@ -140,7 +148,6 @@ class _OffcanvasMenuState extends State<OffcanvasMenu> {
                     );
                   },
                 ),
-
                 ListTile(
                   leading: const Icon(Icons.healing, color: Colors.black54),
                   title: const Text('Enfermedades'),
