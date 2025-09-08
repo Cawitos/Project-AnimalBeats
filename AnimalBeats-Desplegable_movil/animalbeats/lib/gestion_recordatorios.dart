@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/especies.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'menu.dart';
 
 const Color rojo = Color(0xFFDF2935);
+const Color blanco = Color(0xFFFDF7FA);
 const String baseUrl = "https://animalbeats-backend-production.up.railway.app";
 
 class GestionRecordatorios extends StatefulWidget {
@@ -243,7 +245,11 @@ Future<void> _eliminarRecordatorio(int id) async {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Gestión de Recordatorios"), backgroundColor: rojo),
+      appBar: AppBar(
+        backgroundColor: rojo,
+        title: const Text("Gestión de Recordatorios", style: TextStyle(color: blanco)),
+        centerTitle: true,
+        ),
       drawer: OffcanvasMenu(userRole: widget.userRole),
       body: _getCurrentView(),
       bottomNavigationBar: BottomNavigationBar(
