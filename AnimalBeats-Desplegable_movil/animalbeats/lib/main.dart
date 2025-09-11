@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'login_registro.dart'; // Importa tus pantallas de login y registro
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'dart:math';
 
 
 void main() {
@@ -34,7 +37,7 @@ class IndexPage extends StatelessWidget {
           // ================= HEADER =================
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-            color: Colors.red.shade900,
+            color: const Color.fromARGB(255, 151, 24, 24),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -117,13 +120,16 @@ class IndexPage extends StatelessWidget {
                         crossAxisSpacing: 16,
                         mainAxisSpacing: 16,
                         children: const [
-                          _CardServicios(),
-                          _CardImportancia(),
-                          _CardNovedades(),
+                          _CardTestimonios(),
+                          _CardTips(),
+                          _CardCuriosidades(),
                         ],
                       );
                     },
                   ),
+                  const SizedBox(height: 30,),
+                  //seccion de los veterinarios
+                  const VeterinariosPreview(),
                 ],
               ),
             ),
@@ -153,38 +159,77 @@ class IndexPage extends StatelessWidget {
   }
 }
 
-class _CardServicios extends StatelessWidget {
-  const _CardServicios();
+//Cards interactivas?
+// ================== CARD 1: TESTIMONIOS ==================
+class _CardTestimonios extends StatefulWidget {
+  const _CardTestimonios();
+
+  @override
+  State<_CardTestimonios> createState() => _CardTestimoniosState();
+}
+
+class _CardTestimoniosState extends State<_CardTestimonios> {
+  final List<Map<String, String>> testimonios = [
+    {
+      "nombre": "Ana y Rocky 🐶",
+      "comentario": "Gracias a AnimalBeats nunca olvido las vacunas de mi perro.",
+      "foto": ""
+    },
+    {
+      "nombre": "Carlos y Michi 🐱",
+      "comentario": "El sistema me recuerda las citas al instante, muy útil.",
+      "foto": ""
+    },
+    {
+      "nombre": "Lucía y Toby 🐾",
+      "comentario": "Ahora llevo el historial de mi mascota en un solo lugar.",
+      "foto": ""
+    },
+  ];
+
+  int _currentIndex = 0;
+
+  void _siguienteTestimonio() {
+    setState(() {
+      _currentIndex = (_currentIndex + 1) % testimonios.length;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    final testimonio = testimonios[_currentIndex];
+
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
-          mainAxisSize: MainAxisSize.min, // <- importante
+          mainAxisSize: MainAxisSize.min,
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Image.asset(
-                "img/siberiano.jpg",
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: 150,
+            CircleAvatar(
+              backgroundImage: NetworkImage(testimonio["foto"]!),
+              radius: 30,
+            ),
+            const SizedBox(height: 10),
+            Text(
+              testimonio["nombre"]!,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
+            const SizedBox(height: 6),
+            Text(
+              testimonio["comentario"]!,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: _siguienteTestimonio,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red.shade900,
+                foregroundColor: Colors.white,
               ),
-            ),
-            const SizedBox(height: 12),
-            const Text(
-              "Servicios",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 6),
-            const Text(
-              "Agenda de citas, recordatorios de vacunas, historial de mascotas y alertas automáticas para veterinarios.",
-              textAlign: TextAlign.center,
-            ),
+              child: const Text("Ver otro"),
+            )
           ],
         ),
       ),
@@ -192,39 +237,43 @@ class _CardServicios extends StatelessWidget {
   }
 }
 
-class _CardImportancia extends StatelessWidget {
-  const _CardImportancia();
+// ================== CARD 2: TIPS (QUIZ) ==================
+class _CardTips extends StatefulWidget {
+  const _CardTips();
 
   @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min, // <- evita overflow
-          children: [
-            const Icon(Icons.info_outline, size: 48, color: Colors.blueAccent),
-            const SizedBox(height: 12),
-            const Text(
-              "Importancia del proyecto",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 6),
-            const Text(
-              "AnimalBeats es un sistema administrativo para las veterinarias, el impacto que tiene es llevar un mejor orden en los clientes y mascotas que interactúan con la veterinaria.",
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  State<_CardTips> createState() => _CardTipsState();
 }
 
-class _CardNovedades extends StatelessWidget {
-  const _CardNovedades();
+class _CardTipsState extends State<_CardTips> {
+  final Map<String, dynamic> pregunta = {
+    "texto": "¿Cada cuánto debo vacunar a mi perro cachorro?",
+    "opciones": [
+      {"texto": "Cada 3 meses", "correcta": false},
+      {"texto": "Cada 21 días", "correcta": true},
+      {"texto": "Una vez al año", "correcta": false},
+    ]
+  };
+
+  void _validarRespuesta(bool correcta) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(correcta ? "¡Correcto! 🎉" : "Ups... ❌"),
+          content: Text(correcta
+              ? "Los cachorros deben vacunarse cada 21 días hasta completar su esquema."
+              : "Revisa el calendario de vacunación recomendado por tu veterinario."),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("Cerrar"),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -236,20 +285,286 @@ class _CardNovedades extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.campaign, size: 48, color: Colors.orange),
+            const Icon(Icons.lightbulb_outline,
+                size: 48, color: Colors.orangeAccent),
             const SizedBox(height: 12),
-            const Text(
-              "Novedades",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 6),
-            const Text(
-              "Próximas funciones, eventos, lanzamientos o testimonios. Podemos cambiar esta card cuando lo definas.",
+            Text(
+              pregunta["texto"],
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
+            const SizedBox(height: 12),
+            ...pregunta["opciones"].map<Widget>((op) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: ElevatedButton(
+                  onPressed: () => _validarRespuesta(op["correcta"]),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue.shade700,
+                    foregroundColor: Colors.white,
+                  ),
+                  child: Text(op["texto"]),
+                ),
+              );
+            }).toList(),
           ],
         ),
       ),
+    );
+  }
+}
+
+// ================== CARD 3: CURIOSIDADES (FLIP CARD) ==================
+class _CardCuriosidades extends StatefulWidget {
+  const _CardCuriosidades();
+
+  @override
+  State<_CardCuriosidades> createState() => _CardCuriosidadesState();
+}
+
+class _CardCuriosidadesState extends State<_CardCuriosidades> {
+  bool _mostrandoFrente = true;
+  final List<String> curiosidades = [
+    "Los perros tienen un olfato 40 veces más sensible que el humano 🐕.",
+    "Los gatos pueden saltar hasta 6 veces su altura 🐱.",
+    "Un hámster puede correr hasta 8 km en su rueda en una sola noche 🐹.",
+  ];
+  int _index = 0;
+
+  void _cambiarCuriosidad() {
+    setState(() {
+      _mostrandoFrente = !_mostrandoFrente;
+      if (!_mostrandoFrente) {
+        _index = (_index + 1) % curiosidades.length;
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: _cambiarCuriosidad,
+      child: Card(
+        elevation: 4,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 500),
+          transitionBuilder: (child, animation) {
+            final rotate = Tween(begin: pi, end: 0.0).animate(animation);
+            return AnimatedBuilder(
+              animation: rotate,
+              child: child,
+              builder: (context, child) {
+                final angle = rotate.value;
+                return Transform(
+                  transform: Matrix4.rotationY(angle),
+                  alignment: Alignment.center,
+                  child: child,
+                );
+              },
+            );
+          },
+          child: _mostrandoFrente
+              ? Column(
+                  key: const ValueKey("frente"),
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(Icons.pets, size: 60, color: Colors.teal),
+                    SizedBox(height: 12),
+                    Text(
+                      "Toca para ver una curiosidad 🐾",
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    )
+                  ],
+                )
+              : Center(
+                  key: const ValueKey("dorso"),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text(
+                      curiosidades[_index],
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w500),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+        ),
+      ),
+    );
+  }
+}
+
+
+//veterinarios preview
+class VeterinariosPreview extends StatefulWidget {
+  const VeterinariosPreview({super.key});
+
+  @override
+  State<VeterinariosPreview> createState() => _VeterinariosPreviewState();
+}
+
+class _VeterinariosPreviewState extends State<VeterinariosPreview> {
+  final String baseUrl =
+      "https://animalbeats-backend-production.up.railway.app";
+  List<dynamic> veterinarios = [];
+  bool cargando = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _cargarVeterinarios();
+  }
+
+  Future<void> _cargarVeterinarios() async {
+    try {
+      final response = await http.get(Uri.parse("$baseUrl/veterinarios"));
+      if (response.statusCode == 200) {
+        setState(() {
+          veterinarios = json.decode(response.body);
+          cargando = false;
+        });
+      }
+    } catch (e) {
+      setState(() => cargando = false);
+    }
+  }
+
+  void _mostrarDetalle(dynamic vet) {
+    final String? imagenUrl = vet["imagen_url"];
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(vet["nombre_completo"] ?? "Sin nombre"),
+          content: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                (imagenUrl != null && imagenUrl.isNotEmpty)
+                    ? Image.network(imagenUrl, height: 150)
+                    : const Icon(Icons.person, size: 100),
+                const SizedBox(height: 10),
+                Text("Especialidad: ${vet["estudios_especialidad"] ?? "N/A"}"),
+                Text("Edad: ${vet["edad"] ?? "N/A"}"),
+                Text("Altura: ${vet["altura"] ?? "N/A"} m"),
+                Text("Experiencia: ${vet["anios_experiencia"] ?? "N/A"} años"),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("Cerrar"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (cargando) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    if (veterinarios.isEmpty) {
+      return const Text(
+        "No hay veterinarios registrados aún.",
+        style: TextStyle(color: Colors.black54),
+      );
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          "Nuestros Veterinarios",
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 12),
+
+        LayoutBuilder(
+          builder: (context, constraints) {
+            int cross = 1;
+            if (constraints.maxWidth >= 1100) {
+              cross = 3;
+            } else if (constraints.maxWidth >= 700) {
+              cross = 2;
+            }
+
+            return GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: veterinarios.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: cross,
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16,
+                childAspectRatio: 1.0,
+              ),
+              itemBuilder: (context, index) {
+                final vet = veterinarios[index];
+                final String? imagenUrl = vet["imagen_url"];
+
+                return Card(
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: (imagenUrl != null && imagenUrl.isNotEmpty)
+                              ? Image.network(imagenUrl,
+                                  height: 100,
+                                  width: double.infinity,
+                                  fit: BoxFit.cover)
+                              : const Icon(Icons.person,
+                                  size: 80, color: Colors.grey),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          vet["nombre_completo"] ?? "Sin nombre",
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          "Especialidad: ${vet["estudios_especialidad"] ?? "N/A"}",
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(color: Colors.black54),
+                        ),
+                        const Spacer(),
+                        ElevatedButton.icon(
+                          onPressed: () => _mostrarDetalle(vet),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red.shade900,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          icon: const Icon(Icons.remove_red_eye),
+                          label: const Text("Ver más"),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            );
+          },
+        ),
+      ],
     );
   }
 }

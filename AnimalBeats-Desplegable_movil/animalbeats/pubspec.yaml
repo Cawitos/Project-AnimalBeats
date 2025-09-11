@@ -33,7 +33,7 @@ flutter_icons:
   image_path: "img/logo.png"
 
 dependency_overrides:
-  pdf_widget_wrapper: 1.0.4 
+
 flutter:
   uses-material-design: true
   assets:
