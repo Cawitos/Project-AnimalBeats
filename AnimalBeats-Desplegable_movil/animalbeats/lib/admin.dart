@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'menu.dart';
 import 'package:http/http.dart' as http;
+import 'Estadisticas_page.dart';
 
 const String apiUrl = "https://animalbeats-backend-production.up.railway.app";
 
@@ -47,13 +48,11 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
   @override
   Widget build(BuildContext context) {
-
     int userRole = 1;
 
     if (loading) {
       return Scaffold(
         appBar: AppBar(title: const Text("Dashboard Admin")),
-
         body: const Center(child: CircularProgressIndicator()),
       );
     }
@@ -106,34 +105,26 @@ class _AdminDashboardState extends State<AdminDashboard> {
           ),
           const SizedBox(height: 20),
 
-          // Estadísticas
-          Card(
-            color: Colors.red.shade50,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            elevation: 4,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text("Estadísticas Generales",
-                      style:
-                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 10),
-                  ListTile(
-                    leading: const Icon(Icons.people, color: Colors.red),
-                    title: const Text("Clientes / Veterinarios"),
-                    trailing: Text(
-                      "${dashboardData!["total_clientes"]}",
-                      style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ],
+          // Botón para estadísticas
+          ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red,
+              padding: const EdgeInsets.symmetric(vertical: 14),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
               ),
             ),
+            icon: const Icon(Icons.bar_chart, color: Colors.white),
+            label: const Text(
+              "Ver estadísticas",
+              style: TextStyle(fontSize: 18, color: Colors.white),
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const EstadisticasPage()),
+              );
+            },
           ),
         ],
       ),

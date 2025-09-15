@@ -1,6 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:pdf/widgets.dart' as pw;
+import 'package:pdf/pdf.dart';
+import 'package:printing/printing.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 const String apiUrl = "https://animalbeats-backend-production.up.railway.app";
 
@@ -33,7 +37,7 @@ class _ConsultarUsuarioPageState extends State<ConsultarUsuarioPage> {
 
         setState(() {
           if (data is Map && data.containsKey("n_documento")) {
-            usuario = Map<String, dynamic>.from(data); // ✅ conversión segura
+            usuario = Map<String, dynamic>.from(data);
           } else if (data is String && data == "Usuario no encontrado") {
             error = "Usuario no encontrado.";
           } else {
@@ -53,6 +57,65 @@ class _ConsultarUsuarioPageState extends State<ConsultarUsuarioPage> {
         loading = false;
       });
     }
+  }
+
+  /// 🔽 Método para generar y descargar el PDF
+  Future<void> _descargarUsuarioPDF(Map<String, dynamic> usuario) async {
+    final pdf = pw.Document();
+
+    final logo = pw.MemoryImage(
+      (await rootBundle.load('img/logo.png')).buffer.asUint8List(),
+    );
+
+    final fechaHoraDescarga = DateTime.now();
+
+    pdf.addPage(
+      pw.MultiPage(
+        margin: const pw.EdgeInsets.all(24),
+        build: (context) => [
+          pw.Row(
+            mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+            children: [
+              pw.Image(logo, height: 60),
+              pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.end,
+                children: [
+                  pw.Text("Ficha de Usuario",
+                      style: pw.TextStyle(
+                          fontSize: 20, fontWeight: pw.FontWeight.bold)),
+                  pw.Text(
+                      "Descargado el: ${fechaHoraDescarga.toLocal().toString().split('.')[0]}",
+                      style: const pw.TextStyle(fontSize: 10)),
+                ],
+              ),
+            ],
+          ),
+          pw.Divider(),
+          pw.SizedBox(height: 20),
+          pw.Text("Información del Usuario",
+              style: pw.TextStyle(
+                  fontSize: 14, fontWeight: pw.FontWeight.bold)),
+          pw.SizedBox(height: 10),
+          pw.Table.fromTextArray(
+            border: pw.TableBorder.all(color: PdfColors.red, width: 1),
+            headerStyle: pw.TextStyle(
+                fontWeight: pw.FontWeight.bold, color: PdfColors.white),
+            headerDecoration: const pw.BoxDecoration(color: PdfColors.red),
+            cellAlignment: pw.Alignment.centerLeft,
+            headers: ["Campo", "Valor"],
+            data: [
+              ["Nombre", usuario["nombre"] ?? "-"],
+              ["Documento", "${usuario["tipo_documento"]} - ${usuario["n_documento"]}"],
+              ["Correo", usuario["correoelectronico"] ?? "-"],
+            ],
+          ),
+        ],
+      ),
+    );
+
+    await Printing.layoutPdf(
+      onLayout: (format) async => pdf.save(),
+    );
   }
 
   @override
@@ -128,10 +191,10 @@ class _ConsultarUsuarioPageState extends State<ConsultarUsuarioPage> {
                     final data = jsonDecode(response.body);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                          content:
-                              Text(data["mensaje"] ?? "Usuario en pendiente")),
+                          content: Text(
+                              data["mensaje"] ?? "Usuario en pendiente")),
                     );
-                    Navigator.pop(context, true); // 🔄 Recargar al volver
+                    Navigator.pop(context, true);
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
@@ -146,6 +209,19 @@ class _ConsultarUsuarioPageState extends State<ConsultarUsuarioPage> {
               },
               child: const Text(
                 "Poner en Pendiente",
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              ),
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+                padding: const EdgeInsets.symmetric(vertical: 14),
+              ),
+              onPressed: () => _descargarUsuarioPDF(usuario!),
+              icon: const Icon(Icons.download, color: Colors.white),
+              label: const Text(
+                "Descargar PDF",
                 style: TextStyle(fontSize: 18, color: Colors.white),
               ),
             ),
