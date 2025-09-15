@@ -13,7 +13,7 @@ export default function EstadoRoles() {
   }, []);
 
   const cargarRoles = () => {
-    fetch('http://localhost:3000/roles/Listado')
+    fetch('https://animalbeats-backend-production.up.railway.app/roles/Listado')
       .then(res => res.json())
       .then(data => setRoles(data.roles))
       .catch(err => console.error('Error al obtener roles:', err));
@@ -28,7 +28,7 @@ export default function EstadoRoles() {
 
   const agregarRol = () => {
     if (nuevoRol.trim() === '') return;
-    fetch('http://localhost:3000/roles/Crear', {
+    fetch('https://animalbeats-backend-production.up.railway.app/roles/Crear', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ rol: nuevoRol.trim() })

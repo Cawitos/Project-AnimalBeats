@@ -19,7 +19,7 @@ const ModificarUsuario = ({ usuario }) => {
   useEffect(() => {
     const fetchTiposDocumento = async () => {
       try {
-        const response = await fetch("http://localhost:3000/tiposDocumento");
+        const response = await fetch("https://animalbeats-backend-production.up.railway.app/tiposDocumento");
         const data = await response.json();
         setTiposDocumento(data);
       } catch (error) {
@@ -52,7 +52,7 @@ const ModificarUsuario = ({ usuario }) => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`http://localhost:3000/usuario/Actualizar/${nDocumento}`, {
+      const response = await fetch(`https://animalbeats-backend-production.up.railway.app/usuario/Actualizar/${nDocumento}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

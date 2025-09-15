@@ -15,7 +15,7 @@ const gestionEspecies = () => {
   useEffect(() => {
     const obtenerEspecies = async () => {
       try {
-        const respuesta = await axios.get('http://localhost:3000/Especies/Listado');
+        const respuesta = await axios.get('https://animalbeats-backend-production.up.railway.app/Especies/Listado');
         const datos = respuesta.data;
 
         if (typeof datos === 'string') {
@@ -45,7 +45,7 @@ const gestionEspecies = () => {
 
     if (result.isConfirmed) {
       try {
-        const respuesta = await axios.delete(`http://localhost:3000/Especies/Eliminar/${id}`);
+        const respuesta = await axios.delete(`https://animalbeats-backend-production.up.railway.app/Especies/Eliminar/${id}`);
         const datos = respuesta.data;
 
         if (typeof datos === 'string') {
@@ -106,7 +106,7 @@ const gestionEspecies = () => {
               <div className="row g-0">
                 <div className="col-md-4">
                   <img
-                    src={`http://localhost:3000/imagenes_especies/${especie.imagen}`}
+                    src={`https://animalbeats-backend-production.up.railway.app/imagenes_especies/${especie.imagen}`}
                     className="img-fluid rounded-start"
                     alt={especie.Especie}
                   />
@@ -131,7 +131,6 @@ const gestionEspecies = () => {
                         </button>
                       </>
                     )}
-
                     
                   </div>
                 </div>

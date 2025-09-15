@@ -17,6 +17,9 @@ class _EstadisticasPageState extends State<EstadisticasPage> {
   bool loading = true;
   String? error;
 
+  int _totalMascotas = 0;
+  int _totalRecordatorios = 0;
+
   @override
   void initState() {
     super.initState();
@@ -25,29 +28,38 @@ class _EstadisticasPageState extends State<EstadisticasPage> {
 
   Future<void> _fetchData() async {
     try {
-      // Llamar al dashboard
-      final dashResponse =
-          await http.get(Uri.parse("$apiUrl/admin/dashboard"));
-      // Llamar a roles
-      final rolesResponse =
-          await http.get(Uri.parse("$apiUrl/roles/Listado"));
+      final dashResponse = await http.get(Uri.parse("$apiUrl/admin/dashboard"));
+      final rolesResponse = await http.get(Uri.parse("$apiUrl/roles/Listado"));
+      final mascotasResponse = await http.get(Uri.parse("$apiUrl/Mascotas"));
+      final recordatoriosResponse = await http.get(Uri.parse("$apiUrl/recordatorios"));
 
-      if (dashResponse.statusCode == 200 && rolesResponse.statusCode == 200) {
+      if (dashResponse.statusCode == 200 &&
+          rolesResponse.statusCode == 200 &&
+          mascotasResponse.statusCode == 200 &&
+          recordatoriosResponse.statusCode == 200) {
         setState(() {
           dashboardData = jsonDecode(dashResponse.body);
           roles = jsonDecode(rolesResponse.body)["roles"];
+
+          final mascotasData = jsonDecode(mascotasResponse.body);
+          _totalMascotas = mascotasData is List ? mascotasData.length : 0;
+
+          final recordatoriosData = jsonDecode(recordatoriosResponse.body);
+          _totalRecordatorios =
+              recordatoriosData is List ? recordatoriosData.length : 0;
+
           loading = false;
         });
       } else {
         setState(() {
           error =
-              "Error al obtener datos: Dashboard(${dashResponse.statusCode}), Roles(${rolesResponse.statusCode})";
+              "Error al obtener datos:\nDashboard(${dashResponse.statusCode}),\nRoles(${rolesResponse.statusCode}),\nMascotas(${mascotasResponse.statusCode}),\nRecordatorios(${recordatoriosResponse.statusCode})";
           loading = false;
         });
       }
     } catch (e) {
       setState(() {
-        error = "No se pudieron cargar las estadísticas";
+        error = "No se pudieron cargar las estadísticas: $e";
         loading = false;
       });
     }
@@ -94,8 +106,8 @@ class _EstadisticasPageState extends State<EstadisticasPage> {
               title: const Text("Total Clientes / Veterinarios"),
               trailing: Text(
                 "${dashboardData!["total_clientes"]}",
-                style: const TextStyle(
-                    fontSize: 20, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
           ),
@@ -123,6 +135,27 @@ class _EstadisticasPageState extends State<EstadisticasPage> {
                           subtitle: Text("Rol: ${rol["rol"]}"),
                         )),
                   ]),
+            ),
+          ),
+
+          const SizedBox(height: 20),
+
+          Card(
+            color: Colors.red.shade50,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            elevation: 4,
+            child: ListTile(
+              leading: const Icon(Icons.pets, color: Colors.red),
+              title: const Text("Total de Mascotas"),
+              subtitle:
+                  Text("Recordatorios asignados: $_totalRecordatorios"),
+              trailing: Text(
+                "$_totalMascotas",
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
             ),
           ),
         ],

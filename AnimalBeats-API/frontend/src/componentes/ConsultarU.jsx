@@ -9,7 +9,7 @@ function ConsultarU() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/usuario/${n_documento}`)
+    fetch(`https://animalbeats-backend-production.up.railway.app/usuario/${n_documento}`)
       .then(res => res.json())
       .then(data => {
         setUsuario(data);

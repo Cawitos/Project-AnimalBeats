@@ -16,7 +16,7 @@ function ModificarEspecie() {
   useEffect(() => {
     const obtenerEspecie = async () => {
       try {
-        const respuesta = await axios.get(`http://localhost:3000/Especies/${id}`);
+        const respuesta = await axios.get(`https://animalbeats-backend-production.up.railway.app/Especies/${id}`);
         const datos = respuesta.data;
 
         setEspecie(datos.Especie || '');
@@ -46,7 +46,7 @@ function ModificarEspecie() {
 
     try {
       setLoading(true);
-      await axios.put(`http://localhost:3000/Especies/Actualizar/${id}`, formData, {
+      await axios.put(`https://animalbeats-backend-production.up.railway.app/Especies/Actualizar/${id}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
@@ -91,7 +91,7 @@ function ModificarEspecie() {
               {imagenActual ? (
                 <div>
                   <img
-                    src={`http://localhost:3000/imagenes_especies/${imagenActual}`}
+                    src={`https://animalbeats-backend-production.up.railway.app/imagenes_especies/${imagenActual}`}
                     alt={especie}
                     style={{ maxWidth: '200px', display: 'block', marginBottom: '10px' }}
                   />

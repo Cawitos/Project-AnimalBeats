@@ -18,7 +18,7 @@ const ModificarRaza = () => {
   useEffect(() => {
     const fetchRaza = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/razas/${id_raza}`);
+        const response = await axios.get(`https://animalbeats-backend-production.up.railway.app/razas/${id_raza}`);
         const raza = response.data;
 
         setNombreRaza(raza.raza || "");
@@ -60,7 +60,7 @@ const ModificarRaza = () => {
         },
       };
 
-      await axios.put(`http://localhost:3000/Razas/Actualizar/${id_raza}`, formData, config);
+      await axios.put(`https://animalbeats-backend-production.up.railway.app/Razas/Actualizar/${id_raza}`, formData, config);
 
       Swal.fire({
         icon: "success",
@@ -123,7 +123,7 @@ const ModificarRaza = () => {
               {imagenActual ? (
                 <div>
                   <img
-                    src={`http://localhost:3000/imagenes_razas/${imagenActual}`}
+                    src={`https://animalbeats-backend-production.up.railway.app/imagenes_razas/${imagenActual}`}
                     alt={nombreRaza}
                     style={{ maxWidth: '200px', display: 'block', marginBottom: '10px' }}
                   />

@@ -18,7 +18,7 @@ export default function CrearUsuario() {
   useEffect(() => {
     const obtenerTiposDocumento = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/tiposDocumento');
+        const response = await axios.get('https://animalbeats-backend-production.up.railway.app/tiposDocumento');
         if (response.data && Array.isArray(response.data)) {
           setTiposDocumento(response.data);
         } else {
@@ -41,7 +41,7 @@ export default function CrearUsuario() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/usuario/Crear', formData);
+      const response = await axios.post('https://animalbeats-backend-production.up.railway.app/usuario/Crear', formData);
       Swal.fire({
         title: '¡Éxito!, Usuario Creado Correctamente',
         text: response.data.mensaje,

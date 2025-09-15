@@ -17,7 +17,7 @@ const Register = () => {
     const [mensaje, setMensaje] = useState('');
 
     useEffect(() => {
-        axios.get('http://localhost:3000/tiposDocumento')
+        axios.get('https://animalbeats-backend-production.up.railway.app/tiposDocumento')
             .then(res => setTiposDocumento(res.data))
             .catch(err => console.error('Error al obtener tipos de documento:', err));
     }, []);
@@ -29,7 +29,7 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post('http://localhost:3000/registro', formData);
+            const res = await axios.post('https://animalbeats-backend-production.up.railway.app/registro', formData);
             setMensaje(res.data.mensaje);
 
             setFormData({

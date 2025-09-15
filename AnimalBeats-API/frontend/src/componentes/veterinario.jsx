@@ -17,7 +17,7 @@ export default function VeterinarioDashboard() {
             return;
         }
 
-        fetch(`http://localhost:3000/veterinario/dashboard/${documento}`, {
+        fetch(`https://animalbeats-backend-production.up.railway.app/veterinario/dashboard/${documento}`, {
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
         })
             .then(res => {

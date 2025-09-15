@@ -8,7 +8,7 @@ export default function GestionUsuarios() {
   const [usuarios, setUsuarios] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/usuario/Listado")
+    fetch("https://animalbeats-backend-production.up.railway.app/usuario/Listado")
       .then((res) => res.json())
       .then((data) => setUsuarios(data.usuarios))
       .catch((err) => console.error("Error al cargar usuarios:", err));
@@ -24,7 +24,7 @@ export default function GestionUsuarios() {
       cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3000/usuario/Suspender/${id}`, {
+        fetch(`https://animalbeats-backend-production.up.railway.app/usuario/Suspender/${id}`, {
           method: "PUT",
         })
           .then((response) => {

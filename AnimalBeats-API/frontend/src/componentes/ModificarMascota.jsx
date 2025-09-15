@@ -5,11 +5,11 @@ import Swal from "sweetalert2";
 import '../css/ModificarMascota.css'
 
 const ModificarMascota = () => {
-  const { id } = useParams(); // Obtener id de la mascota desde la URL
+  const { id } = useParams();
   const navigate = useNavigate();
 
   const [nombre, setNombre] = useState("");
-  const [estado, setEstado] = useState("Activo"); // Puedes ajustar valores según tu lógica
+  const [estado, setEstado] = useState("Activo");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -17,7 +17,7 @@ const ModificarMascota = () => {
   useEffect(() => {
     const fetchMascota = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/mascotas/${id}`);
+        const response = await axios.get(`https://animalbeats-backend-production.up.railway.app/mascotas/${id}`);
         const mascota = response.data;
         setNombre(mascota.nombre);
         setEstado(mascota.estado || "Activo");
@@ -36,7 +36,7 @@ const ModificarMascota = () => {
     e.preventDefault();
 
     try {
-      await axios.put(`http://localhost:3000/Mascotas/Actualizar/${id}`, {
+      await axios.put(`https://animalbeats-backend-production.up.railway.app/Mascotas/Actualizar/${id}`, {
         nombre,
         estado,
       });

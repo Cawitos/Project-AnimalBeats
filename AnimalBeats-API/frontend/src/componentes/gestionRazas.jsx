@@ -18,7 +18,7 @@ const GestionRazas = () => {
   useEffect(() => {
     const obtenerRazas = async () => {
       try {
-        const respuesta = await axios.get(`http://localhost:3000/Razas/Listado/${id}`);
+        const respuesta = await axios.get(`https://animalbeats-backend-production.up.railway.app/Razas/Listado/${id}`);
         const datos = respuesta.data;
 
         if (typeof datos === 'string') {
@@ -59,7 +59,7 @@ const GestionRazas = () => {
 
   if (result.isConfirmed) {
     try {
-      const respuesta = await axios.delete(`http://localhost:3000/Razas/Eliminar/${idRaza}`);
+      const respuesta = await axios.delete(`https://animalbeats-backend-production.up.railway.app/Razas/Eliminar/${idRaza}`);
       const datos = respuesta.data;
 
       if (datos.mensaje && datos.mensaje.toLowerCase().includes('error')) {
@@ -115,7 +115,7 @@ const GestionRazas = () => {
                   <div className="row g-0">
                     <div className="col-md-4">
                       <img
-                        src={`http://localhost:3000/imagenes_razas/${raza.imagen}`}
+                        src={`https://animalbeats-backend-production.up.railway.app/imagenes_razas/${raza.imagen}`}
                         className="img-fluid rounded-start"
                         alt={raza.raza}
                       />

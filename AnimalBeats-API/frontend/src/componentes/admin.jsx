@@ -7,7 +7,7 @@ export default function AdminDashboard() {
   const [dashboardData, setDashboardData] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:3000/admin/dashboard')
+    fetch('https://animalbeats-backend-production.up.railway.app/admin/dashboard')
       .then(res => {
         if (!res.ok) {
           throw new Error(`Error del servidor: ${res.status}`);

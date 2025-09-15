@@ -27,11 +27,10 @@ function CrearRaza() {
   if (imagen) {
     formData.append('imagen', imagen);
   }
-  // No agregues id_especie aquí, ya que lo envías en la URL
 
   try {
     setLoading(true);
-    await axios.post(`http://localhost:3000/Razas/Crear/${id}`, formData, {
+    await axios.post(`https://animalbeats-backend-production.up.railway.app/Razas/Crear/${id}`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
 
