@@ -145,8 +145,17 @@ class _RegistroPageState extends State<RegistroPage> {
                     decoration:
                         InputDecoration(labelText: "Número de Documento"),
                     keyboardType: TextInputType.number,
-                    validator: (value) =>
-                        value!.isEmpty ? "Campo requerido" : null,
+                    validator: (value) {
+                      if (value == null || value.isEmpty)
+                        return "Campo requerido";
+                      if (!RegExp(r'^[0-9]+$').hasMatch(value))
+                        return "Solo se permiten números";
+                      if (value.length < 5)
+                        return "Debe tener al menos 5 dígitos";
+                      if (value.length > 11)
+                        return "No puede superar los 11 dígitos";
+                      return null;
+                    },
                   ),
                   TextFormField(
                     controller: nombreCtrl,

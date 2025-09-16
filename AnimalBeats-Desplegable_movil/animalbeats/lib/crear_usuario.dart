@@ -64,6 +64,18 @@ class _CrearUsuarioPageState extends State<CrearUsuarioPage> {
     if (!_formKey.currentState!.validate()) return;
 
     _formKey.currentState!.save();
+
+    //Valida si rol es admin pero correo no es el predeterminado
+    if (idRol == "1" &&
+        correo?.toLowerCase() != "administrador@animalbeats.com") {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text(
+                " Solo se permite el correo predeterminado para rol Administrador")),
+      );
+      return;
+    }
+
     setState(() => loading = true);
 
     final body = {
@@ -86,7 +98,7 @@ class _CrearUsuarioPageState extends State<CrearUsuarioPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("✅ Usuario creado correctamente")),
         );
-        Navigator.pop(context);
+        Navigator.pop(context, true);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("❌ Error: ${response.body}")),
