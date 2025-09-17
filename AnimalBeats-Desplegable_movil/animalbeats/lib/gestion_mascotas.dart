@@ -6,6 +6,7 @@ import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'menu.dart';
+import 'Detalle_Citas.dart';
 
 //Color rojo principal
 const Color rojo = Color(0xFFDF2935);
@@ -595,7 +596,7 @@ class _GestionMascotasState extends State<GestionMascotas> {
               value: _razaSeleccionada,
               decoration: const InputDecoration(labelText: "Raza"),
               items: _razas.map((r) {
-                return DropdownMenuItem(value: r['id'].toString(), child: Text(r['raza']));
+                return DropdownMenuItem(value: r['id'].toString(), child: Text(r['Raza']));
               }).toList(),
               onChanged: (val) => setState(() => _razaSeleccionada = val),
               validator: (val) => val == null ? "Seleccione una raza" : null,
@@ -661,62 +662,94 @@ class _GestionMascotasState extends State<GestionMascotas> {
     );
   }
 
-  Widget _historialMascota() {
-    if (_historialData == null) {
-      return const Center(child: Text("Selecciona una mascota para ver su historial"));
-    }
+   Widget _historialMascota() {
+  if (_historialData == null) {
+    return const Center(child: Text("Selecciona una mascota para ver su historial"));
+  }
 
-    final mascota = _historialData?["mascota"] ?? {};
-    final recordatorios = List<Map<String, dynamic>>.from(_historialData?["recordatorios"] ?? []);
-    final citas = List<Map<String, dynamic>>.from(_historialData?["citas"] ?? []);
+  final mascota = _historialData?["mascota"] ?? {};
+  final recordatorios = List<Map<String, dynamic>>.from(_historialData?["recordatorios"] ?? []);
+  final citas = List<Map<String, dynamic>>.from(_historialData?["citas"] ?? []);
 
-    return ListView(
-      padding: const EdgeInsets.all(16),
-      children: [
-        Text("Historial de ${mascota["nombre"] ?? "Mascota"}",
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        const SizedBox(height: 10),
+  return ListView(
+    padding: const EdgeInsets.all(16),
+    children: [
+      Text(
+        "Historial de ${mascota["nombre"] ?? "Mascota"}",
+        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      ),
+      const SizedBox(height: 10),
 
-        Card(
-          child: ListTile(
-            title: Text("ID: ${mascota["id"] ?? "-"} - ${mascota["nombre"] ?? "-"}"),
-            subtitle: Text(
-              "Nacimiento: ${mascota["fecha_nacimiento"] ?? "-"}\n"
-              "Especie: ${mascota["especie"] ?? "-"}\n"
-              "Raza: ${mascota["raza"] ?? "-"}\n"
-              "Tutor: ${mascota["cliente"] ?? "-"}",
-            ),
+      Card(
+        child: ListTile(
+          title: Text("ID: ${mascota["id"] ?? "-"} - ${mascota["nombre"] ?? "-"}"),
+          subtitle: Text(
+            "Nacimiento: ${mascota["fecha_nacimiento"] ?? "-"}\n"
+            "Especie: ${mascota["especie"] ?? "-"}\n"
+            "Raza: ${mascota["raza"] ?? "-"}\n"
+            "Tutor: ${mascota["cliente"] ?? "-"}",
           ),
         ),
+      ),
 
-        const SizedBox(height: 20),
-        const Text("📌 Recordatorios", style: TextStyle(fontWeight: FontWeight.bold)),
-        ...recordatorios.map((r) => Card(
-              child: ListTile(
-                title: Text(r["descripcion"] ?? "-"),
-                subtitle: Text("Fecha: ${r["fecha"] ?? "-"}"),
+      const SizedBox(height: 20),
+      const Text("📌 Recordatorios", style: TextStyle(fontWeight: FontWeight.bold)),
+      ...recordatorios.map((r) => Card(
+            child: ListTile(
+              title: Text(r["descripcion"] ?? "-"),
+              subtitle: Text("Fecha: ${r["fecha"] ?? "-"}"),
+            ),
+          )),
+      if (recordatorios.isEmpty) const Text("No hay recordatorios"),
+
+      const SizedBox(height: 20),
+      const Text("📌 Citas", style: TextStyle(fontWeight: FontWeight.bold)),
+      ...citas.map((c) => Card(
+            child: ListTile(
+              title: Text(c["servicio"] ?? "-"),
+              subtitle: Text(
+                "Fecha: ${c["fecha"] ?? "-"} - Hora: ${c["hora"] ?? "-"}\n"
+                "Estado: ${c["estado"] ?? "Pendiente"}",
               ),
-            )),
-        if (recordatorios.isEmpty) const Text("No hay recordatorios"),
+              trailing: (c["estado"] != "Completado")
+                  ? ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: rojo,
+                        foregroundColor: Colors.white,
+                      ),
+                      onPressed: () async {
+                        final actualizado = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => DetalleCitaPage(
+                              idMascota: c["idMascota"],
+                              idCita: c["id"],
+                            ),
+                          ),
+                        );
+                        if (actualizado == true && _historialId != null) {
+                          _fetchHistorial(_historialId!); // refrescar historial
+                        }
+                      },
+                      child: const Text("Ver cita"),
+                    )
+                  : null,
+            ),
+          )),
+      if (citas.isEmpty) const Text("No hay citas"),
 
-        const SizedBox(height: 20),
-        const Text("📌 Citas", style: TextStyle(fontWeight: FontWeight.bold)),
-        ...citas.map((c) => Card(
-              child: ListTile(
-                title: Text(c["servicio"] ?? "-"),
-                subtitle: Text("Fecha: ${c["fecha"] ?? "-"} - Hora: ${c["hora"] ?? "-"}"),
-              ),
-            )),
-        if (citas.isEmpty) const Text("No hay citas"),
-
-        const SizedBox(height: 20),
-        ElevatedButton.icon(
-          onPressed: () => _descargarHistorialPDF(mascota, recordatorios, citas),
-          icon: const Icon(Icons.download, color: Colors.white),
-          label: const Text("Descargar Historial PDF"),
-          style: ElevatedButton.styleFrom(backgroundColor: rojo, foregroundColor: Colors.white),
+      const SizedBox(height: 20),
+      ElevatedButton.icon(
+        onPressed: () => _descargarHistorialPDF(mascota, recordatorios, citas),
+        icon: const Icon(Icons.download, color: Colors.white),
+        label: const Text("Descargar Historial PDF"),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: rojo,
+          foregroundColor: Colors.white,
         ),
-      ],
-    );
-  }
+      ),
+    ],
+  );
+}
+
 }
