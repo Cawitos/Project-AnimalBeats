@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS AnimalBeats;
+drop database if exists AnimalBeats;
 CREATE DATABASE AnimalBeats;
 Use AnimalBeats;
-
+ 
 CREATE TABLE Rol(
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	rol VARCHAR(100)
@@ -21,6 +21,18 @@ CREATE TABLE Usuarios(
 	FOREIGN KEY (id_documento) REFERENCES Documento(id) ON DELETE CASCADE,
 	FOREIGN KEY (id_rol) REFERENCES Rol(id)
 );
+
+CREATE TABLE Veterinarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_completo VARCHAR(150) NOT NULL,
+    estudios_especialidad VARCHAR(255),
+    edad INT CHECK (edad > 0),
+    altura DECIMAL(4,2), 
+    anios_experiencia INT CHECK (anios_experiencia >= 0),
+    imagen_url TEXT, 
+    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 
 CREATE TABLE Especie (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -61,25 +73,27 @@ Create table Citas(
     id_Mascota int not null,
 	id_cliente varchar(10) not null,
 	id_Servicio int not null,
-    id_veterinario varchar(10) not null,
     fecha datetime not null,
     Descripcion varchar(255),
+    estado VARCHAR(100) not null,
     foreign key (id_Mascota) references Mascota(id) on delete cascade,
     foreign key (id_cliente) references Usuarios(n_documento) on delete cascade,
-    foreign key (id_Servicio) references Servicios(id) on delete cascade,
-    foreign key (id_veterinario) references Usuarios(n_documento) on delete cascade
+    foreign key (id_Servicio) references Servicios(id) on delete cascade
 );
-Create table Recordatorios(
+CREATE TABLE Recordatorios(
 	id INT AUTO_INCREMENT PRIMARY KEY,
     id_Mascota int not null,
 	id_cliente varchar(10) not null,
     fecha datetime not null,
     descripcion TEXT not null,
+    estado VARCHAR(100) not null,
     foreign key (id_cliente) references Usuarios(n_documento) on delete cascade,
 	foreign key (id_Mascota) references Mascota(id) on delete cascade
-);	
+);
+
 
 INSERT INTO Documento (tipo) VALUES ('C.C'), ('T.I'), ('C.E');
 INSERT INTO Rol (rol) VALUES ('admin'), ('cliente'), ('veterinario');
 insert into Servicios (servicio) values ('Consulta Generla'), ('Urgencias'), ('Baño y peluqueria'), ('Vacunaciones'), ('Cardiologia'), ('Nutricional');
+
 select * from Usuarios;

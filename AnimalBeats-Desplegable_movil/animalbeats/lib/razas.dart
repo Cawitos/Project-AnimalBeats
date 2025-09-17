@@ -1,4 +1,3 @@
-// lib/features/razas.dart
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -47,8 +46,9 @@ class _RazasPageState extends State<RazasPage> {
   Future<void> _cargarRazas() async {
     setState(() => cargando = true);
     try {
-      final res =
-          await http.get(Uri.parse("$baseUrl/Razas/Listado/${widget.especieId}"));
+      final res = await http.get(
+        Uri.parse("$baseUrl/Razas/Listado/${widget.especieId}"),
+      );
       if (res.statusCode == 200) {
         final data = json.decode(res.body);
         setState(() {
@@ -145,7 +145,7 @@ class _RazasPageState extends State<RazasPage> {
       _editId = raza["id"];
       _nombreController.text = raza["raza"] ?? "";
       _descController.text = raza["descripcion"] ?? "";
-      _imagenExistente = raza["imagen"];
+      _imagenExistente = raza["imagen"]; 
       _imagen = null;
     } else {
       _editId = null;
@@ -186,7 +186,7 @@ class _RazasPageState extends State<RazasPage> {
                     Image.file(_imagen!, height: 120)
                   else if (_imagenExistente != null)
                     Image.network(
-                      "$baseUrl/imagenes_razas/$_imagenExistente",
+                      _imagenExistente!, 
                       height: 120,
                     ),
 
@@ -203,8 +203,10 @@ class _RazasPageState extends State<RazasPage> {
                       }
                     },
                     icon: const Icon(Icons.image, color: rojo),
-                    label: const Text("Seleccionar imagen",
-                        style: TextStyle(color: rojo)),
+                    label: const Text(
+                      "Seleccionar imagen",
+                      style: TextStyle(color: rojo),
+                    ),
                   ),
                 ],
               ),
@@ -261,7 +263,7 @@ class _RazasPageState extends State<RazasPage> {
                       leading: raza["imagen"] != null
                           ? CircleAvatar(
                               backgroundImage: NetworkImage(
-                                "$baseUrl/imagenes_razas/${raza["imagen"]}",
+                                raza["imagen"], 
                               ),
                             )
                           : const CircleAvatar(
@@ -269,9 +271,11 @@ class _RazasPageState extends State<RazasPage> {
                               child: Icon(Icons.pets, color: negro),
                             ),
                       title: Text(
-                        raza["Raza"] ?? "Sin nombre",
+                        raza["raza"] ?? "Sin nombre",
                         style: const TextStyle(
-                            fontWeight: FontWeight.bold, color: negro),
+                          fontWeight: FontWeight.bold,
+                          color: negro,
+                        ),
                       ),
                       subtitle: Text(raza["descripcion"] ?? ""),
                       trailing: PopupMenuButton<String>(

@@ -1,4 +1,3 @@
-// lib/features/especies.dart
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -31,7 +30,7 @@ class _EspeciesPageState extends State<EspeciesPage> {
   final TextEditingController _nombreController = TextEditingController();
   File? _imagen;
   int? _editId;
-  String? _imagenExistente; 
+  String? _imagenExistente;
 
   @override
   void initState() {
@@ -134,8 +133,8 @@ class _EspeciesPageState extends State<EspeciesPage> {
     if (especie != null) {
       _editId = especie["id"];
       _nombreController.text = especie["Especie"] ?? "";
-      _imagenExistente = especie["imagen"]; 
-      _imagen = null; // para que no se confunda con imagen nueva
+      _imagenExistente = especie["imagen"];
+      _imagen = null;
     } else {
       _editId = null;
       _nombreController.clear();
@@ -162,13 +161,14 @@ class _EspeciesPageState extends State<EspeciesPage> {
                   ),
                   const SizedBox(height: 10),
 
-                  // 👇 Mostrar imagen existente o la nueva seleccionada
                   if (_imagen != null)
                     Image.file(_imagen!, height: 120)
                   else if (_imagenExistente != null)
                     Image.network(
-                      "$baseUrl/imagenes_especies/$_imagenExistente",
+                      _imagenExistente!,
                       height: 120,
+                      errorBuilder: (_, __, ___) =>
+                          const Icon(Icons.broken_image, size: 80),
                     ),
 
                   TextButton.icon(
@@ -179,7 +179,7 @@ class _EspeciesPageState extends State<EspeciesPage> {
                       if (pickedFile != null) {
                         setStateDialog(() {
                           _imagen = File(pickedFile.path);
-                          _imagenExistente = null; // reemplaza la anterior
+                          _imagenExistente = null;
                         });
                       }
                     },
@@ -241,9 +241,7 @@ class _EspeciesPageState extends State<EspeciesPage> {
                     child: ListTile(
                       leading: especie["imagen"] != null
                           ? CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                "$baseUrl/imagenes_especies/${especie["imagen"]}",
-                              ),
+                              backgroundImage: NetworkImage(especie["imagen"]),
                             )
                           : const CircleAvatar(
                               backgroundColor: gris,
