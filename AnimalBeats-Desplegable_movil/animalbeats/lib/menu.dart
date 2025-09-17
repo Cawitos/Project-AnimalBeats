@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/gestion_enfermedades.dart';
 
 // 👇 importar las vistas hechas
 import 'admin.dart';
 import 'gestion_mascotas.dart';
 import 'main.dart';
+import 'citas.dart';
 import 'gestion_usuarios.dart';
 import 'gestion_recordatorios.dart';
 import 'roles.dart';
 import 'especies.dart';
+
 import 'pagina_veterinarios.dart';
 
 class OffcanvasMenu extends StatefulWidget {
@@ -151,13 +154,34 @@ class _OffcanvasMenuState extends State<OffcanvasMenu> {
                 ListTile(
                   leading: const Icon(Icons.healing, color: Colors.black54),
                   title: const Text('Enfermedades'),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => GestionEnfermedadesPage(
+                          userRole: widget.userRole,
+                          nDocumento: widget.nDocumento,
+                        ),
+                      ),
+                    );
+                  },
                   // Aquí luego puedes enlazar EnfermedadesPage
                 ),
                 ListTile(
                   leading:
                       const Icon(Icons.calendar_today, color: Colors.black54),
                   title: const Text('Citas'),
-                  // Aquí luego puedes enlazar CitasPage
+                onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CitasPage(
+                          userRole: widget.userRole,
+                          nDocumento: widget.nDocumento,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
