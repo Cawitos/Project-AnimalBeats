@@ -106,7 +106,7 @@ const gestionEspecies = () => {
               <div className="row g-0">
                 <div className="col-md-4">
                   <img
-                    src={`https://animalbeats-backend-production.up.railway.app/imagenes_especies/${especie.imagen}`}
+                    src={`${especie.imagen}`}
                     className="img-fluid rounded-start"
                     alt={especie.Especie}
                   />

@@ -91,7 +91,7 @@ function ModificarEspecie() {
               {imagenActual ? (
                 <div>
                   <img
-                    src={`https://animalbeats-backend-production.up.railway.app/imagenes_especies/${imagenActual}`}
+                    src={`${imagenActual}`}
                     alt={especie}
                     style={{ maxWidth: '200px', display: 'block', marginBottom: '10px' }}
                   />

@@ -123,7 +123,7 @@ const ModificarRaza = () => {
               {imagenActual ? (
                 <div>
                   <img
-                    src={`https://animalbeats-backend-production.up.railway.app/imagenes_razas/${imagenActual}`}
+                    src={`${imagenActual}`}
                     alt={nombreRaza}
                     style={{ maxWidth: '200px', display: 'block', marginBottom: '10px' }}
                   />
