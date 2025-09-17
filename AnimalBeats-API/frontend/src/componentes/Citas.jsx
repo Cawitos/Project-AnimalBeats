@@ -10,6 +10,7 @@ function GestionCitas() {
     const [mascotas, setMascotas] = useState([]);
     const [servicios, setServicios] = useState([]);
     const [veterinarios, setVeterinarios] = useState([]);
+    const [clientes, setClientes] = useState([]);
     const [minFecha, setMinFecha] = useState('');
     const [form, setForm] = useState({
         id_Mascota: '',
@@ -33,6 +34,7 @@ function GestionCitas() {
             console.error('Error mascotas', err);
         }
     };
+
     const fetchServicios = async () => {
         try {
             const res = await axios.get('https://animalbeats-backend-production.up.railway.app/servicios/Listado');
@@ -41,6 +43,7 @@ function GestionCitas() {
             console.error('Error servicios', err);
         }
     };
+
     const fetchVeterinarios = async () => {
         try {
             const res = await axios.get('https://animalbeats-backend-production.up.railway.app/usuario/Listado');
@@ -50,6 +53,17 @@ function GestionCitas() {
             console.error('Error veterinarios', err);
         }
     };
+
+    const fetchClientes = async () => {
+        try {
+            const res = await axios.get('https://animalbeats-backend-production.up.railway.app/usuarios/Listado');
+            const clientesFiltrados = (res.data.usuarios || []).filter(u => Number(u.id_rol) === 2);
+            setClientes(clientesFiltrados);
+        } catch (err) {
+            console.error('Error clientes', err);
+        }
+    };
+
     const fetchCitas = async () => {
         try {
             const res = await axios.get('https://animalbeats-backend-production.up.railway.app/Citas/Listado');
@@ -76,6 +90,7 @@ function GestionCitas() {
         fetchServicios();
         fetchVeterinarios();
         fetchCitas();
+        if (User.rol === 1) fetchClientes();
     }, []);
 
     // Inputs
@@ -83,22 +98,29 @@ function GestionCitas() {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    // Cliente solicita cita
+    // Cliente o Admin solicita cita
     const solicitarCita = async () => {
         if (!form.id_Mascota || !form.id_Servicio || !form.id_veterinario || !form.fecha) {
             Swal.fire('Campos vacíos', 'Completa todos los campos', 'warning');
             return;
         }
 
+        const clienteId = User.rol === 1 ? form.id_cliente : User.id;
+
+        if (User.rol === 1 && !clienteId) {
+            Swal.fire('Error', 'Debes seleccionar un cliente', 'warning');
+            return;
+        }
+
         try {
             await axios.post('https://animalbeats-backend-production.up.railway.app/Citas/Registrar', {
                 ...form,
-                id_cliente: User.id, // cliente actual
+                id_cliente: clienteId,
                 estado: 'Pendiente'
             });
             fetchCitas();
             setForm({ id_Mascota: '', id_cliente: '', id_Servicio: '', id_veterinario: '', fecha: '', Descripcion: '', estado: 'Pendiente' });
-            Swal.fire('Solicitud enviada', 'Tu cita está pendiente de aprobación', 'success');
+            Swal.fire('Solicitud enviada', 'La cita está pendiente de aprobación', 'success');
         } catch (err) {
             console.error('Error registrar cita', err);
             Swal.fire('Error', 'No se pudo registrar la cita', 'error');
@@ -130,26 +152,33 @@ function GestionCitas() {
                 </h5>
             </div>
 
-            {/* Formulario solo visible para clientes */}
-            {User.rol === 2 && (
+            {/* Formulario visible para clientes y administradores */}
+            {(User.rol === 2 || User.rol === 1) && (
                 <div className="citas-form row g-3 mb-4">
-                    <div className="col-md-4">
+
+                    {User.rol === 1 && (
+                        <div className="col-md-6">
+                            <label>Cliente</label>
+                            <select className="form-select" name="id_cliente" value={form.id_cliente} onChange={handleChange}>
+                                <option value="">Seleccione</option>
+                                {clientes.map(c => <option key={c.id} value={c.id}>{c.nombre}</option>)}
+                            </select>
+                        </div>
+                    )}
+
+                    <div className="col-md-6">
                         <label>Mascota</label>
                         <select className="form-select" name="id_Mascota" value={form.id_Mascota} onChange={handleChange}>
                             <option value="">Seleccione</option>
                             {mascotas.map(m => <option key={m.id} value={m.id}>{m.nombre}</option>)}
                         </select>
                     </div>
-                    <div className="col-md-4">
+                    <div className="col-md-6">
                         <label>Servicio</label>
                         <select className="form-select" name="id_Servicio" value={form.id_Servicio} onChange={handleChange}>
                             <option value="">Seleccione</option>
                             {servicios.map(s => <option key={s.id} value={s.id}>{s.servicio}</option>)}
                         </select>
-                    </div>
-                    <div className="col-md-4">
-                        <label>Fecha</label>
-                        <input type="datetime-local" className="form-control" name="fecha" value={form.fecha} min={minFecha} onChange={handleChange}/>
                     </div>
                     <div className="col-md-6">
                         <label>Veterinario</label>
@@ -159,11 +188,17 @@ function GestionCitas() {
                         </select>
                     </div>
                     <div className="col-md-6">
+                        <label>Fecha</label>
+                        <input type="datetime-local" className="form-control" name="fecha" value={form.fecha} min={minFecha} onChange={handleChange} />
+                    </div>
+                    <div className="col-md-6">
                         <label>Descripción</label>
-                        <textarea className="form-control" rows="1" name="Descripcion" value={form.Descripcion} onChange={handleChange}/>
+                        <textarea className="form-control" rows="1" name="Descripcion" value={form.Descripcion} onChange={handleChange} />
                     </div>
                     <div className="text-center mt-3">
-                        <button className="btn btn-success" onClick={solicitarCita}>Solicitar Cita</button>
+                        <button className="btn btn-success" onClick={solicitarCita}>
+                            {User.rol === 1 ? 'Crear Cita' : 'Solicitar Cita'}
+                        </button>
                     </div>
                 </div>
             )}
@@ -175,7 +210,7 @@ function GestionCitas() {
                     citas.map(c => (
                         <div key={c.id} className="list-group-item d-flex justify-content-between align-items-center mb-2">
                             <div>
-                                <strong>{mascotas.find(m => m.id === c.id_Mascota)?.nombre || c.id_Mascota}</strong> - {c.fecha}  
+                                <strong>{mascotas.find(m => m.id === c.id_Mascota)?.nombre || c.id_Mascota}</strong> - {c.fecha}
                                 <span className={`badge ms-2 ${c.estado === 'Pendiente' ? 'bg-warning' : c.estado === 'Aceptada' ? 'bg-success' : 'bg-danger'}`}>
                                     {c.estado}
                                 </span>
