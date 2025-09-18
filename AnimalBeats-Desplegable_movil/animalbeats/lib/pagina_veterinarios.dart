@@ -27,26 +27,27 @@ class _VeterinariosPageState extends State<VeterinariosPage> {
     try {
       final response = await http.get(Uri.parse("$baseUrl/veterinarios"));
       if (response.statusCode == 200) {
+        print("✅ Respuesta del backend: ${response.body}");
         setState(() {
           veterinarios = json.decode(response.body);
         });
+      } else {
+        print("❌ Error al cargar veterinarios: ${response.statusCode} - ${response.body}");
       }
     } catch (e) {
-      print("Error cargando veterinarios: $e");
+      print("🔥 Excepción cargando veterinarios: $e");
     }
   }
 
-  /// Ahora llama al backend (borrado lógico) y refresca la lista
   Future<void> _eliminarVeterinario(int id) async {
     try {
-      final response =
-          await http.delete(Uri.parse("$baseUrl/veterinarios/$id"));
+      final response = await http.delete(Uri.parse("$baseUrl/veterinarios/$id"));
 
       if (response.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Veterinario eliminado")),
         );
-        _cargarVeterinarios(); // recarga lista filtrando activos
+        _cargarVeterinarios();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Error al eliminar: ${response.body}")),
@@ -63,12 +64,16 @@ class _VeterinariosPageState extends State<VeterinariosPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Veterinarios")),
+      appBar: AppBar(
+        title: const Text("Veterinarios"),
+        backgroundColor: Colors.red,
+      ),
       body: mostrarAviso ? _buildAviso() : _buildListaVeterinarios(),
       floatingActionButton: mostrarAviso
           ? null
           : FloatingActionButton(
               backgroundColor: Colors.red,
+              foregroundColor: Colors.white,
               onPressed: () async {
                 final result = await Navigator.push(
                   context,
@@ -102,6 +107,10 @@ class _VeterinariosPageState extends State<VeterinariosPage> {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+                foregroundColor: Colors.white,
+              ),
               onPressed: () {
                 setState(() {
                   mostrarAviso = false;
@@ -136,12 +145,17 @@ class _VeterinariosPageState extends State<VeterinariosPage> {
           margin: const EdgeInsets.all(10),
           child: ListTile(
             leading: (imagenUrl != null && imagenUrl.isNotEmpty)
-                ? Image.network(imagenUrl,
-                    width: 50, height: 50, fit: BoxFit.cover)
+                ? Image.network(
+                    imagenUrl,
+                    width: 50,
+                    height: 50,
+                    fit: BoxFit.cover,
+                  )
                 : const Icon(Icons.person, size: 50),
             title: Text(vet["nombre_completo"] ?? "Sin nombre"),
-            subtitle:
-                Text("Especialidad: ${vet["estudios_especialidad"] ?? "N/A"}"),
+            subtitle: Text(
+              "Especialidad: ${vet["estudios_especialidad"] ?? "N/A"}",
+            ),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -154,7 +168,10 @@ class _VeterinariosPageState extends State<VeterinariosPage> {
                 IconButton(
                   icon: const Icon(Icons.delete, color: Colors.red),
                   onPressed: () {
-                    _eliminarVeterinario(vet["id_veterinario"]);
+                    final id = vet["id"] ?? 0;
+                    if (id != 0) {
+                      _eliminarVeterinario(id);
+                    }
                   },
                 ),
               ],

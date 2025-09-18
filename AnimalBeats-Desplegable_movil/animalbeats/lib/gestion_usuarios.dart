@@ -60,62 +60,66 @@ class _GestionUsuariosPageState extends State<GestionUsuariosPage> {
   }
 
   Future<void> _cambiarEstadoUsuario(
-      String documento, String estadoActual) async {
-    final accion = estadoActual == "Activo" ? "Suspender" : "Reactivar";
-    final nuevoEstado = estadoActual == "Activo" ? "Suspendido" : "Activo";
+    String documento, String estadoActual) async {
+  final accion = estadoActual == "Activo" ? "Suspender" : "Reactivar";
+  final nuevoEstado = estadoActual == "Activo" ? "Suspendido" : "Activo";
 
-    final confirmar = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text("¿Estás seguro?"),
-        content: Text("Este usuario será $accion."),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, false),
-            child: const Text("Cancelar"),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                backgroundColor:
-                    estadoActual == "Activo" ? Colors.red : Colors.green),
-            onPressed: () => Navigator.pop(ctx, true),
-            child: Text("Sí, $accion"),
-          ),
-        ],
-      ),
-    );
+  final confirmar = await showDialog<bool>(
+    context: context,
+    builder: (ctx) => AlertDialog(
+      title: Text("¿Estás seguro?"),
+      content: Text("Este usuario será $accion."),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(ctx, false),
+          child: const Text("Cancelar"),
+        ),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              backgroundColor:
+                  estadoActual == "Activo" ? Colors.red : Colors.green),
+          onPressed: () => Navigator.pop(ctx, true),
+          child: Text("Sí, $accion"),
+        ),
+      ],
+    ),
+  );
 
-    if (confirmar != true) return;
+  if (confirmar != true) return;
 
-    try {
-      final endpoint = estadoActual == "Activo"
-          ? "$apiUrl/usuario/Suspender/$documento"
-          : "$apiUrl/usuario/Reactivar/$documento";
+  try {
+    final endpoint = estadoActual == "Activo"
+        ? "$apiUrl/usuario/Suspender/$documento"
+        : "$apiUrl/usuario/Reactivar/$documento";
 
-      final response = await http.put(Uri.parse(endpoint));
+    final response = await http.put(Uri.parse(endpoint));
 
-      if (response.statusCode == 200) {
-        setState(() {
-          usuarios = usuarios.map((u) {
-            if (u["n_documento"].toString() == documento) {
-              u["estado"] = nuevoEstado; // 👈 actualiza el estado
-            }
-            return u;
-          }).toList();
-        });
+    if (response.statusCode == 200) {
+      setState(() {
+        usuarios = usuarios.map((u) {
+          if (u["n_documento"].toString() == documento) {
+            u["estado"] = nuevoEstado;
+          }
+          return u;
+        }).toList();
+      });
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Usuario $accion correctamente")),
-        );
-      } else {
-        throw Exception("Error al $accion usuario");
-      }
-    } catch (e) {
+      final mensaje = estadoActual == "Activo"
+          ? "Usuario suspendido correctamente"
+          : "Usuario reactivado correctamente";
+
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error: $e")),
+        SnackBar(content: Text(mensaje)),
       );
+    } else {
+      throw Exception("Error al $accion usuario");
     }
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Error: $e")),
+    );
   }
+}
 
   @override
   Widget build(BuildContext context) {

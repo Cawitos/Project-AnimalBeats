@@ -20,7 +20,7 @@ class _AgregarVeterinarioPageState extends State<AgregarVeterinarioPage> {
   final TextEditingController alturaController = TextEditingController();
   final TextEditingController experienciaController = TextEditingController();
 
-  XFile? imagenSeleccionada; // Soporta móvil y web
+  XFile? imagenSeleccionada;
 
   Future<void> _seleccionarImagen() async {
     final picker = ImagePicker();
@@ -41,14 +41,12 @@ class _AgregarVeterinarioPageState extends State<AgregarVeterinarioPage> {
 
     var request = http.MultipartRequest('POST', uri);
 
-    // Campos normales
     request.fields['nombre_completo'] = nombreController.text;
     request.fields['estudios_especialidad'] = estudiosController.text;
     request.fields['edad'] = edadController.text;
     request.fields['altura'] = alturaController.text;
     request.fields['anios_experiencia'] = experienciaController.text;
 
-    // Imagen
     if (imagenSeleccionada != null && !kIsWeb) {
       request.files.add(await http.MultipartFile.fromPath(
         'imagen',
@@ -81,35 +79,48 @@ class _AgregarVeterinarioPageState extends State<AgregarVeterinarioPage> {
     } catch (e) {
       print("🔥 Excepción en _guardarVeterinario: $e");
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error al conectar con el servidor")),
+        const SnackBar(content: Text("Error al conectar con el servidor")),
       );
     }
   }
 
-  Widget _mostrarImagen() {
-    if (imagenSeleccionada == null) {
-      return const SizedBox.shrink();
-    }
-
-    if (kIsWeb) {
-      return Image.network(
-        imagenSeleccionada!.path,
-        height: 150,
-        fit: BoxFit.cover,
-      );
-    } else {
-      return Image.file(
-        File(imagenSeleccionada!.path),
-        height: 150,
-        fit: BoxFit.cover,
-      );
-    }
+ Widget _mostrarImagen() {
+  if (imagenSeleccionada == null) {
+    return const SizedBox.shrink();
   }
+
+  if (kIsWeb) {
+    return FutureBuilder(
+      future: imagenSeleccionada!.readAsBytes(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done &&
+            snapshot.hasData) {
+          return Image.memory(
+            snapshot.data!,
+            height: 150,
+            fit: BoxFit.cover,
+          );
+        } else {
+          return const CircularProgressIndicator();
+        }
+      },
+    );
+  } else {
+    return Image.file(
+      File(imagenSeleccionada!.path),
+      height: 150,
+      fit: BoxFit.cover,
+    );
+  }
+}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Agregar Veterinario")),
+      appBar: AppBar(
+        title: const Text("Agregar Veterinario"),
+        backgroundColor: Colors.red, 
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -153,11 +164,19 @@ class _AgregarVeterinarioPageState extends State<AgregarVeterinarioPage> {
               const SizedBox(height: 20),
               _mostrarImagen(),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red, 
+                  foregroundColor: Colors.white, 
+                ),
                 onPressed: _seleccionarImagen,
                 child: const Text("Seleccionar Imagen"),
               ),
               const SizedBox(height: 20),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red, 
+                  foregroundColor: Colors.white, 
+                ),
                 onPressed: _guardarVeterinario,
                 child: const Text("Guardar"),
               ),
