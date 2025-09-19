@@ -31,7 +31,7 @@ class _GestionUsuariosPageState extends State<GestionUsuariosPage> {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        print("Respuesta JSON: $data"); 
+        print("Respuesta JSON: $data");
 
         setState(() {
           if (data is List) {
@@ -60,66 +60,66 @@ class _GestionUsuariosPageState extends State<GestionUsuariosPage> {
   }
 
   Future<void> _cambiarEstadoUsuario(
-    String documento, String estadoActual) async {
-  final accion = estadoActual == "Activo" ? "Suspender" : "Reactivar";
-  final nuevoEstado = estadoActual == "Activo" ? "Suspendido" : "Activo";
+      String documento, String estadoActual) async {
+    final accion = estadoActual == "Activo" ? "Suspender" : "Reactivar";
+    final nuevoEstado = estadoActual == "Activo" ? "Suspendido" : "Activo";
 
-  final confirmar = await showDialog<bool>(
-    context: context,
-    builder: (ctx) => AlertDialog(
-      title: Text("¿Estás seguro?"),
-      content: Text("Este usuario será $accion."),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(ctx, false),
-          child: const Text("Cancelar"),
-        ),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-              backgroundColor:
-                  estadoActual == "Activo" ? Colors.red : Colors.green),
-          onPressed: () => Navigator.pop(ctx, true),
-          child: Text("Sí, $accion"),
-        ),
-      ],
-    ),
-  );
-
-  if (confirmar != true) return;
-
-  try {
-    final endpoint = estadoActual == "Activo"
-        ? "$apiUrl/usuario/Suspender/$documento"
-        : "$apiUrl/usuario/Reactivar/$documento";
-
-    final response = await http.put(Uri.parse(endpoint));
-
-    if (response.statusCode == 200) {
-      setState(() {
-        usuarios = usuarios.map((u) {
-          if (u["n_documento"].toString() == documento) {
-            u["estado"] = nuevoEstado;
-          }
-          return u;
-        }).toList();
-      });
-
-      final mensaje = estadoActual == "Activo"
-          ? "Usuario suspendido correctamente"
-          : "Usuario reactivado correctamente";
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(mensaje)),
-      );
-    } else {
-      throw Exception("Error al $accion usuario");
-    }
-  } catch (e) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("Error: $e")),
+    final confirmar = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text("¿Estás seguro?"),
+        content: Text("Este usuario será $accion."),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text("Cancelar"),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor:
+                    estadoActual == "Activo" ? Colors.red : Colors.green),
+            onPressed: () => Navigator.pop(ctx, true),
+            child: Text("Sí, $accion"),
+          ),
+        ],
+      ),
     );
+
+    if (confirmar != true) return;
+
+    try {
+      final endpoint = estadoActual == "Activo"
+          ? "$apiUrl/usuario/Suspender/$documento"
+          : "$apiUrl/usuario/Reactivar/$documento";
+
+      final response = await http.put(Uri.parse(endpoint));
+
+      if (response.statusCode == 200) {
+        setState(() {
+          usuarios = usuarios.map((u) {
+            if (u["n_documento"].toString() == documento) {
+              u["estado"] = nuevoEstado;
+            }
+            return u;
+          }).toList();
+        });
+
+        final mensaje = estadoActual == "Activo"
+            ? "Usuario suspendido correctamente"
+            : "Usuario reactivado correctamente";
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(mensaje)),
+        );
+      } else {
+        throw Exception("Error al $accion usuario");
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error: $e")),
+      );
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {

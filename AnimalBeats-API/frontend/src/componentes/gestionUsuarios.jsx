@@ -2,122 +2,173 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import OffcanvasMenu from "../componentes/menu";
-import '../css/usuarios.css';
+import "../css/gestionMascotas.css"; //Estilo de gestion de mascotas
 
 export default function GestionUsuarios() {
   const [usuarios, setUsuarios] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetchUsuarios = async () => {
+    try {
+      const res = await fetch(
+        "https://animalbeats-backend-production.up.railway.app/usuario/Listado"
+      );
+      if (!res.ok) throw new Error("Error al obtener usuarios");
+
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        setUsuarios(data);
+      } else if (data.usuarios || data.Usuarios) {
+        setUsuarios(data.usuarios || data.Usuarios);
+      } else {
+        setUsuarios([]);
+        console.warn("Formato inesperado:", data);
+      }
+    } catch (err) {
+      console.error(err);
+      setError("No se pudieron cargar los usuarios");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    fetch("https://animalbeats-backend-production.up.railway.app/usuario/Listado")
-      .then((res) => res.json())
-      .then((data) => setUsuarios(data.usuarios))
-      .catch((err) => console.error("Error al cargar usuarios:", err));
+    fetchUsuarios();
   }, []);
 
-  const suspenderUsuario = (id) => {
+  const cambiarEstadoUsuario = (id, estadoActual, nombre) => {
+    const accion = estadoActual === "Activo" ? "Suspender" : "Reactivar";
+    const nuevoEstado = estadoActual === "Activo" ? "Suspendido" : "Activo";
+
     Swal.fire({
-      title: "¿Estás seguro?",
-      text: "Este usuario será suspendido y no podrá iniciar sesión.",
+      title: `¿Estás seguro de ${accion.toLowerCase()} a ${nombre}?`,
+      text: "Esta acción podrá revertirse luego.",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Sí, suspender",
+      confirmButtonText: `Sí, ${accion}`,
       cancelButtonText: "Cancelar",
     }).then((result) => {
-      if (result.isConfirmed) {
-        fetch(`https://animalbeats-backend-production.up.railway.app/usuario/Suspender/${id}`, {
-          method: "PUT",
+      if (!result.isConfirmed) return;
+
+      const endpoint =
+        estadoActual === "Activo"
+          ? `https://animalbeats-backend-production.up.railway.app/usuario/Suspender/${id}`
+          : `https://animalbeats-backend-production.up.railway.app/usuario/Reactivar/${id}`;
+
+      fetch(endpoint, { method: "PUT" })
+        .then((response) => {
+          if (!response.ok) throw new Error(`Error al ${accion} usuario`);
+
+          setUsuarios((prev) =>
+            prev.map((u) =>
+              u.n_documento === id ? { ...u, estado: nuevoEstado } : u
+            )
+          );
+
+          Swal.fire(
+            "¡Éxito!",
+            `Usuario ${accion.toLowerCase()} correctamente.`,
+            "success"
+          );
         })
-          .then((response) => {
-            if (!response.ok) throw new Error("Error al suspender usuario");
-
-            setUsuarios((prev) =>
-              prev.filter((u) => u.n_documento !== id)
-            );
-
-            Swal.fire(
-              "¡Suspendido!",
-              "El usuario ha sido suspendido.",
-              "success"
-            );
-          })
-          .catch((error) => {
-            console.error(error);
-            Swal.fire("Error", "No se pudo suspender el usuario.", "error");
-          });
-      }
+        .catch((err) => {
+          console.error(err);
+          Swal.fire(
+            "Error",
+            `No se pudo ${accion.toLowerCase()} el usuario.`,
+            "error"
+          );
+        });
     });
   };
 
+  if (loading) {
+    return <div className="text-center mt-5">Cargando usuarios...</div>;
+  }
+
+  if (error) {
+    return (
+      <div className="alert alert-danger text-center mt-5" role="alert">
+        {error}
+      </div>
+    );
+  }
+
   return (
-    <div className="gestion-usuarios-container container py-5 mt-5">
-      <div className="gestion-usuarios-menu-lateral">
+    <div className="gestion-mascotas-container">
+      <div className="gestion-mascotas-menu-lateral">
         <OffcanvasMenu />
       </div>
-      <h1 className="gestion-usuarios-title text-center mb-4">
-        Gestión de usuarios
-      </h1>
+      <div className="gestion-mascotas-contenido-principal">
+        <h1 className="gestion-mascotas-titulo">Gestión de Usuarios</h1>
+        {error && <p className="gestion-mascotas-error">{error}</p>}
 
-      {usuarios.length > 0 ? (
-        <div className="gestion-usuarios-tabla-responsive table-responsive">
-          <table className="gestion-usuarios-tabla table table-striped">
-            <thead className="gestion-usuarios-thead table-dark">
-              <tr>
-                <th>Nombre</th>
-                <th>Código</th>
-                <th>Correo</th>
-                <th>Consultar</th>
-                <th>Modificar</th>
-                <th>Suspender</th>
-              </tr>
-            </thead>
-            <tbody className="gestion-usuarios-tbody">
-              {usuarios.map((u) => (
-                <tr key={u.n_documento}>
-                  <td>{u.nombre}</td>
-                  <td>{`${u.tipo_documento} - ${u.n_documento}`}</td>
-                  <td>{u.correoelectronico}</td>
-                  <td>
-                    <Link
-                      to={`/usuarios/${u.n_documento}/consultar`}
-                      className="gestion-usuarios-icon text-danger"
-                    >
-                      <i className="fa-solid fa-eye"></i>
-                    </Link>
-                  </td>
-                  <td>
-                    <Link
-                      to={`/usuario/Actualizar/${u.n_documento}`}
-                      className="gestion-usuarios-icon text-danger"
-                    >
-                      <i className="fa-solid fa-pen"></i>
-                    </Link>
-                  </td>
-                  <td>
-                    <button
-                      className="gestion-usuarios-btn btn btn-outline-danger btn-sm"
-                      onClick={() => suspenderUsuario(u.n_documento)}
-                    >
-                      <i className="fa-solid fa-user-lock"></i>
-                    </button>
-                  </td>
+        {!error && usuarios.length === 0 && (
+          <p className="gestion-mascotas-no-data">
+            No hay usuarios registrados actualmente.
+          </p>
+        )}
+
+        {usuarios.length > 0 && (
+          <div className="gestion-mascotas-contenedor-tabla">
+            <table className="gestion-mascotas-tabla" id="gestion-usuarios-tabla">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Código</th>
+                  <th>Correo</th>
+                  <th>Estado</th>
+                  <th>Consultar</th>
+                  <th>Modificar</th>
+                  <th>Acción</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      ) : (
-        <div
-          className="gestion-usuarios-alert alert alert-warning text-center"
-          role="alert"
-        >
-          No hay usuarios registrados actualmente.
-        </div>
-      )}
+              </thead>
+              <tbody>
+                {usuarios.map((u) => (
+                  <tr key={u.n_documento}>
+                    <td>{u.nombre}</td>
+                    <td>{`${u.tipo_documento} - ${u.n_documento}`}</td>
+                    <td>{u.correoelectronico}</td>
+                    <td>{u.estado}</td>
+                    <td>
+                      <Link
+                        to={`/usuarios/${u.n_documento}/consultar`}
+                        className="gestion-mascotas-btn-icon"
+                      >
+                        Consultar
+                      </Link>
+                    </td>
+                    <td>
+                      <Link
+                        to={`/usuario/Actualizar/${u.n_documento}`}
+                        className="gestion-mascotas-btn-icon"
+                      >
+                        Modificar
+                      </Link>
+                    </td>
+                    <td>
+                      <button
+                        onClick={() =>
+                          cambiarEstadoUsuario(u.n_documento, u.estado, u.nombre)
+                        }
+                        className="gestion-mascotas-btn-icon"
+                      >
+                        {u.estado === "Activo" ? "Suspender" : "Reactivar"}
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
 
-      <div className="gestion-usuarios-crear text-center mt-4">
-        <Link to="/usuarios/crear" className="gestion-usuarios-crear-btn btn btn-danger btn-lg">
-          <i className="fa-solid fa-user-plus"></i> Crear usuario
-        </Link>
+        <div className="gestion-mascotas-crear">
+          <Link to="/usuarios/crear" className="btn btn-primary">
+            Crear Usuario
+          </Link>
+        </div>
       </div>
     </div>
   );

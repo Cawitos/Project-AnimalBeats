@@ -25,6 +25,10 @@ import CrearMascota from './componentes/CrearMascota';
 import ModificarMascota from './componentes/ModificarMascota';
 import ModificarRaza from './componentes/ModificarRaza';
 import Historial from './componentes/Historial';
+import Veterinarios from './componentes/Veterinarios';
+import AgregarPV from './componentes/AgregarPV';
+import EstadisticasAdmin from './componentes/EstadisticasAdmin';
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 import { UserContext } from './context/UserContext';
 
@@ -45,6 +49,7 @@ function App() {
             <Route path="/login" element={<Login setUser={setUser} />} />
             <Route path='/registro' element={<Register setUser={setUser} />} />
             <Route path='/admin' element={User?.rol == 1 ? <Admin /> : <Navigate to="/" />} />
+            <Route path='/estadisticasadmin' element={User?.rol == 1 ? <EstadisticasAdmin /> : <Navigate to="/" />} />
             <Route path="/cliente" element={User?.rol === 2 ? <Cliente /> : <Navigate to="/" />} />
             <Route path="/veterinario" element={User?.rol === 3 ? <Veterinario /> : <Navigate to="/" />} />
             <Route path="/gestionusuarios" element={User?.rol == 1 ? <GestionUsuarios /> : <Navigate to="/" />} />
@@ -52,6 +57,8 @@ function App() {
             <Route path="/usuarios/crear" element={User?.rol === 1 ? <CrearUsuario /> : <Navigate to="/" />} />
             <Route path="/usuario/Actualizar/:n_documento" element={User?.rol === 1 ? <ModificarUsuarioPage /> : <Navigate to="/" />} />
             <Route path="/estados-roles" element={User?.rol === 1 ? <EstadoRoles /> : <Navigate to="/" />} />
+            <Route path="/veterinarios" element={User?.rol == 1 || User?.rol == 3 ? <Veterinarios /> : <Navigate to="/" />} />
+            <Route path="/agregarpv" element={User?.rol == 1 || User?.rol == 3 ? <AgregarPV /> : <Navigate to="/" />} />
 
             {/* Rutas recordatorios */}
             <Route path="/recordatorios" element={User?.rol !== 2 ? <Recordatorios /> : <Navigate to="/" />} />

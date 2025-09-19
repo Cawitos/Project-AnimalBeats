@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 export default function CrearUsuario() {
   const navigate = useNavigate();
   const [tiposDocumento, setTiposDocumento] = useState([]);
+  const [roles, setRoles] = useState([]);
   const [formData, setFormData] = useState({
     id_documento: '',
     n_documento: '',
@@ -18,17 +19,24 @@ export default function CrearUsuario() {
   useEffect(() => {
     const obtenerTiposDocumento = async () => {
       try {
-        const response = await axios.get('https://animalbeats-backend-production.up.railway.app/tiposDocumento');
-        if (response.data && Array.isArray(response.data)) {
-          setTiposDocumento(response.data);
-        } else {
-          console.error('Respuesta inesperada:', response.data);
-        }
+        const res = await axios.get('https://animalbeats-backend-production.up.railway.app/tiposDocumento');
+        if (Array.isArray(res.data)) setTiposDocumento(res.data);
       } catch (error) {
         console.error('Error al obtener tipos de documento:', error);
       }
     };
+
+    const obtenerRoles = async () => {
+      try {
+        const res = await axios.get('https://animalbeats-backend-production.up.railway.app/roles/Listado');
+        if (res.data?.roles) setRoles(res.data.roles);
+      } catch (error) {
+        console.error('Error al obtener roles:', error);
+      }
+    };
+
     obtenerTiposDocumento();
+    obtenerRoles();
   }, []);
 
   const handleChange = (e) => {
@@ -40,36 +48,71 @@ export default function CrearUsuario() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post('https://animalbeats-backend-production.up.railway.app/usuario/Crear', formData);
+
+    // Validación extra como en Flutter
+    if (
+      formData.id_rol === "1" &&
+      formData.correoelectronico.toLowerCase() !== "administrador@animalbeats.com"
+    ) {
       Swal.fire({
-        title: '¡Éxito!, Usuario Creado Correctamente',
-        text: response.data.mensaje,
-        icon: 'success',
-        confirmButtonText: 'OK',
-      }).then(() => {
-        navigate('/gestionusuarios');
+        icon: "warning",
+        title: "Correo inválido para Administrador",
+        text: "Solo se permite el correo predeterminado para este rol.",
       });
+      return;
+    }
+
+    try {
+      const res = await axios.post(
+        "https://animalbeats-backend-production.up.railway.app/usuario/Crear",
+        formData
+      );
+
+      if (res.status === 201) {
+        Swal.fire({
+          title: "¡Éxito!",
+          text: "Usuario creado correctamente",
+          icon: "success",
+        }).then(() => navigate("/gestionusuarios"));
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "No se pudo crear el usuario",
+        });
+      }
     } catch (error) {
       console.error(error);
       Swal.fire({
-        title: 'Error',
-        text: 'Error al registrar usuario',
-        icon: 'error',
-        confirmButtonText: 'OK',
+        title: "Error",
+        text: error.response?.data?.mensaje || "Error al registrar usuario",
+        icon: "error",
       });
     }
   };
 
   return (
     <div className="crear-usuario-container container mt-5">
-      <div className="crear-usuario-card card mx-auto shadow p-4" style={{ maxWidth: '500px' }}>
-        <h3 className="crear-usuario-title text-center mb-4">Crear Usuario</h3>
+      <div
+        className="crear-usuario-card card mx-auto shadow-lg p-4"
+        style={{ maxWidth: "550px", borderRadius: "20px" }}
+      >
+        {/* Título */}
+        <h2
+          className="crear-usuario-title text-center mb-4 display-6 fw-bold"
+          style={{ color: "#e63946" }}
+        >
+          Crear Usuario
+        </h2>
+
         <form className="crear-usuario-form" onSubmit={handleSubmit}>
+          {/* Tipo de documento */}
           <div className="crear-usuario-field mb-3">
-            <label htmlFor="id_documento" className="crear-usuario-label form-label">Tipo de documento</label>
+            <label htmlFor="id_documento" className="form-label fw-semibold">
+              Tipo de documento
+            </label>
             <select
-              className="crear-usuario-select form-select"
+              className="form-select"
               name="id_documento"
               id="id_documento"
               required
@@ -78,85 +121,113 @@ export default function CrearUsuario() {
             >
               <option value="">Seleccione un tipo</option>
               {tiposDocumento.map((tipo) => (
-                <option key={tipo.id} value={tipo.id}>{tipo.tipo}</option>
+                <option key={tipo.id} value={tipo.id}>
+                  {tipo.tipo}
+                </option>
               ))}
             </select>
           </div>
 
+          {/* Número de documento */}
           <div className="crear-usuario-field mb-3">
-            <label htmlFor="n_documento" className="crear-usuario-label form-label">Número de documento</label>
+            <label htmlFor="n_documento" className="form-label fw-semibold">
+              Número de documento
+            </label>
             <input
               type="number"
-              className="crear-usuario-input form-control"
+              className="form-control"
               name="n_documento"
-              id="n_documento"
               required
               value={formData.n_documento}
               onChange={handleChange}
             />
           </div>
 
+          {/* Nombre */}
           <div className="crear-usuario-field mb-3">
-            <label htmlFor="nombre" className="crear-usuario-label form-label">Nombre completo</label>
+            <label htmlFor="nombre" className="form-label fw-semibold">
+              Nombre completo
+            </label>
             <input
               type="text"
-              className="crear-usuario-input form-control"
+              className="form-control"
               name="nombre"
-              id="nombre"
               required
               value={formData.nombre}
               onChange={handleChange}
             />
           </div>
 
+          {/* Correo */}
           <div className="crear-usuario-field mb-3">
-            <label htmlFor="correoelectronico" className="crear-usuario-label form-label">Correo electrónico</label>
+            <label htmlFor="correoelectronico" className="form-label fw-semibold">
+              Correo electrónico
+            </label>
             <input
               type="email"
-              className="crear-usuario-input form-control"
+              className="form-control"
               name="correoelectronico"
-              id="correoelectronico"
               required
               value={formData.correoelectronico}
               onChange={handleChange}
             />
           </div>
 
+          {/* Contraseña */}
           <div className="crear-usuario-field mb-3">
-            <label htmlFor="contrasena" className="crear-usuario-label form-label">Contraseña</label>
+            <label htmlFor="contrasena" className="form-label fw-semibold">
+              Contraseña
+            </label>
             <input
               type="password"
-              className="crear-usuario-input form-control"
+              className="form-control"
               name="contrasena"
-              id="contrasena"
               required
               value={formData.contrasena}
               onChange={handleChange}
             />
           </div>
 
+          {/* Rol */}
           <div className="crear-usuario-field mb-3">
-            <label htmlFor="id_rol" className="crear-usuario-label form-label">Rol</label>
+            <label htmlFor="id_rol" className="form-label fw-semibold">
+              Rol
+            </label>
             <select
-              className="crear-usuario-select form-select"
+              className="form-select"
               name="id_rol"
-              id="id_rol"
               required
               value={formData.id_rol}
               onChange={handleChange}
             >
               <option value="">Seleccione un rol</option>
-              <option value="1">Administrador</option>
-              <option value="2">Cliente</option>
-              <option value="3">Veterinario</option>
+              {roles.map((rol) => (
+                <option key={rol.id} value={rol.id}>
+                  {rol.rol}
+                </option>
+              ))}
             </select>
           </div>
 
-          <div className="crear-usuario-actions text-center mt-4">
-            <button type="submit" className="crear-usuario-button btn btn-danger">Registrar Usuario</button>
+          {/* Botón */}
+          <div className="text-center mt-4">
+            <button
+              type="submit"
+              className="btn"
+              style={{
+                backgroundColor: "#f44336",
+                color: "#fff",
+                fontWeight: "bold",
+                padding: "10px 30px",
+                borderRadius: "10px",
+              }}
+            >
+              Registrar Usuario
+            </button>
           </div>
         </form>
       </div>
     </div>
   );
+
 }

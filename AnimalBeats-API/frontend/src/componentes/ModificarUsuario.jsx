@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import '../css/modificarU.css'
+import "../css/modificarU.css";
 
 const ModificarUsuario = ({ usuario }) => {
   const navigate = useNavigate();
@@ -9,17 +9,22 @@ const ModificarUsuario = ({ usuario }) => {
   const [nDocumento, setNDocumento] = useState("");
   const [nombre, setNombre] = useState("");
   const [correoelectronico, setCorreoElectronico] = useState("");
-  const [rol, setRol] = useState("");
 
   const [nDocumentoOriginal, setNDocumentoOriginal] = useState("");
 
   const [tiposDocumento, setTiposDocumento] = useState([]);
   const [idDocumento, setIdDocumento] = useState("");
 
+  const [roles, setRoles] = useState([]);
+  const [idRol, setIdRol] = useState("");
+
+  // Cargar tipos de documento
   useEffect(() => {
     const fetchTiposDocumento = async () => {
       try {
-        const response = await fetch("https://animalbeats-backend-production.up.railway.app/tiposDocumento");
+        const response = await fetch(
+          "https://animalbeats-backend-production.up.railway.app/tiposDocumento"
+        );
         const data = await response.json();
         setTiposDocumento(data);
       } catch (error) {
@@ -29,22 +34,33 @@ const ModificarUsuario = ({ usuario }) => {
     fetchTiposDocumento();
   }, []);
 
+  // Cargar roles
+  useEffect(() => {
+    const fetchRoles = async () => {
+      try {
+        const response = await fetch(
+          "https://animalbeats-backend-production.up.railway.app/roles/Listado"
+        );
+        const data = await response.json();
+        if (data && data.roles) {
+          setRoles(data.roles);
+        }
+      } catch (error) {
+        console.error("Error al obtener roles:", error);
+      }
+    };
+    fetchRoles();
+  }, []);
+
+  // Precargar datos del usuario
   useEffect(() => {
     if (usuario && usuario.n_documento) {
       setNDocumento(usuario.n_documento);
       setNDocumentoOriginal(usuario.n_documento);
       setNombre(usuario.nombre || "");
       setCorreoElectronico(usuario.correoelectronico || "");
-      setRol(
-        usuario.id_rol === 1
-          ? "admin"
-          : usuario.id_rol === 2
-            ? "cliente"
-            : usuario.id_rol === 3
-              ? "veterinario"
-              : ""
-      );
-      setIdDocumento(usuario.id_documento || "");
+      setIdDocumento(usuario.id_documento?.toString() || "");
+      setIdRol(usuario.id_rol?.toString() || "");
     }
   }, [usuario]);
 
@@ -52,17 +68,20 @@ const ModificarUsuario = ({ usuario }) => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`https://animalbeats-backend-production.up.railway.app/usuario/Actualizar/${nDocumento}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          nombre,
-          correoelectronico,
-          id_documento: idDocumento,
-          n_documento_original: nDocumentoOriginal,
-          id_rol: rol === "admin" ? 1 : rol === "cliente" ? 2 : rol === "veterinario" ? 3 : null,
-        }),
-      });
+      const response = await fetch(
+        `https://animalbeats-backend-production.up.railway.app/usuario/Actualizar/${nDocumento}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            nombre,
+            correoelectronico,
+            id_documento: idDocumento,
+            id_rol: idRol,
+            n_documento_original: nDocumentoOriginal,
+          }),
+        }
+      );
 
       let data;
       try {
@@ -75,7 +94,9 @@ const ModificarUsuario = ({ usuario }) => {
         await Swal.fire({
           icon: "success",
           title: "¡Usuario actualizado!",
-          text: data.mensaje || "Los datos del usuario se actualizaron correctamente.",
+          text:
+            data.mensaje ||
+            "Los datos del usuario se actualizaron correctamente.",
           confirmButtonText: "OK",
         });
         navigate("/gestionusuarios");
@@ -170,14 +191,16 @@ const ModificarUsuario = ({ usuario }) => {
             <select
               className="ab-form-select"
               id="rol"
-              value={rol}
-              onChange={(e) => setRol(e.target.value)}
+              value={idRol}
+              onChange={(e) => setIdRol(e.target.value)}
               required
             >
               <option value="">Seleccione un rol</option>
-              <option value="admin">Administrador</option>
-              <option value="cliente">Cliente</option>
-              <option value="veterinario">Veterinario</option>
+              {roles.map((rol) => (
+                <option key={rol.id} value={rol.id}>
+                  {rol.rol}
+                </option>
+              ))}
             </select>
           </div>
 

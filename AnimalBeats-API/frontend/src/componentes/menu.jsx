@@ -72,7 +72,8 @@ export default function OffcanvasMenu() {
                   title="Gestion de usuarios"
                   links={[
                     { path: '/gestionusuarios', label: 'Usuarios' },
-                    { path: '/estados-roles', label: 'Estados y roles' },
+                    { path: '/estados-roles', label: 'Roles' },
+                    { path: '/veterinarios', label: 'Veterinarios' },
                   ]}
                   onLinkClick={handleNavigate}
                 />
