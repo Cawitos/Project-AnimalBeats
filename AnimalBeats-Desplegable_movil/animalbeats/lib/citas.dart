@@ -96,6 +96,29 @@ class _CitasPageState extends State<CitasPage>
     }
   }
 
+  Future<void> _cambiarEstado(int id, String nuevoEstado) async {
+    try {
+      final response = await http.put(
+        Uri.parse(
+            "https://animalbeats-backend-production.up.railway.app/Citas/$nuevoEstado/$id"),
+      );
+      if (response.statusCode == 200) {
+        fetchCitas();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("✅ Cita actualizada a $nuevoEstado")),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("❌ No se pudo actualizar la cita")),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("❌ Error al actualizar la cita: $e")),
+      );
+    }
+  }
+
   Widget buildCitaCard(Map cita) {
     Color estadoColor = cita['estado'] == "Pendiente"
         ? rojo
@@ -139,6 +162,21 @@ class _CitasPageState extends State<CitasPage>
             if (cita['Descripcion'] != null &&
                 cita['Descripcion'].toString().isNotEmpty)
               Text("Descripción: ${cita['Descripcion']}"),
+            const SizedBox(height: 8),
+            // Botones dinámicos según estado
+            if (cita['estado'] == "Pendiente")
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: rojo),
+                onPressed: () => _cambiarEstado(cita['id'], "Cancelar"),
+                child: const Text("Cancelar", style: TextStyle(color: blanco)),
+              ),
+            if (cita['estado'] == "Solicitud")
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                onPressed: () => _cambiarEstado(cita['id'], "Pendiente"),
+                child:
+                    const Text("Confirmar", style: TextStyle(color: blanco)),
+              ),
           ],
         ),
         trailing: const Icon(Icons.arrow_forward_ios, size: 18, color: negro),
