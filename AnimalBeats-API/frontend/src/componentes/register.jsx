@@ -12,7 +12,8 @@ const Register = () => {
         n_documento: '',
         nombre: '',
         correoelectronico: '',
-        contrasena: ''
+        contrasena: '',
+        confirmarContrasena: '' // ✅ Nuevo campo
     });
     const [mensaje, setMensaje] = useState('');
 
@@ -28,8 +29,16 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // ✅ Validar que las contraseñas coincidan
+        if (formData.contrasena !== formData.confirmarContrasena) {
+            setMensaje('Las contraseñas no coinciden');
+            return;
+        }
+
         try {
-            const res = await axios.post('https://animalbeats-backend-production.up.railway.app/registro', formData);
+            const { confirmarContrasena, ...dataToSend } = formData; // Excluir confirmarContrasena
+            const res = await axios.post('https://animalbeats-backend-production.up.railway.app/registro', dataToSend);
             setMensaje(res.data.mensaje);
 
             setFormData({
@@ -37,7 +46,8 @@ const Register = () => {
                 n_documento: '',
                 nombre: '',
                 correoelectronico: '',
-                contrasena: ''
+                contrasena: '',
+                confirmarContrasena: ''
             });
 
             setTimeout(() => {
@@ -116,6 +126,19 @@ const Register = () => {
                             className="form-control"
                             name="contrasena"
                             value={formData.contrasena}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+
+
+                    <div className="campo">
+                        <label className="form-label">Confirmar Contraseña</label>
+                        <input
+                            type="password"
+                            className="form-control"
+                            name="confirmarContrasena"
+                            value={formData.confirmarContrasena}
                             onChange={handleChange}
                             required
                         />

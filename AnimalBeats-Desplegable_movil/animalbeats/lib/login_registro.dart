@@ -2,6 +2,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'admin.dart';
+import 'cliente.dart';
+import 'veterinario.dart';
+import 'storage_service.dart';
 
 const String apiUrl = "https://animalbeats-backend-production.up.railway.app";
 
@@ -224,8 +227,8 @@ class _LoginPageState extends State<LoginPage> {
         Uri.parse("$apiUrl/login"),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({
-          "correoelectronico": correoCtrl.text,
-          "contrasena": contrasenaCtrl.text,
+          "correoelectronico": correoCtrl.text.trim(),
+          "contrasena": contrasenaCtrl.text.trim(),
         }),
       );
 
@@ -236,6 +239,10 @@ class _LoginPageState extends State<LoginPage> {
         final rol = usuario['rol'];
         final estado = usuario['estado'];
 
+        // ✅ Guardar documento y rol usando StorageService
+        final nDocumento = usuario['nDocumento'] ?? usuario['n_documento'];
+        await StorageService.saveUser(nDocumento.toString(), rol);
+
         if (estado == "Suspendido") {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
@@ -243,7 +250,7 @@ class _LoginPageState extends State<LoginPage> {
                   Text("Tu cuenta está suspendida. Contacta al administrador."),
             ),
           );
-          return; // No deja entrar
+          return;
         }
 
         if (estado == "Pendiente") {
@@ -253,7 +260,7 @@ class _LoginPageState extends State<LoginPage> {
                   "Tu cuenta está en estado pendiente. Intenta más tarde."),
             ),
           );
-          return; // No deja entrar
+          return;
         }
 
         // ✅ Solo si está Activo
@@ -261,6 +268,7 @@ class _LoginPageState extends State<LoginPage> {
           SnackBar(content: Text("Bienvenido ${usuario['nombre']}")),
         );
 
+        // Redirección según rol
         if (rol == 1) {
           Navigator.pushReplacement(
             context,
@@ -342,31 +350,6 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
-    );
-  }
-}
-
-// ---------------------- DASHBOARDS ----------------------
-class ClienteDashboard extends StatelessWidget {
-  const ClienteDashboard({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Dashboard Cliente")),
-      body: const Center(child: Text("Bienvenido Cliente")),
-    );
-  }
-}
-
-class VeterinarioDashboard extends StatelessWidget {
-  const VeterinarioDashboard({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Dashboard Veterinario")),
-      body: const Center(child: Text("Bienvenido Veterinario")),
     );
   }
 }
