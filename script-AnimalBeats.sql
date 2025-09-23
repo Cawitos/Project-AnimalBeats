@@ -73,9 +73,11 @@ Create table Citas(
     id_Mascota int not null,
 	id_cliente varchar(10) not null,
 	id_Servicio int not null,
+    id_Veterinario int not null,
     fecha datetime not null,
     Descripcion varchar(255),
     estado VARCHAR(100) not null,
+    foreign key (id_Veterinario) references Veterinarios(id) on delete cascade,
     foreign key (id_Mascota) references Mascota(id) on delete cascade,
     foreign key (id_cliente) references Usuarios(n_documento) on delete cascade,
     foreign key (id_Servicio) references Servicios(id) on delete cascade
