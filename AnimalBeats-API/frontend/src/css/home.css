@@ -1,7 +1,7 @@
 :root {
-  --rojo-oscuro: #7f1d1d; /* header, footer */
-  --rojo: #dc2626;        /* botones */
-  --rojo-hover: #b91c1c;  /* hover botones */
+  --rojo-oscuro: #7f1d1d;
+  --rojo: #dc2626;
+  --rojo-hover: #b91c1c;
   --blanco: #ffffff;
   --gris: #f3f4f6;
   --gris-texto: #4b5563;
@@ -11,9 +11,7 @@
   --fuente: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* ===========================
-   ESTILOS GLOBALES
-=========================== */
+/* ============ GLOBALES ============ */
 body {
   margin: 0;
   font-family: var(--fuente);
@@ -27,7 +25,6 @@ img {
   display: block;
 }
 
-/* Contenedor general */
 .page {
   display: flex;
   flex-direction: column;
@@ -35,7 +32,6 @@ img {
   background: var(--gris);
 }
 
-/* Contenido principal */
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -47,9 +43,7 @@ img {
   padding: 24px 0;
 }
 
-/* ===========================
-   HEADER
-=========================== */
+/* ============ HEADER ============ */
 header {
   background: var(--rojo-oscuro);
   color: var(--blanco);
@@ -105,9 +99,7 @@ header button:hover {
   transform: translateY(-2px);
 }
 
-/* ===========================
-   SLIDER
-=========================== */
+/* ============ SLIDER ============ */
 .slider-container {
   position: relative;
   width: 100%;
@@ -143,9 +135,7 @@ header button:hover {
   background: var(--rojo);
 }
 
-/* ===========================
-   CARDS
-=========================== */
+/* ============ CARDS ============ */
 .grid-cards {
   display: grid;
   gap: 24px;
@@ -160,6 +150,7 @@ header button:hover {
   text-align: center;
   box-shadow: 0 4px 15px rgba(0,0,0,0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
 }
 
 .card:hover {
@@ -188,9 +179,71 @@ header button:hover {
   line-height: 1.4;
 }
 
-/* ===========================
-   FOOTER
-=========================== */
+/* Botón dentro de card */
+.btn-more {
+  margin-top: 12px;
+  padding: 8px 16px;
+  background: var(--rojo);
+  color: var(--blanco);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+.btn-more:hover {
+  background: var(--rojo-hover);
+  transform: translateY(-2px);
+}
+
+/* ============ EFECTO ZOOM para card de servicios ============ */
+.hover-zoom:hover {
+  transform: scale(1.03);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.2);
+}
+
+/* ============ FLIP CARD (Curiosidades) ============ */
+.flip-card {
+  perspective: 1000px;
+  cursor: pointer;
+  height: 220px;
+}
+.flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+.flipped .flip-inner {
+  transform: rotateY(180deg);
+}
+.flip-front,
+.flip-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 16px;
+}
+.flip-back {
+  transform: rotateY(180deg);
+  background: var(--naranja);
+  color: var(--blanco);
+}
+
+/* ============ TESTIMONIO CARD extra detalle ============ */
+.testimonial-card p {
+  font-style: italic;
+  color: var(--gris-texto);
+}
+
+/* ============ FOOTER ============ */
 footer {
   background: var(--rojo-oscuro);
   color: var(--blanco);
@@ -208,14 +261,11 @@ footer p:last-child {
   color: var(--gris-claro);
 }
 
-/* ===========================
-   RESPONSIVE
-=========================== */
+/* ============ RESPONSIVE ============ */
 @media (max-width: 992px) {
   .header-left h1 {
     font-size: 1.3rem;
   }
-
   .header-right {
     margin-left: auto; 
   }
@@ -238,10 +288,6 @@ footer p:last-child {
 
   .slider-container img {
     height: 200px;
-  }
-
-  .card img {
-    height: auto;
   }
 
   .grid-cards {
@@ -268,11 +314,105 @@ footer p:last-child {
     height: 160px;
   }
 
-  .card {
-    padding: 12px;
-  }
-
   .grid-cards {
     grid-template-columns: 1fr;
+  }
+}
+
+.vet-section {
+  margin-top: 40px;
+}
+.vet-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--rojo-oscuro);
+  margin-bottom: 20px;
+  text-align: center;
+}
+.vet-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+}
+.vet-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+.no-photo {
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gris-claro);
+  border-radius: 12px;
+  font-size: 48px;
+}
+.btn-more {
+  margin-top: 10px;
+  background: var(--rojo);
+  color: var(--blanco);
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.btn-more:hover {
+  background: var(--rojo-hover);
+}
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 16px;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-content img,
+.no-photo.large {
+  width: 100%;
+  max-height: 260px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+@keyframes fadeIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+@media (max-width: 600px) {
+  .modal-content {
+    max-width: 95%;
+    height: auto;
   }
 }
