@@ -1,34 +1,32 @@
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'gestion_mascotas.dart';
 
-// Color principal
-const Color rojo = Color(0xFFDF2935);
-// URL backend
 const String baseUrl = "https://animalbeats-backend-production.up.railway.app";
+const Color rojo = Color(0xFFDF2935);
 
-class DetalleCitaPage extends StatefulWidget {
-  final int idMascota;
+class ConfirmarCitaPage extends StatefulWidget {
   final int idCita;
+  final int userRole; 
 
-  const DetalleCitaPage({
+  const ConfirmarCitaPage({
     super.key,
-    required this.idMascota,
     required this.idCita,
+    required this.userRole,
   });
 
   @override
-  State<DetalleCitaPage> createState() => _DetalleCitaPageState();
+  State<ConfirmarCitaPage> createState() => _ConfirmarCitaPageState();
 }
 
-class _DetalleCitaPageState extends State<DetalleCitaPage> {
+class _ConfirmarCitaPageState extends State<ConfirmarCitaPage> {
   Map<String, dynamic>? _cita;
   bool _cargando = true;
   String? _error;
 
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController _descripcionCtrl = TextEditingController();
-  String _estadoSeleccionado = "Pendiente";
+  final TextEditingController _nuevaDescripcionCtrl = TextEditingController();
 
   @override
   void initState() {
@@ -36,7 +34,6 @@ class _DetalleCitaPageState extends State<DetalleCitaPage> {
     _fetchCita();
   }
 
-  // Obtener información de la cita (usando idMascota y filtrando por idCita)
   Future<void> _fetchCita() async {
     setState(() {
       _cargando = true;
@@ -44,39 +41,16 @@ class _DetalleCitaPageState extends State<DetalleCitaPage> {
     });
 
     try {
-      final res = await http.get(
-        Uri.parse("$baseUrl/Citas/mascota/${widget.idMascota}"),
-      );
+      final res = await http.get(Uri.parse("$baseUrl/Citas/${widget.idCita}"));
 
       if (res.statusCode == 200) {
         final data = json.decode(res.body);
-
-        if (data is List && data.isNotEmpty) {
-          // Buscar la cita específica por idCita
-          final cita = data.firstWhere(
-            (c) => c["id"] == widget.idCita,
-            orElse: () => {},
-          );
-
-          if (cita.isNotEmpty) {
-            setState(() {
-              _cita = cita;
-              _descripcionCtrl.text = cita["descripcion"] ?? "";
-              _estadoSeleccionado = cita["estado"] ?? "Pendiente";
-            });
-          } else {
-            setState(() {
-              _error = "No se encontró la cita con id ${widget.idCita}.";
-            });
-          }
-        } else {
-          setState(() {
-            _error = "No hay citas registradas para esta mascota.";
-          });
-        }
+        setState(() {
+          _cita = data;
+        });
       } else {
         setState(() {
-          _error = "Error al obtener la información (${res.statusCode}).";
+          _error = "Error al obtener cita (${res.statusCode}).";
         });
       }
     } catch (e) {
@@ -90,14 +64,27 @@ class _DetalleCitaPageState extends State<DetalleCitaPage> {
     });
   }
 
-  // Actualizar cita en backend (usa idCita)
-  Future<void> _actualizarCita() async {
+  Future<void> _confirmarCita() async {
     if (_cita == null) return;
-    if (!_formKey.currentState!.validate()) return;
+
+    final now = DateTime.now();
+    final timestamp =
+        "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')} "
+        "${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}";
+
+    final descripcionAnterior = _cita!["Descripcion"] ?? "";
+    final nuevaDescripcion = "$descripcionAnterior\n\n"
+        "📌 Procesos dentro de la cita:\n"
+        "[$timestamp] ${_nuevaDescripcionCtrl.text}";
 
     final body = {
-      "estado": _estadoSeleccionado,
-      "descripcion": _descripcionCtrl.text,
+      "id_Mascota": _cita!["id_Mascota"],
+      "id_cliente": _cita!["id_cliente"],
+      "id_Servicio": _cita!["id_Servicio"],
+      "id_veterinario": _cita!["id_veterinario"],
+      "fecha": _cita!["fecha"],
+      "Descripcion": nuevaDescripcion,
+      "estado": "Completado",
     };
 
     try {
@@ -109,17 +96,26 @@ class _DetalleCitaPageState extends State<DetalleCitaPage> {
 
       if (res.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Cita actualizada correctamente ✅")),
+          const SnackBar(content: Text("✅ Cita confirmada correctamente")),
         );
-        _fetchCita(); // refrescar datos
+
+        // 🔹 Redirigir a Gestión de Mascotas con el userRole
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                GestionMascotas(userRole: widget.userRole),
+          ),
+          (route) => false,
+        );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Error al actualizar cita: ${res.statusCode}")),
+          SnackBar(content: Text("Error al confirmar cita (${res.statusCode})")),
         );
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Error de conexión ❌")),
+        const SnackBar(content: Text("❌ Error de conexión")),
       );
     }
   }
@@ -134,81 +130,75 @@ class _DetalleCitaPageState extends State<DetalleCitaPage> {
 
     if (_error != null) {
       return Scaffold(
-        appBar: AppBar(title: const Text("Detalle de Cita"), backgroundColor: rojo),
+        appBar:
+            AppBar(title: const Text("Confirmar Cita"), backgroundColor: rojo),
         body: Center(child: Text(_error!)),
       );
     }
 
     if (_cita == null) {
       return Scaffold(
-        appBar: AppBar(title: const Text("Detalle de Cita"), backgroundColor: rojo),
-        body: const Center(child: Text("No hay información disponible de la cita.")),
+        appBar:
+            AppBar(title: const Text("Confirmar Cita"), backgroundColor: rojo),
+        body: const Center(child: Text("No se encontró la cita")),
       );
     }
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Detalle de Cita"),
+        title: const Text("Confirmación de Cita"),
         backgroundColor: rojo,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              // Info mascota y cita
-              Card(
-                elevation: 4,
-                child: ListTile(
-                  title: Text("Servicio: ${_cita?["servicio"] ?? "-"}"),
-                  subtitle: Text(
-                    "Fecha: ${_cita?["fecha"] ?? "-"}\n"
-                    "Hora: ${_cita?["hora"] ?? "-"}\n"
-                    "Mascota: ${_cita?["mascota_nombre"] ?? "-"}\n"
-                    "Especie: ${_cita?["especie"] ?? "-"}\n"
-                    "Raza: ${_cita?["raza"] ?? "-"}\n"
-                    "Tutor: ${_cita?["cliente"] ?? "-"}",
-                  ),
+        child: ListView(
+          children: [
+            Card(
+              elevation: 3,
+              child: ListTile(
+                title: Text("Mascota: ${_cita?["nombre_mascota"] ?? "-"}"),
+                subtitle: Text(
+                  "Servicio: ${_cita?["nombre_servicio"] ?? "-"}\n"
+                  "Fecha y hora: ${_cita?["fecha"] ?? "-"}\n"
+                  "Veterinario: ${_cita?["nombre_veterinario"] ?? "-"}",
                 ),
               ),
-              const SizedBox(height: 20),
+            ),
+            const SizedBox(height: 20),
 
-              // Campo estado
-              DropdownButtonFormField<String>(
-                value: _estadoSeleccionado,
-                decoration: const InputDecoration(labelText: "Estado"),
-                items: ["Pendiente", "En Proceso", "Completado", "Cancelado"]
-                    .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-                    .toList(),
-                onChanged: (val) =>
-                    setState(() => _estadoSeleccionado = val ?? "Pendiente"),
+            Card(
+              elevation: 3,
+              child: ListTile(
+                title: const Text("Descripción inicial"),
+                subtitle: Text(_cita?["Descripcion"] ?? "Sin descripción"),
               ),
-              const SizedBox(height: 10),
+            ),
+            const SizedBox(height: 20),
 
-              // Campo descripción
-              TextFormField(
-                controller: _descripcionCtrl,
-                decoration: const InputDecoration(labelText: "Descripción"),
-                maxLines: 3,
-                validator: (val) =>
-                    val == null || val.isEmpty ? "Ingrese la descripción" : null,
+            TextField(
+              controller: _nuevaDescripcionCtrl,
+              maxLines: 3,
+              decoration: const InputDecoration(
+                labelText: "Procesos dentro de la cita",
+                border: OutlineInputBorder(),
               ),
-              const SizedBox(height: 20),
+            ),
+            const SizedBox(height: 20),
 
-              ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: rojo,
-                  foregroundColor: Colors.white,
-                ),
-                onPressed: _actualizarCita,
-                icon: const Icon(Icons.save),
-                label: const Text("Guardar cambios"),
+            ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: rojo,
+                foregroundColor: Colors.white,
+                minimumSize: const Size(double.infinity, 50),
               ),
-            ],
-          ),
+              onPressed: _confirmarCita,
+              icon: const Icon(Icons.check_circle),
+              label: const Text("Confirmar cita"),
+            ),
+          ],
         ),
       ),
     );
   }
 }
+

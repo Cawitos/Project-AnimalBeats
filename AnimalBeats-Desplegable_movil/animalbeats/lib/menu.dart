@@ -10,6 +10,8 @@ import 'gestion_usuarios.dart';
 import 'gestion_recordatorios.dart';
 import 'roles.dart';
 import 'especies.dart';
+import 'cliente.dart';
+import 'veterinario.dart';
 
 import 'pagina_veterinarios.dart';
 
@@ -28,14 +30,14 @@ class _OffcanvasMenuState extends State<OffcanvasMenu> {
   Widget build(BuildContext context) {
     return Drawer(
       child: Container(
-        color: const Color(0xFFFDF7FA), // Fondo claro
+        color: const Color(0xFFFDF7FA),
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            // ---------- HEADER CON LOGO ----------
+
             DrawerHeader(
               decoration: const BoxDecoration(
-                color: Color(0xFFDF2935), // Rojo principal
+                color: Color(0xFFDF2935), 
               ),
               child: Center(
                 child: GestureDetector(
@@ -47,9 +49,17 @@ class _OffcanvasMenuState extends State<OffcanvasMenu> {
                             builder: (context) => const AdminDashboard()),
                       );
                     } else if (widget.userRole == 3) {
-                      // Aquí luego enlazas VeterinarioDashboard
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const VeterinarioDashboard()),
+                      );
                     } else {
-                      // Aquí luego enlazas ClienteDashboard
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ClienteDashboard()),
+                      );
                     }
                     Navigator.pop(context);
                   },

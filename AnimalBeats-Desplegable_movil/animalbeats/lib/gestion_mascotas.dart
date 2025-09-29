@@ -710,8 +710,11 @@ class _GestionMascotasState extends State<GestionMascotas> {
               subtitle: Text(
                 "Fecha: ${c["fecha"] ?? "-"} - Hora: ${c["hora"] ?? "-"}\n"
                 "Estado: ${c["estado"] ?? "Pendiente"}",
+                style: TextStyle(
+                  color: (c["estado"] == "Cancelado") ? Colors.red : Colors.black,
+                ),
               ),
-              trailing: (c["estado"] != "Completado")
+              trailing: (c["estado"] != "Completado" && c["estado"] != "Cancelado")
                   ? ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: rojo,
@@ -721,14 +724,14 @@ class _GestionMascotasState extends State<GestionMascotas> {
                         final actualizado = await Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => DetalleCitaPage(
-                              idMascota: c["idMascota"],
-                              idCita: c["id"],
+                            builder: (_) => ConfirmarCitaPage(
+                                      idCita: int.tryParse(c["id"].toString()) ?? 0,
+                                      userRole: widget.userRole, 
                             ),
                           ),
                         );
                         if (actualizado == true && _historialId != null) {
-                          _fetchHistorial(_historialId!); // refrescar historial
+                          _fetchHistorial(_historialId!);
                         }
                       },
                       child: const Text("Ver cita"),
@@ -751,5 +754,6 @@ class _GestionMascotasState extends State<GestionMascotas> {
     ],
   );
 }
+
 
 }
