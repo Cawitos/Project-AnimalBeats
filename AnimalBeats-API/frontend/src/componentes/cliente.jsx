@@ -17,7 +17,7 @@ export default function ClienteDashboard() {
             return;
         }
 
-        fetch(`https://animalbeats-backend-production.up.railway.app/cliente/dashboard/${documento}`, {
+        fetch(`https://animalbeats-api.onrender.com/cliente/dashboard/${documento}`, {
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
         })
             .then(res => {

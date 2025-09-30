@@ -19,7 +19,7 @@ export default function CrearUsuario() {
   useEffect(() => {
     const obtenerTiposDocumento = async () => {
       try {
-        const res = await axios.get('https://animalbeats-backend-production.up.railway.app/tiposDocumento');
+        const res = await axios.get('https://animalbeats-api.onrender.com/tiposDocumento');
         if (Array.isArray(res.data)) setTiposDocumento(res.data);
       } catch (error) {
         console.error('Error al obtener tipos de documento:', error);
@@ -28,7 +28,7 @@ export default function CrearUsuario() {
 
     const obtenerRoles = async () => {
       try {
-        const res = await axios.get('https://animalbeats-backend-production.up.railway.app/roles/Listado');
+        const res = await axios.get('https://animalbeats-api.onrender.com/roles/Listado');
         if (res.data?.roles) setRoles(res.data.roles);
       } catch (error) {
         console.error('Error al obtener roles:', error);
@@ -64,7 +64,7 @@ export default function CrearUsuario() {
 
     try {
       const res = await axios.post(
-        "https://animalbeats-backend-production.up.railway.app/usuario/Crear",
+        "https://animalbeats-api.onrender.com/usuario/Crear",
         formData
       );
 

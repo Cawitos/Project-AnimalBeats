@@ -32,7 +32,7 @@ class _ClienteDashboardState extends State<ClienteDashboard> {
     }
 
     final url = Uri.parse(
-      'https://animalbeats-backend-production.up.railway.app/cliente/dashboard/$documento',
+      'https://animalbeats-api.onrender.com/cliente/dashboard/$documento',
     );
 
     final res = await http.get(

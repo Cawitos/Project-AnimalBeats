@@ -13,7 +13,7 @@ export default function GestionMascotas() {
   useEffect(() => {
     const fetchMascotas = async () => {
       try {
-        const res = await fetch("https://animalbeats-backend-production.up.railway.app/mascotas");
+        const res = await fetch("https://animalbeats-api.onrender.com/mascotas");
         const data = await res.json();
 
         if (typeof data === "string") {
@@ -42,7 +42,7 @@ export default function GestionMascotas() {
       cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`https://animalbeats-backend-production.up.railway.app/Mascotas/Eliminar/${id}`, {
+        fetch(`https://animalbeats-api.onrender.com/Mascotas/Eliminar/${id}`, {
           method: "PUT",
         })
           .then((response) => {

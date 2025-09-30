@@ -5,7 +5,7 @@ import 'consultar_usuario.dart';
 import 'crear_usuario.dart';
 import 'modificar_usuario.dart';
 
-const String apiUrl = "https://animalbeats-backend-production.up.railway.app";
+const String apiUrl = "https://animalbeats-api.onrender.com";
 
 class GestionUsuariosPage extends StatefulWidget {
   const GestionUsuariosPage({super.key});

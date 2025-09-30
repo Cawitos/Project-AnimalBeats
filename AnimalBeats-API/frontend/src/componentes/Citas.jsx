@@ -28,7 +28,7 @@ function GestionCitas() {
     // Cargar datos
     const fetchMascotas = async () => {
         try {
-            const res = await axios.get('https://animalbeats-backend-production.up.railway.app/mascotas');
+            const res = await axios.get('https://animalbeats-api.onrender.com/mascotas');
             setMascotas(res.data);
         } catch (err) {
             console.error('Error mascotas', err);
@@ -37,7 +37,7 @@ function GestionCitas() {
 
     const fetchServicios = async () => {
         try {
-            const res = await axios.get('https://animalbeats-backend-production.up.railway.app/servicios/Listado');
+            const res = await axios.get('https://animalbeats-api.onrender.com/servicios/Listado');
             setServicios(res.data);
         } catch (err) {
             console.error('Error servicios', err);
@@ -46,7 +46,7 @@ function GestionCitas() {
 
     const fetchVeterinarios = async () => {
         try {
-            const res = await axios.get('https://animalbeats-backend-production.up.railway.app/usuario/Listado');
+            const res = await axios.get('https://animalbeats-api.onrender.com/usuario/Listado');
             const vets = (res.data.usuarios || []).filter(u => Number(u.id_rol) === 3);
             setVeterinarios(vets);
         } catch (err) {
@@ -56,7 +56,7 @@ function GestionCitas() {
 
     const fetchClientes = async () => {
         try {
-            const res = await axios.get('https://animalbeats-backend-production.up.railway.app/usuarios/Listado');
+            const res = await axios.get('https://animalbeats-api.onrender.com/usuarios/Listado');
             const clientesFiltrados = (res.data.usuarios || []).filter(u => Number(u.id_rol) === 2);
             setClientes(clientesFiltrados);
         } catch (err) {
@@ -66,7 +66,7 @@ function GestionCitas() {
 
     const fetchCitas = async () => {
         try {
-            const res = await axios.get('https://animalbeats-backend-production.up.railway.app/Citas/Listado');
+            const res = await axios.get('https://animalbeats-api.onrender.com/Citas/Listado');
             const data = Array.isArray(res.data) ? res.data : [];
             setCitas(data);
         } catch (err) {
@@ -113,7 +113,7 @@ function GestionCitas() {
         }
 
         try {
-            await axios.post('https://animalbeats-backend-production.up.railway.app/Citas/Registrar', {
+            await axios.post('https://animalbeats-api.onrender.com/Citas/Registrar', {
                 ...form,
                 id_cliente: clienteId,
                 estado: 'Pendiente'
@@ -130,7 +130,7 @@ function GestionCitas() {
     // Admin/Vet aceptan/rechazan
     const cambiarEstado = async (id, nuevoEstado) => {
         try {
-            await axios.put(`https://animalbeats-backend-production.up.railway.app/Citas/Actualizar/${id}`, { estado: nuevoEstado });
+            await axios.put(`https://animalbeats-api.onrender.com/Citas/Actualizar/${id}`, { estado: nuevoEstado });
             fetchCitas();
             Swal.fire('Estado actualizado', `La cita fue ${nuevoEstado.toLowerCase()}`, 'success');
         } catch (err) {

@@ -12,7 +12,7 @@ export default function GestionUsuarios() {
   const fetchUsuarios = async () => {
     try {
       const res = await fetch(
-        "https://animalbeats-backend-production.up.railway.app/usuario/Listado"
+        "https://animalbeats-api.onrender.com/usuario/Listado"
       );
       if (!res.ok) throw new Error("Error al obtener usuarios");
 
@@ -53,8 +53,8 @@ export default function GestionUsuarios() {
 
       const endpoint =
         estadoActual === "Activo"
-          ? `https://animalbeats-backend-production.up.railway.app/usuario/Suspender/${id}`
-          : `https://animalbeats-backend-production.up.railway.app/usuario/Reactivar/${id}`;
+          ? `https://animalbeats-api.onrender.com/usuario/Suspender/${id}`
+          : `https://animalbeats-api.onrender.com/usuario/Reactivar/${id}`;
 
       fetch(endpoint, { method: "PUT" })
         .then((response) => {

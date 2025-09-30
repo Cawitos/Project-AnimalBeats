@@ -31,7 +31,7 @@ class _CitasPageState extends State<CitasPage>
   bool loading = true;
 
   final String baseUrl =
-      "https://animalbeats-backend-production.up.railway.app/Citas/Listado";
+      "https://animalbeats-api.onrender.com/Citas/Listado";
 
   @override
   void initState() {
@@ -100,7 +100,7 @@ class _CitasPageState extends State<CitasPage>
     try {
       final response = await http.put(
         Uri.parse(
-            "https://animalbeats-backend-production.up.railway.app/Citas/$nuevoEstado/$id"),
+            "https://animalbeats-api.onrender.com/Citas/$nuevoEstado/$id"),
       );
       if (response.statusCode == 200) {
         fetchCitas();

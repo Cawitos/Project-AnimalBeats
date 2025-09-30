@@ -30,7 +30,7 @@ function CrearRaza() {
 
   try {
     setLoading(true);
-    await axios.post(`https://animalbeats-backend-production.up.railway.app/Razas/Crear/${id}`, formData, {
+    await axios.post(`https://animalbeats-api.onrender.com/Razas/Crear/${id}`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
 

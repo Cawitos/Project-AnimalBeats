@@ -9,7 +9,7 @@ export default function ModificarUsuarioPage() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`https://animalbeats-backend-production.up.railway.app/usuario/${n_documento}`)
+    fetch(`https://animalbeats-api.onrender.com/usuario/${n_documento}`)
       .then((res) => {
         if (!res.ok) throw new Error("Error al cargar usuario");
         return res.json();

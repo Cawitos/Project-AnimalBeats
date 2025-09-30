@@ -52,7 +52,7 @@ const Historial = () => {
   useEffect(() => {
     const obtenerDatosMascota = async () => {
       try {
-        const { data } = await axios.get(`https://animalbeats-backend-production.up.railway.app/Mascotas/${id}`);
+        const { data } = await axios.get(`https://animalbeats-api.onrender.com/Mascotas/${id}`);
 
         if (data?.mensaje) {
           setMascotaInfo({});
@@ -93,7 +93,7 @@ const Historial = () => {
   useEffect(() => {
     const obtenerDatosCitas = async () => {
       try {
-        const { data } = await axios.get(`https://animalbeats-backend-production.up.railway.app/Citas/mascota/${id}`);
+        const { data } = await axios.get(`https://animalbeats-api.onrender.com/Citas/mascota/${id}`);
 
         if (data?.mensaje) {
           setCitasInfo([]);
@@ -125,7 +125,7 @@ const Historial = () => {
   useEffect(() => {
     const obtenerHistorialMedico = async () => {
       try {
-        const { data } = await axios.get(`https://animalbeats-backend-production.up.railway.app/recordatorio/mascota/${id}`);
+        const { data } = await axios.get(`https://animalbeats-api.onrender.com/recordatorio/mascota/${id}`);
 
         if (Array.isArray(data) && data.length > 0) {
           setHistorialMedico(

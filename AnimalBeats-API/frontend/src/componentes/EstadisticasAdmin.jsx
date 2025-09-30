@@ -9,7 +9,7 @@ export default function EstadisticasAdmin() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const apiUrl = "https://animalbeats-backend-production.up.railway.app";
+    const apiUrl = "https://animalbeats-api.onrender.com";
     const navigate = useNavigate();
 
     useEffect(() => {

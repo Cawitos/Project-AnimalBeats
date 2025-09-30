@@ -32,7 +32,7 @@ const CrearMascota = () => {
   useEffect(() => {
     const obtenerEspecies = async () => {
       try {
-        const respuesta = await axios.get("https://animalbeats-backend-production.up.railway.app/Especies/Listado");
+        const respuesta = await axios.get("https://animalbeats-api.onrender.com/Especies/Listado");
         const datos = respuesta.data;
 
         if (typeof datos === "string") {
@@ -59,7 +59,7 @@ const CrearMascota = () => {
     const obtenerRazas = async () => {
       try {
         const respuesta = await axios.get(
-          `https://animalbeats-backend-production.up.railway.app/Razas/Listado/${idEspecieSeleccionada}`
+          `https://animalbeats-api.onrender.com/Razas/Listado/${idEspecieSeleccionada}`
         );
         const datos = respuesta.data;
 
@@ -113,7 +113,7 @@ const CrearMascota = () => {
     };
 
     try {
-      await axios.post("https://animalbeats-backend-production.up.railway.app/Mascotas/Registro", mascotaData);
+      await axios.post("https://animalbeats-api.onrender.com/Mascotas/Registro", mascotaData);
 
       await Swal.fire({
         icon: "success",

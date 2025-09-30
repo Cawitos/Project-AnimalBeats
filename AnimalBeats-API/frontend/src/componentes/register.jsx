@@ -18,7 +18,7 @@ const Register = () => {
     const [mensaje, setMensaje] = useState('');
 
     useEffect(() => {
-        axios.get('https://animalbeats-backend-production.up.railway.app/tiposDocumento')
+        axios.get('https://animalbeats-api.onrender.com/tiposDocumento')
             .then(res => setTiposDocumento(res.data))
             .catch(err => console.error('Error al obtener tipos de documento:', err));
     }, []);
@@ -38,7 +38,7 @@ const Register = () => {
 
         try {
             const { confirmarContrasena, ...dataToSend } = formData; // Excluir confirmarContrasena
-            const res = await axios.post('https://animalbeats-backend-production.up.railway.app/registro', dataToSend);
+            const res = await axios.post('https://animalbeats-api.onrender.com/registro', dataToSend);
             setMensaje(res.data.mensaje);
 
             setFormData({

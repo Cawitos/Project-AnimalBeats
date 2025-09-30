@@ -17,7 +17,7 @@ const ModificarMascota = () => {
   useEffect(() => {
     const fetchMascota = async () => {
       try {
-        const response = await axios.get(`https://animalbeats-backend-production.up.railway.app/mascotas/${id}`);
+        const response = await axios.get(`https://animalbeats-api.onrender.com/mascotas/${id}`);
         const mascota = response.data;
         setNombre(mascota.nombre);
         setEstado(mascota.estado || "Activo");
@@ -36,7 +36,7 @@ const ModificarMascota = () => {
     e.preventDefault();
 
     try {
-      await axios.put(`https://animalbeats-backend-production.up.railway.app/Mascotas/Actualizar/${id}`, {
+      await axios.put(`https://animalbeats-api.onrender.com/Mascotas/Actualizar/${id}`, {
         nombre,
         estado,
       });

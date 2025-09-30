@@ -24,7 +24,7 @@ function GestionEnfermedades() {
     // Cargar listado de enfermedades
     const fetchEnfermedades = async () => {
         try {
-            const res = await axios.get('https://animalbeats-backend-production.up.railway.app/Enfermedades/Listado');
+            const res = await axios.get('https://animalbeats-api.onrender.com/Enfermedades/Listado');
             setEnfermedades(res.data);
             setEnfermedadesFiltradas(res.data);
         } catch (err) {
@@ -67,7 +67,7 @@ function GestionEnfermedades() {
         }
 
         try {
-            await axios.post('https://animalbeats-backend-production.up.railway.app/Enfermedades/Registrar', form);
+            await axios.post('https://animalbeats-api.onrender.com/Enfermedades/Registrar', form);
             fetchEnfermedades();
             setForm({ nombre: '', descripcion: '' });
             Swal.fire({
@@ -113,7 +113,7 @@ function GestionEnfermedades() {
         }
 
         try {
-            await axios.put(`https://animalbeats-backend-production.up.railway.app/Enfermedades/Actualizar/${nombreOriginal}`, {
+            await axios.put(`https://animalbeats-api.onrender.com/Enfermedades/Actualizar/${nombreOriginal}`, {
                 descripcion: form.descripcion,
             });
             fetchEnfermedades();
@@ -152,7 +152,7 @@ function GestionEnfermedades() {
         if (!result.isConfirmed) return;
 
         try {
-            await axios.delete(`https://animalbeats-backend-production.up.railway.app/Enfermedades/Eliminar/${nombre}`);
+            await axios.delete(`https://animalbeats-api.onrender.com/Enfermedades/Eliminar/${nombre}`);
             fetchEnfermedades();
             Swal.fire({
                 icon: 'success',

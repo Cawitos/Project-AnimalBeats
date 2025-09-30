@@ -18,7 +18,7 @@ const ModificarRaza = () => {
   useEffect(() => {
     const fetchRaza = async () => {
       try {
-        const response = await axios.get(`https://animalbeats-backend-production.up.railway.app/razas/${id_raza}`);
+        const response = await axios.get(`https://animalbeats-api.onrender.com/razas/${id_raza}`);
         const raza = response.data;
 
         setNombreRaza(raza.raza || "");
@@ -60,7 +60,7 @@ const ModificarRaza = () => {
         },
       };
 
-      await axios.put(`https://animalbeats-backend-production.up.railway.app/Razas/Actualizar/${id_raza}`, formData, config);
+      await axios.put(`https://animalbeats-api.onrender.com/Razas/Actualizar/${id_raza}`, formData, config);
 
       Swal.fire({
         icon: "success",

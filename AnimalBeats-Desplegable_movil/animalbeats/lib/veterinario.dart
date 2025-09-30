@@ -32,7 +32,7 @@ class _VeterinarioDashboardState extends State<VeterinarioDashboard> {
     }
 
     final url = Uri.parse(
-      'https://animalbeats-backend-production.up.railway.app/veterinario/dashboard/$documento',
+      'https://animalbeats-api.onrender.com/veterinario/dashboard/$documento',
     );
 
     final res = await http.get(

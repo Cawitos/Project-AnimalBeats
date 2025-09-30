@@ -6,7 +6,7 @@ import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
-const String apiUrl = "https://animalbeats-backend-production.up.railway.app";
+const String apiUrl = "https://animalbeats-api.onrender.com";
 
 class ConsultarUsuarioPage extends StatefulWidget {
   final String documento;

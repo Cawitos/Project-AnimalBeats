@@ -4,7 +4,7 @@ import 'menu.dart';
 import 'package:http/http.dart' as http;
 import 'Estadisticas_page.dart';
 
-const String apiUrl = "https://animalbeats-backend-production.up.railway.app";
+const String apiUrl = "https://animalbeats-api.onrender.com";
 
 class AdminDashboard extends StatefulWidget {
   const AdminDashboard({super.key});

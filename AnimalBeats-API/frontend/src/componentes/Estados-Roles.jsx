@@ -12,7 +12,7 @@ export default function EstadoRoles() {
   }, []);
 
   const cargarRoles = () => {
-    fetch("https://animalbeats-backend-production.up.railway.app/roles/Listado")
+    fetch("https://animalbeats-api.onrender.com/roles/Listado")
       .then((res) => res.json())
       .then((data) => setRoles(data.roles))
       .catch((err) => console.error("Error al obtener roles:", err));
@@ -20,7 +20,7 @@ export default function EstadoRoles() {
 
   const agregarRol = () => {
     if (nuevoRol.trim() === "") return;
-    fetch("https://animalbeats-backend-production.up.railway.app/roles/Crear", {
+    fetch("https://animalbeats-api.onrender.com/roles/Crear", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ rol: nuevoRol.trim() }),
@@ -50,7 +50,7 @@ export default function EstadoRoles() {
     }).then((result) => {
       if (result.isConfirmed) {
         fetch(
-          `https://animalbeats-backend-production.up.railway.app/roles/Eliminar/${id}`,
+          `https://animalbeats-api.onrender.com/roles/Eliminar/${id}`,
           { method: "DELETE" }
         )
           .then((res) => {

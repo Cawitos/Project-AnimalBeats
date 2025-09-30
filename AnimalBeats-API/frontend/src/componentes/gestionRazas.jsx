@@ -18,7 +18,7 @@ const GestionRazas = () => {
   useEffect(() => {
     const obtenerRazas = async () => {
       try {
-        const respuesta = await axios.get(`https://animalbeats-backend-production.up.railway.app/Razas/Listado/${id}`);
+        const respuesta = await axios.get(`https://animalbeats-api.onrender.com/Razas/Listado/${id}`);
         const datos = respuesta.data;
 
         if (typeof datos === 'string') {
@@ -59,7 +59,7 @@ const GestionRazas = () => {
 
   if (result.isConfirmed) {
     try {
-      const respuesta = await axios.delete(`https://animalbeats-backend-production.up.railway.app/Razas/Eliminar/${idRaza}`);
+      const respuesta = await axios.delete(`https://animalbeats-api.onrender.com/Razas/Eliminar/${idRaza}`);
       const datos = respuesta.data;
 
       if (datos.mensaje && datos.mensaje.toLowerCase().includes('error')) {

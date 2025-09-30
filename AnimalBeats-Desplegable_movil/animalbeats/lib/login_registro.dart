@@ -6,7 +6,7 @@ import 'cliente.dart';
 import 'veterinario.dart';
 import 'storage_service.dart';
 
-const String apiUrl = "https://animalbeats-backend-production.up.railway.app";
+const String apiUrl = "https://animalbeats-api.onrender.com";
 
 void main() {
   runApp(AnimalBeatsApp());

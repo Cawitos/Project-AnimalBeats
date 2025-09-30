@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-const String apiUrl = "https://animalbeats-backend-production.up.railway.app";
+const String apiUrl = "https://animalbeats-api.onrender.com";
 
 class CrearUsuarioPage extends StatefulWidget {
   const CrearUsuarioPage({super.key});

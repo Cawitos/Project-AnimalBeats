@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
-const String baseUrl = "https://animalbeats-backend-production.up.railway.app";
+const String baseUrl = "https://animalbeats-api.onrender.com";
 
 const Color rojo = Color(0xFFDF2935);
 const Color blanco = Color(0xFFFDF7FA);

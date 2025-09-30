@@ -13,7 +13,7 @@ import 'menu.dart';
 
 const Color rojo = Color(0xFFDF2935);
 const Color blanco = Color(0xFFFDF7FA);
-const String baseUrl = "https://animalbeats-backend-production.up.railway.app";
+const String baseUrl = "https://animalbeats-api.onrender.com";
 
 class GestionRecordatorios extends StatefulWidget {
   final int userRole;
