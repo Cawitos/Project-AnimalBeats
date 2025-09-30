@@ -1,101 +1,97 @@
-drop database if exists AnimalBeats;
-CREATE DATABASE AnimalBeats;
-Use AnimalBeats;
- 
+
 CREATE TABLE Rol(
-	id INT AUTO_INCREMENT PRIMARY KEY,
-	rol VARCHAR(100)
+    id SERIAL PRIMARY KEY,
+    rol VARCHAR(100)
 );
+
 CREATE TABLE Documento(
-	id INT AUTO_INCREMENT PRIMARY KEY,
-	tipo VARCHAR(100)
+    id SERIAL PRIMARY KEY,
+    tipo VARCHAR(100)
 );
+
 CREATE TABLE Usuarios(
-	n_documento VARCHAR(10) PRIMARY KEY,
+    n_documento VARCHAR(10) PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
-	correoelectronico VARCHAR(255) NOT NULL,
-	contrasena VARCHAR(255) NOT NULL,
-	id_documento INT,
-	id_rol INT,
-	estado VARCHAR(100),
-	FOREIGN KEY (id_documento) REFERENCES Documento(id) ON DELETE CASCADE,
-	FOREIGN KEY (id_rol) REFERENCES Rol(id)
+    correoelectronico VARCHAR(255) NOT NULL,
+    contrasena VARCHAR(255) NOT NULL,
+    id_documento INT REFERENCES Documento(id) ON DELETE CASCADE,
+    id_rol INT REFERENCES Rol(id),
+    estado VARCHAR(100)
 );
 
 CREATE TABLE Veterinarios (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     nombre_completo VARCHAR(150) NOT NULL,
     estudios_especialidad VARCHAR(255),
     edad INT CHECK (edad > 0),
-    altura DECIMAL(4,2), 
+    altura NUMERIC(4,2), 
     anios_experiencia INT CHECK (anios_experiencia >= 0),
     imagen_url TEXT, 
     creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-
 CREATE TABLE Especie (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    Especie VARCHAR(50),
-    imagen varchar(300)
+    id SERIAL PRIMARY KEY,
+    especie VARCHAR(50),
+    imagen VARCHAR(300)
 );
 
 CREATE TABLE Raza (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    Raza VARCHAR(50),
-    descripcion text,
-    id_especie INT,
-    imagen varchar(300),
-    FOREIGN KEY (id_especie) REFERENCES Especie(id) ON DELETE CASCADE
+    id SERIAL PRIMARY KEY,
+    raza VARCHAR(50),
+    descripcion TEXT,
+    id_especie INT REFERENCES Especie(id) ON DELETE CASCADE,
+    imagen VARCHAR(300)
 );
+
 CREATE TABLE Mascota(
-	id int auto_increment primary key,
-    nombre varchar(45) not null,
-    id_Especie int not null,
-    id_cliente varchar(10) not null,
-    id_Raza int not null,
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(45) NOT NULL,
+    id_especie INT NOT NULL REFERENCES Especie(id) ON DELETE CASCADE,
+    id_cliente VARCHAR(10) NOT NULL REFERENCES Usuarios(n_documento) ON DELETE CASCADE,
+    id_raza INT NOT NULL REFERENCES Raza(id) ON DELETE CASCADE,
     estado VARCHAR(100),
-    fecha_nacimiento date not null,
-    foreign key (id_Raza) references Raza(id) on delete cascade,
-    foreign key (id_cliente) references Usuarios(n_documento) on delete cascade,
-    foreign key (id_Especie) references Especie(id) on delete cascade
+    fecha_nacimiento DATE NOT NULL
 );
-create table Enfermedad(
-	nombre varchar(60) primary key,
-    descripcion text
+
+CREATE TABLE Enfermedad(
+    nombre VARCHAR(60) PRIMARY KEY,
+    descripcion TEXT
 );
-Create table Servicios(
-	id int auto_increment primary key,
-    servicio varchar(200)
+
+CREATE TABLE Servicios(
+    id SERIAL PRIMARY KEY,
+    servicio VARCHAR(200)
 );
-Create table Citas(
-	id INT auto_increment primary key,
-    id_Mascota int not null,
-	id_cliente varchar(10) not null,
-	id_Servicio int not null,
-    id_Veterinario int not null,
-    fecha datetime not null,
-    Descripcion varchar(255),
-    estado VARCHAR(100) not null,
-    foreign key (id_Veterinario) references Veterinarios(id) on delete cascade,
-    foreign key (id_Mascota) references Mascota(id) on delete cascade,
-    foreign key (id_cliente) references Usuarios(n_documento) on delete cascade,
-    foreign key (id_Servicio) references Servicios(id) on delete cascade
+
+CREATE TABLE Citas(
+    id SERIAL PRIMARY KEY,
+    id_mascota INT NOT NULL REFERENCES Mascota(id) ON DELETE CASCADE,
+    id_cliente VARCHAR(10) NOT NULL REFERENCES Usuarios(n_documento) ON DELETE CASCADE,
+    id_servicio INT NOT NULL REFERENCES Servicios(id) ON DELETE CASCADE,
+    id_veterinario INT NOT NULL REFERENCES Veterinarios(id) ON DELETE CASCADE,
+    fecha TIMESTAMP NOT NULL,
+    descripcion VARCHAR(255),
+    estado VARCHAR(100) NOT NULL
 );
+
 CREATE TABLE Recordatorios(
-	id INT AUTO_INCREMENT PRIMARY KEY,
-    id_Mascota int not null,
-	id_cliente varchar(10) not null,
-    fecha datetime not null,
-    descripcion TEXT not null,
-    estado VARCHAR(100) not null,
-    foreign key (id_cliente) references Usuarios(n_documento) on delete cascade,
-	foreign key (id_Mascota) references Mascota(id) on delete cascade
+    id SERIAL PRIMARY KEY,
+    id_mascota INT NOT NULL REFERENCES Mascota(id) ON DELETE CASCADE,
+    id_cliente VARCHAR(10) NOT NULL REFERENCES Usuarios(n_documento) ON DELETE CASCADE,
+    fecha TIMESTAMP NOT NULL,
+    descripcion TEXT NOT NULL,
+    estado VARCHAR(100) NOT NULL
 );
 
-
+-- Datos iniciales
 INSERT INTO Documento (tipo) VALUES ('C.C'), ('T.I'), ('C.E');
 INSERT INTO Rol (rol) VALUES ('admin'), ('cliente'), ('veterinario');
-insert into Servicios (servicio) values ('Consulta Generla'), ('Urgencias'), ('Baño y peluqueria'), ('Vacunaciones'), ('Cardiologia'), ('Nutricional');
+INSERT INTO Servicios (servicio) VALUES 
+    ('Consulta General'), 
+    ('Urgencias'), 
+    ('Baño y peluqueria'), 
+    ('Vacunaciones'), 
+    ('Cardiologia'), 
+    ('Nutricional');
 
-select * from Usuarios;
