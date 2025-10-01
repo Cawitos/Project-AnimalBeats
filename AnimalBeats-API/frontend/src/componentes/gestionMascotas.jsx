@@ -8,20 +8,33 @@ import { UserContext } from "../context/UserContext";
 export default function GestionMascotas() {
   const [mascotas, setMascotas] = useState([]);
   const [error, setError] = useState(null);
-  const { User, setUser } = useContext(UserContext);
+  const { User } = useContext(UserContext);
 
   useEffect(() => {
     const fetchMascotas = async () => {
       try {
         const res = await fetch("https://animalbeats-api.onrender.com/mascotas");
-        const data = await res.json();
+        if (!res.ok) throw new Error("Error al obtener mascotas");
 
-        if (typeof data === "string") {
+        const data = await res.json();
+        console.log("🐾 Datos recibidos:", data);
+
+        // Normalizar respuesta
+        if (Array.isArray(data)) {
+          setMascotas(data);
+          setError(null);
+        } else if (data.Mascotas) {
+          setMascotas(data.Mascotas);
+          setError(null);
+        } else if (data.mascotas) {
+          setMascotas(data.mascotas);
+          setError(null);
+        } else if (typeof data === "string") {
           setMascotas([]);
           setError(data);
         } else {
-          setMascotas(data);
-          setError(null);
+          setMascotas([]);
+          setError("Formato inesperado de datos");
         }
       } catch (err) {
         console.error("Error al cargar mascotas:", err);
@@ -69,7 +82,7 @@ export default function GestionMascotas() {
   };
 
   const mascotasFiltradas = () => {
-    if (User.rol === 2) {
+    if (User?.rol === 2) {
       return mascotas.filter((mascota) => mascota.id_cliente === User.id);
     } else {
       return mascotas;
@@ -77,6 +90,12 @@ export default function GestionMascotas() {
   };
 
   const mascotasMostradas = mascotasFiltradas();
+
+  const formatearFecha = (fecha) => {
+    if (!fecha) return "Sin registro";
+    const d = new Date(fecha);
+    return isNaN(d.getTime()) ? "Fecha inválida" : d.toLocaleDateString();
+  };
 
   return (
     <div className="gestion-mascotas-container">
@@ -102,8 +121,8 @@ export default function GestionMascotas() {
                   <th>Raza</th>
                   <th>Edad</th>
                   <th>Historial</th>
-                  {User.rol !== 2 && <th>Modificar</th>}
-                  {User.rol !== 2 && <th>Suspender</th>}
+                  {User?.rol !== 2 && <th>Modificar</th>}
+                  {User?.rol !== 2 && <th>Suspender</th>}
                 </tr>
               </thead>
               <tbody>
@@ -111,9 +130,9 @@ export default function GestionMascotas() {
                   <tr key={mascota.id}>
                     <td>{mascota.id_cliente}</td>
                     <td>{mascota.nombre}</td>
-                    <td>{mascota.especie}</td>
-                    <td>{mascota.raza}</td>
-                    <td>{new Date(mascota.fecha_nacimiento).toLocaleDateString()}</td>
+                    <td>{mascota.especie?.especie}</td>
+                    <td>{mascota.raza?.raza}</td>
+                    <td>{formatearFecha(mascota.fecha_nacimiento)}</td>
                     <td>
                       <Link
                         to={`/Mascotas/historial/${mascota.id}`}
@@ -123,7 +142,7 @@ export default function GestionMascotas() {
                         Historial
                       </Link>
                     </td>
-                    {User.rol !== 2 && (
+                    {User?.rol !== 2 && (
                       <>
                         <td>
                           <Link
@@ -152,7 +171,7 @@ export default function GestionMascotas() {
           </div>
         )}
 
-        {User.rol !== 2 && (
+        {User?.rol !== 2 && (
           <div className="gestion-mascotas-crear">
             <Link to="/Mascotas/crear" className="btn btn-primary">
               Crear Mascota

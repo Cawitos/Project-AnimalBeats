@@ -5,7 +5,6 @@ import Swal from "sweetalert2";
 import "../css/CrearMascota.css";
 
 const CrearMascota = () => {
-  // Función para obtener fecha actual formateada en 'YYYY-MM-DD'
   const obtenerFechaActual = () => {
     const hoy = new Date();
     const año = hoy.getFullYear();
@@ -23,24 +22,32 @@ const CrearMascota = () => {
     nombreM: "",
     especieM: "",
     razaM: "",
-    edadM: "",
+    fechaNacimiento: "",
     n_documento: "",
   });
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  // 🔹 Obtener especies
   useEffect(() => {
     const obtenerEspecies = async () => {
       try {
-        const respuesta = await axios.get("https://animalbeats-api.onrender.com/Especies/Listado");
+        const respuesta = await axios.get(
+          "https://animalbeats-api.onrender.com/Especies/Listado"
+        );
         const datos = respuesta.data;
 
-        if (typeof datos === "string") {
-          setEspecies([]);
-          setError(datos);
-        } else {
-          setEspecies(datos);
+        if (Array.isArray(datos)) {
+          // normalizo formato
+          const especiesNormalizadas = datos.map((item) => ({
+            id: item.id,
+            nombre: item.Especie || item.especie || "Sin nombre",
+          }));
+          setEspecies(especiesNormalizadas);
           setError(null);
+        } else {
+          setEspecies([]);
+          setError("Error: datos de especies en formato inesperado");
         }
       } catch (error) {
         setError("Error al conectar con el servidor");
@@ -50,6 +57,7 @@ const CrearMascota = () => {
     obtenerEspecies();
   }, []);
 
+  // 🔹 Obtener razas
   useEffect(() => {
     if (!idEspecieSeleccionada) {
       setRazas([]);
@@ -63,23 +71,16 @@ const CrearMascota = () => {
         );
         const datos = respuesta.data;
 
-        if (typeof datos === "string") {
-          setRazas([]);
-          setError(datos);
-        } else if (Array.isArray(datos)) {
-          const datosNormalizados = datos.map((item) => ({
-            ...item,
-            raza: item.Raza,
-            descripcion: item.descripcion,
-            imagen: item.imagen,
+        if (Array.isArray(datos)) {
+          const razasNormalizadas = datos.map((item) => ({
             id: item.id,
-            id_especie: item.id_especie,
+            nombre: item.Raza || item.raza || "Sin nombre",
           }));
-          setRazas(datosNormalizados);
+          setRazas(razasNormalizadas);
           setError(null);
         } else {
           setRazas([]);
-          setError("Datos recibidos en formato inesperado");
+          setError("Error: datos de razas en formato inesperado");
         }
       } catch (error) {
         setError("Error al conectar con el servidor");
@@ -89,6 +90,7 @@ const CrearMascota = () => {
     obtenerRazas();
   }, [idEspecieSeleccionada]);
 
+  // 🔹 Manejo de cambios en inputs
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -99,6 +101,7 @@ const CrearMascota = () => {
     }
   };
 
+  // 🔹 Enviar formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
@@ -107,13 +110,16 @@ const CrearMascota = () => {
       nombre: formData.nombreM,
       id_especie: formData.especieM,
       id_raza: formData.razaM,
-      fecha_nacimiento: formData.edadM,
+      fecha_nacimiento: formData.fechaNacimiento,
       id_cliente: formData.n_documento,
       estado: "activo",
     };
 
     try {
-      await axios.post("https://animalbeats-api.onrender.com/Mascotas/Registro", mascotaData);
+      await axios.post(
+        "https://animalbeats-api.onrender.com/Mascotas/Registro",
+        mascotaData
+      );
 
       await Swal.fire({
         icon: "success",
@@ -178,7 +184,7 @@ const CrearMascota = () => {
                 </option>
                 {especies.map((especie) => (
                   <option key={especie.id} value={especie.id}>
-                    {especie.Especie}
+                    {especie.nombre}
                   </option>
                 ))}
               </select>
@@ -202,22 +208,25 @@ const CrearMascota = () => {
                 </option>
                 {razas.map((raza) => (
                   <option key={raza.id} value={raza.id}>
-                    {raza.Raza}
+                    {raza.nombre}
                   </option>
                 ))}
               </select>
             </div>
 
             <div className="crear-mascota-mb-3">
-              <label htmlFor="edadM" className="crear-mascota-form-label">
+              <label
+                htmlFor="fechaNacimiento"
+                className="crear-mascota-form-label"
+              >
                 Fecha de Nacimiento:
               </label>
               <input
                 type="date"
                 className="crear-mascota-form-control"
-                id="edadM"
-                name="edadM"
-                value={formData.edadM}
+                id="fechaNacimiento"
+                name="fechaNacimiento"
+                value={formData.fechaNacimiento}
                 onChange={handleChange}
                 max={fechaActual}
                 required

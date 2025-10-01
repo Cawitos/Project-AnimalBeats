@@ -6,15 +6,13 @@ import { Link, useParams } from 'react-router-dom';
 import '../css/gestionRazas.css';
 import { UserContext } from "../context/UserContext";
 
-
-
 const GestionRazas = () => {
   const { id } = useParams();
   const [razas, setRazas] = useState([]);
   const [error, setError] = useState(null);
   const [busqueda, setBusqueda] = useState('');
-  const { User, setUser } = useContext(UserContext);
-  
+  const { User } = useContext(UserContext);
+
   useEffect(() => {
     const obtenerRazas = async () => {
       try {
@@ -25,9 +23,10 @@ const GestionRazas = () => {
           setRazas([]);
           setError(datos);
         } else if (Array.isArray(datos)) {
+          // Normalización asegurando compatibilidad
           const datosNormalizados = datos.map(item => ({
             ...item,
-            raza: item.Raza,
+            raza: item.raza,
             descripcion: item.descripcion,
             imagen: item.imagen,
             id: item.id,
@@ -37,7 +36,7 @@ const GestionRazas = () => {
           setError(null);
         } else {
           setRazas([]);
-          setError('No hay razas registrada');
+          setError('No hay razas registradas');
         }
       } catch (error) {
         setError('Error al conectar con el servidor');
@@ -48,33 +47,32 @@ const GestionRazas = () => {
   }, [id]);
 
   const eliminarRaza = async (idRaza) => {
-  const result = await Swal.fire({
-    title: "¿Estás seguro?",
-    text: "Esta raza será eliminada permanentemente.",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: "Sí, eliminar",
-    cancelButtonText: "Cancelar",
-  });
+    const result = await Swal.fire({
+      title: "¿Estás seguro?",
+      text: "Esta raza será eliminada permanentemente.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+    });
 
-  if (result.isConfirmed) {
-    try {
-      const respuesta = await axios.delete(`https://animalbeats-api.onrender.com/Razas/Eliminar/${idRaza}`);
-      const datos = respuesta.data;
+    if (result.isConfirmed) {
+      try {
+        const respuesta = await axios.delete(`https://animalbeats-api.onrender.com/Razas/Eliminar/${idRaza}`);
+        const datos = respuesta.data;
 
-      if (datos.mensaje && datos.mensaje.toLowerCase().includes('error')) {
-        Swal.fire('Error al eliminar la raza', datos.mensaje, 'error');
-      } else {
-        setRazas(prev => prev.filter(raza => raza.id !== idRaza));
-        Swal.fire('¡Eliminada!', 'La raza ha sido eliminada con éxito.', 'success');
+        if (datos.mensaje && datos.mensaje.toLowerCase().includes('error')) {
+          Swal.fire('Error al eliminar la raza', datos.mensaje, 'error');
+        } else {
+          setRazas(prev => prev.filter(raza => raza.id !== idRaza));
+          Swal.fire('¡Eliminada!', 'La raza ha sido eliminada con éxito.', 'success');
+        }
+      } catch (error) {
+        console.error(error);
+        Swal.fire("Error", "No se pudo eliminar la raza.", "error");
       }
-    } catch (error) {
-      console.error(error);
-      Swal.fire("Error", "No se pudo eliminar la raza.", "error");
     }
-  }
-};
-
+  };
 
   const razasFiltradas = Array.isArray(razas)
     ? razas.filter(raza =>
@@ -92,7 +90,7 @@ const GestionRazas = () => {
       <div className="gestion-razas-dashboard">
         <main className="gestion-razas-consulta">
           <nav className="gestion-razas-navbar bg-body-tertiary">
-            <span className="gestion-razas-navbar-brand">Busqueda</span>
+            <span className="gestion-razas-navbar-brand">Búsqueda</span>
             <form className="gestion-razas-form d-flex" role="search" onSubmit={(e) => e.preventDefault()}>
               <input
                 className="gestion-razas-input form-control me-2"
@@ -115,28 +113,28 @@ const GestionRazas = () => {
                   <div className="row g-0">
                     <div className="col-md-4">
                       <img
-                        src={`${raza.imagen}`}
+                        src={raza.imagen}
                         className="img-fluid rounded-start"
                         alt={raza.raza}
                       />
                     </div>
                     <div className="col-md-8">
                       <div className="gestion-razas-card-body card-body">
-                        <h1 className="gestion-razas-card-title card-title">{raza.Raza}</h1>
+                        <h1 className="gestion-razas-card-title card-title">{raza.raza}</h1>
                         <p className="gestion-razas-card-text card-text">Descripción: {raza.descripcion}</p>
 
-                        {User.rol !== 2 &&(
-                        <>
-                        <Link to={`/Razas/modificar/${id}/${raza.id}`} className="btn btn-primary">
-                          Modificar
-                        </Link>
-                        <button
-                          onClick={() => eliminarRaza(raza.id)}
-                          className="btn btn-danger ms-2 gestion-razas-btn-eliminar"
-                        >
-                          Eliminar
-                        </button>
-                        </>         
+                        {User.rol !== 2 && (
+                          <>
+                            <Link to={`/Razas/modificar/${id}/${raza.id}`} className="btn btn-primary">
+                              Modificar
+                            </Link>
+                            <button
+                              onClick={() => eliminarRaza(raza.id)}
+                              className="btn btn-danger ms-2 gestion-razas-btn-eliminar"
+                            >
+                              Eliminar
+                            </button>
+                          </>
                         )}
                       </div>
                     </div>
@@ -156,15 +154,11 @@ const GestionRazas = () => {
                 Regresar
               </Link>
 
-              {User.rol !== 2 &&(
-                <>
-              <Link to={`/Razas/crear/${id}`} className="btn btn-primary">
-                Crear raza
-              </Link>
-                </>
+              {User.rol !== 2 && (
+                <Link to={`/Razas/crear/${id}`} className="btn btn-primary">
+                  Crear raza
+                </Link>
               )}
-
-
             </>
           ) : (
             <p>Cargando...</p>
@@ -176,4 +170,3 @@ const GestionRazas = () => {
 };
 
 export default GestionRazas;
-

@@ -149,6 +149,7 @@ body, html, #root {
 
 /* Tarjeta raza */
 .gestion-razas-card {
+  max-height: 360px;
   flex: 0 1 calc((100% / 3) - 13.33px);
   max-width: 540px;
   border: 1px solid var(--gris);
@@ -169,6 +170,7 @@ body, html, #root {
 .gestion-razas-card .col-md-4 {
   flex: 0 0 40%;
   max-width: 40%;
+  height: 100%;
 }
 
 .gestion-razas-card img {
@@ -181,25 +183,32 @@ body, html, #root {
 /* Contenido de la tarjeta */
 .gestion-razas-card .col-md-8 {
   flex: 1;
-  padding: 20px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   box-sizing: border-box;
 }
 
 .gestion-razas-card-title {
   font-size: 24px;
   font-weight: bold;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   color: var(--negro);
   text-transform: uppercase;
+  flex: 0 0 auto;        /* ocupa solo lo necesario, no se achica */
+  line-height: 1.2;      /* para compactar mejor */
+  word-break: break-word;
 }
 
 .gestion-razas-card-text {
   margin-bottom: 15px;
   color: var(--negro);
   font-size: 14px;
+  flex: 1;
+  overflow-y: auto;
+  max-height: 120px;
+  padding-right: 5px;
 }
 
 /* Botones dentro de la tarjeta */
@@ -340,6 +349,10 @@ body, html, #root {
 
   .gestion-razas-card-body {
     padding: 15px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
   }
 
   .gestion-razas-form {

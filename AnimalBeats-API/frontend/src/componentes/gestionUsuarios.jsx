@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import OffcanvasMenu from "../componentes/menu";
-import "../css/gestionMascotas.css"; //Estilo de gestion de mascotas
+import "../css/gestionMascotas.css";
 
 export default function GestionUsuarios() {
   const [usuarios, setUsuarios] = useState([]);
@@ -17,13 +17,17 @@ export default function GestionUsuarios() {
       if (!res.ok) throw new Error("Error al obtener usuarios");
 
       const data = await res.json();
+      console.log("🔎 Datos recibidos:", data);
+
       if (Array.isArray(data)) {
         setUsuarios(data);
-      } else if (data.usuarios || data.Usuarios) {
-        setUsuarios(data.usuarios || data.Usuarios);
+      } else if (data.Usuarios) {
+        setUsuarios(data.Usuarios);
+      } else if (data.usuarios) {
+        setUsuarios(data.usuarios);
       } else {
         setUsuarios([]);
-        console.warn("Formato inesperado:", data);
+        console.warn("⚠️ Formato inesperado:", data);
       }
     } catch (err) {
       console.error(err);
@@ -112,7 +116,10 @@ export default function GestionUsuarios() {
 
         {usuarios.length > 0 && (
           <div className="gestion-mascotas-contenedor-tabla">
-            <table className="gestion-mascotas-tabla" id="gestion-usuarios-tabla">
+            <table
+              className="gestion-mascotas-tabla"
+              id="gestion-usuarios-tabla"
+            >
               <thead>
                 <tr>
                   <th>Nombre</th>
@@ -128,7 +135,7 @@ export default function GestionUsuarios() {
                 {usuarios.map((u) => (
                   <tr key={u.n_documento}>
                     <td>{u.nombre}</td>
-                    <td>{`${u.tipo_documento} - ${u.n_documento}`}</td>
+                    <td>{`${u.documento?.tipo || ""} - ${u.n_documento}`}</td>
                     <td>{u.correoelectronico}</td>
                     <td>{u.estado}</td>
                     <td>
@@ -150,7 +157,11 @@ export default function GestionUsuarios() {
                     <td>
                       <button
                         onClick={() =>
-                          cambiarEstadoUsuario(u.n_documento, u.estado, u.nombre)
+                          cambiarEstadoUsuario(
+                            u.n_documento,
+                            u.estado,
+                            u.nombre
+                          )
                         }
                         className="gestion-mascotas-btn-icon"
                       >

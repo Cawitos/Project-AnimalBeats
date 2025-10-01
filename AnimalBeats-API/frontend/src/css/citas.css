@@ -4,9 +4,10 @@
   --negro: #07090F;
   --gris: #E6E8E6;
   --verde: #4CAF50;
+  --amarillo: #ffb703;
 }
 
-/* Reset básico */
+/* Reset */
 * {
   margin: 0;
   padding: 0;
@@ -15,95 +16,81 @@
 
 body, html, #root {
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   background-color: var(--blanco);
   color: var(--negro);
   font-family: 'Arial', sans-serif;
   overflow-x: hidden;
 }
 
-/* Menú lateral fijo */
+/* Contenedor */
+.citas-container {
+  margin-left: 220px;
+  padding: 30px;
+}
+
+@media (max-width: 768px) {
+  .citas-container {
+    margin-left: 0;
+    padding: 15px;
+  }
+}
+
 .citas-menu {
   position: fixed;
   top: 0;
   left: 0;
   margin-top: 10px;
-  width: 200px;
-  height: 100vh;
+  width: 200px;       
+  height: 100vh;         
   background-color: var(--blanco);
   border: none;
   box-shadow: none;
-  overflow-y: auto;
+  overflow-y: auto;      
   z-index: 1000;
-  padding: 20px;
-  box-sizing: border-box;
 }
 
-/* Contenedor principal */
-.citas-container {
-  margin-left: 220px;
-  padding: 40px 30px;
-  min-height: 100vh;
-  background-color: var(--blanco);
-  box-sizing: border-box;
-  transition: margin-left 0.3s ease;
-}
-
-/* Responsive para dispositivos móviles */
-@media (max-width: 768px) {
-  .citas-container {
-    margin-left: 0;
-    padding: 20px 15px;
-  }
-
-  .citas-menu {
-    position: relative;
-    width: 100%;
-    height: auto;
-    margin-top: 0;
-    border-bottom: 1px solid var(--gris);
-  }
-}
-
-/* Encabezado */
+/* Header */
 .citas-header {
-  max-width: 900px;
-  margin: 0 auto 30px;
   text-align: center;
+  margin-bottom: 40px;
 }
 
 .citas-title {
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   font-weight: 700;
-  color: var(--rojo) !important;
+  color: var(--rojo);
   text-transform: uppercase;
-  letter-spacing: 2px;
 }
 
 .citas-subtitle {
-  font-size: 1.2rem;
-  color: var(--gris);
+  font-size: 1rem;
+  color: #777;
   margin-top: 5px;
 }
 
-/* Formulario */
+/* FORMULARIO */
 .citas-form {
-  max-width: 900px;
-  margin: 0 auto 40px;
+  background: #fff;
+  border: 1px solid var(--gris);
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  margin-bottom: 40px;
   display: flex;
-  gap: 20px;
   flex-wrap: wrap;
+  gap: 20px;
 }
 
 .citas-form-group {
-  flex: 1 1 30%;
+  flex: 1 1 45%;
   display: flex;
   flex-direction: column;
 }
 
 .citas-label {
   font-weight: 600;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   color: var(--negro);
 }
 
@@ -111,244 +98,160 @@ body, html, #root {
 .citas-select,
 .citas-textarea {
   padding: 10px 15px;
-  font-size: 16px;
-  border: 2px solid var(--rojo);
-  border-radius: 12px;
+  font-size: 15px;
+  border: 2px solid var(--gris);
+  border-radius: 10px;
   background-color: var(--blanco);
-  color: var(--negro);
-  font-family: inherit;
-  outline: none;
-  transition: border-color 0.3s ease;
-  box-sizing: border-box;
+  transition: 0.3s ease;
 }
 
 .citas-input:focus,
 .citas-select:focus,
 .citas-textarea:focus {
-  border-color: var(--negro);
-  box-shadow: 0 0 6px var(--negro);
-}
-
-/* Botones */
-.citas-actions {
-  max-width: 900px;
-  margin: 0 auto 50px;
-  text-align: center;
-}
-
-.citas-btn-register,
-.citas-btn-save,
-.citas-btn-cancel {
-  padding: 12px 30px;
-  font-size: 1.1rem;
-  font-weight: 700;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  border: none;
-  user-select: none;
-  min-width: 150px;
-}
-
-/* Botón registrar con línea roja */
-.citas-btn-register {
-  background-color: transparent;
-  color: var(--rojo) !important;
-  border: 2px solid var(--rojo) !important;
-}
-
-.citas-btn-register:hover,
-.citas-btn-register:focus {
-  background-color: var(--rojo) !important;
-  color: var(--blanco) !important;
-  box-shadow: 0 0 12px var(--rojo) !important;
+  border-color: var(--rojo);
+  box-shadow: 0 0 6px var(--rojo);
   outline: none;
+}
+
+.citas-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* BOTONES */
+.citas-actions {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 10px;
 }
 
 .citas-btn-save {
-  background-color: var(--rojo) !important;
-  color: var(--blanco) !important;
-  margin-right: 15px;
+  background-color: var(--rojo);
+  color: var(--blanco);
+  padding: 12px 30px;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s ease;
 }
 
-.citas-btn-save:hover,
-.citas-btn-save:focus {
-  background-color: #b22228 !important;
-  box-shadow: 0 0 12px #b22228 !important;
-  outline: none;
+.citas-btn-save:hover {
+  background-color: #b22228;
+  box-shadow: 0 0 8px rgba(223, 41, 53, 0.5);
 }
 
 .citas-btn-cancel {
   background-color: var(--gris);
-  color: var(--negro);
+  padding: 12px 30px;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s ease;
 }
 
-.citas-btn-cancel:hover,
-.citas-btn-cancel:focus {
+.citas-btn-cancel:hover {
   background-color: #cfcfcf;
-  outline: none;
 }
 
-/* Listado de citas */
+/* LISTADO DE CITAS */
 .citas-listado {
   max-width: 900px;
   margin: 0 auto;
 }
 
 .citas-listado-titulo {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: 700;
-  margin-bottom: 15px;
-  color: var(--rojo) !important;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  text-align: center;
-}
-
-.citas-total {
-  text-align: center;
-  font-size: 1rem;
-  color: var(--gris);
   margin-bottom: 20px;
+  text-align: center;
+  color: var(--rojo);
 }
 
-/* Lista */
 .citas-list {
   list-style: none;
-  padding: 0;
-  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .citas-item {
-  background-color: var(--blanco);
+  background: #fff;
   border: 1px solid var(--gris);
   border-radius: 12px;
   padding: 15px 20px;
-  margin-bottom: 15px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+  transition: 0.3s ease;
 }
 
-@media (min-width: 768px) {
-  .citas-item {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
+.citas-item:hover {
+  transform: translateY(-2px);
 }
 
 .citas-item-info {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  flex-grow: 1;
-  flex-wrap: wrap;
+  gap: 5px;
 }
 
 .citas-item-info span {
-  min-width: 150px;
-  font-weight: 600;
-  color: var(--negro);
+  font-size: 0.95rem;
+  font-weight: 500;
 }
 
-.citas-actions.btn-group {
+/* ESTADOS */
+.badge {
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.bg-warning { background-color: var(--amarillo); }
+.bg-success { background-color: var(--verde); }
+.bg-danger { background-color: var(--rojo); }
+.bg-secondary { background-color: #6c757d; }
+
+/* Botones de acciones en listado */
+.btn-group {
   display: flex;
-  gap: 10px;
-  flex-shrink: 0;
+  gap: 8px;
 }
 
-.citas-btn-modificar,
-.citas-btn-eliminar {
-  padding: 8px 14px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  border-radius: 12px;
+.btn-group button {
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  border-radius: 8px;
+  border: none;
   cursor: pointer;
-  border: 2px solid transparent;
-  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-  user-select: none;
-  white-space: nowrap;
+  transition: 0.3s ease;
 }
 
-.citas-btn-modificar {
-  background-color: transparent;
-  border-color: var(--rojo) !important;
-  color: var(--rojo) !important;
+.btn-outline-success {
+  border: 2px solid var(--verde);
+  color: var(--verde);
+  background: transparent;
 }
 
-.citas-btn-modificar:hover,
-.citas-btn-modificar:focus {
-  background-color: var(--rojo) !important;
-  color: var(--blanco) !important;
-  box-shadow: 0 0 8px var(--rojo) !important;
-  outline: none;
-}
-
-.citas-btn-eliminar {
-  background-color: transparent;
-  border-color: var(--negro);
-  color: var(--negro);
-}
-
-.citas-btn-eliminar:hover,
-.citas-btn-eliminar:focus {
-  background-color: var(--negro);
+.btn-outline-success:hover {
+  background: var(--verde);
   color: var(--blanco);
-  box-shadow: 0 0 8px var(--negro);
-  outline: none;
 }
 
-/* Alert info */
-.citas-alert {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 20px;
-  border-radius: 12px;
-  background-color: var(--gris);
-  color: var(--negro);
-  font-weight: 600;
-  text-align: center;
-  box-shadow: 0 0 8px rgba(223, 41, 53, 0.3);
+.btn-outline-danger {
+  border: 2px solid var(--rojo);
+  color: var(--rojo);
+  background: transparent;
 }
 
-/* Responsive */
-@media (max-width: 480px) {
-  .citas-container {
-    padding: 15px 10px;
-  }
-
-  .citas-header {
-    margin-bottom: 20px;
-  }
-
-  .citas-title {
-    font-size: 1.8rem;
-  }
-
-  .citas-subtitle {
-    font-size: 1rem;
-  }
-
-  .citas-form {
-    flex-direction: column;
-  }
-
-  .citas-form-group {
-    flex: 1 1 100%;
-  }
-
-  .citas-actions {
-    margin-bottom: 30px;
-  }
-
-  .citas-item {
-    flex-direction: column;
-    gap: 15px;
-  }
-
-  .citas-actions.btn-group {
-    justify-content: center;
-  }
+.btn-outline-danger:hover {
+  background: var(--rojo);
+  color: var(--blanco);
 }
