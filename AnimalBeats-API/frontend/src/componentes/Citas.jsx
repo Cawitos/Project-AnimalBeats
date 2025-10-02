@@ -25,7 +25,6 @@ const GestionCitas = () => {
   const API_URL = "https://animalbeats-api.onrender.com";
   const { User } = useContext(UserContext);
 
-  // Calcular fecha mínima para no permitir fechas pasadas
   useEffect(() => {
     const ahora = new Date();
     const year = ahora.getFullYear();
@@ -155,7 +154,6 @@ const GestionCitas = () => {
     }
   };
 
-  // Filtrar citas según rol
   const citasFiltradas = citas.filter((c) => {
     if (!User) return false;
     if (User.rol === 2) return String(c.id_cliente) === String(User.n_documento);
@@ -163,23 +161,21 @@ const GestionCitas = () => {
   });
 
   return (
-    <div className="citas-container">
-      <div className="citas-menu">
+    <div className="gc2-container">
+      <div className="gc2-menu">
         <OffcanvasMenu />
       </div>
 
-      <div className="citas-header">
-        <h2 className="citas-title">Gestión de Citas</h2>
-        <p className="citas-subtitle">Administra y controla todas las citas</p>
+      <div className="gc2-header">
+        <h2 className="gc2-title">Gestión de Citas</h2>
+        <p className="gc2-subtitle">Administra y controla todas las citas</p>
       </div>
 
-      {/* Formulario de creación de citas */}
-      <form className="citas-form">
-        {/* Cliente */}
-        <div className="citas-form-group">
-          <label className="citas-label">Tutor</label>
+      <form className="gc2-form">
+        <div className="gc2-form-group">
+          <label className="gc2-label">Tutor</label>
           <select
-            className="citas-select"
+            className="gc2-select"
             value={nuevaCita.id_cliente}
             onChange={handleClienteChange}
             disabled={User?.rol === 2}
@@ -193,11 +189,10 @@ const GestionCitas = () => {
           </select>
         </div>
 
-        {/* Mascota */}
-        <div className="citas-form-group">
-          <label className="citas-label">Mascota</label>
+        <div className="gc2-form-group">
+          <label className="gc2-label">Mascota</label>
           <select
-            className="citas-select"
+            className="gc2-select"
             value={nuevaCita.id_mascota}
             onChange={(e) =>
               setNuevaCita({ ...nuevaCita, id_mascota: e.target.value })
@@ -213,11 +208,10 @@ const GestionCitas = () => {
           </select>
         </div>
 
-        {/* Servicio */}
-        <div className="citas-form-group">
-          <label className="citas-label">Servicio</label>
+        <div className="gc2-form-group">
+          <label className="gc2-label">Servicio</label>
           <select
-            className="citas-select"
+            className="gc2-select"
             value={nuevaCita.id_servicio}
             onChange={(e) =>
               setNuevaCita({ ...nuevaCita, id_servicio: e.target.value })
@@ -233,11 +227,10 @@ const GestionCitas = () => {
           </select>
         </div>
 
-        {/* Veterinario */}
-        <div className="citas-form-group">
-          <label className="citas-label">Veterinario</label>
+        <div className="gc2-form-group">
+          <label className="gc2-label">Veterinario</label>
           <select
-            className="citas-select"
+            className="gc2-select"
             value={nuevaCita.id_veterinario}
             onChange={(e) =>
               setNuevaCita({ ...nuevaCita, id_veterinario: e.target.value })
@@ -253,26 +246,24 @@ const GestionCitas = () => {
           </select>
         </div>
 
-        {/* Fecha */}
-        <div className="citas-form-group">
-          <label className="citas-label">Fecha</label>
+        <div className="gc2-form-group">
+          <label className="gc2-label">Fecha</label>
           <input
             type="datetime-local"
-            className="citas-input"
+            className="gc2-input"
             value={nuevaCita.fecha}
             onChange={(e) =>
               setNuevaCita({ ...nuevaCita, fecha: e.target.value })
             }
-            min={fechaMinima} // <-- aquí se limita la fecha
+            min={fechaMinima}
             disabled={User?.rol === 2}
           />
         </div>
 
-        {/* Descripción */}
-        <div className="citas-form-group" style={{ flex: "1 1 100%" }}>
-          <label className="citas-label">Descripción</label>
+        <div className="gc2-form-group gc2-form-textarea">
+          <label className="gc2-label">Descripción</label>
           <textarea
-            className="citas-textarea"
+            className="gc2-textarea"
             value={nuevaCita.descripcion}
             onChange={(e) =>
               setNuevaCita({ ...nuevaCita, descripcion: e.target.value })
@@ -281,53 +272,50 @@ const GestionCitas = () => {
           />
         </div>
 
-        {/* Botones solo para admin o veterinario */}
         {User?.rol !== 2 && (
-          <div className="citas-actions">
-            <button type="button" className="citas-btn-save" onClick={crearCita}>
+          <div className="gc2-actions">
+            <button type="button" className="gc2-btn-save" onClick={crearCita}>
               Crear Cita
             </button>
-            <button type="reset" className="citas-btn-cancel">
+            <button type="reset" className="gc2-btn-cancel">
               Cancelar
             </button>
           </div>
         )}
       </form>
 
-      {/* Listado de citas */}
-      <div className="citas-listado">
-        <h4 className="citas-listado-titulo">Listado de Citas</h4>
+      <div className="gc2-listado">
+        <h4 className="gc2-listado-titulo">Listado de Citas</h4>
         {citasFiltradas.length > 0 ? (
-          <ul className="citas-list">
+          <ul className="gc2-list">
             {citasFiltradas.map((c) => (
-              <li key={c.id} className="citas-item">
-                <div className="citas-item-info">
+              <li key={c.id} className="gc2-item">
+                <div className="gc2-item-info">
                   <span>Mascota: {c.mascota?.nombre || `ID ${c.id_mascota}`}</span>
                   <span>Servicio: {c.servicios?.servicio || `ID ${c.id_servicio}`}</span>
                   <span>Veterinario: {c.veterinarios?.nombre_completo || `ID ${c.id_veterinario}`}</span>
                   <span>Tutor: {c.usuarios?.nombre || `ID ${c.id_cliente}`}</span>
                   <span>Fecha: {c.fecha}</span>
                   <span
-                    className={`badge ms-2 ${
+                    className={`gc2-badge ${
                       c.estado === "Pendiente"
-                        ? "bg-warning"
+                        ? "gc2-warning"
                         : c.estado === "Confirmado"
-                        ? "bg-success"
+                        ? "gc2-success"
                         : c.estado === "Cancelado"
-                        ? "bg-danger"
-                        : "bg-secondary"
+                        ? "gc2-danger"
+                        : "gc2-secondary"
                     }`}
                   >
                     {c.estado}
                   </span>
                 </div>
 
-                {/* Botones solo para admin o veterinario */}
                 {User && User.rol !== 2 && (
-                  <div className="citas-actions btn-group">
+                  <div className="gc2-actions gc2-btn-group">
                     {c.estado === "Pendiente" && User?.rol === 1 && (
                       <button
-                        className="citas-btn-eliminar"
+                        className="gc2-btn-eliminar"
                         onClick={() => cambiarEstado(c.id, "Cancelar")}
                       >
                         Eliminar
@@ -335,7 +323,7 @@ const GestionCitas = () => {
                     )}
                     {c.estado === "Solicitud" && (User?.rol === 1 || User?.rol === 3) && (
                       <button
-                        className="citas-btn-save"
+                        className="gc2-btn-save"
                         onClick={() => cambiarEstado(c.id, "Confirmar")}
                       >
                         Confirmar
@@ -347,7 +335,7 @@ const GestionCitas = () => {
             ))}
           </ul>
         ) : (
-          <div className="citas-alert">No hay citas registradas.</div>
+          <div className="gc2-alert">No hay citas registradas.</div>
         )}
       </div>
     </div>
@@ -355,4 +343,3 @@ const GestionCitas = () => {
 };
 
 export default GestionCitas;
-       
