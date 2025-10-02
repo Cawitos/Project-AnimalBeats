@@ -7,7 +7,6 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import logo from "../assets/logo.png";
 
-
 function GestionRecordatorios() {
   const [recordatorio, setRecordatorio] = useState([]);
   const [form, setForm] = useState({ cliente: '', mascota: '', fecha: '', descripcion: '' });
@@ -25,7 +24,7 @@ function GestionRecordatorios() {
     return localDate.toISOString().slice(0, 16);
   };
 
-  // Calcular fecha y hora mínima al cargar (para limitar input datetime-local)
+  // Fecha mínima para input
   useEffect(() => {
     const now = new Date();
     const year = now.getFullYear();
@@ -36,7 +35,7 @@ function GestionRecordatorios() {
     setMinFecha(`${year}-${month}-${day}T${hours}:${minutes}`);
   }, []);
 
-  // Obtener todos los recordatorios
+  // Obtener recordatorios
   const fetchRecordatorios = async () => {
     try {
       const res = await axios.get('https://animalbeats-api.onrender.com/recordatorios');
@@ -46,18 +45,19 @@ function GestionRecordatorios() {
     }
   };
 
-  // Cambia cliente y carga sus mascotas
+  // Cambiar cliente y cargar mascotas
   const handleClienteChange = async (e) => {
     const clienteId = e.target.value;
-    setForm(prev => ({ ...prev, cliente: clienteId, mascota: '' })); // limpiar mascota al cambiar cliente
+    const clienteNum = clienteId ? Number(clienteId) : '';
+    setForm(prev => ({ ...prev, cliente: clienteNum, mascota: '' }));
 
-    if (clienteId.trim().length < 10) {
+    if (!clienteNum || clienteNum.toString().length < 10) {
       setMascotasCliente([]);
       return;
     }
 
     try {
-      const res = await axios.get(`https://animalbeats-api.onrender.com/Mascota/recordatorio/${clienteId}`);
+      const res = await axios.get(`https://animalbeats-api.onrender.com/Mascota/recordatorio/${clienteNum}`);
       if (Array.isArray(res.data)) {
         setMascotasCliente(res.data);
       } else {
@@ -70,12 +70,13 @@ function GestionRecordatorios() {
     }
   };
 
-  // Cambia mascota seleccionada
+  // Cambiar mascota
   const handleMascotaChange = (e) => {
-    setForm(prev => ({ ...prev, mascota: e.target.value }));
+    const mascotaNum = e.target.value ? Number(e.target.value) : '';
+    setForm(prev => ({ ...prev, mascota: mascotaNum }));
   };
 
-  // Guardar o modificar recordatorio
+  // Guardar o modificar
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -90,7 +91,6 @@ function GestionRecordatorios() {
     }
 
     try {
-      // Enviar la fecha tal cual viene del input datetime-local
       const dataToSend = { ...form, fecha: form.fecha };
 
       if (modoEditar) {
@@ -111,7 +111,7 @@ function GestionRecordatorios() {
     }
   };
 
-  // Eliminar recordatorio con confirmación
+  // Eliminar recordatorio
   const eliminarRecordatorio = (id) => {
     Swal.fire({
       title: '¿Estás seguro de que quieres eliminar este recordatorio?',
@@ -133,18 +133,17 @@ function GestionRecordatorios() {
     });
   };
 
-  // Cargar datos para editar un recordatorio
+  // Cargar recordatorio para editar
   const cargarParaEditar = async (r) => {
     setForm({
-      cliente: r.id_cliente,
-      mascota: r.id_Mascota,
-      fecha: formatDateLocalForInput(r.fecha), // fecha formateada localmente para input
+      cliente: Number(r.id_cliente),
+      mascota: r.mascota?.id || '',
+      fecha: formatDateLocalForInput(r.fecha),
       descripcion: r.descripcion,
     });
     setModoEditar(true);
     setIdEditar(r.id);
 
-  // Cargar mascotas del cliente para el select
     if (r.id_cliente) {
       try {
         const res = await axios.get(`https://animalbeats-api.onrender.com/Mascota/recordatorio/${r.id_cliente}`);
@@ -161,101 +160,72 @@ function GestionRecordatorios() {
     }
   };
 
-// Descargar todos los recordatorios
-const descargarTodosPDF = () => {
-  try {
-    const doc = new jsPDF();
+  // Descargar PDF de todos los recordatorios
+  const descargarTodosPDF = () => {
+    try {
+      const doc = new jsPDF();
+      doc.addImage(logo, "PNG", 15, 10, 25, 25);
+      const fechaHora = new Date().toLocaleString();
+      doc.setFontSize(18);
+      doc.text("Reporte de Recordatorios (Activos)", 50, 20);
+      doc.setFontSize(11);
+      doc.text(`Fecha y Hora: ${fechaHora}`, 50, 30);
 
-    // Logo
-    doc.addImage(logo, "PNG", 15, 10, 25, 25);
+      let startY = 40;
+      const data = recordatorio.map(r => [
+        r.id_cliente || "-",
+        r.mascota?.nombre || "-",
+        r.fecha ? new Date(r.fecha).toLocaleString() : "-",
+        r.descripcion || "-"
+      ]);
 
-    // Título y fecha/hora
-    const fechaHora = new Date().toLocaleString();
-    doc.setFontSize(18);
-    doc.text("Reporte de Recordatorios (Activos)", 50, 20);
-    doc.setFontSize(11);
-    doc.text(`Fecha y Hora: ${fechaHora}`, 50, 30);
+      autoTable(doc, {
+        startY,
+        head: [["Cliente", "Mascota", "Fecha", "Descripción"]],
+        body: data,
+        theme: "grid",
+        styles: { lineColor: [223, 41, 53], lineWidth: 0.5, fontSize: 10 },
+        headStyles: { fillColor: [223, 41, 53], textColor: 255 },
+        alternateRowStyles: { fillColor: [245, 245, 245] }
+      });
 
-    let startY = 40;
+      doc.save("recordatorios_todos.pdf");
+    } catch (error) {
+      console.error("Error al generar PDF de recordatorios:", error);
+    }
+  };
 
-    // Tabla con todos los recordatorios
-    const data = recordatorio.map(r => [
-      r.id_cliente || "-",
-      r.nombre_mascota || "-",
-      new Date(r.fecha).toLocaleString() || "-",
-      r.descripcion || "-"
-    ]);
+  // Descargar PDF individual
+  const descargarUnoPDF = (r) => {
+    try {
+      const doc = new jsPDF();
+      doc.addImage(logo, "PNG", 15, 10, 25, 25);
+      const fechaHora = new Date().toLocaleString();
+      doc.setFontSize(18);
+      doc.text("Reporte de Recordatorio", 50, 20);
+      doc.setFontSize(11);
+      doc.text(`Fecha y Hora: ${fechaHora}`, 50, 30);
 
-    autoTable(doc, {
-      startY,
-      head: [["Cliente", "Mascota", "Fecha", "Descripción"]],
-      body: data,
-      theme: "grid",
-      styles: {
-        lineColor: [223, 41, 53], // Rojo AnimalBeats
-        lineWidth: 0.5,
-        fontSize: 10
-      },
-      headStyles: {
-        fillColor: [223, 41, 53],
-        textColor: 255
-      },
-      alternateRowStyles: {
-        fillColor: [245, 245, 245]
-      }
-    });
+      let startY = 40;
+      autoTable(doc, {
+        startY,
+        body: [
+          ["Cliente", r.id_cliente || "-"],
+          ["Mascota", r.mascota?.nombre || "-"],
+          ["Fecha", r.fecha ? new Date(r.fecha).toLocaleString() : "-"],
+          ["Descripción", r.descripcion || "-"]
+        ],
+        theme: "grid",
+        styles: { lineColor: [223, 41, 53], lineWidth: 0.5, fontSize: 11 },
+        headStyles: { fillColor: [223, 41, 53], textColor: 255 }
+      });
 
-    doc.save("recordatorios_todos.pdf");
-  } catch (error) {
-    console.error("Error al generar PDF de recordatorios:", error);
-  }
-};
+      doc.save(`recordatorio_${r.id}.pdf`);
+    } catch (error) {
+      console.error("Error al generar PDF individual:", error);
+    }
+  };
 
-// Descargar un recordatorio en específico
-const descargarUnoPDF = (r) => {
-  try {
-    const doc = new jsPDF();
-
-    // Logo
-    doc.addImage(logo, "PNG", 15, 10, 25, 25);
-
-    // Título y fecha/hora
-    const fechaHora = new Date().toLocaleString();
-    doc.setFontSize(18);
-    doc.text("Reporte de Recordatorio", 50, 20);
-    doc.setFontSize(11);
-    doc.text(`Fecha y Hora: ${fechaHora}`, 50, 30);
-
-    let startY = 40;
-
-    // Tabla con la info del recordatorio
-    autoTable(doc, {
-      startY,
-      body: [
-        ["Cliente", r.id_cliente || "-"],
-        ["Mascota", r.nombre_mascota || "-"],
-        ["Fecha", new Date(r.Fecha).toLocaleString() || "-"],
-        ["Descripción", r.descripcion || "-"]
-      ],
-      theme: "grid",
-      styles: {
-        lineColor: [223, 41, 53],
-        lineWidth: 0.5,
-        fontSize: 11
-      },
-      headStyles: {
-        fillColor: [223, 41, 53],
-        textColor: 255
-      }
-    });
-
-    doc.save(`recordatorio_${r.id}.pdf`);
-  } catch (error) {
-    console.error("Error al generar PDF individual:", error);
-  }
-};
-
-  // Al cargar el componente, obtener recordatorios
   useEffect(() => {
     fetchRecordatorios();
   }, []);
@@ -275,6 +245,7 @@ const descargarUnoPDF = (r) => {
           Descargar todos en PDF
         </button>
       </div>
+
       <table className="gestion-recordatorios-table">
         <thead>
           <tr>
@@ -289,8 +260,8 @@ const descargarUnoPDF = (r) => {
           {recordatorio.map(r => (
             <tr key={r.id}>
               <td>{r.id_cliente}</td>
-              <td>{r.mascota?.nombre}</td>
-              <td>{new Date(r.fecha).toLocaleString()}</td>
+              <td>{r.mascota?.nombre || "-"}</td>
+              <td>{r.fecha ? new Date(r.fecha).toLocaleString() : "-"}</td>
               <td>{r.descripcion}</td>
               <td>
                 <button
@@ -323,7 +294,6 @@ const descargarUnoPDF = (r) => {
 
       <form onSubmit={handleSubmit} className="gestion-recordatorios-form">
         <div className="gestion-recordatorios-form-row">
-
           <div className="gestion-recordatorios-form-group">
             <label>N° Documento del Cliente</label>
             <input
