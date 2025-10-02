@@ -1,34 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import OffcanvasMenu from "../componentes/menu";
 import { Link, useParams } from "react-router-dom";
-import '../css/historial.css';
+import "../css/historial.css";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import logo from "../assets/logo.png";
+import { UserContext } from "../context/UserContext";
+import Swal from "sweetalert2";
 
 const Historial = () => {
   const { id } = useParams();
+  const { User } = useContext(UserContext);
 
   const [mascotaInfo, setMascotaInfo] = useState({});
   const [historialMedico, setHistorialMedico] = useState([]);
   const [citasInfo, setCitasInfo] = useState([]);
-
   const [errorMascota, setErrorMascota] = useState(null);
   const [errorCita, setErrorCita] = useState(null);
   const [errorHistorial, setErrorHistorial] = useState(null);
 
-  // Fecha y hora actual para mostrar en el PDF
-  const ahora = new Date();
-  const dia = String(ahora.getDate()).padStart(2, '0');
-  const mes = String(ahora.getMonth() + 1).padStart(2, '0');
-  const anio = ahora.getFullYear();
-  const hora = String(ahora.getHours()).padStart(2, '0');
-  const minutos = String(ahora.getMinutes()).padStart(2, '0');
-  const segundos = String(ahora.getSeconds()).padStart(2, '0');
-  const fechaHoraFormateada = `${dia}/${mes}/${anio} ${hora}:${minutos}:${segundos}`;
+  const [modalCitaVisible, setModalCitaVisible] = useState(false);
+  const [citaSeleccionada, setCitaSeleccionada] = useState(null);
+  const [nuevaDescripcion, setNuevaDescripcion] = useState("");
 
-  // Helper para formatear fecha (solo fecha)
   const formatFecha = (fecha) => {
     if (!fecha) return "-";
     try {
@@ -38,106 +33,66 @@ const Historial = () => {
     }
   };
 
-  // Helper para formatear hora a HH:mm
   const formatHora = (fecha) => {
     if (!fecha) return "-";
     try {
-      return new Date(fecha).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      return new Date(fecha).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
     } catch {
       return "-";
     }
   };
 
-  // Obtener datos de la mascota
+  // --- Fetch Mascota ---
   useEffect(() => {
-    const obtenerDatosMascota = async () => {
+    const fetchMascota = async () => {
       try {
         const { data } = await axios.get(`https://animalbeats-api.onrender.com/Mascotas/${id}`);
-
-        if (data?.mensaje) {
+        if (data?.mensaje || typeof data === "string") {
           setMascotaInfo({});
-          setErrorMascota(data.mensaje);
-        } else if (typeof data === "string") {
-          setMascotaInfo({});
-          setErrorMascota(data);
-        } else if (data && typeof data === "object") {
-          setMascotaInfo({
-            id: data.id,
-            nombre: data.nombre,
-            fecha_nacimiento: data.fecha_nacimiento,
-            especie: data.especie,
-            raza: data.raza,
-            cliente: data.cliente,
-          });
+          setErrorMascota(data.mensaje || data);
+        } else {
+          setMascotaInfo(data);
           setErrorMascota(null);
-        } else {
-          setMascotaInfo({});
-          setErrorMascota("No se encontró información de la mascota");
         }
-      } catch (err) {
-        if (err.response?.status === 404) {
-          setMascotaInfo({});
-          setErrorMascota("No hay mascota registrada con ese ID");
-        } else {
-          setMascotaInfo({});
-          setErrorMascota("Error al conectar con el servidor");
-        }
-        console.error(err);
+      } catch {
+        setMascotaInfo({});
+        setErrorMascota("Error al conectar con el servidor");
       }
     };
-
-    if (id) obtenerDatosMascota();
+    if (id) fetchMascota();
   }, [id]);
 
-  // Obtener citas (todas)
+  // --- Fetch Citas ---
   useEffect(() => {
-    const obtenerDatosCitas = async () => {
+    const fetchCitas = async () => {
       try {
         const { data } = await axios.get(`https://animalbeats-api.onrender.com/Citas/mascota/${id}`);
-
-        if (data?.mensaje) {
+        if (Array.isArray(data)) {
+          setCitasInfo(data);
+          setErrorCita(data.length === 0 ? "No hay citas registradas para esta mascota" : null);
+        } else if (data?.mensaje) {
           setCitasInfo([]);
           setErrorCita(data.mensaje);
-        } else if (Array.isArray(data)) {
-          setCitasInfo(data);
-          if (data.length === 0) setErrorCita("No hay citas registradas para esta mascota");
-          else setErrorCita(null);
         } else {
           setCitasInfo([]);
           setErrorCita("No se encontró información de citas");
         }
-      } catch (err) {
-        if (err.response?.status === 404) {
-          setCitasInfo([]);
-          setErrorCita("No hay citas registradas para esta mascota");
-        } else {
-          setCitasInfo([]);
-          setErrorCita("Error al conectar con el servidor");
-        }
-        console.error(err);
+      } catch {
+        setCitasInfo([]);
+        setErrorCita("Error al conectar con el servidor");
       }
     };
-
-    if (id) obtenerDatosCitas();
+    if (id) fetchCitas();
   }, [id]);
 
-  // Obtener historial médico (recordatorios)
+  // --- Fetch Historial ---
   useEffect(() => {
-    const obtenerHistorialMedico = async () => {
+    const fetchHistorial = async () => {
       try {
         const { data } = await axios.get(`https://animalbeats-api.onrender.com/recordatorio/mascota/${id}`);
-
-        if (Array.isArray(data) && data.length > 0) {
-          setHistorialMedico(
-            data.map((item) => ({
-              fecha: item.fecha,
-              descripcion: item.descripcion,
-            }))
-          );
-          setErrorHistorial(null);
-        } else if (Array.isArray(data) && data.length === 0) {
-          setHistorialMedico([]);
-          setErrorHistorial("No hay recordatorios registrados para esta mascota");
+        if (Array.isArray(data)) {
+          setHistorialMedico(data);
+          setErrorHistorial(data.length === 0 ? "No hay recordatorios registrados" : null);
         } else if (data?.mensaje) {
           setHistorialMedico([]);
           setErrorHistorial(data.mensaje);
@@ -145,129 +100,123 @@ const Historial = () => {
           setHistorialMedico([]);
           setErrorHistorial("No se encontró historial médico");
         }
-      } catch (err) {
-        if (err.response?.status === 404) {
-          setHistorialMedico([]);
-          setErrorHistorial("No hay recordatorios registrados para esta mascota");
-        } else {
-          setHistorialMedico([]);
-          setErrorHistorial("Error al conectar con el servidor");
-        }
-        console.error(err);
+      } catch {
+        setHistorialMedico([]);
+        setErrorHistorial("Error al conectar con el servidor");
       }
     };
-
-    if (id) obtenerHistorialMedico();
+    if (id) fetchHistorial();
   }, [id]);
 
+  // --- Modal ---
+  const abrirModal = (cita) => {
+    setCitaSeleccionada(cita);
+    setNuevaDescripcion("");
+    setModalCitaVisible(true);
+  };
+
+  const cerrarModal = () => {
+    setModalCitaVisible(false);
+    setCitaSeleccionada(null);
+  };
+
+  // --- Procesar Cita ---
+  const procesarCita = async () => {
+    if (!citaSeleccionada) return;
+
+    const timestamp = new Date().toLocaleString();
+    const descripcionAnterior = citaSeleccionada.descripcion || "";
+    const descripcionActualizada = `${descripcionAnterior}\n\n--- Procesos de la cita ---\n[${timestamp}] ${nuevaDescripcion}`;
+
+    try {
+      await axios.put(`https://animalbeats-api.onrender.com/Citas/Actualizar/${citaSeleccionada.id}`, {
+        ...citaSeleccionada,
+        descripcion: descripcionActualizada,
+        estado: "Completado",
+      });
+
+      Swal.fire("✅ Cita procesada", "La cita ha sido actualizada correctamente", "success");
+      setCitasInfo(prev =>
+        prev.map(c => c.id === citaSeleccionada.id
+          ? { ...c, descripcion: descripcionActualizada, estado: "Completado" }
+          : c
+        )
+      );
+      cerrarModal();
+    } catch {
+      Swal.fire("Error", "No se pudo procesar la cita", "error");
+    }
+  };
+
+  // --- Descargar PDF ---
   const descargarHistorial = () => {
     try {
       const doc = new jsPDF();
+      const ahora = new Date();
+      const fechaHora = ahora.toLocaleString();
 
-      // Logo
       doc.addImage(logo, "PNG", 15, 10, 25, 25);
-
-      // Título y fecha/hora actual
       doc.setFontSize(18);
       doc.text(`Historial Médico - ${mascotaInfo.nombre || "Mascota"}`, 50, 20);
-      doc.text(`Fecha y Hora: ${fechaHoraFormateada}`, 50, 30);
+      doc.setFontSize(12);
+      doc.text(`Descargado el: ${fechaHora}`, 50, 30);
 
       let startY = 40;
 
-      // Tabla Información Mascota
       if (mascotaInfo && Object.keys(mascotaInfo).length > 0) {
         autoTable(doc, {
           startY,
-          head: [["ID", "Nombre", "Fecha de nacimiento", "Especie", "Raza", "Dueño"]],
-          body: [
-            [
-              mascotaInfo.id || "-",
-              mascotaInfo.nombre || "-",
-              formatFecha(mascotaInfo.fecha_nacimiento) || "-",
-              mascotaInfo.especie || "-",
-              mascotaInfo.raza || "-",
-              mascotaInfo.cliente || "-"
-            ]
-          ],
+          head: [["ID", "Nombre", "Nacimiento", "Especie", "Raza", "Tutor"]],
+          body: [[
+            mascotaInfo.id || "-",
+            mascotaInfo.nombre || "-",
+            formatFecha(mascotaInfo.fecha_nacimiento),
+            mascotaInfo.especie?.especie || "-",
+            mascotaInfo.raza?.raza || "-",
+            mascotaInfo.usuarios?.nombre || "-"
+          ]],
           theme: "grid",
-          styles: {
-            lineColor: [223, 41, 53], // Rojo
-            lineWidth: 0.5,
-          },
-          headStyles: {
-            fillColor: [223, 41, 53], // Fondo rojo
-            textColor: 255, // Texto blanco
-          }
+          headStyles: { fillColor: [223, 41, 53], textColor: 255 },
         });
-        startY = doc.lastAutoTable.finalY + 15;
-      } else {
-        doc.text(`Información de la mascota: ${errorMascota || "No disponible"}`, 10, startY);
-        startY += 10;
+        startY = doc.lastAutoTable.finalY + 10;
       }
 
-      // Tabla Recordatorios
-      doc.setFontSize(14);
-      doc.text("Recordatorios", 20, startY);
+      doc.text("Recordatorios", 15, startY);
       startY += 5;
-
       if (historialMedico.length > 0) {
         autoTable(doc, {
           startY,
           head: [["Fecha", "Hora", "Descripción"]],
-          body: historialMedico.map((r) => [
+          body: historialMedico.map(r => [
             formatFecha(r.fecha),
             formatHora(r.fecha),
             r.descripcion || "-"
           ]),
           theme: "grid",
-          styles: {
-            lineColor: [223, 41, 53],
-            lineWidth: 0.5
-          },
-          headStyles: {
-            fillColor: [223, 41, 53],
-            textColor: 255
-          }
+          headStyles: { fillColor: [223, 41, 53], textColor: 255 },
         });
-        startY = doc.lastAutoTable.finalY + 15;
-      } else {
-        doc.text(errorHistorial || "No hay recordatorios", 20, startY);
-        startY += 10;
+        startY = doc.lastAutoTable.finalY + 10;
       }
 
-      // Tabla Citas
-      doc.setFontSize(14);
-      doc.text("Citas", 20, startY);
+      doc.text("Citas", 15, startY);
       startY += 5;
-
       if (citasInfo.length > 0) {
         autoTable(doc, {
           startY,
-          head: [["Fecha", "Hora", "Servicio"]],
-          body: citasInfo.map(cita => ([
-            formatFecha(cita.fecha),
-            formatHora(cita.fecha),
-            cita.servicio || "-"
-          ])),
+          head: [["Fecha", "Hora", "Servicio", "Estado"]],
+          body: citasInfo.map(c => [
+            formatFecha(c.fecha),
+            formatHora(c.fecha),
+            c.servicios?.servicio || "-",
+            c.estado || "-"
+          ]),
           theme: "grid",
-          styles: {
-            lineColor: [223, 41, 53],
-            lineWidth: 0.5
-          },
-          headStyles: {
-            fillColor: [223, 41, 53],
-            textColor: 255
-          }
+          headStyles: { fillColor: [223, 41, 53], textColor: 255 },
         });
-      } else {
-        doc.text(errorCita || "No hay citas", 20, startY);
       }
 
-      // Descargar PDF
       doc.save(`historial_mascota_${mascotaInfo.nombre || id}.pdf`);
-
-    } catch (error) {
-      console.error("Error al generar PDF:", error);
+    } catch {
       Swal.fire("Error", "No se pudo generar el PDF.", "error");
     }
   };
@@ -281,117 +230,104 @@ const Historial = () => {
       <div className="historial-contenido-principal">
         <h1 className="historial-titulo-principal">Historial Médico de la Mascota</h1>
 
-        {/* Información de la Mascota */}
-        <div className="row">
-          <div className="col-md-6 historial-seccion">
-            <h3 className="historial-subtitulo">Información de la Mascota</h3>
-            {errorMascota ? (
-              <p className="historial-error">{errorMascota}</p>
-            ) : mascotaInfo && Object.keys(mascotaInfo).length > 0 ? (
-              <div className="historial-tabla-contenedor">
-                <table className="historial-tabla">
-                  <tbody>
-                    <tr>
-                      <th>ID</th>
-                      <td>{mascotaInfo.id}</td>
-                    </tr>
-                    <tr>
-                      <th>Nombre</th>
-                      <td>{mascotaInfo.nombre}</td>
-                    </tr>
-                    <tr>
-                      <th>Fecha de Nacimiento</th>
-                      <td>{formatFecha(mascotaInfo.fecha_nacimiento)}</td>
-                    </tr>
-                    <tr>
-                      <th>Especie</th>
-                      <td>{mascotaInfo.especie}</td>
-                    </tr>
-                    <tr>
-                      <th>Raza</th>
-                      <td>{mascotaInfo.raza}</td>
-                    </tr>
-                    <tr>
-                      <th>tutor</th>
-                      <td>{mascotaInfo.cliente}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            ) : (
-              <p className="historial-mensaje-vacio">No hay información de la mascota.</p>
-            )}
-          </div>
-
-          {/* Recordatorios */}
-          <div className="col-md-6 historial-seccion">
-            <h3 className="historial-subtitulo">Recordatorios</h3>
-            {errorHistorial ? (
-              <p className="historial-error">{errorHistorial}</p>
-            ) : historialMedico.length > 0 ? (
-              <div className="historial-tabla-contenedor">
-                <table className="historial-tabla historial-tabla-striped">
-                  <thead>
-                    <tr>
-                      <th>Fecha</th>
-                      <th>Hora</th>
-                      <th>Descripción</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {historialMedico.map((item, index) => (
-                      <tr key={index}>
-                        <td>{formatFecha(item.fecha)}</td>
-                        <td>{formatHora(item.fecha)}</td>
-                        <td>{item.descripcion}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            ) : (
-              <p className="historial-mensaje-vacio">No hay recordatorios registrados.</p>
-            )}
-          </div>
-
-          {/* Citas */}
-          <div className="col-md-6 mt-4 historial-seccion">
-            <h3 className="historial-subtitulo">Citas para la Mascota</h3>
-            {errorCita ? (
-              <p className="historial-error">{errorCita}</p>
-            ) : citasInfo.length > 0 ? (
-              <div className="historial-tabla-contenedor">
-                <table className="historial-tabla historial-tabla-striped">
-                  <thead>
-                    <tr>
-                      <th>Fecha</th>
-                      <th>Hora</th>
-                      <th>Servicio</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {citasInfo.map((cita, index) => (
-                      <tr key={index}>
-                        <td>{formatFecha(cita.fecha)}</td>
-                        <td>{formatHora(cita.fecha)}</td>
-                        <td>{cita.servicio || "-"}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            ) : (
-              <p className="historial-mensaje-vacio">No hay citas registradas.</p>
-            )}
-          </div>
+        <div className="historial-seccion">
+          <h3 className="historial-subtitulo">Información de la Mascota</h3>
+          {errorMascota ? (
+            <p className="historial-error">{errorMascota}</p>
+          ) : (
+            <table className="historial-tabla">
+              <tbody>
+                <tr><th>ID</th><td>{mascotaInfo.id || "-"}</td></tr>
+                <tr><th>Nombre</th><td>{mascotaInfo.nombre || "-"}</td></tr>
+                <tr><th>Fecha Nacimiento</th><td>{formatFecha(mascotaInfo.fecha_nacimiento)}</td></tr>
+                <tr><th>Especie</th><td>{mascotaInfo.especie?.especie || "-"}</td></tr>
+                <tr><th>Raza</th><td>{mascotaInfo.raza?.raza || "-"}</td></tr>
+                <tr><th>Tutor</th><td>{mascotaInfo.usuarios?.nombre || "-"}</td></tr>
+              </tbody>
+            </table>
+          )}
         </div>
 
-        {/* Botones */}
-        <div className="historial-botones">
+        <div className="historial-seccion mt-4">
+          <h3 className="historial-subtitulo">Recordatorios</h3>
+          {errorHistorial ? (
+            <p className="historial-error">{errorHistorial}</p>
+          ) : (
+            <table className="historial-tabla">
+              <thead>
+                <tr><th>Fecha</th><th>Hora</th><th>Descripción</th></tr>
+              </thead>
+              <tbody>
+                {historialMedico.map((item, index) => (
+                  <tr key={index}>
+                    <td>{formatFecha(item.fecha)}</td>
+                    <td>{formatHora(item.fecha)}</td>
+                    <td>{item.descripcion || "-"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+
+        <div className="historial-seccion mt-4">
+          <h3 className="historial-subtitulo">Citas</h3>
+          {errorCita ? (
+            <p className="historial-error">{errorCita}</p>
+          ) : (
+            <table className="historial-tabla">
+              <thead>
+                <tr><th>Fecha</th><th>Hora</th><th>Servicio</th><th>Estado</th></tr>
+              </thead>
+              <tbody>
+                {citasInfo.map((cita, index) => (
+                  <tr key={index}>
+                    <td>{formatFecha(cita.fecha)}</td>
+                    <td>{formatHora(cita.fecha)}</td>
+                    <td>{cita.servicios?.servicio || "-"}</td>
+                    <td>
+                      {cita.estado.toLowerCase() === "pendiente" && (User?.rol === 1 || User?.rol === 3) ? (
+                        <button className="historial-btn-procesar" onClick={() => abrirModal(cita)}>Procesar Cita</button>
+                      ) : (
+                        cita.estado || "-"
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+
+        {modalCitaVisible && citaSeleccionada && (
+          <div className="historial-modal-backdrop">
+            <div className="historial-modal">
+              <h3>Procesar Cita</h3>
+              <p><strong>Mascota:</strong> {citaSeleccionada.nombre}</p>
+              <p><strong>Servicio:</strong> {citaSeleccionada.servicios?.servicio || "-"}</p>
+              <p><strong>Veterinario:</strong> {citaSeleccionada.nombre_veterinario}</p>
+              <p><strong>Fecha:</strong> {formatFecha(citaSeleccionada.fecha)}</p>
+              <p><strong>Hora:</strong> {formatHora(citaSeleccionada.fecha)}</p>
+              <p><strong>Descripción actual:</strong></p>
+              <pre className="historial-modal-descripcion">{citaSeleccionada.descripcion || "Sin descripción"}</pre>
+
+              <textarea
+                placeholder="Añadir procesos dentro de la cita..."
+                value={nuevaDescripcion}
+                onChange={(e) => setNuevaDescripcion(e.target.value)}
+              />
+
+              <div className="historial-modal-botones">
+                <button className="historial-btn-cancelar" onClick={cerrarModal}>Cancelar</button>
+                <button className="historial-btn-guardar" onClick={procesarCita}>Guardar</button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className="historial-botones mt-4">
+          <button className="btn btn-success me-2" onClick={descargarHistorial}>📄 Descargar PDF</button>
           <Link to="/Mascotas" className="btn btn-secondary">Volver</Link>
-          <button onClick={descargarHistorial} className="btn btn-primary" title="Descargar historial en PDF">
-            <i className="fa-solid fa-file-arrow-down" aria-hidden="true"></i>
-          </button>
         </div>
       </div>
     </div>
@@ -399,4 +335,3 @@ const Historial = () => {
 };
 
 export default Historial;
-

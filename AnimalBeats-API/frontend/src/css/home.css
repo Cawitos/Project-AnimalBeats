@@ -79,6 +79,7 @@ header {
 }
 
 .header-right {
+  margin-right: 180px;
   display: flex;
   gap: 12px;
 }

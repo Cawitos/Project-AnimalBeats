@@ -1,0 +1,271 @@
+:root {
+  --rojo-oscuro: #7f1d1d;
+  --rojo: #dc2626;
+  --rojo-hover: #b91c1c;
+  --blanco: #ffffff;
+  --gris: #f3f4f6;
+  --gris-texto: #4b5563;
+  --gris-claro: #d1d5db;
+  --naranja: #f97316;
+  --success: #4CAF50;
+  --shadow: rgba(0,0,0,0.08);
+  --azul: #0d6efd;
+}
+
+body, html, #root {
+  font-family: 'Segoe UI', sans-serif;
+  background: var(--gris);
+  margin: 0;
+  padding: 0;
+}
+
+.citas-menu{
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin-top: 10px;
+  width: 200px;          
+  height: 100vh;          
+  background-color: var(--blanco) !important;
+  border: none;
+  overflow-y: auto;      
+  z-index: 1000;
+  padding: 20px;
+}
+
+.citas-container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 40px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.citas-header h2 {
+  color: var(--rojo);
+  text-align: center;
+  font-size: 2rem;
+}
+
+.citas-header p {
+  text-align: center;
+  color: var(--gris-texto);
+  margin-bottom: 30px;
+  font-size: 1rem;
+}
+
+.citas-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+  background: var(--blanco);
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px var(--shadow);
+  transition: all 0.3s ease;
+}
+
+.citas-form-group label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+  color: var(--gris-texto);
+}
+
+.citas-form-group input,
+.citas-form-group select,
+.citas-form-group textarea {
+  width: 100%;
+  padding: 10px 15px;
+  border-radius: 12px;
+  border: 1px solid var(--rojo);
+  font-size: 0.95rem;
+  background: var(--blanco);
+  color: var(--gris-texto);
+  transition: all 0.3s;
+}
+
+.citas-form-group input:focus,
+.citas-form-group select:focus,
+.citas-form-group textarea:focus {
+  border-color: var(--rojo-oscuro);
+  box-shadow: 0 0 8px rgba(220, 38, 38, 0.2);
+  outline: none;
+}
+
+.citas-textarea textarea {
+  min-height: 80px;
+}
+
+.citas-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.citas-actions button {
+  padding: 10px 20px;
+  border-radius: 15px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.citas-actions button:first-child {
+  background: var(--rojo);
+  color: var(--blanco);
+}
+
+.citas-actions button:first-child:hover {
+  background: var(--rojo-hover);
+}
+
+.citas-actions button:last-child {
+  background: var(--blanco);
+  border: 2px solid var(--rojo);
+  color: var(--rojo);
+}
+
+.citas-actions button:last-child:hover {
+  background: var(--rojo);
+  color: var(--blanco);
+}
+
+.citas-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.citas-tabs button {
+  padding: 10px 25px;
+  border-radius: 25px;
+  border: 2px solid var(--gris-claro);
+  background: var(--blanco);
+  color: var(--gris-texto);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.citas-tabs button.active {
+  background: var(--rojo);
+  color: var(--blanco);
+  border-color: var(--rojo);
+}
+
+.citas-tabs button:hover {
+  background: var(--rojo-hover);
+  color: var(--blanco);
+}
+
+.citas-listado {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.citas-empty {
+  text-align: center;
+  color: var(--gris-texto);
+  font-weight: 500;
+  padding: 20px 0;
+}
+
+.citas-card {
+  background: var(--blanco);
+  border-radius: 20px;
+  padding: 20px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 8px 20px var(--shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.citas-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 25px var(--shadow);
+}
+
+.citas-card h3 {
+  margin-bottom: 8px;
+  color: var(--rojo-oscuro);
+}
+
+.citas-card p {
+  margin: 3px 0;
+  color: var(--gris-texto);
+}
+
+.citas-badge {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 12px;
+  font-weight: bold;
+  margin-top: 8px;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.citas-badge.pendiente { background: var(--naranja); color: var(--blanco); }
+.citas-badge.solicitud { background: var(--azul); color: var(--blanco); }
+.citas-badge.cancelado { background: var(--rojo); color: var(--blanco); }
+.citas-badge.completado { background: var(--success); color: var(--blanco); }
+
+.citas-card-actions button {
+  padding: 8px 16px;
+  border-radius: 12px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: 0.3s;
+}
+
+.citas-card-actions .delete {
+  background: var(--blanco);
+  border: 2px solid var(--rojo);
+  color: var(--rojo);
+}
+
+.citas-card-actions .delete:hover {
+  background: var(--rojo);
+  color: var(--blanco);
+}
+
+.citas-card-actions .confirm {
+  background: var(--success);
+  color: var(--blanco);
+}
+
+.citas-card-actions .confirm:hover {
+  background: #388e3c;
+}
+
+@media (max-width: 768px) {
+  .citas-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .citas-card-actions {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .citas-form {
+    grid-template-columns: 1fr;
+  }
+
+  .citas-tabs {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

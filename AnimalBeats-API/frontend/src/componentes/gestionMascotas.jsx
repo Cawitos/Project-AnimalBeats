@@ -11,6 +11,11 @@ export default function GestionMascotas() {
   const { User } = useContext(UserContext);
 
   useEffect(() => {
+    // Imprimir usuario, rol y documento en consola
+    console.log("🐾 Usuario actual:", User);
+    console.log("Rol:", User?.rol);
+    console.log("Documento:", User?.n_documento);
+
     const fetchMascotas = async () => {
       try {
         const res = await fetch("https://animalbeats-api.onrender.com/mascotas");
@@ -19,7 +24,6 @@ export default function GestionMascotas() {
         const data = await res.json();
         console.log("🐾 Datos recibidos:", data);
 
-        // Normalizar respuesta
         if (Array.isArray(data)) {
           setMascotas(data);
           setError(null);
@@ -43,7 +47,7 @@ export default function GestionMascotas() {
     };
 
     fetchMascotas();
-  }, []);
+  }, [User]);
 
   const suspenderMascota = (id, nombre) => {
     Swal.fire({
@@ -81,9 +85,12 @@ export default function GestionMascotas() {
     });
   };
 
+  // Filtrado por rol
   const mascotasFiltradas = () => {
     if (User?.rol === 2) {
-      return mascotas.filter((mascota) => mascota.id_cliente === User.id);
+      return mascotas.filter(
+        (mascota) => String(mascota.id_cliente) === String(User.n_documento)
+      );
     } else {
       return mascotas;
     }
@@ -102,6 +109,7 @@ export default function GestionMascotas() {
       <div className="gestion-mascotas-menu-lateral">
         <OffcanvasMenu />
       </div>
+
       <div className="gestion-mascotas-contenido-principal">
         <h1 className="gestion-mascotas-titulo">Gestión de Mascotas</h1>
         {error && <p className="gestion-mascotas-error">{error}</p>}
@@ -110,19 +118,46 @@ export default function GestionMascotas() {
           <p className="gestion-mascotas-no-data">No hay mascotas registradas.</p>
         )}
 
-        {mascotasMostradas.length > 0 && (
+        {/* Vista tipo cards para rol cliente */}
+        {User?.rol === 2 && mascotasMostradas.length > 0 && (
+          <div className="gestion-mascotas-cards">
+            {mascotasMostradas.map((m) => (
+              <div key={m.id} className="gestion-mascotas-card">
+                <div className="mascota-avatar">
+                  {m.especie?.especie?.[0] || "🐾"}
+                </div>
+                <h3>{m.nombre}</h3>
+                <p><strong>Especie:</strong> {m.especie?.especie}</p>
+                <p><strong>Raza:</strong> {m.raza?.raza}</p>
+                <p><strong>Fecha Nacimiento:</strong> {formatearFecha(m.fecha_nacimiento)}</p>
+                <p><strong>Estado:</strong> {m.estado}</p>
+                <div className="gestion-mascotas-card-actions">
+                  <Link
+                    to={`/Mascotas/historial/${m.id}`}
+                    className="btn-info"
+                  >
+                    Ver Historial
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Vista tipo tabla para otros roles */}
+        {User?.rol !== 2 && mascotasMostradas.length > 0 && (
           <div className="gestion-mascotas-contenedor-tabla">
-            <table className="gestion-mascotas-tabla" id="gestion-mascotas-tabla">
+            <table className="gestion-mascotas-tabla">
               <thead>
                 <tr>
-                  <th>Código dueño</th>
+                  <th>Código tutor</th>
                   <th>Nombre</th>
                   <th>Especie</th>
                   <th>Raza</th>
-                  <th>Edad</th>
+                  <th>Fecha Nacimiento</th>
                   <th>Historial</th>
-                  {User?.rol !== 2 && <th>Modificar</th>}
-                  {User?.rol !== 2 && <th>Suspender</th>}
+                  <th>Modificar</th>
+                  <th>Suspender</th>
                 </tr>
               </thead>
               <tbody>
@@ -136,34 +171,27 @@ export default function GestionMascotas() {
                     <td>
                       <Link
                         to={`/Mascotas/historial/${mascota.id}`}
-                        aria-label={`Ver historial de ${mascota.nombre}`}
-                        className="gestion-mascotas-btn-icon"
+                        className="gestion-mascotas-btn-icon historial"
                       >
                         Historial
                       </Link>
                     </td>
-                    {User?.rol !== 2 && (
-                      <>
-                        <td>
-                          <Link
-                            to={`/Mascotas/modificar/${mascota.id}`}
-                            aria-label={`Modificar ${mascota.nombre}`}
-                            className="gestion-mascotas-btn-icon"
-                          >
-                            Modificar
-                          </Link>
-                        </td>
-                        <td>
-                          <button
-                            onClick={() => suspenderMascota(mascota.id, mascota.nombre)}
-                            aria-label={`Suspender ${mascota.nombre}`}
-                            className="gestion-mascotas-btn-icon"
-                          >
-                            Suspender
-                          </button>
-                        </td>
-                      </>
-                    )}
+                    <td>
+                      <Link
+                        to={`/Mascotas/modificar/${mascota.id}`}
+                        className="gestion-mascotas-btn-icon"
+                      >
+                        Modificar
+                      </Link>
+                    </td>
+                    <td>
+                      <button
+                        onClick={() => suspenderMascota(mascota.id, mascota.nombre)}
+                        className="gestion-mascotas-btn-icon"
+                      >
+                        Suspender
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>

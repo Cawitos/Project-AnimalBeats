@@ -3,7 +3,11 @@
   --rojo: #DF2935;
   --negro: #07090F;
   --gris: #E6E8E6;
+  --gris-texto: #4b5563;
   --verde: #4CAF50;
+  --azul: #0d6efd;
+  --shadow: rgba(0,0,0,0.1);
+  --shadow-hover: rgba(0,0,0,0.15);
 }
 
 /* Reset básico */
@@ -14,12 +18,12 @@
 }
 
 body, html, #root {
-  width: 2100px;
-  height: 100%;
-  background-color: var(--blanco) !important;
-  color: var(--negro) !important;
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--gris);
   font-family: 'Arial', sans-serif;
-  overflow-x: hidden; /* Evita scroll horizontal */
+  color: var(--negro);
+  overflow-x: hidden;
 }
 
 /* Menú lateral fijo */
@@ -27,131 +31,122 @@ body, html, #root {
   position: fixed;
   top: 0;
   left: 0;
-  margin-top: 10px;
-  width: 200px;           /* ancho fijo */
-  height: 100vh;          /* toda la altura de la ventana */
-  background-color: var(--blanco) !important;
-  border: none;
-  box-shadow: none;
-  overflow-y: auto;       /* scroll vertical si contenido excede */
-  z-index: 1000;
+  width: 220px;
+  height: 100vh;
+  background-color: var(--blanco);
   padding: 20px;
-  box-sizing: border-box;
+  overflow-y: auto;
+  box-shadow: 2px 0 12px var(--shadow);
+  z-index: 1000;
 }
 
-/* Contenido principal con margen para no quedar debajo del menú */
+/* Contenido principal */
 .gestion-mascotas-contenido-principal {
-  margin-top: 20px;
-  margin-right: 10px;
+  margin-left: 240px;
+  padding: 20px 30px;
   min-height: 100vh;
-  background-color: var(--blanco) !important;
-  overflow-y: visible;
+  max-width: calc(100% - 240px); /* Evita desbordamiento */
+  overflow-x: hidden;
 }
 
-/* Ajustes para título y mensajes */
-.gestion-mascotas-contenido-principal h1 {
+/* Título */
+.gestion-mascotas-titulo {
   font-size: 2.5rem;
   font-weight: 700;
+  color: var(--rojo);
+  text-align: center;
   margin-bottom: 25px;
   text-transform: uppercase;
-  letter-spacing: 2px;
-  color: var(--rojo) !important;
-  text-align: center;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
+  letter-spacing: 1px;
 }
 
-.gestion-mascotas-contenido-principal p {
+/* Mensajes */
+.gestion-mascotas-error,
+.gestion-mascotas-no-data {
+  text-align: center;
   font-size: 1.1rem;
   font-weight: 600;
-  color: var(--negro) !important;
+  color: var(--negro);
   margin-bottom: 20px;
-  text-align: center;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
-/* Contenedor tabla con scroll horizontal */
+/* Contenedor tabla */
 .gestion-mascotas-contenedor-tabla {
   max-width: 1200px;
   overflow-x: auto;
-  border: 1px solid var(--gris) !important;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  background-color: var(--blanco) !important;
   margin: 0 auto;
+  border-radius: 12px;
+  background-color: var(--blanco);
+  box-shadow: 0 8px 20px var(--shadow);
 }
 
 /* Tabla */
 .gestion-mascotas-tabla {
   width: 100%;
   border-collapse: collapse;
-  font-size: 1rem;
-  color: var(--negro) !important;
   min-width: 800px;
 }
 
 .gestion-mascotas-tabla thead {
-  background-color: var(--rojo) !important;
-  color: var(--blanco) !important;
+  background-color: var(--rojo);
+  color: var(--blanco);
   text-transform: uppercase;
 }
 
 .gestion-mascotas-tabla th,
 .gestion-mascotas-tabla td {
   padding: 12px 15px;
-  border-bottom: 1px solid var(--gris) !important;
+  border-bottom: 1px solid var(--gris);
   text-align: left;
-  vertical-align: middle;
 }
 
 .gestion-mascotas-tabla tbody tr:hover {
-  background-color: var(--gris) !important;
+  background-color: var(--gris);
   cursor: pointer;
-}
-
-.gestion-mascotas-tabla tbody tr:last-child td {
-  border-bottom: none;
 }
 
 /* Botones de acción */
 .gestion-mascotas-btn-icon {
-  border: 2px solid var(--rojo) !important;
-  background-color: transparent !important;
-  color: var(--rojo) !important;
-  padding: 6px 14px;
+  border: 2px solid var(--rojo);
+  background-color: transparent;
+  color: var(--rojo);
+  padding: 6px 12px;
   border-radius: 12px;
   font-weight: 600;
   font-size: 0.9rem;
   cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-  user-select: none;
-  white-space: nowrap;
+  transition: all 0.3s;
+  text-decoration: none;
 }
 
 .gestion-mascotas-btn-icon:hover {
-  background-color: var(--rojo) !important;
-  color: var(--blanco) !important;
-  box-shadow: 0 0 8px var(--rojo) !important;
+  background-color: var(--rojo);
+  color: var(--blanco);
+  box-shadow: 0 0 8px var(--rojo);
 }
 
-.gestion-mascotas-btn-icon:focus-visible {
-  outline: 3px solid var(--verde) !important;
-  outline-offset: 2px;
+/* Botón historial en tabla */
+.gestion-mascotas-btn-icon.historial {
+  background-color: #fff;
+  color: var(--rojo);
+  border: 2px solid var(--rojo);
 }
-/* Contenedor para el botón crear mascota */
+
+.gestion-mascotas-btn-icon.historial:hover {
+  background-color: var(--rojo);
+  color: #fff;
+  box-shadow: 0 0 8px var(--rojo);
+}
+
+/* Botón crear mascota */
 .gestion-mascotas-crear {
   width: 300px;
   position: fixed;
   bottom: 70px;
-  right: 30px; /* Lo puedes ajustar para que quede a la derecha */
+  right: 30px;
   z-index: 1000;
-  text-align: center;
 }
 
-/* Botón crear mascota */
 .gestion-mascotas-crear .btn-primary {
   width: 100%;
   padding: 12px 0;
@@ -162,7 +157,7 @@ body, html, #root {
   font-size: 18px;
   font-weight: 700;
   cursor: pointer;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  transition: 0.3s;
 }
 
 .gestion-mascotas-crear .btn-primary:hover {
@@ -170,27 +165,104 @@ body, html, #root {
   box-shadow: 0 0 12px var(--negro);
 }
 
-/* Responsive: ajustar posición y tamaño */
-@media (max-width: 768px) {
-  .gestion-mascotas-crear {
-    width: 90%;
-    bottom: 20px;
-    right: 5%;
-  }
+/* Cards para clientes */
+.gestion-mascotas-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
 }
 
-/* Responsive: menú arriba y contenido sin margen */
+.gestion-mascotas-card {
+  background: linear-gradient(145deg, #fff, #f9f9f9);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 10px 20px var(--shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Evitar que las cards se desborden */
+.gestion-mascotas-cards {
+  max-width: 80%;
+}
+
+/* Hover de card */
+.gestion-mascotas-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px var(--shadow-hover);
+}
+
+/* Avatar circular */
+.mascota-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: var(--gris);
+  color: var(--rojo);
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  font-weight: bold;
+}
+
+/* Título de la card */
+.gestion-mascotas-card h3 {
+  color: var(--rojo);
+  margin-bottom: 8px;
+  font-size: 1.3rem;
+}
+
+/* Información de la card */
+.gestion-mascotas-card p {
+  margin: 4px 0;
+  color: var(--gris-texto);
+  font-size: 0.95rem;
+}
+
+/* Botones dentro de la card */
+.gestion-mascotas-card-actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn-info {
+  background-color: #fff;
+  color: var(--rojo);
+  border: 2px solid var(--rojo);
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.btn-info:hover {
+  background-color: var(--rojo);
+  color: #fff;
+  box-shadow: 0 0 10px var(--rojo);
+}
+
+/* Responsive */
 @media (max-width: 768px) {
+  .gestion-mascotas-contenido-principal {
+    margin-left: 0;
+    padding: 20px 15px;
+  }
+
   .gestion-mascotas-menu-lateral {
     position: relative;
     width: 100%;
     height: auto;
-    border-bottom: 1px solid var(--gris) !important;
-  }
-
-  .gestion-mascotas-contenido-principal {
-    margin-left: 0;
-    padding: 20px 15px;
+    border-bottom: 1px solid var(--gris);
   }
 
   .gestion-mascotas-tabla {
@@ -201,6 +273,16 @@ body, html, #root {
   .gestion-mascotas-btn-icon {
     padding: 5px 10px;
     font-size: 0.85rem;
+  }
+
+  .gestion-mascotas-crear {
+    width: 90%;
+    bottom: 20px;
+    right: 5%;
+  }
+
+  .gestion-mascotas-cards {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   }
 }
 

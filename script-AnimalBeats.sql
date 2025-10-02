@@ -1,3 +1,7 @@
+-- ===========================
+-- Tablas principales
+-- ===========================
+
 CREATE TABLE Rol(
     id SERIAL PRIMARY KEY,
     rol VARCHAR(100)
@@ -54,8 +58,12 @@ CREATE TABLE Mascota(
     fecha_nacimiento DATE NOT NULL
 );
 
+-- ===========================
+-- Enfermedad con id
+-- ===========================
 CREATE TABLE Enfermedad(
-    nombre VARCHAR(60) PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(60) UNIQUE NOT NULL,
     descripcion TEXT
 );
 
@@ -84,7 +92,9 @@ CREATE TABLE Recordatorios(
     estado VARCHAR(100) NOT NULL
 );
 
+-- ===========================
 -- Datos iniciales
+-- ===========================
 INSERT INTO Documento (tipo) VALUES ('C.C'), ('T.I'), ('C.E');
 INSERT INTO Rol (rol) VALUES ('admin'), ('cliente'), ('veterinario');
 INSERT INTO Servicios (servicio) VALUES 

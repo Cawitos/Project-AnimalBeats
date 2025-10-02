@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import OffcanvasMenu from "./menu";
-import "../css/citas.css";
+import "../css/Citas_Mascotas.css";
 import { UserContext } from "../context/UserContext";
 
-const GestionCitas = () => {
+const GestionCitasUnique = () => {
   const [citas, setCitas] = useState([]);
   const [mascotas, setMascotas] = useState([]);
   const [clientes, setClientes] = useState([]);
@@ -19,11 +19,14 @@ const GestionCitas = () => {
     descripcion: "",
     estado: "Pendiente",
   });
-  const [mascotasFiltradas, setMascotasFiltradas] = useState([]);
   const [fechaMinima, setFechaMinima] = useState("");
+  const [pestañaActiva, setPestañaActiva] = useState("Pendiente"); // Controla la pestaña
 
   const API_URL = "https://animalbeats-api.onrender.com";
   const { User } = useContext(UserContext);
+
+  const documentoUsuario = User?.n_documento || JSON.parse(localStorage.getItem("user") || "{}").n_documento;
+  const rolActual = User?.rol || JSON.parse(localStorage.getItem("user") || "{}").rol;
 
   useEffect(() => {
     const ahora = new Date();
@@ -36,19 +39,6 @@ const GestionCitas = () => {
   }, []);
 
   useEffect(() => {
-    if (!User) {
-      const usuarioStorage = localStorage.getItem("user");
-      if (usuarioStorage) {
-        const userParsed = JSON.parse(usuarioStorage);
-        console.log("Usuario cargado desde localStorage:", userParsed);
-      }
-    } else {
-      console.log("Rol recibido en Citas:", User.rol);
-      console.log("Documento recibido en Citas:", User.n_documento);
-    }
-  }, [User]);
-
-  useEffect(() => {
     fetchClientes();
     fetchServicios();
     fetchVeterinarios();
@@ -59,10 +49,8 @@ const GestionCitas = () => {
   const fetchCitas = async () => {
     try {
       const res = await axios.get(`${API_URL}/Citas/Listado`);
-      if (Array.isArray(res.data)) setCitas(res.data);
-      else setCitas([]);
-    } catch (err) {
-      console.error("❌ Error al obtener citas:", err);
+      setCitas(Array.isArray(res.data) ? res.data : []);
+    } catch {
       setCitas([]);
     }
   };
@@ -70,9 +58,12 @@ const GestionCitas = () => {
   const fetchMascotas = async () => {
     try {
       const res = await axios.get(`${API_URL}/mascotas`);
-      setMascotas(res.data || []);
-    } catch (err) {
-      console.error("❌ Error al obtener mascotas:", err);
+      let mascotasData = res.data || [];
+      if (rolActual === 2) {
+        mascotasData = mascotasData.filter(m => String(m.id_cliente) === String(documentoUsuario));
+      }
+      setMascotas(mascotasData);
+    } catch {
       setMascotas([]);
     }
   };
@@ -80,10 +71,8 @@ const GestionCitas = () => {
   const fetchClientes = async () => {
     try {
       const res = await axios.get(`${API_URL}/usuario/Listado`);
-      const clientesRol2 = (res.data.Usuarios || []).filter((c) => c.id_rol === 2);
-      setClientes(clientesRol2);
-    } catch (err) {
-      console.error("❌ Error al obtener clientes:", err);
+      setClientes((res.data.Usuarios || []).filter((c) => c.id_rol === 2));
+    } catch {
       setClientes([]);
     }
   };
@@ -92,8 +81,7 @@ const GestionCitas = () => {
     try {
       const res = await axios.get(`${API_URL}/servicios/Listado`);
       setServicios(res.data || []);
-    } catch (err) {
-      console.error("❌ Error al obtener servicios:", err);
+    } catch {
       setServicios([]);
     }
   };
@@ -102,8 +90,7 @@ const GestionCitas = () => {
     try {
       const res = await axios.get(`${API_URL}/veterinarios`);
       setVeterinarios(res.data || []);
-    } catch (err) {
-      console.error("❌ Error al obtener veterinarios:", err);
+    } catch {
       setVeterinarios([]);
     }
   };
@@ -113,29 +100,28 @@ const GestionCitas = () => {
       await axios.post(`${API_URL}/Citas/Crear`, nuevaCita);
       alert("✅ Cita creada correctamente");
       fetchCitas();
-      setNuevaCita({
-        id_mascota: "",
-        id_cliente: "",
-        id_servicio: "",
-        id_veterinario: "",
-        fecha: "",
-        descripcion: "",
-        estado: "Pendiente",
-      });
-      setMascotasFiltradas([]);
-    } catch (err) {
-      console.error("❌ Error al crear cita:", err);
+      resetFormulario();
+    } catch {
       alert("❌ No se pudo crear la cita.");
+    }
+  };
+
+  const crearCitaConEstado = async (cita) => {
+    try {
+      await axios.post(`${API_URL}/Citas/Crear`, cita);
+      alert("✅ Cita solicitada correctamente");
+      fetchCitas();
+      resetFormulario();
+    } catch {
+      alert("❌ No se pudo solicitar la cita.");
     }
   };
 
   const cambiarEstado = async (id, accion) => {
     try {
       await axios.put(`${API_URL}/Citas/${accion}/${id}`);
-      alert(`✅ Cita ${accion} correctamente`);
       fetchCitas();
-    } catch (err) {
-      console.error(`❌ Error al ${accion} cita:`, err);
+    } catch {
       alert(`❌ No se pudo ${accion} la cita.`);
     }
   };
@@ -143,203 +129,151 @@ const GestionCitas = () => {
   const handleClienteChange = (e) => {
     const clienteId = e.target.value;
     setNuevaCita({ ...nuevaCita, id_cliente: clienteId, id_mascota: "" });
-
-    if (clienteId) {
-      const mascotasCliente = mascotas.filter(
-        (m) => String(m.id_cliente) === String(clienteId)
-      );
-      setMascotasFiltradas(mascotasCliente);
-    } else {
-      setMascotasFiltradas([]);
+    if (rolActual !== 2) {
+      setMascotas(mascotas.filter((m) => String(m.id_cliente) === String(clienteId)));
     }
   };
 
+  const resetFormulario = () => {
+    setNuevaCita({
+      id_mascota: "",
+      id_cliente: rolActual === 2 ? documentoUsuario : "",
+      id_servicio: "",
+      id_veterinario: "",
+      fecha: "",
+      descripcion: "",
+      estado: "Pendiente",
+    });
+  };
+
   const citasFiltradas = citas.filter((c) => {
-    if (!User) return false;
-    if (User.rol === 2) return String(c.id_cliente) === String(User.n_documento);
+    if (!rolActual) return false;
+    if (rolActual === 2) {
+      return String(c.usuarios?.n_documento) === String(documentoUsuario);
+    }
+    return true;
+  });
+
+  // Filtrar por pestaña
+  const citasPorPestaña = citasFiltradas.filter((c) => {
+    if (pestañaActiva === "Pendiente") return c.estado === "Pendiente";
+    if (pestañaActiva === "Solicitud") return c.estado === "Solicitud";
+    if (pestañaActiva === "Completadas") return c.estado === "Completado" || c.estado === "Cancelado";
     return true;
   });
 
   return (
-    <div className="gc2-container">
-      <div className="gc2-menu">
+    <div className="citas-container">
+      <div className="citas-menu">
         <OffcanvasMenu />
       </div>
 
-      <div className="gc2-header">
-        <h2 className="gc2-title">Gestión de Citas</h2>
-        <p className="gc2-subtitle">Administra y controla todas las citas</p>
+      <div className="citas-header">
+        <h2>Gestión de Citas 🐾</h2>
+        <p>Administra y controla todas las citas de manera sencilla</p>
       </div>
 
-      <form className="gc2-form">
-        <div className="gc2-form-group">
-          <label className="gc2-label">Tutor</label>
-          <select
-            className="gc2-select"
-            value={nuevaCita.id_cliente}
-            onChange={handleClienteChange}
-            disabled={User?.rol === 2}
-          >
-            <option value="">Seleccione un cliente</option>
-            {clientes.map((c) => (
-              <option key={c.n_documento} value={c.n_documento}>
-                {c.nombre}
-              </option>
-            ))}
-          </select>
-        </div>
+      <form className="citas-form">
+        {rolActual !== 2 && (
+          <div className="citas-form-group">
+            <label>Tutor</label>
+            <select value={nuevaCita.id_cliente} onChange={handleClienteChange}>
+              <option value="">Seleccione un cliente</option>
+              {clientes.map((c) => (
+                <option key={c.n_documento} value={c.n_documento}>{c.nombre}</option>
+              ))}
+            </select>
+          </div>
+        )}
 
-        <div className="gc2-form-group">
-          <label className="gc2-label">Mascota</label>
-          <select
-            className="gc2-select"
-            value={nuevaCita.id_mascota}
-            onChange={(e) =>
-              setNuevaCita({ ...nuevaCita, id_mascota: e.target.value })
-            }
-            disabled={User?.rol === 2}
-          >
+        <div className="citas-form-group">
+          <label>Mascota</label>
+          <select value={nuevaCita.id_mascota} onChange={(e) => setNuevaCita({ ...nuevaCita, id_mascota: e.target.value })}>
             <option value="">Seleccione una mascota</option>
-            {mascotasFiltradas.map((m) => (
-              <option key={m.id} value={m.id}>
-                {m.nombre}
-              </option>
+            {mascotas.map((m) => (
+              <option key={m.id} value={m.id}>{m.nombre}</option>
             ))}
           </select>
         </div>
 
-        <div className="gc2-form-group">
-          <label className="gc2-label">Servicio</label>
-          <select
-            className="gc2-select"
-            value={nuevaCita.id_servicio}
-            onChange={(e) =>
-              setNuevaCita({ ...nuevaCita, id_servicio: e.target.value })
-            }
-            disabled={User?.rol === 2}
-          >
+        <div className="citas-form-group">
+          <label>Servicio</label>
+          <select value={nuevaCita.id_servicio} onChange={(e) => setNuevaCita({ ...nuevaCita, id_servicio: e.target.value })}>
             <option value="">Seleccione un servicio</option>
             {servicios.map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.servicio}
-              </option>
+              <option key={s.id} value={s.id}>{s.servicio}</option>
             ))}
           </select>
         </div>
 
-        <div className="gc2-form-group">
-          <label className="gc2-label">Veterinario</label>
-          <select
-            className="gc2-select"
-            value={nuevaCita.id_veterinario}
-            onChange={(e) =>
-              setNuevaCita({ ...nuevaCita, id_veterinario: e.target.value })
-            }
-            disabled={User?.rol === 2}
-          >
+        <div className="citas-form-group">
+          <label>Veterinario</label>
+          <select value={nuevaCita.id_veterinario} onChange={(e) => setNuevaCita({ ...nuevaCita, id_veterinario: e.target.value })}>
             <option value="">Seleccione un veterinario</option>
             {veterinarios.map((v) => (
-              <option key={v.id} value={v.id}>
-                {v.nombre_completo}
-              </option>
+              <option key={v.id} value={v.id}>{v.nombre_completo}</option>
             ))}
           </select>
         </div>
 
-        <div className="gc2-form-group">
-          <label className="gc2-label">Fecha</label>
-          <input
-            type="datetime-local"
-            className="gc2-input"
-            value={nuevaCita.fecha}
-            onChange={(e) =>
-              setNuevaCita({ ...nuevaCita, fecha: e.target.value })
-            }
-            min={fechaMinima}
-            disabled={User?.rol === 2}
-          />
+        <div className="citas-form-group">
+          <label>Fecha</label>
+          <input type="datetime-local" value={nuevaCita.fecha} onChange={(e) => setNuevaCita({ ...nuevaCita, fecha: e.target.value })} min={fechaMinima}/>
         </div>
 
-        <div className="gc2-form-group gc2-form-textarea">
-          <label className="gc2-label">Descripción</label>
-          <textarea
-            className="gc2-textarea"
-            value={nuevaCita.descripcion}
-            onChange={(e) =>
-              setNuevaCita({ ...nuevaCita, descripcion: e.target.value })
-            }
-            disabled={User?.rol === 2}
-          />
+        <div className="citas-form-group citas-textarea">
+          <label>Descripción</label>
+          <textarea value={nuevaCita.descripcion} onChange={(e) => setNuevaCita({ ...nuevaCita, descripcion: e.target.value })}/>
         </div>
 
-        {User?.rol !== 2 && (
-          <div className="gc2-actions">
-            <button type="button" className="gc2-btn-save" onClick={crearCita}>
-              Crear Cita
+        {rolActual === 2 ? (
+          <div className="citas-actions">
+            <button type="button" onClick={() => crearCitaConEstado({ ...nuevaCita, id_cliente: documentoUsuario, estado: "Solicitud" })}>
+              Solicitar Cita
             </button>
-            <button type="reset" className="gc2-btn-cancel">
-              Cancelar
-            </button>
+            <button type="reset" onClick={resetFormulario}>Cancelar</button>
+          </div>
+        ) : (
+          <div className="citas-actions">
+            <button type="button" onClick={crearCita}>Crear Cita</button>
+            <button type="reset" onClick={resetFormulario}>Cancelar</button>
           </div>
         )}
       </form>
 
-      <div className="gc2-listado">
-        <h4 className="gc2-listado-titulo">Listado de Citas</h4>
-        {citasFiltradas.length > 0 ? (
-          <ul className="gc2-list">
-            {citasFiltradas.map((c) => (
-              <li key={c.id} className="gc2-item">
-                <div className="gc2-item-info">
-                  <span>Mascota: {c.mascota?.nombre || `ID ${c.id_mascota}`}</span>
-                  <span>Servicio: {c.servicios?.servicio || `ID ${c.id_servicio}`}</span>
-                  <span>Veterinario: {c.veterinarios?.nombre_completo || `ID ${c.id_veterinario}`}</span>
-                  <span>Tutor: {c.usuarios?.nombre || `ID ${c.id_cliente}`}</span>
-                  <span>Fecha: {c.fecha}</span>
-                  <span
-                    className={`gc2-badge ${
-                      c.estado === "Pendiente"
-                        ? "gc2-warning"
-                        : c.estado === "Confirmado"
-                        ? "gc2-success"
-                        : c.estado === "Cancelado"
-                        ? "gc2-danger"
-                        : "gc2-secondary"
-                    }`}
-                  >
-                    {c.estado}
-                  </span>
-                </div>
+      {/* Pestañas */}
+      <div className="citas-tabs">
+        <button className={pestañaActiva === "Pendiente" ? "active" : ""} onClick={() => setPestañaActiva("Pendiente")}>Pendientes</button>
+        <button className={pestañaActiva === "Solicitud" ? "active" : ""} onClick={() => setPestañaActiva("Solicitud")}>Solicitudes</button>
+        <button className={pestañaActiva === "Completadas" ? "active" : ""} onClick={() => setPestañaActiva("Completadas")}>Completadas / Canceladas</button>
+      </div>
 
-                {User && User.rol !== 2 && (
-                  <div className="gc2-actions gc2-btn-group">
-                    {c.estado === "Pendiente" && User?.rol === 1 && (
-                      <button
-                        className="gc2-btn-eliminar"
-                        onClick={() => cambiarEstado(c.id, "Cancelar")}
-                      >
-                        Eliminar
-                      </button>
-                    )}
-                    {c.estado === "Solicitud" && (User?.rol === 1 || User?.rol === 3) && (
-                      <button
-                        className="gc2-btn-save"
-                        onClick={() => cambiarEstado(c.id, "Confirmar")}
-                      >
-                        Confirmar
-                      </button>
-                    )}
-                  </div>
-                )}
-              </li>
-            ))}
-          </ul>
+      <div className="citas-listado">
+        {citasPorPestaña.length === 0 ? (
+          <p className="citas-empty">No hay citas en esta categoría</p>
         ) : (
-          <div className="gc2-alert">No hay citas registradas.</div>
+          citasPorPestaña.map((c) => (
+            <div key={c.id} className="citas-card">
+              <div>
+                <h3>{c.mascota?.nombre || `Mascota ID ${c.id_mascota}`}</h3>
+                <p>Servicio: {c.servicios?.servicio || c.id_servicio}</p>
+                <p>Veterinario: {c.veterinarios?.nombre_completo || c.id_veterinario}</p>
+                <p>Tutor: {c.usuarios?.nombre || c.id_cliente}</p>
+                <p>Fecha: {c.fecha}</p>
+                <span className={`citas-badge ${c.estado.toLowerCase()}`}>{c.estado}</span>
+              </div>
+              {rolActual !== 2 && (
+                <div className="citas-card-actions">
+                  {c.estado === "Pendiente" && rolActual === 1 && <button className="delete" onClick={() => cambiarEstado(c.id, "Cancelar")}>Eliminar</button>}
+                  {c.estado === "Solicitud" && (rolActual === 1 || rolActual === 3) && <button className="confirm" onClick={() => cambiarEstado(c.id, "Confirmar")}>Confirmar</button>}
+                </div>
+              )}
+            </div>
+          ))
         )}
       </div>
     </div>
   );
 };
 
-export default GestionCitas;
+export default GestionCitasUnique;
