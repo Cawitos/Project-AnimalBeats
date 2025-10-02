@@ -20,16 +20,20 @@ const Login = ({ setUser }) => {
       });
 
       const data = response.data;
-
-      // Guardar en el contexto los datos completos del usuario
-      setUser({
+      const usuario = {
         rol: data.usuario.rol,
         n_documento: data.usuario.n_documento,
         nombre: data.usuario.nombre,
         correo: data.usuario.correoelectronico
-      });
+      };
 
-      // Guardar en localStorage para usar en el dashboard
+      // Guardar usuario en contexto
+      setUser(usuario);
+
+      // Guardar usuario completo en localStorage
+      localStorage.setItem("user", JSON.stringify(usuario));
+
+      // Guardar token y datos importantes
       localStorage.setItem("token", data.token);
       localStorage.setItem("rol", data.usuario.rol);
       localStorage.setItem("n_documento", data.usuario.n_documento);
@@ -47,7 +51,7 @@ const Login = ({ setUser }) => {
         } else {
           navigate("/cliente");
         }
-      }, 1000);
+      }, 500); // Reducido a medio segundo para mayor rapidez
 
     } catch (error) {
       console.error(error);

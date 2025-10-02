@@ -33,11 +33,21 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import { UserContext } from './context/UserContext';
 
 function App() {
-  const [User, setUser] = useState(null)
+  // Inicializar el User desde localStorage
+  const [User, setUser] = useState(() => {
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
+
+  // Función para actualizar el usuario y guardar en localStorage
+  const handleSetUser = (userData) => {
+    setUser(userData);
+    localStorage.setItem("user", JSON.stringify(userData));
+  };
 
   return (
     <>
-      <UserContext.Provider value={{ User, setUser }}>
+      <UserContext.Provider value={{ User, setUser: handleSetUser }}>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={!User ? (<Home />) : (
@@ -46,8 +56,8 @@ function App() {
                   User.rol === '3' ? <Navigate to="/veterinario" /> :
                     <Navigate to="/" />
             )} />
-            <Route path="/login" element={<Login setUser={setUser} />} />
-            <Route path='/registro' element={<Register setUser={setUser} />} />
+            <Route path="/login" element={<Login setUser={handleSetUser} />} />
+            <Route path='/registro' element={<Register setUser={handleSetUser} />} />
             <Route path='/admin' element={User?.rol == 1 ? <Admin /> : <Navigate to="/" />} />
             <Route path='/estadisticasadmin' element={User?.rol == 1 ? <EstadisticasAdmin /> : <Navigate to="/" />} />
             <Route path="/cliente" element={User?.rol === 2 ? <Cliente /> : <Navigate to="/" />} />
