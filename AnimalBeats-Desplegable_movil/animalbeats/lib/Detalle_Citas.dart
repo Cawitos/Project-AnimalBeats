@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -9,7 +8,7 @@ const Color rojo = Color(0xFFDF2935);
 
 class ConfirmarCitaPage extends StatefulWidget {
   final int idCita;
-  final int userRole; 
+  final int userRole;
 
   const ConfirmarCitaPage({
     super.key,
@@ -72,18 +71,18 @@ class _ConfirmarCitaPageState extends State<ConfirmarCitaPage> {
         "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')} "
         "${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}";
 
-    final descripcionAnterior = _cita!["Descripcion"] ?? "";
+    final descripcionAnterior = _cita!["descripcion"] ?? "";
     final nuevaDescripcion = "$descripcionAnterior\n\n"
         "📌 Procesos dentro de la cita:\n"
         "[$timestamp] ${_nuevaDescripcionCtrl.text}";
 
     final body = {
-      "id_Mascota": _cita!["id_Mascota"],
-      "id_cliente": _cita!["id_cliente"],
-      "id_Servicio": _cita!["id_Servicio"],
-      "id_veterinario": _cita!["id_veterinario"],
+      "id_mascota": _cita!["id_mascota"],
+      "id_cliente": _cita!["usuarios"]?["id"] ?? _cita!["id_cliente"],
+      "id_Servicio": _cita!["servicios"]?["id"] ?? _cita!["id_Servicio"],
+      "id_veterinario": _cita!["veterinarios"]?["id"] ?? _cita!["id_veterinario"],
       "fecha": _cita!["fecha"],
-      "Descripcion": nuevaDescripcion,
+      "descripcion": nuevaDescripcion,
       "estado": "Completado",
     };
 
@@ -99,7 +98,6 @@ class _ConfirmarCitaPageState extends State<ConfirmarCitaPage> {
           const SnackBar(content: Text("✅ Cita confirmada correctamente")),
         );
 
-        // 🔹 Redirigir a Gestión de Mascotas con el userRole
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -110,7 +108,9 @@ class _ConfirmarCitaPageState extends State<ConfirmarCitaPage> {
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Error al confirmar cita (${res.statusCode})")),
+          SnackBar(
+              content: Text(
+                  "Error al confirmar cita (${res.statusCode}): ${res.body}")),
         );
       }
     } catch (e) {
@@ -144,6 +144,15 @@ class _ConfirmarCitaPageState extends State<ConfirmarCitaPage> {
       );
     }
 
+    // Mapear datos correctamente
+    final nombreMascota = _cita?["mascota"]?["nombre"] ?? "-";
+    final nombreCliente = _cita?["usuarios"]?["nombre"] ?? "-";
+    final nombreServicio = _cita?["servicios"]?["servicio"] ?? "-";
+    final nombreVeterinario = _cita?["veterinarios"]?["nombre_completo"] ?? "-";
+    final fechaCita = _cita?["fecha"] ?? "-";
+    final descripcion = _cita?["descripcion"] ?? "Sin descripción";
+    final estado = _cita?["estado"] ?? "-";
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Confirmación de Cita"),
@@ -156,25 +165,25 @@ class _ConfirmarCitaPageState extends State<ConfirmarCitaPage> {
             Card(
               elevation: 3,
               child: ListTile(
-                title: Text("Mascota: ${_cita?["nombre_mascota"] ?? "-"}"),
+                title: Text("Mascota: $nombreMascota"),
                 subtitle: Text(
-                  "Servicio: ${_cita?["nombre_servicio"] ?? "-"}\n"
-                  "Fecha y hora: ${_cita?["fecha"] ?? "-"}\n"
-                  "Veterinario: ${_cita?["nombre_veterinario"] ?? "-"}",
+                  "Cliente: $nombreCliente\n"
+                  "Servicio: $nombreServicio\n"
+                  "Fecha y hora: $fechaCita\n"
+                  "Veterinario: $nombreVeterinario\n"
+                  "Estado: $estado",
                 ),
               ),
             ),
             const SizedBox(height: 20),
-
             Card(
               elevation: 3,
               child: ListTile(
                 title: const Text("Descripción inicial"),
-                subtitle: Text(_cita?["Descripcion"] ?? "Sin descripción"),
+                subtitle: Text(descripcion),
               ),
             ),
             const SizedBox(height: 20),
-
             TextField(
               controller: _nuevaDescripcionCtrl,
               maxLines: 3,
@@ -184,7 +193,6 @@ class _ConfirmarCitaPageState extends State<ConfirmarCitaPage> {
               ),
             ),
             const SizedBox(height: 20),
-
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
                 backgroundColor: rojo,
@@ -201,4 +209,3 @@ class _ConfirmarCitaPageState extends State<ConfirmarCitaPage> {
     );
   }
 }
-

@@ -7,8 +7,6 @@ import 'menu.dart';
 const String baseUrl = "https://animalbeats-api.onrender.com/Enfermedades";
 const Color rojo = Color(0xFFDF2935);
 const Color blanco = Color(0xFFFDF7FA);
-const Color gris = Color(0xFF6C757D);
-const Color negro = Color(0xFF07090F);
 
 class GestionEnfermedadesPage extends StatefulWidget {
   final int userRole;
@@ -251,7 +249,6 @@ class _GestionEnfermedadesPageState extends State<GestionEnfermedadesPage> {
               child: ListView(
                 padding: const EdgeInsets.all(16),
                 children: [
-                  // Campo búsqueda
                   TextField(
                     controller: _busquedaController,
                     decoration: const InputDecoration(
@@ -262,13 +259,10 @@ class _GestionEnfermedadesPageState extends State<GestionEnfermedadesPage> {
                     onChanged: _filtrarEnfermedades,
                   ),
                   const SizedBox(height: 16),
-
                   Text("Listado de Enfermedades",
                       style: const TextStyle(
                           fontSize: 18, fontWeight: FontWeight.bold)),
-
                   const SizedBox(height: 12),
-
                   enfermedadesFiltradas.isEmpty
                       ? const Center(
                           child: Text("No hay enfermedades registradas"))
@@ -281,8 +275,7 @@ class _GestionEnfermedadesPageState extends State<GestionEnfermedadesPage> {
                                 title: Text(e["nombre"] ?? "Sin nombre",
                                     style: const TextStyle(
                                         fontWeight: FontWeight.bold)),
-                                subtitle: Text(
-                                    e["descripcion"] ?? "Sin descripción"),
+                                subtitle: Text(e["descripcion"] ?? "Sin descripción"),
                                 onTap: () => _mostrarDialogo(
                                     e["nombre"], e["descripcion"] ?? ""),
                                 trailing: puedeEditar

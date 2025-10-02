@@ -58,8 +58,9 @@ class _CrearCitaStepperState extends State<CrearCitaStepper> {
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       setState(() {
-        mascotas =
-            data.where((m) => m["id_cliente"].toString() == documento).toList();
+        mascotas = data
+            .where((m) => m["id_cliente"].toString() == documento)
+            .toList();
       });
     }
   }
@@ -93,14 +94,18 @@ class _CrearCitaStepperState extends State<CrearCitaStepper> {
 
   Future<void> _registrarCita() async {
     final estado = widget.userRole == 2 ? "Solicitud" : "Pendiente";
-    final formattedDate = DateFormat("yyyy-MM-dd HH:mm:ss").format(selectedDateTime!);
+    final formattedDate =
+        DateFormat("yyyy-MM-dd HH:mm:ss").format(selectedDateTime!);
+
     final body = {
-      "id_Mascota": selectedMascotaId,
-      "id_cliente": widget.userRole == 2 ? widget.nDocumento : documentoCtrl.text,
-      "id_Servicio": selectedServicioId,
+      "id_mascota": selectedMascotaId,
+      "id_cliente": widget.userRole == 2
+          ? widget.nDocumento
+          : documentoCtrl.text,
+      "id_servicio": selectedServicioId,
       "id_veterinario": selectedVeterinarioId,
       "fecha": formattedDate,
-      "Descripcion": descripcion,
+      "descripcion": descripcion,
       "estado": estado,
     };
 
@@ -117,13 +122,14 @@ class _CrearCitaStepperState extends State<CrearCitaStepper> {
       Navigator.pop(context);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("❌ Error al registrar la cita: ${response.body}")),
+        SnackBar(
+            content:
+                Text("❌ Error al registrar la cita: ${response.body}")),
       );
     }
   }
 
   List<String> _getHorasDisponibles(String fechaSeleccionada) {
-    // Horas disponibles
     final horas = [
       "07:00", "07:30", "08:00", "08:30", "09:00", "09:30",
       "10:00", "10:30", "11:00", "11:30", "12:00", "12:30",
@@ -138,10 +144,14 @@ class _CrearCitaStepperState extends State<CrearCitaStepper> {
       final intento = dateFormat.parse("$fechaSeleccionada $hora");
       bool ocupada = citas.any((c) {
         if (selectedVeterinarioId == null) return false;
-        final cFecha = DateFormat("yyyy-MM-dd HH:mm")
-            .parse(c['fecha'].toString().substring(0, 16));
-        return c['id_veterinario'].toString() == selectedVeterinarioId &&
-               cFecha.isAtSameMomentAs(intento);
+        try {
+          final cFecha = DateFormat("yyyy-MM-dd HH:mm")
+              .parse(c['fecha'].toString().substring(0, 16));
+          return c['id_veterinario'].toString() == selectedVeterinarioId &&
+              cFecha.isAtSameMomentAs(intento);
+        } catch (_) {
+          return false;
+        }
       });
       if (!ocupada) disponibles.add(hora);
     }
@@ -163,7 +173,8 @@ class _CrearCitaStepperState extends State<CrearCitaStepper> {
 
     if (horasDisponibles.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("❌ No hay horas disponibles para esta fecha")),
+        const SnackBar(
+            content: Text("❌ No hay horas disponibles para esta fecha")),
       );
       return;
     }
@@ -220,11 +231,121 @@ class _CrearCitaStepperState extends State<CrearCitaStepper> {
       );
     } else {
       if (step == 3) {
-        _registrarCita();
+        _mostrarConfirmacionVisual();
       } else {
         setState(() => _currentStep += 1);
       }
     }
+  }
+
+  void _mostrarConfirmacionVisual() {
+    final mascota = mascotas.firstWhere(
+        (m) => m["id"].toString() == selectedMascotaId,
+        orElse: () => null);
+
+    final servicio =
+        servicios.firstWhere((s) => s["id"].toString() == selectedServicioId,
+            orElse: () => null);
+
+    final veterinario =
+        veterinarios.firstWhere(
+            (v) => v["id"].toString() == selectedVeterinarioId,
+            orElse: () => null);
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          backgroundColor: blanco,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Text(
+                      "Confirmar Cita",
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: rojo,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  _infoCard(
+                    icon: Icons.pets,
+                    title: "Mascota",
+                    content:
+                        "${mascota?['nombre'] ?? 'N/A'} (${mascota?['especie']?['especie'] ?? 'N/A'} - ${mascota?['raza']?['raza'] ?? 'N/A'})",
+                  ),
+                  _infoCard(
+                    icon: Icons.medical_services,
+                    title: "Servicio",
+                    content: "${servicio?['servicio'] ?? 'N/A'}",
+                  ),
+                  _infoCard(
+                    icon: Icons.person,
+                    title: "Veterinario",
+                    content: "${veterinario?['nombre_completo'] ?? 'N/A'}",
+                  ),
+                  _infoCard(
+                    icon: Icons.calendar_today,
+                    title: "Fecha y Hora",
+                    content:
+                        "${selectedDateTime!.day}/${selectedDateTime!.month}/${selectedDateTime!.year} ⏰ ${selectedDateTime!.hour}:${selectedDateTime!.minute.toString().padLeft(2,'0')}",
+                  ),
+                  _infoCard(
+                    icon: Icons.description,
+                    title: "Descripción",
+                    content: descripcion.isNotEmpty ? descripcion : "N/A",
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text("Cancelar"),
+                      ),
+                      const SizedBox(width: 8),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          _registrarCita();
+                        },
+                        style:
+                            ElevatedButton.styleFrom(backgroundColor: rojo),
+                        child: const Text("Confirmar"),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _infoCard(
+      {required IconData icon, required String title, required String content}) {
+    return Card(
+      color: gris,
+      margin: const EdgeInsets.symmetric(vertical: 6),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: ListTile(
+        leading: Icon(icon, color: rojo),
+        title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+        subtitle: Text(content),
+      ),
+    );
   }
 
   @override
@@ -240,9 +361,7 @@ class _CrearCitaStepperState extends State<CrearCitaStepper> {
         currentStep: _currentStep,
         onStepContinue: () => _validarPaso(_currentStep),
         onStepCancel: () {
-          if (_currentStep > 0) {
-            setState(() => _currentStep -= 1);
-          }
+          if (_currentStep > 0) setState(() => _currentStep -= 1);
         },
         controlsBuilder: (context, details) {
           return Row(
@@ -295,14 +414,8 @@ class _CrearCitaStepperState extends State<CrearCitaStepper> {
                     ],
                   ),
           ),
-          Step(
-            title: const Text("Servicio"),
-            content: _buildServiciosList(),
-          ),
-          Step(
-            title: const Text("Veterinario"),
-            content: _buildVeterinariosList(),
-          ),
+          Step(title: const Text("Servicio"), content: _buildServiciosList()),
+          Step(title: const Text("Veterinario"), content: _buildVeterinariosList()),
           Step(
             title: const Text("Fecha y Descripción"),
             content: Column(
@@ -313,20 +426,19 @@ class _CrearCitaStepperState extends State<CrearCitaStepper> {
                   child: Card(
                     color: rojo,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
+                        borderRadius: BorderRadius.circular(12)),
                     elevation: 4,
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Row(
                         children: [
-                          const Icon(Icons.calendar_today, color: blanco, size: 28),
+                          const Icon(Icons.calendar_today,
+                              color: blanco, size: 28),
                           const SizedBox(width: 12),
                           Expanded(
                             child: Text(
                               selectedDateTime != null
-                                  ? "📅 ${selectedDateTime!.day}/${selectedDateTime!.month}/${selectedDateTime!.year} "
-                                      "⏰ ${selectedDateTime!.hour}:${selectedDateTime!.minute.toString().padLeft(2, '0')}"
+                                  ? "📅 ${selectedDateTime!.day}/${selectedDateTime!.month}/${selectedDateTime!.year} ⏰ ${selectedDateTime!.hour}:${selectedDateTime!.minute.toString().padLeft(2, '0')}"
                                   : "Seleccionar fecha y hora",
                               style: const TextStyle(
                                   color: blanco, fontWeight: FontWeight.bold),
@@ -360,9 +472,14 @@ class _CrearCitaStepperState extends State<CrearCitaStepper> {
   }
 
   Widget _buildMascotasList() {
+    if (mascotas.isEmpty) return const Text("No hay mascotas disponibles");
+
     return Column(
       children: mascotas.map((m) {
         final isSelected = selectedMascotaId == m["id"].toString();
+        final especie = m["especie"]?['especie'] ?? "Desconocida";
+        final raza = m["raza"]?['raza'] ?? "Desconocida";
+
         return AnimatedContainer(
           duration: const Duration(milliseconds: 200),
           margin: const EdgeInsets.symmetric(vertical: 6),
@@ -380,9 +497,8 @@ class _CrearCitaStepperState extends State<CrearCitaStepper> {
             ],
           ),
           child: ListTile(
-            title: Text(m["nombre"], style: const TextStyle(color: negro)),
-            subtitle: Text("${m["especie"]} - ${m["raza"]}",
-                style: const TextStyle(color: negro)),
+            title: Text(m["nombre"] ?? "Sin nombre", style: const TextStyle(color: negro)),
+            subtitle: Text("$especie - $raza", style: const TextStyle(color: negro)),
             onTap: () {
               setState(() {
                 selectedMascotaId = m["id"].toString();
@@ -459,9 +575,10 @@ class _CrearCitaStepperState extends State<CrearCitaStepper> {
                     ),
                   )
                 : const Icon(Icons.person, color: negro),
-            title: Text(v["nombre_completo"], style: const TextStyle(color: negro)),
+            title: Text(v["nombre_completo"] ?? "N/A",
+                style: const TextStyle(color: negro)),
             subtitle: Text(
-              "${v["estudios_especialidad"]} • ${v["anios_experiencia"]} años",
+              "${v["estudios_especialidad"] ?? ''} • ${v["anios_experiencia"] ?? 0} años",
               style: const TextStyle(color: negro),
             ),
             onTap: () {

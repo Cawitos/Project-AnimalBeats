@@ -45,35 +45,36 @@ function GestionRecordatorios() {
     }
   };
 
-  // Cambiar cliente y cargar mascotas
+  // Cambiar cliente y cargar todas las mascotas del cliente
   const handleClienteChange = async (e) => {
     const clienteId = e.target.value;
-    const clienteNum = clienteId ? Number(clienteId) : '';
-    setForm(prev => ({ ...prev, cliente: clienteNum, mascota: '' }));
+    setForm(prev => ({ ...prev, cliente: clienteId, mascota: '' }));
 
-    if (!clienteNum || clienteNum.toString().length < 10) {
+    if (!clienteId || clienteId.length < 10) {
       setMascotasCliente([]);
       return;
     }
 
     try {
-      const res = await axios.get(`https://animalbeats-api.onrender.com/Mascota/recordatorio/${clienteNum}`);
+      const res = await axios.get(`https://animalbeats-api.onrender.com/mascotas`);
       if (Array.isArray(res.data)) {
-        setMascotasCliente(res.data);
+        // Filtrar solo las mascotas del cliente seleccionado
+        const mascotasFiltradas = res.data.filter(m => m.id_cliente === clienteId);
+        setMascotasCliente(mascotasFiltradas);
       } else {
-        setMascotasCliente(res.data ? [res.data] : []);
+        setMascotasCliente([]);
       }
     } catch (error) {
       setMascotasCliente([]);
-      console.error('Error al obtener mascotas para cliente:', error);
+      console.error('Error al obtener mascotas:', error);
       Swal.fire('Error', 'No se pudieron cargar las mascotas del cliente.', 'error');
     }
   };
 
   // Cambiar mascota
   const handleMascotaChange = (e) => {
-    const mascotaNum = e.target.value ? Number(e.target.value) : '';
-    setForm(prev => ({ ...prev, mascota: mascotaNum }));
+    const mascotaId = e.target.value;
+    setForm(prev => ({ ...prev, mascota: mascotaId }));
   };
 
   // Guardar o modificar
@@ -100,6 +101,7 @@ function GestionRecordatorios() {
         await axios.post('https://animalbeats-api.onrender.com/recordatorios/guardar', dataToSend);
         Swal.fire('Guardado', 'El recordatorio ha sido guardado correctamente.', 'success');
       }
+
       fetchRecordatorios();
       setForm({ cliente: '', mascota: '', fecha: '', descripcion: '' });
       setMascotasCliente([]);
@@ -136,7 +138,7 @@ function GestionRecordatorios() {
   // Cargar recordatorio para editar
   const cargarParaEditar = async (r) => {
     setForm({
-      cliente: Number(r.id_cliente),
+      cliente: r.id_cliente,
       mascota: r.mascota?.id || '',
       fecha: formatDateLocalForInput(r.fecha),
       descripcion: r.descripcion,
@@ -146,11 +148,12 @@ function GestionRecordatorios() {
 
     if (r.id_cliente) {
       try {
-        const res = await axios.get(`https://animalbeats-api.onrender.com/Mascota/recordatorio/${r.id_cliente}`);
+        const res = await axios.get(`https://animalbeats-api.onrender.com/mascotas`);
         if (Array.isArray(res.data)) {
-          setMascotasCliente(res.data);
+          const mascotasFiltradas = res.data.filter(m => m.id_cliente === r.id_cliente);
+          setMascotasCliente(mascotasFiltradas);
         } else {
-          setMascotasCliente(res.data ? [res.data] : []);
+          setMascotasCliente([]);
         }
       } catch {
         setMascotasCliente([]);
@@ -317,7 +320,7 @@ function GestionRecordatorios() {
               </option>
               {mascotasCliente.map(mascota => (
                 <option key={mascota.id} value={mascota.id}>
-                  {mascota.nombre}
+                  {mascota.nombre} ({mascota.especie?.especie || '-'}, {mascota.raza?.raza || '-'})
                 </option>
               ))}
             </select>

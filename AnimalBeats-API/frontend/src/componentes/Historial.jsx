@@ -79,7 +79,7 @@ const Historial = () => {
         }
       } catch {
         setCitasInfo([]);
-        setErrorCita("Error al conectar con el servidor");
+        setErrorCita("No hay recordatorios registrados");
       }
     };
     if (id) fetchCitas();
@@ -102,7 +102,7 @@ const Historial = () => {
         }
       } catch {
         setHistorialMedico([]);
-        setErrorHistorial("Error al conectar con el servidor");
+        setErrorHistorial("No hay recordatorios registrados");
       }
     };
     if (id) fetchHistorial();

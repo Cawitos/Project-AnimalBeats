@@ -248,7 +248,7 @@ class _EspeciesPageState extends State<EspeciesPage> {
                               child: Icon(Icons.pets, color: negro),
                             ),
                       title: Text(
-                        especie["Especie"] ?? "Sin nombre",
+                        especie["especie"] ?? "Sin nombre",
                         style: const TextStyle(
                             fontWeight: FontWeight.bold, color: negro),
                       ),

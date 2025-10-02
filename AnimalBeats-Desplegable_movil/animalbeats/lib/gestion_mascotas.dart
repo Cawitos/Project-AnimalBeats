@@ -290,20 +290,24 @@ class _GestionMascotasState extends State<GestionMascotas> {
     try {
       // 1. Mascota
       final resMascota = await http.get(Uri.parse("$baseUrl/Mascotas/$idMascota"));
-      Map<String, dynamic> mascota = {};
-      if (resMascota.statusCode == 200) {
-        final data = json.decode(resMascota.body);
-        if (data is Map<String, dynamic>) {
-          mascota = {
-            "id": data["id"],
-            "nombre": data["nombre"],
-            "fecha_nacimiento": data["fecha_nacimiento"],
-            "especie": data["especie"],
-            "raza": data["raza"],
-            "cliente": data["cliente"],
-          };
+        Map<String, dynamic> mascota = {};
+
+        if (resMascota.statusCode == 200) {
+          final data = json.decode(resMascota.body);
+
+          if (data is Map<String, dynamic>) {
+            mascota = {
+              "id": data["id"] ?? "-",
+              "nombre": data["nombre"] ?? "-",
+              "fecha_nacimiento": data["fecha_nacimiento"] ?? "-",
+              "especie": data["especie"]?["especie"] ?? "-",
+              "raza": data["raza"]?["raza"] ?? "-",
+              "tutor": data["usuarios"]?["nombre"] ?? "-", // clave 'tutor' para tu UI
+            };
+          }
         }
-      }
+
+
 
       // 2. Citas
       final resCitas = await http.get(Uri.parse("$baseUrl/Citas/mascota/$idMascota"));
@@ -503,7 +507,10 @@ class _GestionMascotasState extends State<GestionMascotas> {
           elevation: 4,
           child: ListTile(
             title: Text(m["nombre"]),
-            subtitle: Text("${m["especie"]} - ${m["raza"]}"),
+            subtitle: Text(
+                  "${m["especie"]?["especie"] ?? "-"} - ${m["raza"]?["raza"] ?? "-"}"
+              ),
+
             trailing: Wrap(
               spacing: 10,
               children: [
@@ -562,107 +569,137 @@ class _GestionMascotasState extends State<GestionMascotas> {
   }
 
   Widget _crearMascotaForm() {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Form(
-        key: _crearFormKey,
-        child: ListView(
-          children: [
-            TextFormField(
-              controller: _nombreCtrl,
-              decoration: const InputDecoration(labelText: "Nombre de Mascota"),
-              validator: (val) => val == null || val.isEmpty ? "Ingrese el nombre" : null,
+  return Padding(
+    padding: const EdgeInsets.all(16.0),
+    child: Form(
+      key: _crearFormKey,
+      child: ListView(
+        children: [
+          // Nombre de la mascota
+          TextFormField(
+            controller: _nombreCtrl,
+            decoration: const InputDecoration(labelText: "Nombre de Mascota"),
+            validator: (val) => val == null || val.isEmpty ? "Ingrese el nombre" : null,
+          ),
+          const SizedBox(height: 10),
+
+          // Dropdown Especie
+          DropdownButtonFormField<String>(
+            value: _especieSeleccionada,
+            decoration: const InputDecoration(labelText: "Especie"),
+            items: _especies.map((e) {
+              final id = e['id']?.toString() ?? "";
+              final nombre = e['especie'] ?? "-";
+              return DropdownMenuItem(value: id, child: Text(nombre));
+            }).toList(),
+            onChanged: (val) {
+              setState(() {
+                _especieSeleccionada = val;
+                _razaSeleccionada = null;
+                _razas = [];
+              });
+              if (val != null && val.isNotEmpty) _obtenerRazas(val);
+            },
+            validator: (val) => val == null || val.isEmpty ? "Seleccione una especie" : null,
+            isExpanded: true,
+          ),
+          const SizedBox(height: 10),
+
+          // Dropdown Raza
+          DropdownButtonFormField<String>(
+            value: _razaSeleccionada,
+            decoration: const InputDecoration(labelText: "Raza"),
+            items: _razas.map((r) {
+              final id = r['id']?.toString() ?? "";
+              final nombre = r['raza'] ?? "-";
+              return DropdownMenuItem(value: id, child: Text(nombre));
+            }).toList(),
+            onChanged: (val) => setState(() => _razaSeleccionada = val),
+            validator: (val) => val == null || val.isEmpty ? "Seleccione una raza" : null,
+            isExpanded: true,
+          ),
+          const SizedBox(height: 10),
+
+          // Fecha de nacimiento
+          ListTile(
+            title: Text(
+              _fechaNacimiento == null
+                  ? "Seleccione fecha de nacimiento"
+                  : "Fecha: ${_fechaNacimiento!.toLocal().toIso8601String().split('T').first}",
             ),
-            const SizedBox(height: 10),
-            DropdownButtonFormField<String>(
-              value: _especieSeleccionada,
-              decoration: const InputDecoration(labelText: "Especie"),
-              items: _especies.map((e) {
-                return DropdownMenuItem(value: e['id'].toString(), child: Text(e['Especie']));
-              }).toList(),
-              onChanged: (val) {
-                setState(() {
-                  _especieSeleccionada = val;
-                  _razaSeleccionada = null;
-                  _razas = [];
-                });
-                if (val != null) _obtenerRazas(val);
-              },
-              validator: (val) => val == null ? "Seleccione una especie" : null,
-              isExpanded: true,
+            trailing: const Icon(Icons.calendar_today),
+            onTap: () => _seleccionarFecha(context),
+          ),
+
+          // Documento del dueño
+          TextFormField(
+            controller: _nDocumentoCtrl,
+            decoration: const InputDecoration(labelText: "Documento del dueño"),
+            validator: (val) => val == null || val.isEmpty ? "Ingrese documento" : null,
+          ),
+          const SizedBox(height: 20),
+
+          // Botón Crear
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: rojo,
+              foregroundColor: Colors.white,
             ),
-            const SizedBox(height: 10),
-            DropdownButtonFormField<String>(
-              value: _razaSeleccionada,
-              decoration: const InputDecoration(labelText: "Raza"),
-              items: _razas.map((r) {
-                return DropdownMenuItem(value: r['id'].toString(), child: Text(r['Raza']));
-              }).toList(),
-              onChanged: (val) => setState(() => _razaSeleccionada = val),
-              validator: (val) => val == null ? "Seleccione una raza" : null,
-              isExpanded: true,
-            ),
-            const SizedBox(height: 10),
-            ListTile(
-              title: Text(
-                _fechaNacimiento == null
-                    ? "Seleccione fecha de nacimiento"
-                    : "Fecha: ${_fechaNacimiento!.toLocal().toIso8601String().split('T').first}",
-              ),
-              trailing: const Icon(Icons.calendar_today),
-              onTap: () => _seleccionarFecha(context),
-            ),
-            TextFormField(
-              controller: _nDocumentoCtrl,
-              decoration: const InputDecoration(labelText: "Documento del dueño"),
-              validator: (val) => val == null || val.isEmpty ? "Ingrese documento" : null,
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: rojo, foregroundColor: Colors.white),
-              onPressed: _crearMascota,
-              child: const Text("Crear Mascota"),
-            ),
-          ],
-        ),
+            onPressed: _crearMascota,
+            child: const Text("Crear Mascota"),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
+
 
   Widget _modificarMascotaForm() {
-    if (_modId == null) return const Center(child: Text("Seleccione una mascota para modificar"));
+  if (_modId == null) return const Center(child: Text("Seleccione una mascota para modificar"));
 
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Form(
-        key: _modificarFormKey,
-        child: Column(
-          children: [
-            TextFormField(
-              controller: _modNombreCtrl,
-              decoration: const InputDecoration(labelText: "Nombre de Mascota"),
-              validator: (val) => val == null || val.isEmpty ? "Ingrese el nombre" : null,
+  final estados = ["Activo", "Suspendido"];
+
+  return Padding(
+    padding: const EdgeInsets.all(16.0),
+    child: Form(
+      key: _modificarFormKey,
+      child: Column(
+        children: [
+          TextFormField(
+            controller: _modNombreCtrl,
+            decoration: const InputDecoration(labelText: "Nombre de Mascota"),
+            validator: (val) => val == null || val.isEmpty ? "Ingrese el nombre" : null,
+          ),
+          const SizedBox(height: 10),
+          DropdownButtonFormField<String>(
+            value: _modEstado, // usar exactamente "Activo" o "Suspendido"
+            decoration: const InputDecoration(labelText: "Estado"),
+            items: estados
+                .map((e) => DropdownMenuItem(
+                      value: e,
+                      child: Text(e),
+                    ))
+                .toList(),
+            onChanged: (val) => setState(() => _modEstado = val ?? "Activo"),
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: rojo,
+              foregroundColor: Colors.white,
             ),
-            const SizedBox(height: 10),
-            DropdownButtonFormField<String>(
-              value: _modEstado,
-              decoration: const InputDecoration(labelText: "Estado"),
-              items: ["Activo", "Inactivo"].map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
-              onChanged: (val) => setState(() => _modEstado = val ?? "Activo"),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: rojo, foregroundColor: Colors.white),
-              onPressed: _modificarMascota,
-              child: const Text("Guardar cambios"),
-            ),
-          ],
-        ),
+            onPressed: _modificarMascota,
+            child: const Text("Guardar cambios"),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
 
-   Widget _historialMascota() {
+
+ Widget _historialMascota() {
   if (_historialData == null) {
     return const Center(child: Text("Selecciona una mascota para ver su historial"));
   }
@@ -670,6 +707,17 @@ class _GestionMascotasState extends State<GestionMascotas> {
   final mascota = _historialData?["mascota"] ?? {};
   final recordatorios = List<Map<String, dynamic>>.from(_historialData?["recordatorios"] ?? []);
   final citas = List<Map<String, dynamic>>.from(_historialData?["citas"] ?? []);
+
+  // Acceder correctamente a los campos anidados y manejar tipos
+  final especie = (mascota["especie"] is Map)
+      ? mascota["especie"]["especie"] ?? "-"
+      : mascota["especie"]?.toString() ?? "-";
+
+  final raza = (mascota["raza"] is Map)
+      ? mascota["raza"]["raza"] ?? "-"
+      : mascota["raza"]?.toString() ?? "-";
+
+  final tutor = mascota["tutor"] ?? "-"; // ⚡ Aquí está la corrección
 
   return ListView(
     padding: const EdgeInsets.all(16),
@@ -685,9 +733,9 @@ class _GestionMascotasState extends State<GestionMascotas> {
           title: Text("ID: ${mascota["id"] ?? "-"} - ${mascota["nombre"] ?? "-"}"),
           subtitle: Text(
             "Nacimiento: ${mascota["fecha_nacimiento"] ?? "-"}\n"
-            "Especie: ${mascota["especie"] ?? "-"}\n"
-            "Raza: ${mascota["raza"] ?? "-"}\n"
-            "Tutor: ${mascota["cliente"] ?? "-"}",
+            "Especie: $especie\n"
+            "Raza: $raza\n"
+            "Tutor: $tutor",
           ),
         ),
       ),
@@ -704,41 +752,54 @@ class _GestionMascotasState extends State<GestionMascotas> {
 
       const SizedBox(height: 20),
       const Text("📌 Citas", style: TextStyle(fontWeight: FontWeight.bold)),
-      ...citas.map((c) => Card(
-            child: ListTile(
-              title: Text(c["servicio"] ?? "-"),
-              subtitle: Text(
-                "Fecha: ${c["fecha"] ?? "-"} - Hora: ${c["hora"] ?? "-"}\n"
-                "Estado: ${c["estado"] ?? "Pendiente"}",
-                style: TextStyle(
-                  color: (c["estado"] == "Cancelado") ? Colors.red : Colors.black,
-                ),
+      ...citas.map((c) {
+        final servicio = c["servicios"]?["servicio"] ?? "-";
+        final estadoCita = c["estado"] ?? "Pendiente";
+
+        String fechaHora = "-";
+        if (c["fecha"] != null) {
+          final dt = DateTime.tryParse(c["fecha"]);
+          if (dt != null) {
+            fechaHora =
+                "${dt.day.toString().padLeft(2,'0')}/${dt.month.toString().padLeft(2,'0')}/${dt.year} ${dt.hour.toString().padLeft(2,'0')}:${dt.minute.toString().padLeft(2,'0')}";
+          }
+        }
+
+        return Card(
+          child: ListTile(
+            title: Text(servicio),
+            subtitle: Text(
+              "Fecha y hora: $fechaHora\nEstado: $estadoCita",
+              style: TextStyle(
+                color: (estadoCita == "Cancelado") ? Colors.red : Colors.black,
               ),
-              trailing: (c["estado"] != "Completado" && c["estado"] != "Cancelado")
-                  ? ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: rojo,
-                        foregroundColor: Colors.white,
-                      ),
-                      onPressed: () async {
-                        final actualizado = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => ConfirmarCitaPage(
-                                      idCita: int.tryParse(c["id"].toString()) ?? 0,
-                                      userRole: widget.userRole, 
-                            ),
-                          ),
-                        );
-                        if (actualizado == true && _historialId != null) {
-                          _fetchHistorial(_historialId!);
-                        }
-                      },
-                      child: const Text("Ver cita"),
-                    )
-                  : null,
             ),
-          )),
+            trailing: (estadoCita != "Completado" && estadoCita != "Cancelado")
+                ? ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: rojo,
+                      foregroundColor: Colors.white,
+                    ),
+                    onPressed: () async {
+                      final actualizado = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => ConfirmarCitaPage(
+                            idCita: int.tryParse(c["id"].toString()) ?? 0,
+                            userRole: widget.userRole,
+                          ),
+                        ),
+                      );
+                      if (actualizado == true && _historialId != null) {
+                        _fetchHistorial(_historialId!);
+                      }
+                    },
+                    child: const Text("Ver cita"),
+                  )
+                : null,
+          ),
+        );
+      }),
       if (citas.isEmpty) const Text("No hay citas"),
 
       const SizedBox(height: 20),
@@ -754,6 +815,7 @@ class _GestionMascotasState extends State<GestionMascotas> {
     ],
   );
 }
+
 
 
 }

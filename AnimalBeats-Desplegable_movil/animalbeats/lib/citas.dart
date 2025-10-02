@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'crear_Cita.dart';
 import 'menu.dart';
 
@@ -30,8 +31,7 @@ class _CitasPageState extends State<CitasPage>
   List citas = [];
   bool loading = true;
 
-  final String baseUrl =
-      "https://animalbeats-api.onrender.com/Citas/Listado";
+  final String baseUrl = "https://animalbeats-api.onrender.com/Citas/Listado";
 
   @override
   void initState() {
@@ -58,7 +58,7 @@ class _CitasPageState extends State<CitasPage>
 
         if (widget.userRole == 2 && widget.nDocumento != null) {
           data = data
-              .where((c) => c['id_cliente'].toString() == widget.nDocumento)
+              .where((c) => c['usuarios']['n_documento'].toString() == widget.nDocumento)
               .toList();
         }
 
@@ -96,27 +96,57 @@ class _CitasPageState extends State<CitasPage>
     }
   }
 
-  Future<void> _cambiarEstado(int id, String nuevoEstado) async {
-    try {
-      final response = await http.put(
-        Uri.parse(
-            "https://animalbeats-api.onrender.com/Citas/$nuevoEstado/$id"),
-      );
-      if (response.statusCode == 200) {
-        fetchCitas();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("✅ Cita actualizada a $nuevoEstado")),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("❌ No se pudo actualizar la cita")),
-        );
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("❌ Error al actualizar la cita: $e")),
-      );
+  Future<void> _cambiarEstado(int id, String accion) async {
+    String confirmText = "";
+    String nuevoEstado = "";
+
+    if (accion == "Cancelar") {
+      confirmText = "¿Está seguro de cancelar esta cita?";
+      nuevoEstado = "Cancelado";
+    } else if (accion == "Confirmar") {
+      confirmText = "¿Desea confirmar esta cita y pasarla a Pendiente?";
+      nuevoEstado = "Pendiente";
+    } else {
+      return;
     }
+
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.warning,
+      animType: AnimType.scale,
+      title: 'Confirmación',
+      desc: confirmText,
+      btnCancelOnPress: () {},
+      btnOkOnPress: () async {
+        try {
+          await http.put(
+            Uri.parse("https://animalbeats-api.onrender.com/Citas/Actualizar/$id"),
+            body: jsonEncode({'estado': nuevoEstado}),
+            headers: {'Content-Type': 'application/json'},
+          );
+
+          AwesomeDialog(
+            context: context,
+            dialogType: DialogType.success,
+            animType: AnimType.scale,
+            title: 'Éxito',
+            desc: "Cita ${accion == 'Confirmar' ? 'confirmada' : 'cancelada'} correctamente",
+            btnOkOnPress: () {},
+          ).show();
+
+          fetchCitas();
+        } catch (_) {
+          AwesomeDialog(
+            context: context,
+            dialogType: DialogType.error,
+            animType: AnimType.scale,
+            title: 'Error',
+            desc: "No se pudo ${accion == 'Confirmar' ? 'confirmar' : 'cancelar'} la cita",
+            btnOkOnPress: () {},
+          ).show();
+        }
+      },
+    ).show();
   }
 
   Widget buildCitaCard(Map cita) {
@@ -136,7 +166,7 @@ class _CitasPageState extends State<CitasPage>
       child: ListTile(
         contentPadding: const EdgeInsets.all(16),
         title: Text(
-          cita['nombre_servicio'] ?? "Sin servicio",
+          cita['servicios']?['servicio'] ?? "Sin servicio",
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
@@ -147,9 +177,9 @@ class _CitasPageState extends State<CitasPage>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 6),
-            Text("Mascota: ${cita['nombre_mascota'] ?? 'Desconocida'}"),
-            Text("Cliente: ${cita['nombre_cliente'] ?? ''}"),
-            Text("Veterinario: ${cita['nombre_veterinario'] ?? ''}"),
+            Text("Mascota: ${cita['mascota']?['nombre'] ?? 'Desconocida'}"),
+            Text("Cliente: ${cita['usuarios']?['nombre'] ?? ''}"),
+            Text("Veterinario: ${cita['veterinarios']?['nombre_completo'] ?? ''}"),
             Text("Fecha: ${formatFecha(cita['fecha'])}"),
             const SizedBox(height: 6),
             Text(
@@ -159,23 +189,29 @@ class _CitasPageState extends State<CitasPage>
                 fontWeight: FontWeight.w600,
               ),
             ),
-            if (cita['Descripcion'] != null &&
-                cita['Descripcion'].toString().isNotEmpty)
-              Text("Descripción: ${cita['Descripcion']}"),
+            if (cita['descripcion'] != null &&
+                cita['descripcion'].toString().isNotEmpty)
+              Text("Descripción: ${cita['descripcion']}"),
             const SizedBox(height: 8),
             // Botones dinámicos según estado
-            if (cita['estado'] == "Pendiente")
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: rojo),
-                onPressed: () => _cambiarEstado(cita['id'], "Cancelar"),
-                child: const Text("Cancelar", style: TextStyle(color: blanco)),
-              ),
-            if (cita['estado'] == "Solicitud")
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-                onPressed: () => _cambiarEstado(cita['id'], "Pendiente"),
-                child:
-                    const Text("Confirmar", style: TextStyle(color: blanco)),
+            if ((cita['estado'] == "Pendiente" || cita['estado'] == "Solicitud") &&
+                widget.userRole != 2)
+              Row(
+                children: [
+                  if (cita['estado'] == "Pendiente")
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(backgroundColor: rojo),
+                      onPressed: () => _cambiarEstado(cita['id'], "Cancelar"),
+                      child: const Text("Cancelar", style: TextStyle(color: blanco)),
+                    ),
+                  const SizedBox(width: 8),
+                  if (cita['estado'] == "Solicitud")
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                      onPressed: () => _cambiarEstado(cita['id'], "Confirmar"),
+                      child: const Text("Confirmar", style: TextStyle(color: blanco)),
+                    ),
+                ],
               ),
           ],
         ),
