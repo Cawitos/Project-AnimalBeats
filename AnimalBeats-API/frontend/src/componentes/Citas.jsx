@@ -1,157 +1,199 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import OffcanvasMenu from "./menu";
+import "../css/citas.css";
+import { UserContext } from "../context/UserContext";
 
-export default function Citas() {
+const GestionCitas = () => {
   const [citas, setCitas] = useState([]);
   const [mascotas, setMascotas] = useState([]);
+  const [clientes, setClientes] = useState([]);
   const [servicios, setServicios] = useState([]);
   const [veterinarios, setVeterinarios] = useState([]);
-  const [duenos, setDuenos] = useState([]);
-
   const [nuevaCita, setNuevaCita] = useState({
-    id_cliente: "",
     id_mascota: "",
+    id_cliente: "",
     id_servicio: "",
     id_veterinario: "",
     fecha: "",
     descripcion: "",
     estado: "Pendiente",
   });
+  const [mascotasFiltradas, setMascotasFiltradas] = useState([]);
 
-  const API_URL = "http://localhost:3000"; // 🔹 Ajusta si es diferente
-  const idRol = localStorage.getItem("id_rol"); // 🔹 Rol del usuario logueado
+  const API_URL = "https://animalbeats-api.onrender.com";
+  const { User } = useContext(UserContext);
 
-  // Cargar datos iniciales
   useEffect(() => {
-    obtenerCitas();
-    obtenerDuenos();
-    obtenerServicios();
-    obtenerVeterinarios();
+    if (!User) {
+      const usuarioStorage = localStorage.getItem("user");
+      if (usuarioStorage) {
+        const userParsed = JSON.parse(usuarioStorage);
+        console.log("Usuario cargado desde localStorage:", userParsed);
+      }
+    } else {
+      console.log("Rol recibido en Citas:", User.rol);
+      console.log("Documento recibido en Citas:", User.n_documento);
+    }
+  }, [User]);
+
+  useEffect(() => {
+    fetchClientes();
+    fetchServicios();
+    fetchVeterinarios();
+    fetchMascotas();
+    fetchCitas();
   }, []);
 
-  // Si cambia dueño, cargar mascotas
-  useEffect(() => {
-    if (nuevaCita.id_cliente) {
-      obtenerMascotas(nuevaCita.id_cliente);
-    }
-  }, [nuevaCita.id_cliente]);
-
-  const obtenerCitas = async () => {
+  const fetchCitas = async () => {
     try {
-      const res = await axios.get(`${API_URL}/citas/Listado`);
-      setCitas(res.data);
+      const res = await axios.get(`${API_URL}/Citas/Listado`);
+      if (Array.isArray(res.data)) setCitas(res.data);
+      else setCitas([]);
     } catch (err) {
-      console.error("Error al obtener citas:", err);
+      console.error("❌ Error al obtener citas:", err);
+      setCitas([]);
     }
   };
 
-  const obtenerDuenos = async () => {
+  const fetchMascotas = async () => {
     try {
-      const res = await axios.get(`${API_URL}/usuarios/Duenos`);
-      setDuenos(res.data);
+      const res = await axios.get(`${API_URL}/mascotas`);
+      setMascotas(res.data || []);
     } catch (err) {
-      console.error("Error al obtener dueños:", err);
+      console.error("❌ Error al obtener mascotas:", err);
+      setMascotas([]);
     }
   };
 
-  const obtenerMascotas = async (id_cliente) => {
+  const fetchClientes = async () => {
     try {
-      const res = await axios.get(`${API_URL}/mascotas/PorDueno/${id_cliente}`);
-      setMascotas(res.data);
+      const res = await axios.get(`${API_URL}/usuario/Listado`);
+      const clientesRol2 = (res.data.Usuarios || []).filter((c) => c.id_rol === 2);
+      setClientes(clientesRol2);
     } catch (err) {
-      console.error("Error al obtener mascotas:", err);
+      console.error("❌ Error al obtener clientes:", err);
+      setClientes([]);
     }
   };
 
-  const obtenerServicios = async () => {
+  const fetchServicios = async () => {
     try {
       const res = await axios.get(`${API_URL}/servicios/Listado`);
-      setServicios(res.data);
+      setServicios(res.data || []);
     } catch (err) {
-      console.error("Error al obtener servicios:", err);
+      console.error("❌ Error al obtener servicios:", err);
+      setServicios([]);
     }
   };
 
-  const obtenerVeterinarios = async () => {
+  const fetchVeterinarios = async () => {
     try {
-      const res = await axios.get(`${API_URL}/veterinarios/Listado`);
-      setVeterinarios(res.data);
+      const res = await axios.get(`${API_URL}/veterinarios`);
+      setVeterinarios(res.data || []);
     } catch (err) {
-      console.error("Error al obtener veterinarios:", err);
+      console.error("❌ Error al obtener veterinarios:", err);
+      setVeterinarios([]);
     }
   };
 
-  const handleChange = (e) => {
-    setNuevaCita({ ...nuevaCita, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const crearCita = async () => {
     try {
-      await axios.post(`${API_URL}/citas/Crear`, nuevaCita);
-      obtenerCitas();
+      await axios.post(`${API_URL}/Citas/Crear`, nuevaCita);
+      alert("✅ Cita creada correctamente");
+      fetchCitas();
       setNuevaCita({
-        id_cliente: "",
         id_mascota: "",
+        id_cliente: "",
         id_servicio: "",
         id_veterinario: "",
         fecha: "",
         descripcion: "",
         estado: "Pendiente",
       });
+      setMascotasFiltradas([]);
     } catch (err) {
-      console.error("Error al crear cita:", err);
+      console.error("❌ Error al crear cita:", err);
+      alert("❌ No se pudo crear la cita.");
     }
   };
 
   const cambiarEstado = async (id, accion) => {
     try {
-      await axios.put(`${API_URL}/citas/ActualizarEstado/${id}`, { accion });
-      obtenerCitas();
+      await axios.put(`${API_URL}/Citas/${accion}/${id}`);
+      alert(`✅ Cita ${accion} correctamente`);
+      fetchCitas();
     } catch (err) {
-      console.error("Error al cambiar estado:", err);
+      console.error(`❌ Error al ${accion} cita:`, err);
+      alert(`❌ No se pudo ${accion} la cita.`);
     }
   };
 
+  const handleClienteChange = (e) => {
+    const clienteId = e.target.value;
+    setNuevaCita({ ...nuevaCita, id_cliente: clienteId, id_mascota: "" });
+
+    if (clienteId) {
+      const mascotasCliente = mascotas.filter(
+        (m) => String(m.id_cliente) === String(clienteId)
+      );
+      setMascotasFiltradas(mascotasCliente);
+    } else {
+      setMascotasFiltradas([]);
+    }
+  };
+
+  // Filtrar citas según rol
+  const citasFiltradas = citas.filter((c) => {
+    if (!User) return false;
+    if (User.rol === 2) return String(c.id_cliente) === String(User.n_documento);
+    return true;
+  });
+
   return (
-    <div className="container mt-4">
-      <h2 className="mb-4 text-center">Gestión de Citas</h2>
+    <div className="citas-container">
+      <div className="citas-menu">
+        <OffcanvasMenu />
+      </div>
 
-      {/* 📌 Formulario */}
-      <form onSubmit={handleSubmit} className="card p-4 shadow-sm mb-4">
-        <h4 className="mb-3">Crear Nueva Cita</h4>
+      <div className="citas-header">
+        <h2 className="citas-title">Gestión de Citas</h2>
+        <p className="citas-subtitle">Administra y controla todas las citas</p>
+      </div>
 
-        {/* Seleccionar dueño */}
-        <div className="mb-3">
-          <label className="form-label">Dueño</label>
+      {/* Formulario de creación de citas */}
+      <form className="citas-form">
+        {/* Cliente */}
+        <div className="citas-form-group">
+          <label className="citas-label">Tutor</label>
           <select
-            className="form-select"
-            name="id_cliente"
+            className="citas-select"
             value={nuevaCita.id_cliente}
-            onChange={handleChange}
-            required
+            onChange={handleClienteChange}
+            disabled={User?.rol === 2}
           >
-            <option value="">Seleccione dueño</option>
-            {duenos.map((d) => (
-              <option key={d.id} value={d.id}>
-                {d.n_documento} - {d.nombre}
+            <option value="">Seleccione un cliente</option>
+            {clientes.map((c) => (
+              <option key={c.n_documento} value={c.n_documento}>
+                {c.nombre}
               </option>
             ))}
           </select>
         </div>
 
-        {/* Seleccionar mascota */}
-        <div className="mb-3">
-          <label className="form-label">Mascota</label>
+        {/* Mascota */}
+        <div className="citas-form-group">
+          <label className="citas-label">Mascota</label>
           <select
-            className="form-select"
-            name="id_mascota"
+            className="citas-select"
             value={nuevaCita.id_mascota}
-            onChange={handleChange}
-            required
+            onChange={(e) =>
+              setNuevaCita({ ...nuevaCita, id_mascota: e.target.value })
+            }
+            disabled={User?.rol === 2}
           >
-            <option value="">Seleccione mascota</option>
-            {mascotas.map((m) => (
+            <option value="">Seleccione una mascota</option>
+            {mascotasFiltradas.map((m) => (
               <option key={m.id} value={m.id}>
                 {m.nombre}
               </option>
@@ -160,16 +202,17 @@ export default function Citas() {
         </div>
 
         {/* Servicio */}
-        <div className="mb-3">
-          <label className="form-label">Servicio</label>
+        <div className="citas-form-group">
+          <label className="citas-label">Servicio</label>
           <select
-            className="form-select"
-            name="id_servicio"
+            className="citas-select"
             value={nuevaCita.id_servicio}
-            onChange={handleChange}
-            required
+            onChange={(e) =>
+              setNuevaCita({ ...nuevaCita, id_servicio: e.target.value })
+            }
+            disabled={User?.rol === 2}
           >
-            <option value="">Seleccione servicio</option>
+            <option value="">Seleccione un servicio</option>
             {servicios.map((s) => (
               <option key={s.id} value={s.id}>
                 {s.servicio}
@@ -179,16 +222,17 @@ export default function Citas() {
         </div>
 
         {/* Veterinario */}
-        <div className="mb-3">
-          <label className="form-label">Veterinario</label>
+        <div className="citas-form-group">
+          <label className="citas-label">Veterinario</label>
           <select
-            className="form-select"
-            name="id_veterinario"
+            className="citas-select"
             value={nuevaCita.id_veterinario}
-            onChange={handleChange}
-            required
+            onChange={(e) =>
+              setNuevaCita({ ...nuevaCita, id_veterinario: e.target.value })
+            }
+            disabled={User?.rol === 2}
           >
-            <option value="">Seleccione veterinario</option>
+            <option value="">Seleccione un veterinario</option>
             {veterinarios.map((v) => (
               <option key={v.id} value={v.id}>
                 {v.nombre_completo}
@@ -198,92 +242,103 @@ export default function Citas() {
         </div>
 
         {/* Fecha */}
-        <div className="mb-3">
-          <label className="form-label">Fecha</label>
+        <div className="citas-form-group">
+          <label className="citas-label">Fecha</label>
           <input
             type="datetime-local"
-            className="form-control"
-            name="fecha"
+            className="citas-input"
             value={nuevaCita.fecha}
-            onChange={handleChange}
-            required
+            onChange={(e) =>
+              setNuevaCita({ ...nuevaCita, fecha: e.target.value })
+            }
+            disabled={User?.rol === 2}
           />
         </div>
 
         {/* Descripción */}
-        <div className="mb-3">
-          <label className="form-label">Descripción</label>
+        <div className="citas-form-group" style={{ flex: "1 1 100%" }}>
+          <label className="citas-label">Descripción</label>
           <textarea
-            className="form-control"
-            name="descripcion"
+            className="citas-textarea"
             value={nuevaCita.descripcion}
-            onChange={handleChange}
-          ></textarea>
+            onChange={(e) =>
+              setNuevaCita({ ...nuevaCita, descripcion: e.target.value })
+            }
+            disabled={User?.rol === 2}
+          />
         </div>
 
-        <button type="submit" className="btn btn-primary">
-          Crear Cita
-        </button>
+        {/* Botones solo para admin o veterinario */}
+        {User?.rol !== 2 && (
+          <div className="citas-actions">
+            <button type="button" className="citas-btn-save" onClick={crearCita}>
+              Crear Cita
+            </button>
+            <button type="reset" className="citas-btn-cancel">
+              Cancelar
+            </button>
+          </div>
+        )}
       </form>
 
-      {/* 📌 Listado de citas */}
+      {/* Listado de citas */}
       <div className="citas-listado">
-        <h4 className="mb-3">Listado de Citas</h4>
-        {citas.length > 0 ? (
-          citas.map((c) => (
-            <div
-              key={c.id}
-              className="list-group-item d-flex justify-content-between align-items-center mb-2 p-3 shadow-sm rounded"
-            >
-              <div>
-                <strong>{c.mascota?.nombre || `Mascota ID ${c.id_mascota}`}</strong>{" "}
-                - {c.servicios?.servicio || `Servicio ID ${c.id_servicio}`} -{" "}
-                {c.veterinarios?.nombre_completo || `Veterinario ID ${c.id_veterinario}`}{" "}
-                - {c.usuarios?.nombre || `Cliente ID ${c.id_cliente}`} - {c.fecha}
-                <span
-                  className={`badge ms-2 ${
-                    c.estado === "Pendiente"
-                      ? "bg-warning"
-                      : c.estado === "Solicitud"
-                      ? "bg-info"
-                      : c.estado === "Completado"
-                      ? "bg-success"
-                      : c.estado === "Cancelado"
-                      ? "bg-danger"
-                      : "bg-secondary"
-                  }`}
-                >
-                  {c.estado}
-                </span>
-              </div>
-
-              {/* Botones dinámicos */}
-              <div className="btn-group">
-                {c.estado === "Pendiente" && (
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() => cambiarEstado(c.id, "Cancelar")}
+        <h4 className="citas-listado-titulo">Listado de Citas</h4>
+        {citasFiltradas.length > 0 ? (
+          <ul className="citas-list">
+            {citasFiltradas.map((c) => (
+              <li key={c.id} className="citas-item">
+                <div className="citas-item-info">
+                  <span>Mascota: {c.mascota?.nombre || `ID ${c.id_mascota}`}</span>
+                  <span>Servicio: {c.servicios?.servicio || `ID ${c.id_servicio}`}</span>
+                  <span>Veterinario: {c.veterinarios?.nombre_completo || `ID ${c.id_veterinario}`}</span>
+                  <span>Tutor: {c.usuarios?.nombre || `ID ${c.id_cliente}`}</span>
+                  <span>Fecha: {c.fecha}</span>
+                  <span
+                    className={`badge ms-2 ${
+                      c.estado === "Pendiente"
+                        ? "bg-warning"
+                        : c.estado === "Confirmado"
+                        ? "bg-success"
+                        : c.estado === "Cancelado"
+                        ? "bg-danger"
+                        : "bg-secondary"
+                    }`}
                   >
-                    Eliminar
-                  </button>
-                )}
+                    {c.estado}
+                  </span>
+                </div>
 
-                {c.estado === "Solicitud" &&
-                  (idRol === "1" || idRol === "3") && (
-                    <button
-                      className="btn btn-outline-success btn-sm"
-                      onClick={() => cambiarEstado(c.id, "Confirmar")}
-                    >
-                      Confirmar
-                    </button>
-                  )}
-              </div>
-            </div>
-          ))
+                {/* Botones solo para admin o veterinario */}
+                {User && User.rol !== 2 && (
+                  <div className="citas-actions btn-group">
+                    {c.estado === "Pendiente" && User?.rol === 1 && (
+                      <button
+                        className="citas-btn-eliminar"
+                        onClick={() => cambiarEstado(c.id, "Cancelar")}
+                      >
+                        Eliminar
+                      </button>
+                    )}
+                    {c.estado === "Solicitud" && (User?.rol === 1 || User?.rol === 3) && (
+                      <button
+                        className="citas-btn-save"
+                        onClick={() => cambiarEstado(c.id, "Confirmar")}
+                      >
+                        Confirmar
+                      </button>
+                    )}
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
         ) : (
-          <div className="alert alert-info">No hay citas registradas.</div>
+          <div className="citas-alert">No hay citas registradas.</div>
         )}
       </div>
     </div>
   );
-}
+};
+
+export default GestionCitas;
