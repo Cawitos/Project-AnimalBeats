@@ -138,7 +138,7 @@ function GestionRecordatorios() {
     setForm({
       cliente: r.id_cliente,
       mascota: r.id_Mascota,
-      fecha: formatDateLocalForInput(r.Fecha), // fecha formateada localmente para input
+      fecha: formatDateLocalForInput(r.fecha), // fecha formateada localmente para input
       descripcion: r.descripcion,
     });
     setModoEditar(true);
@@ -182,7 +182,7 @@ const descargarTodosPDF = () => {
     const data = recordatorio.map(r => [
       r.id_cliente || "-",
       r.nombre_mascota || "-",
-      new Date(r.Fecha).toLocaleString() || "-",
+      new Date(r.fecha).toLocaleString() || "-",
       r.descripcion || "-"
     ]);
 
@@ -289,8 +289,8 @@ const descargarUnoPDF = (r) => {
           {recordatorio.map(r => (
             <tr key={r.id}>
               <td>{r.id_cliente}</td>
-              <td>{r.nombre_mascota}</td>
-              <td>{new Date(r.Fecha).toLocaleString()}</td>
+              <td>{r.mascota?.nombre}</td>
+              <td>{new Date(r.fecha).toLocaleString()}</td>
               <td>{r.descripcion}</td>
               <td>
                 <button
