@@ -20,9 +20,21 @@ const GestionCitas = () => {
     estado: "Pendiente",
   });
   const [mascotasFiltradas, setMascotasFiltradas] = useState([]);
+  const [fechaMinima, setFechaMinima] = useState("");
 
   const API_URL = "https://animalbeats-api.onrender.com";
   const { User } = useContext(UserContext);
+
+  // Calcular fecha mínima para no permitir fechas pasadas
+  useEffect(() => {
+    const ahora = new Date();
+    const year = ahora.getFullYear();
+    const month = String(ahora.getMonth() + 1).padStart(2, "0");
+    const day = String(ahora.getDate()).padStart(2, "0");
+    const hours = String(ahora.getHours()).padStart(2, "0");
+    const minutes = String(ahora.getMinutes()).padStart(2, "0");
+    setFechaMinima(`${year}-${month}-${day}T${hours}:${minutes}`);
+  }, []);
 
   useEffect(() => {
     if (!User) {
@@ -251,6 +263,7 @@ const GestionCitas = () => {
             onChange={(e) =>
               setNuevaCita({ ...nuevaCita, fecha: e.target.value })
             }
+            min={fechaMinima} // <-- aquí se limita la fecha
             disabled={User?.rol === 2}
           />
         </div>
@@ -342,3 +355,4 @@ const GestionCitas = () => {
 };
 
 export default GestionCitas;
+       
