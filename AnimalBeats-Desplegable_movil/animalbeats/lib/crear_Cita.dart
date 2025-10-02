@@ -1,5 +1,3 @@
-// ignore_for_file: unused_element
-
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -37,7 +35,8 @@ class _CrearCitaStepperState extends State<CrearCitaStepper> {
   String? selectedMascotaId;
   String? selectedServicioId;
   String? selectedVeterinarioId;
-  DateTime? selectedDateTime;
+  DateTime? selectedDate;
+  TimeOfDay? selectedTime;
   String descripcion = "";
 
   TextEditingController documentoCtrl = TextEditingController();
@@ -58,62 +57,92 @@ class _CrearCitaStepperState extends State<CrearCitaStepper> {
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       setState(() {
-        mascotas = data
-            .where((m) => m["id_cliente"].toString() == documento)
-            .toList();
+        mascotas =
+            data.where((m) => m["id_cliente"].toString() == documento).toList();
       });
     }
   }
 
   Future<void> _fetchServicios() async {
-    final response = await http.get(Uri.parse("$baseUrl/servicios/Listado"));
-    if (response.statusCode == 200) {
-      setState(() {
-        servicios = json.decode(response.body);
-      });
+    try {
+      final response = await http.get(Uri.parse("$baseUrl/servicios/Listado"));
+      if (response.statusCode == 200) {
+        setState(() {
+          servicios = json.decode(response.body);
+        });
+      }
+    } catch (e) {
+      print("Error fetching servicios: $e");
     }
   }
 
   Future<void> _fetchVeterinarios() async {
-    final response = await http.get(Uri.parse("$baseUrl/veterinarios"));
-    if (response.statusCode == 200) {
-      setState(() {
-        veterinarios = json.decode(response.body);
-      });
+    try {
+      final response = await http.get(Uri.parse("$baseUrl/veterinarios"));
+      if (response.statusCode == 200) {
+        setState(() {
+          veterinarios = json.decode(response.body);
+        });
+      }
+    } catch (e) {
+      print("Error fetching veterinarios: $e");
     }
   }
 
   Future<void> _fetchCitas() async {
-    final response = await http.get(Uri.parse("$baseUrl/Citas/Listado"));
-    if (response.statusCode == 200) {
-      setState(() {
-        citas = json.decode(response.body);
-      });
+    try {
+      final response = await http.get(Uri.parse("$baseUrl/Citas/Listado"));
+      if (response.statusCode == 200) {
+        setState(() {
+          citas = json.decode(response.body);
+        });
+      }
+    } catch (e) {
+      print("Error fetching citas: $e");
     }
   }
 
   Future<void> _registrarCita() async {
-    final estado = widget.userRole == 2 ? "Solicitud" : "Pendiente";
-    final formattedDate =
-        DateFormat("yyyy-MM-dd HH:mm:ss").format(selectedDateTime!);
+    if (selectedDate == null || selectedTime == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("❌ Debe seleccionar fecha y hora")),
+      );
+      return;
+    }
 
+    // Combinar fecha y hora
+    final fechaCompleta = DateTime(
+      selectedDate!.year,
+      selectedDate!.month,
+      selectedDate!.day,
+      selectedTime!.hour,
+      selectedTime!.minute,
+    );
+
+    final formattedDate = DateFormat("yyyy-MM-dd HH:mm:ss").format(fechaCompleta);
+    final estado = widget.userRole == 2 ? "Solicitud" : "Pendiente";
+    final formattedDate = DateFormat("yyyy-MM-dd HH:mm:ss").format(selectedDateTime!);
     final body = {
-      "id_mascota": selectedMascotaId,
-      "id_cliente": widget.userRole == 2
-          ? widget.nDocumento
-          : documentoCtrl.text,
-      "id_servicio": selectedServicioId,
+      "id_Mascota": selectedMascotaId,
+      "id_cliente": widget.userRole == 2 ? widget.nDocumento : documentoCtrl.text,
+      "id_Servicio": selectedServicioId,
       "id_veterinario": selectedVeterinarioId,
       "fecha": formattedDate,
-      "descripcion": descripcion,
+      "Descripcion": descripcion,
       "estado": estado,
     };
 
-    final response = await http.post(
-      Uri.parse("$baseUrl/Citas/Registrar"),
-      headers: {"Content-Type": "application/json"},
-      body: json.encode(body),
-    );
+    print("Enviando datos: $body"); // Para debug
+
+    try {
+      final response = await http.post(
+        Uri.parse("$baseUrl/Citas/Registrar"),
+        headers: {"Content-Type": "application/json"},
+        body: json.encode(body),
+      );
+
+      print("Respuesta del servidor: ${response.statusCode}");
+      print("Body de respuesta: ${response.body}");
 
     if (response.statusCode == 201) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -122,9 +151,7 @@ class _CrearCitaStepperState extends State<CrearCitaStepper> {
       Navigator.pop(context);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content:
-                Text("❌ Error al registrar la cita: ${response.body}")),
+        SnackBar(content: Text("❌ Error al registrar la cita: ${response.body}")),
       );
     }
   }
@@ -137,21 +164,16 @@ class _CrearCitaStepperState extends State<CrearCitaStepper> {
       "16:00", "16:30", "17:00", "17:30"
     ];
 
-    final dateFormat = DateFormat("yyyy-MM-dd HH:mm");
     List<String> disponibles = [];
 
     for (var hora in horas) {
       final intento = dateFormat.parse("$fechaSeleccionada $hora");
       bool ocupada = citas.any((c) {
         if (selectedVeterinarioId == null) return false;
-        try {
-          final cFecha = DateFormat("yyyy-MM-dd HH:mm")
-              .parse(c['fecha'].toString().substring(0, 16));
-          return c['id_veterinario'].toString() == selectedVeterinarioId &&
-              cFecha.isAtSameMomentAs(intento);
-        } catch (_) {
-          return false;
-        }
+        final cFecha = DateFormat("yyyy-MM-dd HH:mm")
+            .parse(c['fecha'].toString().substring(0, 16));
+        return c['id_veterinario'].toString() == selectedVeterinarioId &&
+               cFecha.isAtSameMomentAs(intento);
       });
       if (!ocupada) disponibles.add(hora);
     }
@@ -182,14 +204,109 @@ class _CrearCitaStepperState extends State<CrearCitaStepper> {
     String? horaSeleccionada = await showModalBottomSheet<String>(
       context: context,
       builder: (context) {
-        return ListView(
-          shrinkWrap: true,
-          children: horasDisponibles.map((h) {
-            return ListTile(
-              title: Text(h),
-              onTap: () => Navigator.pop(context, h),
-            );
-          }).toList(),
+        return Container(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "Seleccionar hora",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: negro,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: ListView(
+                  shrinkWrap: true,
+                  children: horasDisponibles.map((h) {
+                    return ListTile(
+                      title: Text(
+                        h,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: negro,
+                        ),
+                      ),
+                      onTap: () => Navigator.pop(context, h),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+
+    if (horaSeleccionada != null) {
+      setState(() {
+        selectedDate = date;
+        final parts = horaSeleccionada.split(":");
+        selectedTime = TimeOfDay(
+          hour: int.parse(parts[0]),
+          minute: int.parse(parts[1]),
+        );
+      });
+    }
+  }
+
+  void _seleccionarHoraIndividual() async {
+    if (selectedDate == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("❌ Primero seleccione una fecha")),
+      );
+      return;
+    }
+
+    final fechaStr = DateFormat("yyyy-MM-dd").format(selectedDate!);
+    final horasDisponibles = _getHorasDisponibles(fechaStr);
+
+    if (horasDisponibles.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("❌ No hay horas disponibles para esta fecha")),
+      );
+      return;
+    }
+
+    String? horaSeleccionada = await showModalBottomSheet<String>(
+      context: context,
+      builder: (context) {
+        return Container(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "Seleccionar hora",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: negro,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: ListView(
+                  shrinkWrap: true,
+                  children: horasDisponibles.map((h) {
+                    return ListTile(
+                      title: Text(
+                        h,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: negro,
+                        ),
+                      ),
+                      onTap: () => Navigator.pop(context, h),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ],
+          ),
         );
       },
     );
@@ -197,12 +314,9 @@ class _CrearCitaStepperState extends State<CrearCitaStepper> {
     if (horaSeleccionada != null) {
       setState(() {
         final parts = horaSeleccionada.split(":");
-        selectedDateTime = DateTime(
-          date.year,
-          date.month,
-          date.day,
-          int.parse(parts[0]),
-          int.parse(parts[1]),
+        selectedTime = TimeOfDay(
+          hour: int.parse(parts[0]),
+          minute: int.parse(parts[1]),
         );
       });
     }
@@ -221,7 +335,7 @@ class _CrearCitaStepperState extends State<CrearCitaStepper> {
         if (selectedVeterinarioId == null) error = "Debe seleccionar un veterinario";
         break;
       case 3:
-        if (selectedDateTime == null) error = "Debe seleccionar fecha y hora";
+        if (selectedDate == null || selectedTime == null) error = "Debe seleccionar fecha y hora";
         break;
     }
 
@@ -236,116 +350,6 @@ class _CrearCitaStepperState extends State<CrearCitaStepper> {
         setState(() => _currentStep += 1);
       }
     }
-  }
-
-  void _mostrarConfirmacionVisual() {
-    final mascota = mascotas.firstWhere(
-        (m) => m["id"].toString() == selectedMascotaId,
-        orElse: () => null);
-
-    final servicio =
-        servicios.firstWhere((s) => s["id"].toString() == selectedServicioId,
-            orElse: () => null);
-
-    final veterinario =
-        veterinarios.firstWhere(
-            (v) => v["id"].toString() == selectedVeterinarioId,
-            orElse: () => null);
-
-    showDialog(
-      context: context,
-      builder: (context) {
-        return Dialog(
-          backgroundColor: blanco,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                    child: Text(
-                      "Confirmar Cita",
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: rojo,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  _infoCard(
-                    icon: Icons.pets,
-                    title: "Mascota",
-                    content:
-                        "${mascota?['nombre'] ?? 'N/A'} (${mascota?['especie']?['especie'] ?? 'N/A'} - ${mascota?['raza']?['raza'] ?? 'N/A'})",
-                  ),
-                  _infoCard(
-                    icon: Icons.medical_services,
-                    title: "Servicio",
-                    content: "${servicio?['servicio'] ?? 'N/A'}",
-                  ),
-                  _infoCard(
-                    icon: Icons.person,
-                    title: "Veterinario",
-                    content: "${veterinario?['nombre_completo'] ?? 'N/A'}",
-                  ),
-                  _infoCard(
-                    icon: Icons.calendar_today,
-                    title: "Fecha y Hora",
-                    content:
-                        "${selectedDateTime!.day}/${selectedDateTime!.month}/${selectedDateTime!.year} ⏰ ${selectedDateTime!.hour}:${selectedDateTime!.minute.toString().padLeft(2,'0')}",
-                  ),
-                  _infoCard(
-                    icon: Icons.description,
-                    title: "Descripción",
-                    content: descripcion.isNotEmpty ? descripcion : "N/A",
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      TextButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: const Text("Cancelar"),
-                      ),
-                      const SizedBox(width: 8),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                          _registrarCita();
-                        },
-                        style:
-                            ElevatedButton.styleFrom(backgroundColor: rojo),
-                        child: const Text("Confirmar"),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _infoCard(
-      {required IconData icon, required String title, required String content}) {
-    return Card(
-      color: gris,
-      margin: const EdgeInsets.symmetric(vertical: 6),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: ListTile(
-        leading: Icon(icon, color: rojo),
-        title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-        subtitle: Text(content),
-      ),
-    );
   }
 
   @override
@@ -421,6 +425,7 @@ class _CrearCitaStepperState extends State<CrearCitaStepper> {
             content: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Selector de fecha y hora
                 GestureDetector(
                   onTap: _seleccionarFecha,
                   child: Card(
@@ -429,7 +434,7 @@ class _CrearCitaStepperState extends State<CrearCitaStepper> {
                         borderRadius: BorderRadius.circular(12)),
                     elevation: 4,
                     child: Padding(
-                      padding: const EdgeInsets.all(12.0),
+                      padding: const EdgeInsets.all(16.0),
                       child: Row(
                         children: [
                           const Icon(Icons.calendar_today,
@@ -438,18 +443,35 @@ class _CrearCitaStepperState extends State<CrearCitaStepper> {
                           Expanded(
                             child: Text(
                               selectedDateTime != null
-                                  ? "📅 ${selectedDateTime!.day}/${selectedDateTime!.month}/${selectedDateTime!.year} ⏰ ${selectedDateTime!.hour}:${selectedDateTime!.minute.toString().padLeft(2, '0')}"
+                                  ? "📅 ${selectedDateTime!.day}/${selectedDateTime!.month}/${selectedDateTime!.year} "
+                                      "⏰ ${selectedDateTime!.hour}:${selectedDateTime!.minute.toString().padLeft(2, '0')}"
                                   : "Seleccionar fecha y hora",
                               style: const TextStyle(
-                                  color: blanco, fontWeight: FontWeight.bold),
+                                color: blanco, 
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
                             ),
                           ),
+                          const Icon(Icons.arrow_drop_down, color: blanco, size: 28),
                         ],
                       ),
                     ),
                   ),
                 ),
+                const SizedBox(height: 8),
+                // Botón para cambiar solo la hora
+                if (selectedDate != null)
+                  OutlinedButton.icon(
+                    onPressed: _seleccionarHoraIndividual,
+                    icon: const Icon(Icons.access_time, color: rojo),
+                    label: const Text("Cambiar hora", style: TextStyle(color: rojo)),
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(color: rojo),
+                    ),
+                  ),
                 const SizedBox(height: 20),
+                // Campo de descripción
                 TextField(
                   onChanged: (val) => descripcion = val,
                   decoration: InputDecoration(
@@ -460,6 +482,7 @@ class _CrearCitaStepperState extends State<CrearCitaStepper> {
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide.none,
                     ),
+                    contentPadding: const EdgeInsets.all(16),
                   ),
                   maxLines: 3,
                 ),
@@ -472,8 +495,6 @@ class _CrearCitaStepperState extends State<CrearCitaStepper> {
   }
 
   Widget _buildMascotasList() {
-    if (mascotas.isEmpty) return const Text("No hay mascotas disponibles");
-
     return Column(
       children: mascotas.map((m) {
         final isSelected = selectedMascotaId == m["id"].toString();
@@ -497,8 +518,9 @@ class _CrearCitaStepperState extends State<CrearCitaStepper> {
             ],
           ),
           child: ListTile(
-            title: Text(m["nombre"] ?? "Sin nombre", style: const TextStyle(color: negro)),
-            subtitle: Text("$especie - $raza", style: const TextStyle(color: negro)),
+            title: Text(m["nombre"], style: const TextStyle(color: negro)),
+            subtitle: Text("${m["especie"]} - ${m["raza"]}",
+                style: const TextStyle(color: negro)),
             onTap: () {
               setState(() {
                 selectedMascotaId = m["id"].toString();
@@ -511,6 +533,13 @@ class _CrearCitaStepperState extends State<CrearCitaStepper> {
   }
 
   Widget _buildServiciosList() {
+    if (servicios.isEmpty) {
+      return const Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Text("No se encontraron servicios", textAlign: TextAlign.center),
+      );
+    }
+
     return Column(
       children: servicios.map((s) {
         final isSelected = selectedServicioId == s["id"].toString();
@@ -531,7 +560,10 @@ class _CrearCitaStepperState extends State<CrearCitaStepper> {
             ],
           ),
           child: ListTile(
-            title: Text(s["servicio"], style: const TextStyle(color: negro)),
+            title: Text(
+              s["servicio"] ?? "Sin nombre", 
+              style: const TextStyle(color: negro)
+            ),
             onTap: () {
               setState(() {
                 selectedServicioId = s["id"].toString();
@@ -544,6 +576,13 @@ class _CrearCitaStepperState extends State<CrearCitaStepper> {
   }
 
   Widget _buildVeterinariosList() {
+    if (veterinarios.isEmpty) {
+      return const Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Text("No se encontraron veterinarios", textAlign: TextAlign.center),
+      );
+    }
+
     return Column(
       children: veterinarios.map((v) {
         final isSelected = selectedVeterinarioId == v["id"].toString();
@@ -572,13 +611,15 @@ class _CrearCitaStepperState extends State<CrearCitaStepper> {
                       width: 40,
                       height: 40,
                       fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return const Icon(Icons.person, color: negro);
+                      },
                     ),
                   )
                 : const Icon(Icons.person, color: negro),
-            title: Text(v["nombre_completo"] ?? "N/A",
-                style: const TextStyle(color: negro)),
+            title: Text(v["nombre_completo"], style: const TextStyle(color: negro)),
             subtitle: Text(
-              "${v["estudios_especialidad"] ?? ''} • ${v["anios_experiencia"] ?? 0} años",
+              "${v["estudios_especialidad"]} • ${v["anios_experiencia"]} años",
               style: const TextStyle(color: negro),
             ),
             onTap: () {
@@ -592,3 +633,4 @@ class _CrearCitaStepperState extends State<CrearCitaStepper> {
     );
   }
 }
+
