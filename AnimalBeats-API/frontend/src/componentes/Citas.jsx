@@ -3,6 +3,7 @@ import axios from "axios";
 import OffcanvasMenu from "./menu";
 import "../css/Citas_Mascotas.css";
 import { UserContext } from "../context/UserContext";
+import Swal from "sweetalert2";
 
 const GestionCitasUnique = () => {
   const [citas, setCitas] = useState([]);
@@ -20,13 +21,16 @@ const GestionCitasUnique = () => {
     estado: "Pendiente",
   });
   const [fechaMinima, setFechaMinima] = useState("");
-  const [pestañaActiva, setPestañaActiva] = useState("Pendiente"); // Controla la pestaña
+  const [pestañaActiva, setPestañaActiva] = useState("Pendiente");
+  const [todasMascotas, setTodasMascotas] = useState([]); // Guardar todas las mascotas
 
   const API_URL = "https://animalbeats-api.onrender.com";
   const { User } = useContext(UserContext);
 
-  const documentoUsuario = User?.n_documento || JSON.parse(localStorage.getItem("user") || "{}").n_documento;
-  const rolActual = User?.rol || JSON.parse(localStorage.getItem("user") || "{}").rol;
+  const documentoUsuario =
+    User?.n_documento || JSON.parse(localStorage.getItem("user") || "{}").n_documento;
+  const rolActual =
+    User?.rol || JSON.parse(localStorage.getItem("user") || "{}").rol;
 
   useEffect(() => {
     const ahora = new Date();
@@ -58,11 +62,13 @@ const GestionCitasUnique = () => {
   const fetchMascotas = async () => {
     try {
       const res = await axios.get(`${API_URL}/mascotas`);
-      let mascotasData = res.data || [];
+      const mascotasData = res.data || [];
+      setTodasMascotas(mascotasData); // Guardamos todas
       if (rolActual === 2) {
-        mascotasData = mascotasData.filter(m => String(m.id_cliente) === String(documentoUsuario));
+        setMascotas(mascotasData.filter(m => String(m.id_cliente) === String(documentoUsuario)));
+      } else {
+        setMascotas(mascotasData); // Inicialmente todas para admin/vet
       }
-      setMascotas(mascotasData);
     } catch {
       setMascotas([]);
     }
@@ -95,42 +101,72 @@ const GestionCitasUnique = () => {
     }
   };
 
+  // --- CREAR CITA ---
   const crearCita = async () => {
     try {
-      await axios.post(`${API_URL}/Citas/Crear`, nuevaCita);
-      alert("✅ Cita creada correctamente");
+      await axios.post(`${API_URL}/Citas/Registrar`, nuevaCita);
+      Swal.fire("✅ Éxito", "Cita creada correctamente", "success");
       fetchCitas();
       resetFormulario();
     } catch {
-      alert("❌ No se pudo crear la cita.");
+      Swal.fire("❌ Error", "No se pudo crear la cita", "error");
     }
   };
 
   const crearCitaConEstado = async (cita) => {
     try {
-      await axios.post(`${API_URL}/Citas/Crear`, cita);
-      alert("✅ Cita solicitada correctamente");
+      await axios.post(`${API_URL}/Citas/Registrar`, cita);
+      Swal.fire("✅ Éxito", "Cita solicitada correctamente", "success");
       fetchCitas();
       resetFormulario();
     } catch {
-      alert("❌ No se pudo solicitar la cita.");
+      Swal.fire("❌ Error", "No se pudo solicitar la cita", "error");
     }
   };
 
+  // --- CAMBIAR ESTADO CON CONFIRMACIÓN ---
   const cambiarEstado = async (id, accion) => {
-    try {
-      await axios.put(`${API_URL}/Citas/${accion}/${id}`);
-      fetchCitas();
-    } catch {
-      alert(`❌ No se pudo ${accion} la cita.`);
+    let confirmText = "";
+    let nuevoEstado = "";
+
+    if (accion === "Cancelar") {
+      confirmText = "¿Está seguro de cancelar esta cita?";
+      nuevoEstado = "Cancelado";
+    } else if (accion === "Confirmar") {
+      confirmText = "¿Desea confirmar esta cita y pasarla a Pendiente?";
+      nuevoEstado = "Pendiente";
+    } else return;
+
+    const result = await Swal.fire({
+      title: "Confirmación",
+      text: confirmText,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí",
+      cancelButtonText: "No",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await axios.put(`${API_URL}/Citas/Actualizar/${id}`, { estado: nuevoEstado });
+        Swal.fire("✅ Éxito", `Cita ${accion === "Confirmar" ? "confirmada" : "cancelada"} correctamente`, "success");
+        fetchCitas();
+      } catch {
+        Swal.fire("❌ Error", `No se pudo ${accion === "Confirmar" ? "confirmar" : "cancelar"} la cita`, "error");
+      }
     }
   };
 
   const handleClienteChange = (e) => {
     const clienteId = e.target.value;
     setNuevaCita({ ...nuevaCita, id_cliente: clienteId, id_mascota: "" });
+
     if (rolActual !== 2) {
-      setMascotas(mascotas.filter((m) => String(m.id_cliente) === String(clienteId)));
+      // Filtramos las mascotas según el cliente seleccionado
+      const mascotasFiltradas = todasMascotas.filter(
+        (m) => String(m.id_cliente) === String(clienteId)
+      );
+      setMascotas(mascotasFiltradas);
     }
   };
 
@@ -144,6 +180,8 @@ const GestionCitasUnique = () => {
       descripcion: "",
       estado: "Pendiente",
     });
+
+    if (rolActual !== 2) setMascotas(todasMascotas); // Restaurar todas las mascotas para admin/vet
   };
 
   const citasFiltradas = citas.filter((c) => {
@@ -154,7 +192,6 @@ const GestionCitasUnique = () => {
     return true;
   });
 
-  // Filtrar por pestaña
   const citasPorPestaña = citasFiltradas.filter((c) => {
     if (pestañaActiva === "Pendiente") return c.estado === "Pendiente";
     if (pestañaActiva === "Solicitud") return c.estado === "Solicitud";
@@ -218,17 +255,30 @@ const GestionCitasUnique = () => {
 
         <div className="citas-form-group">
           <label>Fecha</label>
-          <input type="datetime-local" value={nuevaCita.fecha} onChange={(e) => setNuevaCita({ ...nuevaCita, fecha: e.target.value })} min={fechaMinima}/>
+          <input
+            type="datetime-local"
+            value={nuevaCita.fecha}
+            onChange={(e) => setNuevaCita({ ...nuevaCita, fecha: e.target.value })}
+            min={fechaMinima}
+          />
         </div>
 
         <div className="citas-form-group citas-textarea">
           <label>Descripción</label>
-          <textarea value={nuevaCita.descripcion} onChange={(e) => setNuevaCita({ ...nuevaCita, descripcion: e.target.value })}/>
+          <textarea
+            value={nuevaCita.descripcion}
+            onChange={(e) => setNuevaCita({ ...nuevaCita, descripcion: e.target.value })}
+          />
         </div>
 
         {rolActual === 2 ? (
           <div className="citas-actions">
-            <button type="button" onClick={() => crearCitaConEstado({ ...nuevaCita, id_cliente: documentoUsuario, estado: "Solicitud" })}>
+            <button
+              type="button"
+              onClick={() =>
+                crearCitaConEstado({ ...nuevaCita, id_cliente: documentoUsuario, estado: "Solicitud" })
+              }
+            >
               Solicitar Cita
             </button>
             <button type="reset" onClick={resetFormulario}>Cancelar</button>
@@ -264,8 +314,12 @@ const GestionCitasUnique = () => {
               </div>
               {rolActual !== 2 && (
                 <div className="citas-card-actions">
-                  {c.estado === "Pendiente" && rolActual === 1 && <button className="delete" onClick={() => cambiarEstado(c.id, "Cancelar")}>Eliminar</button>}
-                  {c.estado === "Solicitud" && (rolActual === 1 || rolActual === 3) && <button className="confirm" onClick={() => cambiarEstado(c.id, "Confirmar")}>Confirmar</button>}
+                  {c.estado === "Pendiente" && rolActual === 1 && (
+                    <button className="delete" onClick={() => cambiarEstado(c.id, "Cancelar")}>Eliminar</button>
+                  )}
+                  {c.estado === "Solicitud" && (rolActual === 1 || rolActual === 3) && (
+                    <button className="confirm" onClick={() => cambiarEstado(c.id, "Confirmar")}>Confirmar</button>
+                  )}
                 </div>
               )}
             </div>
