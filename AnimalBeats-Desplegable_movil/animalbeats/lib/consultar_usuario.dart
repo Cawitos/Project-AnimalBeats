@@ -93,8 +93,8 @@ class _ConsultarUsuarioPageState extends State<ConsultarUsuarioPage> {
           pw.Divider(),
           pw.SizedBox(height: 20),
           pw.Text("Información del Usuario",
-              style: pw.TextStyle(
-                  fontSize: 14, fontWeight: pw.FontWeight.bold)),
+              style:
+                  pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold)),
           pw.SizedBox(height: 10),
           pw.Table.fromTextArray(
             border: pw.TableBorder.all(color: PdfColors.red, width: 1),
@@ -105,7 +105,10 @@ class _ConsultarUsuarioPageState extends State<ConsultarUsuarioPage> {
             headers: ["Campo", "Valor"],
             data: [
               ["Nombre", usuario["nombre"] ?? "-"],
-              ["Documento", "${usuario["tipo_documento"]} - ${usuario["n_documento"]}"],
+              [
+                "Documento",
+                "${usuario["tipo_documento"]} - ${usuario["n_documento"]}"
+              ],
               ["Correo", usuario["correoelectronico"] ?? "-"],
             ],
           ),
@@ -140,7 +143,10 @@ class _ConsultarUsuarioPageState extends State<ConsultarUsuarioPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Usuario ${usuario!["n_documento"]}"),
+        title: Text(
+          "Usuario ${usuario!["n_documento"]}",
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: Colors.red,
       ),
       body: Padding(
@@ -191,8 +197,8 @@ class _ConsultarUsuarioPageState extends State<ConsultarUsuarioPage> {
                     final data = jsonDecode(response.body);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                          content: Text(
-                              data["mensaje"] ?? "Usuario en pendiente")),
+                          content:
+                              Text(data["mensaje"] ?? "Usuario en pendiente")),
                     );
                     Navigator.pop(context, true);
                   } else {

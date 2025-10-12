@@ -31,7 +31,8 @@ class _EstadisticasPageState extends State<EstadisticasPage> {
       final dashResponse = await http.get(Uri.parse("$apiUrl/admin/dashboard"));
       final rolesResponse = await http.get(Uri.parse("$apiUrl/roles/Listado"));
       final mascotasResponse = await http.get(Uri.parse("$apiUrl/Mascotas"));
-      final recordatoriosResponse = await http.get(Uri.parse("$apiUrl/recordatorios"));
+      final recordatoriosResponse =
+          await http.get(Uri.parse("$apiUrl/recordatorios"));
 
       if (dashResponse.statusCode == 200 &&
           rolesResponse.statusCode == 200 &&
@@ -88,7 +89,10 @@ class _EstadisticasPageState extends State<EstadisticasPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Estadísticas"),
+        title: const Text(
+          "Estadísticas",
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: Colors.red,
       ),
       body: ListView(
@@ -129,8 +133,8 @@ class _EstadisticasPageState extends State<EstadisticasPage> {
                             fontSize: 22, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 10),
                     ...roles.map((rol) => ListTile(
-                          leading: const Icon(Icons.check_circle,
-                              color: Colors.red),
+                          leading:
+                              const Icon(Icons.check_circle, color: Colors.red),
                           title: Text("ID: ${rol["id"]}"),
                           subtitle: Text("Rol: ${rol["rol"]}"),
                         )),
@@ -149,8 +153,7 @@ class _EstadisticasPageState extends State<EstadisticasPage> {
             child: ListTile(
               leading: const Icon(Icons.pets, color: Colors.red),
               title: const Text("Total de Mascotas"),
-              subtitle:
-                  Text("Recordatorios asignados: $_totalRecordatorios"),
+              subtitle: Text("Recordatorios asignados: $_totalRecordatorios"),
               trailing: Text(
                 "$_totalMascotas",
                 style:

@@ -59,7 +59,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
     if (error != null) {
       return Scaffold(
-        appBar: AppBar(title: const Text("Dashboard Admin")),
+        appBar: AppBar(
+          title: const Text("Dashboard Admin"),
+        ),
         body: Center(
           child: Text(
             error!,
@@ -71,7 +73,10 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Dashboard Admin"),
+        title: const Text(
+          "Dashboard Admin",
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: Colors.red,
       ),
       drawer: OffcanvasMenu(userRole: userRole),
@@ -122,7 +127,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const EstadisticasPage()),
+                MaterialPageRoute(
+                    builder: (context) => const EstadisticasPage()),
               );
             },
           ),

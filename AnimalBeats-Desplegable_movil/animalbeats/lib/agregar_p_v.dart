@@ -36,8 +36,7 @@ class _AgregarVeterinarioPageState extends State<AgregarVeterinarioPage> {
   Future<void> _guardarVeterinario() async {
     if (!_formKey.currentState!.validate()) return;
 
-    final uri = Uri.parse(
-        "https://animalbeats-api.onrender.com/veterinarios");
+    final uri = Uri.parse("https://animalbeats-api.onrender.com/veterinarios");
 
     var request = http.MultipartRequest('POST', uri);
 
@@ -84,42 +83,45 @@ class _AgregarVeterinarioPageState extends State<AgregarVeterinarioPage> {
     }
   }
 
- Widget _mostrarImagen() {
-  if (imagenSeleccionada == null) {
-    return const SizedBox.shrink();
-  }
+  Widget _mostrarImagen() {
+    if (imagenSeleccionada == null) {
+      return const SizedBox.shrink();
+    }
 
-  if (kIsWeb) {
-    return FutureBuilder(
-      future: imagenSeleccionada!.readAsBytes(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done &&
-            snapshot.hasData) {
-          return Image.memory(
-            snapshot.data!,
-            height: 150,
-            fit: BoxFit.cover,
-          );
-        } else {
-          return const CircularProgressIndicator();
-        }
-      },
-    );
-  } else {
-    return Image.file(
-      File(imagenSeleccionada!.path),
-      height: 150,
-      fit: BoxFit.cover,
-    );
+    if (kIsWeb) {
+      return FutureBuilder(
+        future: imagenSeleccionada!.readAsBytes(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.hasData) {
+            return Image.memory(
+              snapshot.data!,
+              height: 150,
+              fit: BoxFit.cover,
+            );
+          } else {
+            return const CircularProgressIndicator();
+          }
+        },
+      );
+    } else {
+      return Image.file(
+        File(imagenSeleccionada!.path),
+        height: 150,
+        fit: BoxFit.cover,
+      );
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Agregar Veterinario"),
-        backgroundColor: Colors.red, 
+        title: const Text(
+          "Agregar Veterinario",
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.red,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -165,8 +167,8 @@ class _AgregarVeterinarioPageState extends State<AgregarVeterinarioPage> {
               _mostrarImagen(),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red, 
-                  foregroundColor: Colors.white, 
+                  backgroundColor: Colors.red,
+                  foregroundColor: Colors.white,
                 ),
                 onPressed: _seleccionarImagen,
                 child: const Text("Seleccionar Imagen"),
@@ -174,8 +176,8 @@ class _AgregarVeterinarioPageState extends State<AgregarVeterinarioPage> {
               const SizedBox(height: 20),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red, 
-                  foregroundColor: Colors.white, 
+                  backgroundColor: Colors.red,
+                  foregroundColor: Colors.white,
                 ),
                 onPressed: _guardarVeterinario,
                 child: const Text("Guardar"),

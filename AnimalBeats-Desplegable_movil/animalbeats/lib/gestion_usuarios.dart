@@ -143,7 +143,10 @@ class _GestionUsuariosPageState extends State<GestionUsuariosPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Gestión de Usuarios"),
+        title: const Text(
+          "Gestión de Usuarios",
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: Colors.red,
       ),
       body: usuarios.isEmpty
@@ -234,7 +237,10 @@ class _GestionUsuariosPageState extends State<GestionUsuariosPage> {
             _fetchUsuarios(); // 👈 refresca la lista al volver
           }
         },
-        child: const Icon(Icons.person_add),
+        child: const Icon(
+          Icons.person_add,
+          color: Colors.white,
+        ),
       ),
     );
   }

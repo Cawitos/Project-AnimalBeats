@@ -117,7 +117,10 @@ class _CrearUsuarioPageState extends State<CrearUsuarioPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Crear Usuario"),
+        title: const Text(
+          "Crear Usuario",
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: Colors.red,
       ),
       body: Padding(

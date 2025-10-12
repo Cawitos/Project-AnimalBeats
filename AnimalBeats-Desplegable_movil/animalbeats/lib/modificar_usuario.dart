@@ -115,7 +115,10 @@ class _ModificarUsuarioPageState extends State<ModificarUsuarioPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Modificar Usuario"),
+        title: const Text(
+          "Modificar Usuario",
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: Colors.red,
       ),
       body: Padding(

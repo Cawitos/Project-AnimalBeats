@@ -14,8 +14,7 @@ class _VeterinariosPageState extends State<VeterinariosPage> {
   bool mostrarAviso = true;
   List<dynamic> veterinarios = [];
 
-  final String baseUrl =
-      "https://animalbeats-api.onrender.com";
+  final String baseUrl = "https://animalbeats-api.onrender.com";
 
   @override
   void initState() {
@@ -32,7 +31,8 @@ class _VeterinariosPageState extends State<VeterinariosPage> {
           veterinarios = json.decode(response.body);
         });
       } else {
-        print("❌ Error al cargar veterinarios: ${response.statusCode} - ${response.body}");
+        print(
+            "❌ Error al cargar veterinarios: ${response.statusCode} - ${response.body}");
       }
     } catch (e) {
       print("🔥 Excepción cargando veterinarios: $e");
@@ -41,7 +41,8 @@ class _VeterinariosPageState extends State<VeterinariosPage> {
 
   Future<void> _eliminarVeterinario(int id) async {
     try {
-      final response = await http.delete(Uri.parse("$baseUrl/veterinarios/$id"));
+      final response =
+          await http.delete(Uri.parse("$baseUrl/veterinarios/$id"));
 
       if (response.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -65,7 +66,10 @@ class _VeterinariosPageState extends State<VeterinariosPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Veterinarios"),
+        title: const Text(
+          "Veterinarios",
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: Colors.red,
       ),
       body: mostrarAviso ? _buildAviso() : _buildListaVeterinarios(),

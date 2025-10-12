@@ -78,7 +78,10 @@ class _EstadoRolesPageState extends State<EstadoRolesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Gestión de Roles"),
+        title: const Text(
+          "Gestión de Roles",
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: Colors.red,
       ),
       body: Padding(
@@ -122,7 +125,10 @@ class _EstadoRolesPageState extends State<EstadoRolesPage> {
                 ElevatedButton(
                   onPressed: _agregarRol,
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                  child: const Text("Agregar"),
+                  child: const Text(
+                    "Agregar",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ],
             ),
