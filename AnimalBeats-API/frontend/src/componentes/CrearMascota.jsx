@@ -235,13 +235,14 @@ const CrearMascota = () => {
 
             <div className="crear-mascota-mb-3">
               <label htmlFor="n_documento" className="crear-mascota-form-label">
-                Dueño a Asignar:
+                Tutor a Asignar:
               </label>
               <input
                 type="text"
                 className="crear-mascota-form-control"
                 id="n_documento"
                 name="n_documento"
+                placeholder="Número de documento del tutor"
                 value={formData.n_documento}
                 onChange={handleChange}
                 required
