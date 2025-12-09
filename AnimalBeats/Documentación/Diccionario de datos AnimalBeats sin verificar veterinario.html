@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="author" content="WB DataDic" />
-    <meta name="description" content="mydb Data Dictionary." />
-    <title>mydb Data Dictionary</title>
+    <meta name="description" content="animalbeats Data Dictionary." />
+    <title>animalbeats Data Dictionary</title>
     <style type="text/css">
     table{
         width: 100%;
@@ -51,9 +51,9 @@
 </head>
 <body>
 <div id="title-sect">
-<h1>mydb<br> Data Dictionay</h1>
+<h1>animalbeats<br> Data Dictionay</h1>
 <p>
-<em>2024-12-11</em>
+<em>2025-11-26</em>
 </p>
 <p class="proj-desc">
 <em></em>
@@ -61,22 +61,20 @@
 </div>
 <h2>Alphabetic Index</h2>
 <ul>
-<li><a href='#Administrador'>Administrador</a></li>
-<li><a href='#Citas'>Citas</a></li>
-<li><a href='#Cliente'>Cliente</a></li>
-<li><a href='#Colsultas'>Colsultas</a></li>
-<li><a href='#Enfermedades'>Enfermedades</a></li>
-<li><a href='#Gestion de uruarios'>Gestion de uruarios</a></li>
-<li><a href='#Historial M�dico'>Historial M�dico</a></li>
-<li><a href='#Mascotas'>Mascotas</a></li>
-<li><a href='#Reportes'>Reportes</a></li>
-<li><a href='#Roles'>Roles</a></li>
-<li><a href='#Servicios'>Servicios</a></li>
-<li><a href='#Usuarios'>Usuarios</a></li>
-<li><a href='#Veterinario'>Veterinario</a></li>
+<li><a href='#citas'>citas</a></li>
+<li><a href='#documento'>documento</a></li>
+<li><a href='#enfermedad'>enfermedad</a></li>
+<li><a href='#especie'>especie</a></li>
+<li><a href='#mascota'>mascota</a></li>
+<li><a href='#raza'>raza</a></li>
+<li><a href='#recordatorios'>recordatorios</a></li>
+<li><a href='#rol'>rol</a></li>
+<li><a href='#servicios'>servicios</a></li>
+<li><a href='#usuarios'>usuarios</a></li>
+<li><a href='#veterinarios'>veterinarios</a></li>
 </ul>
-<table id='Administrador'>
-<caption>Administrador</caption>
+<table id='citas'>
+<caption>citas</caption>
 <tr><td colspan='11'></td></tr>
 <tr>
     <th>Column name</th>
@@ -92,7 +90,7 @@
     <th>Comment</th>
 </tr>
 <tr>
-    <td>idAdministrador</td>
+    <td>id</td>
     <td>INT</td>
     <td>&#10004;</td>
     <td>&#10004;</td>
@@ -100,38 +98,12 @@
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se registra el id del administrador</td>
-</tr>
-<tr>
-    <td>Administradorcol</td>
-    <td>VARCHAR(45)</td>
-    <td>&nbsp;</td>
     <td>&#10004;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
     <td></td>
-    <td>Se registra nombre del administrador</td>
+    <td>Identificador único de la cita.</td>
 </tr>
 <tr>
-    <td>Administradorcol1</td>
-    <td>VARCHAR(45)</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se registra apellido del admnistrador</td>
-</tr>
-<tr>
-    <td>Roles_idRoles</td>
+    <td>id_mascota</td>
     <td>INT</td>
     <td>&nbsp;</td>
     <td>&#10004;</td>
@@ -141,10 +113,88 @@
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
     <td></td>
-    <td>Se selecciona el rol a ejecutar</td>
+    <td>Mascota que recibe la atención. FK de mascota(id).</td>
 </tr>
-<table id='Citas'>
-<caption>Citas</caption>
+<tr>
+    <td>id_cliente</td>
+    <td>VARCHAR(10)</td>
+    <td>&nbsp;</td>
+    <td>&#10004;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td class='attr'>&nbsp;</td>
+    <td></td>
+    <td>Cliente que solicita la cita. FK de usuarios(n_documento).</td>
+</tr>
+<tr>
+    <td>id_servicio</td>
+    <td>INT</td>
+    <td>&nbsp;</td>
+    <td>&#10004;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td class='attr'>&nbsp;</td>
+    <td></td>
+    <td>Tipo de servicio requerido para la cita. FK de servicios(id)</td>
+</tr>
+<tr>
+    <td>id_veterinario</td>
+    <td>INT</td>
+    <td>&nbsp;</td>
+    <td>&#10004;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td class='attr'>&nbsp;</td>
+    <td></td>
+    <td>Veterinario asignado a la cita. FK de veterinarios(id)</td>
+</tr>
+<tr>
+    <td>fecha</td>
+    <td>TIMESTAMP</td>
+    <td>&nbsp;</td>
+    <td>&#10004;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td class='attr'>&nbsp;</td>
+    <td></td>
+    <td>Fecha y hora programada para la cita.</td>
+</tr>
+<tr>
+    <td>descripcion</td>
+    <td>VARCHAR(255)</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td class='attr'>&nbsp;</td>
+    <td>NULL</td>
+    <td>Descripción o notas adicionales de la cita.</td>
+</tr>
+<tr>
+    <td>estado</td>
+    <td>VARCHAR(100)</td>
+    <td>&nbsp;</td>
+    <td>&#10004;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td class='attr'>&nbsp;</td>
+    <td></td>
+    <td>Estado actual (pendiente, completada, cancelada).</td>
+</tr>
+<table id='documento'>
+<caption>documento</caption>
 <tr><td colspan='11'></td></tr>
 <tr>
     <th>Column name</th>
@@ -160,7 +210,7 @@
     <th>Comment</th>
 </tr>
 <tr>
-    <td>idCitas</td>
+    <td>id</td>
     <td>INT</td>
     <td>&#10004;</td>
     <td>&#10004;</td>
@@ -168,103 +218,25 @@
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
+    <td>&#10004;</td>
     <td></td>
-    <td>Se establece un codigo para las citas</td>
+    <td>Identificador único del documento.</td>
 </tr>
 <tr>
-    <td>Crear cita</td>
-    <td>DATETIME</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
+    <td>tipo</td>
+    <td>VARCHAR(100)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se genera una nueva cita</td>
-</tr>
-<tr>
-    <td>Usuarios_idUsuarios1</td>
-    <td>INT</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se obtiene el id del usuario con la cita asignada</td>
+    <td>NULL</td>
+    <td>Tipo de documento (CC, CE, TI, Pasaporte, etc).</td>
 </tr>
-<tr>
-    <td>Estado (Pendiente, Completado, Cancelado)</td>
-    <td>VARCHAR(45)</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se registra el estado en el que esta la cita</td>
-</tr>
-<tr>
-    <td>Mascotas_idmascotas</td>
-    <td>INT</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se obtiene el codigo de la mascota</td>
-</tr>
-<tr>
-    <td>Servicios_idServicios</td>
-    <td>INT</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se obtiene el codigo del servicio seleccionado por la cita</td>
-</tr>
-<tr>
-    <td>Colsultas_idColsultas</td>
-    <td>INT</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se obtiene la cita mediante el codigo</td>
-</tr>
-<tr>
-    <td>Cliente_idCliente</td>
-    <td>INT</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se obtiene el codigo del cliente</td>
-</tr>
-<table id='Cliente'>
-<caption>Cliente</caption>
+<table id='enfermedad'>
+<caption>enfermedad</caption>
 <tr><td colspan='11'></td></tr>
 <tr>
     <th>Column name</th>
@@ -280,7 +252,7 @@
     <th>Comment</th>
 </tr>
 <tr>
-    <td>idCliente</td>
+    <td>id</td>
     <td>INT</td>
     <td>&#10004;</td>
     <td>&#10004;</td>
@@ -288,13 +260,13 @@
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
+    <td>&#10004;</td>
     <td></td>
-    <td>Se registra el codigo del cliente</td>
+    <td>Identificador único de la enfermedad.</td>
 </tr>
 <tr>
-    <td>Roles_idRoles</td>
-    <td>INT</td>
+    <td>nombre</td>
+    <td>VARCHAR(60)</td>
     <td>&nbsp;</td>
     <td>&#10004;</td>
     <td>&nbsp;</td>
@@ -303,23 +275,23 @@
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
     <td></td>
-    <td>Se obtiene el codigo del rol asignado</td>
+    <td>Nombre de la enfermedad registrada.</td>
 </tr>
 <tr>
-    <td>Servicios_idServicios</td>
-    <td>INT</td>
+    <td>descripcion</td>
+    <td>TEXT</td>
     <td>&nbsp;</td>
-    <td>&#10004;</td>
+    <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se obtiene el codigo del servicio</td>
+    <td>NULL</td>
+    <td>Detalles o síntomas relacionados con la enfermedad.</td>
 </tr>
-<table id='Colsultas'>
-<caption>Colsultas</caption>
+<table id='especie'>
+<caption>especie</caption>
 <tr><td colspan='11'></td></tr>
 <tr>
     <th>Column name</th>
@@ -335,7 +307,7 @@
     <th>Comment</th>
 </tr>
 <tr>
-    <td>idColsultas</td>
+    <td>id</td>
     <td>INT</td>
     <td>&#10004;</td>
     <td>&#10004;</td>
@@ -343,77 +315,38 @@
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
+    <td>&#10004;</td>
     <td></td>
-    <td>Se registra el codigo de la consulta</td>
+    <td>Identificador único de la especie.</td>
 </tr>
 <tr>
-    <td>Especie</td>
-    <td>VARCHAR(45)</td>
+    <td>especie</td>
+    <td>VARCHAR(50)</td>
     <td>&nbsp;</td>
-    <td>&#10004;</td>
+    <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se asigna el nombre de la especie</td>
+    <td>NULL</td>
+    <td>Nombre de la especie (perro, gato, ave, etc).</td>
 </tr>
 <tr>
-    <td>Citas</td>
-    <td>VARCHAR(45)</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
+    <td>imagen</td>
+    <td>VARCHAR(300)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se asigna el tipo de cita</td>
-</tr>
-<tr>
-    <td>Enfermedades</td>
-    <td>VARCHAR(45)</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se asigna el nombre de la enfermedad</td>
+    <td>NULL</td>
+    <td>URL de la imagen representativa de la especie.</td>
 </tr>
-<tr>
-    <td>Mascotas_idmascotas</td>
-    <td>INT</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se obtiene el codigo asignado por la mascota</td>
-</tr>
-<tr>
-    <td>Servicios_idServicios</td>
-    <td>INT</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se obtiene el codigo de servicios</td>
-</tr>
-<table id='Enfermedades'>
-<caption>Enfermedades</caption>
+<table id='mascota'>
+<caption>mascota</caption>
 <tr><td colspan='11'></td></tr>
 <tr>
     <th>Column name</th>
@@ -429,7 +362,7 @@
     <th>Comment</th>
 </tr>
 <tr>
-    <td>idEnfermedades</td>
+    <td>id</td>
     <td>INT</td>
     <td>&#10004;</td>
     <td>&#10004;</td>
@@ -437,12 +370,12 @@
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
+    <td>&#10004;</td>
     <td></td>
-    <td>Se asigna el codigo de la enfermedad</td>
+    <td>Identificador único de la mascota.</td>
 </tr>
 <tr>
-    <td>Nombre_enfermedad</td>
+    <td>nombre</td>
     <td>VARCHAR(45)</td>
     <td>&nbsp;</td>
     <td>&#10004;</td>
@@ -452,49 +385,10 @@
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
     <td></td>
-    <td>Se asigna el nombre de la enfermedad</td>
+    <td>Nombre de la mascota.</td>
 </tr>
 <tr>
-    <td>fecha_tratamiento</td>
-    <td>DATETIME</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se selecciona la fecha de la cita</td>
-</tr>
-<tr>
-    <td>detalles</td>
-    <td>VARCHAR(45)</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se almacena la razon de la cita</td>
-</tr>
-<tr>
-    <td>Consultas_idColsultas</td>
-    <td>INT</td>
-    <td>&#10004;</td>
-    <td>&#10004;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se obtiene el codigo de la consulta</td>
-</tr>
-<tr>
-    <td>Citas_idCitas</td>
+    <td>id_especie</td>
     <td>INT</td>
     <td>&nbsp;</td>
     <td>&#10004;</td>
@@ -504,10 +398,23 @@
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
     <td></td>
-    <td>Se obtiene el codigo de la cita</td>
+    <td>Especie a la que pertenece la mascota. FK de especie(id).</td>
 </tr>
 <tr>
-    <td>Mascotas_idmascotas</td>
+    <td>id_cliente</td>
+    <td>VARCHAR(10)</td>
+    <td>&nbsp;</td>
+    <td>&#10004;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td class='attr'>&nbsp;</td>
+    <td></td>
+    <td>Propietario de la mascota. FK de usuarios(n_documento).</td>
+</tr>
+<tr>
+    <td>id_raza</td>
     <td>INT</td>
     <td>&nbsp;</td>
     <td>&#10004;</td>
@@ -517,10 +424,36 @@
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
     <td></td>
-    <td>Se obtiene el codigo de la mascota</td>
+    <td>Raza de la mascota. FK de raza(id).</td>
 </tr>
-<table id='Gestion de uruarios'>
-<caption>Gestion de uruarios</caption>
+<tr>
+    <td>estado</td>
+    <td>VARCHAR(100)</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td class='attr'>&nbsp;</td>
+    <td>NULL</td>
+    <td>Estado actual (activo, fallecido, adoptado, etc).</td>
+</tr>
+<tr>
+    <td>fecha_nacimiento</td>
+    <td>DATE</td>
+    <td>&nbsp;</td>
+    <td>&#10004;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td class='attr'>&nbsp;</td>
+    <td></td>
+    <td>Fecha de nacimiento de la mascota.</td>
+</tr>
+<table id='raza'>
+<caption>raza</caption>
 <tr><td colspan='11'></td></tr>
 <tr>
     <th>Column name</th>
@@ -536,7 +469,7 @@
     <th>Comment</th>
 </tr>
 <tr>
-    <td>idGestion de usuarios</td>
+    <td>id</td>
     <td>INT</td>
     <td>&#10004;</td>
     <td>&#10004;</td>
@@ -544,77 +477,64 @@
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se asigna el codigo de usuarios</td>
-</tr>
-<tr>
-    <td>Codigo</td>
-    <td>VARCHAR(45)</td>
-    <td>&nbsp;</td>
     <td>&#10004;</td>
+    <td></td>
+    <td>Identificador unico de la raza.</td>
+</tr>
+<tr>
+    <td>raza</td>
+    <td>VARCHAR(50)</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se asigna el codigo para los usuarios</td>
+    <td>NULL</td>
+    <td>Nombre de la raza.</td>
 </tr>
 <tr>
-    <td>Nombre</td>
-    <td>VARCHAR(45)</td>
+    <td>descripcion</td>
+    <td>TEXT</td>
     <td>&nbsp;</td>
-    <td>&#10004;</td>
+    <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se asigna el nombre de usuario</td>
+    <td>NULL</td>
+    <td>Descripción o características de la raza.</td>
 </tr>
 <tr>
-    <td>Apellido</td>
-    <td>VARCHAR(45)</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se asigna el apellido de usuario</td>
-</tr>
-<tr>
-    <td>Direcci�n</td>
-    <td>VARCHAR(45)</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se asigna la direccion del usuario</td>
-</tr>
-<tr>
-    <td>Usuarios_idUsuarios</td>
+    <td>id_especie</td>
     <td>INT</td>
     <td>&nbsp;</td>
-    <td>&#10004;</td>
+    <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se obtiene el codigo generado del usuario</td>
+    <td>NULL</td>
+    <td>Especie a la que pertenece la raza. FK de especie(id).</td>
 </tr>
-<table id='Historia clinica veterinaria'>
-<caption>Historial M�dico</caption>
+<tr>
+    <td>imagen</td>
+    <td>VARCHAR(300)</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td class='attr'>&nbsp;</td>
+    <td>NULL</td>
+    <td>Imagen ilustrativa de la raza.</td>
+</tr>
+<table id='recordatorios'>
+<caption>recordatorios</caption>
 <tr><td colspan='11'></td></tr>
 <tr>
     <th>Column name</th>
@@ -630,7 +550,7 @@
     <th>Comment</th>
 </tr>
 <tr>
-    <td>idHistoria_clinica</td>
+    <td>id</td>
     <td>INT</td>
     <td>&#10004;</td>
     <td>&#10004;</td>
@@ -638,13 +558,13 @@
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
+    <td>&#10004;</td>
     <td></td>
-    <td>Se asigna el codigo de la historia clinica</td>
+    <td>Identificiador unico del recordatorio.</td>
 </tr>
 <tr>
-    <td>Fecha</td>
-    <td>VARCHAR(45)</td>
+    <td>id_mascota</td>
+    <td>INT</td>
     <td>&nbsp;</td>
     <td>&#10004;</td>
     <td>&nbsp;</td>
@@ -653,11 +573,11 @@
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
     <td></td>
-    <td>Se asigna la fecha del historia clinica</td>
+    <td>Mascota a la cual pertenece el recordatorio.</td>
 </tr>
 <tr>
-    <td>Observaciones</td>
-    <td>VARCHAR(45)</td>
+    <td>id_cliente</td>
+    <td>VARCHAR(10)</td>
     <td>&nbsp;</td>
     <td>&#10004;</td>
     <td>&nbsp;</td>
@@ -666,11 +586,11 @@
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
     <td></td>
-    <td>Se almacena las observaciones dentro de la historia</td>
+    <td>Tutor que recibira el recordatorio.</td>
 </tr>
 <tr>
-    <td>Tratamiento</td>
-    <td>VARCHAR(45)</td>
+    <td>fecha</td>
+    <td>TIMESTAMP</td>
     <td>&nbsp;</td>
     <td>&#10004;</td>
     <td>&nbsp;</td>
@@ -679,10 +599,36 @@
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
     <td></td>
-    <td>Se almacena el tratamiento dentro de la historia</td>
+    <td>Fecha del recordatorio</td>
 </tr>
-<table id='Mascotas'>
-<caption>Mascotas</caption>
+<tr>
+    <td>descripcion</td>
+    <td>TEXT</td>
+    <td>&nbsp;</td>
+    <td>&#10004;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td class='attr'>&nbsp;</td>
+    <td></td>
+    <td>Motivo del recordatorio (vacuna, control, etc.).</td>
+</tr>
+<tr>
+    <td>estado</td>
+    <td>VARCHAR(100)</td>
+    <td>&nbsp;</td>
+    <td>&#10004;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td class='attr'>&nbsp;</td>
+    <td></td>
+    <td>Estado del recordatorio.</td>
+</tr>
+<table id='rol'>
+<caption>rol</caption>
 <tr><td colspan='11'></td></tr>
 <tr>
     <th>Column name</th>
@@ -698,7 +644,7 @@
     <th>Comment</th>
 </tr>
 <tr>
-    <td>idmascotas</td>
+    <td>id</td>
     <td>INT</td>
     <td>&#10004;</td>
     <td>&#10004;</td>
@@ -706,103 +652,25 @@
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
+    <td>&#10004;</td>
     <td></td>
-    <td>Se asigna el codigo para la mascota</td>
+    <td>Identificador de rol.</td>
 </tr>
 <tr>
-    <td>Nombre</td>
-    <td>VARCHAR(45)</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
+    <td>rol</td>
+    <td>VARCHAR(100)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se asigna el nombre para la mascota</td>
-</tr>
-<tr>
-    <td>Especie</td>
-    <td>INT</td>
-    <td>&#10004;</td>
-    <td>&#10004;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td></td>
+    <td>NULL</td>
+    <td>Nombre del rol (tutor, cliente, admin, etc.).</td>
 </tr>
-<tr>
-    <td>Raza</td>
-    <td>VARCHAR(45)</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se asigna la raza para la mascota</td>
-</tr>
-<tr>
-    <td>Edad</td>
-    <td>VARCHAR(45)</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se asigna la edad para la mascota</td>
-</tr>
-<tr>
-    <td>Due�o</td>
-    <td>VARCHAR(45)</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se asigna el due�o de la mascota</td>
-</tr>
-<tr>
-    <td>Usuarios_idUsuarios</td>
-    <td>INT</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se obtiene el codigo de usuario</td>
-</tr>
-<tr>
-    <td>Historia Clinica_idHistoria Clinica</td>
-    <td>INT</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se obtiene el codigo de la historia clinica</td>
-</tr>
-<table id='Reportes'>
-<caption>Reportes</caption>
+<table id='servicios'>
+<caption>servicios</caption>
 <tr><td colspan='11'></td></tr>
 <tr>
     <th>Column name</th>
@@ -818,7 +686,7 @@
     <th>Comment</th>
 </tr>
 <tr>
-    <td>idReportes</td>
+    <td>id</td>
     <td>INT</td>
     <td>&#10004;</td>
     <td>&#10004;</td>
@@ -826,51 +694,25 @@
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
+    <td>&#10004;</td>
     <td></td>
-    <td>Se asigna el codigo de reportes</td>
+    <td>Identificador unico de servicio</td>
 </tr>
 <tr>
-    <td>Alarmas</td>
-    <td>DATETIME</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
+    <td>servicio</td>
+    <td>VARCHAR(200)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se asigna la alarma</td>
-</tr>
-<tr>
-    <td>Colsultas_idColsultas</td>
-    <td>INT</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se obtiene el codigo de consulta</td>
+    <td>NULL</td>
+    <td>Nombre de servicio (consulta, vacuna, baño, etc.).</td>
 </tr>
-<tr>
-    <td>Veterinario_idVeterinario</td>
-    <td>INT</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se obtiene el codigo de veterinario</td>
-</tr>
-<table id='Roles'>
-<caption>Roles</caption>
+<table id='usuarios'>
+<caption>usuarios</caption>
 <tr><td colspan='11'></td></tr>
 <tr>
     <th>Column name</th>
@@ -886,46 +728,98 @@
     <th>Comment</th>
 </tr>
 <tr>
-    <td>idRoles</td>
+    <td>n_documento</td>
+    <td>VARCHAR(10)</td>
+    <td>&#10004;</td>
+    <td>&#10004;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td class='attr'>&nbsp;</td>
+    <td></td>
+    <td>Identificador unico de usuario. Se usa como PK y FK en otras tablas.</td>
+</tr>
+<tr>
+    <td>nombre</td>
+    <td>VARCHAR(50)</td>
+    <td>&nbsp;</td>
+    <td>&#10004;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td class='attr'>&nbsp;</td>
+    <td></td>
+    <td>Nombre completo del usuario o tutor.</td>
+</tr>
+<tr>
+    <td>correoelectronico</td>
+    <td>VARCHAR(255)</td>
+    <td>&nbsp;</td>
+    <td>&#10004;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td class='attr'>&nbsp;</td>
+    <td></td>
+    <td>Correo electronico unico. Medio principal para login</td>
+</tr>
+<tr>
+    <td>contrasena</td>
+    <td>VARCHAR(255)</td>
+    <td>&nbsp;</td>
+    <td>&#10004;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td class='attr'>&nbsp;</td>
+    <td></td>
+    <td>Hash de la contraseña del usuario.</td>
+</tr>
+<tr>
+    <td>id_documento</td>
     <td>INT</td>
-    <td>&#10004;</td>
-    <td>&#10004;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se asigna el codigo del rol</td>
+    <td>NULL</td>
+    <td>Tipo de documento (CC, CE, TI...).</td>
 </tr>
 <tr>
-    <td>Nombre del rol (Administrador, Cliente, Veterinario)</td>
-    <td>VARCHAR(45)</td>
+    <td>id_rol</td>
+    <td>INT</td>
     <td>&nbsp;</td>
-    <td>&#10004;</td>
+    <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se selecciona el nombre del rol</td>
+    <td>NULL</td>
+    <td>Rol asignado: administrador, tutor, veterinario.</td>
 </tr>
 <tr>
-    <td>Descripci�n</td>
-    <td>VARCHAR(45)</td>
+    <td>estado</td>
+    <td>VARCHAR(100)</td>
     <td>&nbsp;</td>
-    <td>&#10004;</td>
+    <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se crea la descripcion del rol</td>
+    <td>NULL</td>
+    <td>Activo / Inactivo.</td>
 </tr>
-<table id='Servicios'>
-<caption>Servicios</caption>
+<table id='veterinarios'>
+<caption>veterinarios</caption>
 <tr><td colspan='11'></td></tr>
 <tr>
     <th>Column name</th>
@@ -941,7 +835,7 @@
     <th>Comment</th>
 </tr>
 <tr>
-    <td>idServicios</td>
+    <td>id</td>
     <td>INT</td>
     <td>&#10004;</td>
     <td>&#10004;</td>
@@ -949,13 +843,13 @@
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
+    <td>&#10004;</td>
     <td></td>
-    <td>Se asigna el codigo de servicios</td>
+    <td>Identificador unico del veterinario.</td>
 </tr>
 <tr>
-    <td>Tipo de servicio (Consulta, Vacunaci�n, etc.)</td>
-    <td>VARCHAR(45)</td>
+    <td>nombre_completo</td>
+    <td>VARCHAR(150)</td>
     <td>&nbsp;</td>
     <td>&#10004;</td>
     <td>&nbsp;</td>
@@ -964,221 +858,98 @@
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
     <td></td>
-    <td>Se selecciona el tipo de servicio</td>
+    <td>Nombre completo del veterinario.</td>
 </tr>
 <tr>
-    <td>Descripci�n</td>
-    <td>VARCHAR(45)</td>
+    <td>estudios_especialidad</td>
+    <td>VARCHAR(255)</td>
     <td>&nbsp;</td>
-    <td>&#10004;</td>
+    <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se asigna la descripcion del servicio</td>
+    <td>NULL</td>
+    <td>Especialidad veterinaria.</td>
 </tr>
 <tr>
-    <td>Precio</td>
-    <td>VARCHAR(45)</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se asigna el precio de servicio</td>
-</tr>
-<tr>
-    <td>Usuarios_idUsuarios</td>
+    <td>edad</td>
     <td>INT</td>
     <td>&nbsp;</td>
-    <td>&#10004;</td>
+    <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se obtiene el codigo de usuario</td>
+    <td>NULL</td>
+    <td>Edad del veterinario.</td>
 </tr>
 <tr>
-    <td>Mascotas_idmascotas</td>
+    <td>altura</td>
+    <td>DECIMAL(4,2)</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td class='attr'>&nbsp;</td>
+    <td>NULL</td>
+    <td>Altura en metros.</td>
+</tr>
+<tr>
+    <td>anios_experiencia</td>
     <td>INT</td>
     <td>&nbsp;</td>
-    <td>&#10004;</td>
     <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se obtiene el codigo de mascota</td>
-</tr>
-<tr>
-    <td>Mascotas_Especie</td>
-    <td>INT</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se asigna la especie de la mascota</td>
+    <td>NULL</td>
+    <td>Años de experencia profesional.</td>
 </tr>
 <tr>
-    <td>Veterinario_idVeterinario</td>
-    <td>INT</td>
+    <td>imagen_url</td>
+    <td>TEXT</td>
     <td>&nbsp;</td>
-    <td>&#10004;</td>
+    <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se obtiene el codigo del veterinario</td>
-</tr>
-<table id='Usuarios'>
-<caption>Usuarios</caption>
-<tr><td colspan='11'></td></tr>
-<tr>
-    <th>Column name</th>
-    <th>DataType</th>
-    <th><abbr title='Primary Key'>PK</abbr></th>
-    <th><abbr title='Not Null'>NN</abbr></th>
-    <th><abbr title='Unique'>UQ</abbr></th>
-    <th><abbr title='Binary'>BIN</abbr></th>
-    <th><abbr title='Unsigned'>UN</abbr></th>
-    <th><abbr title='Zero Fill'>ZF</abbr></th>
-    <th><abbr title='Auto Increment'>AI</abbr></th>
-    <th>Default</th>
-    <th>Comment</th>
+    <td>NULL</td>
+    <td>URL de foto del veterinario.</td>
 </tr>
 <tr>
-    <td>idUsuarios</td>
-    <td>INT</td>
-    <td>&#10004;</td>
-    <td>&#10004;</td>
+    <td>creado_en</td>
+    <td>TIMESTAMP</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se asigna su codigo de usuario</td>
+    <td>CURRENT_TIMESTAMP</td>
+    <td>Fecha de creación del registro.</td>
 </tr>
 <tr>
-    <td>Numero documento</td>
-    <td>VARCHAR(45)</td>
+    <td>activo</td>
+    <td>TINYINT(1)</td>
     <td>&nbsp;</td>
-    <td>&#10004;</td>
+    <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se asigna el numero de documento para el usuario</td>
-</tr>
-<tr>
-    <td>Correo electr�nico</td>
-    <td>VARCHAR(45)</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se asigna el correo electronico del usuario</td>
-</tr>
-<tr>
-    <td>Contrase�a</td>
-    <td>VARCHAR(45)</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se almacena la contrase�a por usuario</td>
-</tr>
-<tr>
-    <td>Roles_idRoles</td>
-    <td>INT</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se obtiene el codigo del rol del usuario</td>
-</tr>
-<tr>
-    <td>Administrador_idAdministrador</td>
-    <td>INT</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se obtiene el codigo del administrador</td>
-</tr>
-<table id='Veterinario'>
-<caption>Veterinario</caption>
-<tr><td colspan='11'></td></tr>
-<tr>
-    <th>Column name</th>
-    <th>DataType</th>
-    <th><abbr title='Primary Key'>PK</abbr></th>
-    <th><abbr title='Not Null'>NN</abbr></th>
-    <th><abbr title='Unique'>UQ</abbr></th>
-    <th><abbr title='Binary'>BIN</abbr></th>
-    <th><abbr title='Unsigned'>UN</abbr></th>
-    <th><abbr title='Zero Fill'>ZF</abbr></th>
-    <th><abbr title='Auto Increment'>AI</abbr></th>
-    <th>Default</th>
-    <th>Comment</th>
-</tr>
-<tr>
-    <td>idVeterinario</td>
-    <td>INT</td>
-    <td>&#10004;</td>
-    <td>&#10004;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se asigna el codigo del veterinario</td>
-</tr>
-<tr>
-    <td>Roles_idRoles</td>
-    <td>INT</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td>Se obtiene el codigo del rol</td>
+    <td>'1'</td>
+    <td>Activo/inactivo</td>
 </tr>
 </table>
 </body>
